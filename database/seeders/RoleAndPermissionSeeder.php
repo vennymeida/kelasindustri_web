@@ -60,34 +60,48 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'assign.user.create']);
         Permission::create(['name' => 'assign.user.edit']);
 
-        //menu group 
+        //menu group
         Permission::create(['name' => 'menu-group.index']);
         Permission::create(['name' => 'menu-group.create']);
         Permission::create(['name' => 'menu-group.edit']);
         Permission::create(['name' => 'menu-group.destroy']);
 
-        //menu item 
+        //menu item
         Permission::create(['name' => 'menu-item.index']);
         Permission::create(['name' => 'menu-item.create']);
         Permission::create(['name' => 'menu-item.edit']);
         Permission::create(['name' => 'menu-item.destroy']);
 
-        // create roles 
-        $roleUser = Role::create(['name' => 'user']);
+        // create Super Admin
+        $role = Role::create(['name' => 'super-admin']);
+        $role->givePermissionTo(Permission::all());
+
+        // create roles
+        $roleUser = Role::create(['name' => 'lulusan']);
         $roleUser->givePermissionTo([
             'dashboard',
             'user.management',
             'user.index',
         ]);
 
-        // create Super Admin
-        $role = Role::create(['name' => 'super-admin']);
+        // create roles
+        $role = Role::create(['name' => 'perusahaan']);
         $role->givePermissionTo(Permission::all());
 
         //assign user id 1 ke super admin
         $user = User::find(1);
-        $user->assignRole('super-admin');
+        if ($user) {
+            $user->assignRole('super-admin');
+        }
+
         $user = User::find(2);
-        $user->assignRole('user');
+        if ($user) {
+            $user->assignRole('perusahaan');
+        }
+
+        $user = User::find(3);
+        if ($user) {
+            $user->assignRole('lulusan');
+        }
     }
 }

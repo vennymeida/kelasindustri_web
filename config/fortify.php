@@ -62,6 +62,9 @@ return [
     */
 
     'home' => RouteServiceProvider::HOME,
+    'home-perusahaan' => RouteServiceProvider::HOME_PERUSAHAAN,
+    'home-lulusan' => RouteServiceProvider::HOME_LULUSAN,
+
 
     /*
     |--------------------------------------------------------------------------
