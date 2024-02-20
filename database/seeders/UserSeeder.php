@@ -22,11 +22,16 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         User::create([
-            'name' => "user",
-            'email' => "user@gmail.com",
+            'name' => "perusahaan",
+            'email' => "perusahaan@gmail.com",
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
-        // User::factory()->count(10)->create();
+        User::create([
+            'name' => "lulusan",
+            'email' => "lulusan@gmail.com",
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]);
     }
 }
