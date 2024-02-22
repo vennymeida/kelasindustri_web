@@ -14,28 +14,25 @@
 
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="../node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="shortcut icon" href="assets/img/landing-page/logo.svg">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
+
 </head>
 
-<body>
+<body class="bg-login" style="background: linear-gradient(to right, #f4f4f4 50%, #fff 50%);">
     <div id="app">
         <section class="section">
-            <div class="container mt-5">
-                <div class="row">
-                    <div
-                        class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-                        <div class="login-brand">
-                            <img src="../assets/img/stisla-fill.svg" alt="logo" width="100"
-                                class="shadow-light rounded-circle">
-                        </div>
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h4>Login</h4>
-                            </div>
-                            <div class="card-body">
+            <div class="container-fluid">
+                <div class="row bg-login" style="background: linear-gradient(to right, #f4f4f4 50%, #fff 50%);">
+                    <div class="col-md-6 d-flex flex-column justify-content-center my-5 p-login">
+                        <div class="col-md-9 mx-auto">
+                            <div>
+                                <h1 class="font-weight-bold" style="color: black">Selamat Datang!</h1>
+                                <p>Yuk, produktif dengan Kami</p>
                                 @if (session('status'))
                                     <div class="alert alert-success" role="alert">
                                         {{ session('status') }}
@@ -48,7 +45,7 @@
                                         <label for="email">Email</label>
                                         <input type="email" name="email" value="{{ old('email') }}"
                                             class="form-control @error('email') is-invalid @enderror"
-                                            placeholder="Masukkan Alamat Email">
+                                            placeholder="Masukkan email anda" style="border-radius: 15px;">
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -58,32 +55,48 @@
                                             <label for="password" class="control-label">Password</label>
                                             <div class="float-right">
                                                 <a href="/forgot-password" class="text-small">
-                                                    Forgot Password?
+                                                    Lupa kata sandi?
                                                 </a>
                                             </div>
                                         </div>
-                                        <!-- <label class="font-weight-bold text-uppercase">Password</label> -->
-                                        <input type="password" name="password"
-                                            class="form-control @error('password') is-invalid @enderror"
-                                            placeholder="Masukkan Password">
+                                        <div class="input-group">
+                                            <input type="password" name="password"
+                                                class="form-control @error('password') is-invalid @enderror"
+                                                placeholder="Masukkan password anda"
+                                                style="border-right: none; border-radius: 15px 0px 0px 15px;">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text toggle-password" id="password-toggle"
+                                                    style="border-left: none; border-radius: 0px 15px 15px 0px;">
+                                                    <i class="fa fa-eye-slash"></i>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @error('password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4"
+                                            style="border-radius: 15px;">
                                             Login
                                         </button>
                                     </div>
                                 </form>
                             </div>
+                            <div class="mt-2 text-muted text-center">
+                                Tidak punya Akun? <a href="/register">Buat</a>
+                                <p class="mt-2">Copyright &copy; 2024 Design By <a href="">JobKelasIndustri</a>
+                                </p>
+                            </div>
                         </div>
-                        <div class="mt-5 text-muted text-center">
-                            Don't have an account? <a href="/register">Create One</a>
-                        </div>
-                        <div class="simple-footer">
-                            Copyright &copy; Stisla 2018
-                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column align-items-center justify-content-center my-5 img-login">
+                        <a href="/" class="img-fluid text-center" style="width: 50%; height: auto;">
+                            <img class="img-fluid" src="{{ asset('assets/img/landing-page/logo.svg') }}" alt=""
+                                style="width: 50%; height: auto;">
+                        </a>
+                        <img class="img-fluid mt-5 icon-login"
+                            src="{{ asset('assets/img/landing-page/login_img.svg') }}" alt="">
                     </div>
                 </div>
             </div>
@@ -108,6 +121,32 @@
     <!-- Template JS File -->
     <script src="../assets/js/scripts.js"></script>
     <script src="../assets/js/custom.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const togglePassword = document.querySelector(".toggle-password");
+            const passwordInput = document.querySelector("input[name='password']");
+            const passwordToggleWrapper = document.querySelector("#password-toggle");
+
+            togglePassword.addEventListener("click", function() {
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    togglePassword.innerHTML = '<i class="fa fa-eye"></i>';
+                } else {
+                    passwordInput.type = "password";
+                    togglePassword.innerHTML = '<i class="fa fa-eye-slash"></i>';
+                }
+            });
+
+            passwordInput.addEventListener("focus", function() {
+                passwordToggleWrapper.style.borderColor = "#808eec";
+            });
+
+            passwordInput.addEventListener("blur", function() {
+                passwordToggleWrapper.style.borderColor = "#ecedf8";
+            });
+        });
+    </script>
 
     <!-- Page Specific JS File -->
 </body>
