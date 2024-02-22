@@ -6,7 +6,7 @@
             <div class="col-md-12 col-lg-12 col-sm-6 py-5 bagan1">
                 <div class="d-flex justify-content-around align-items-center">
                     <div class="col-md-6">
-                        <p class="mb-3 tag-title py-2 px-4 text-center ">Tersedia 100+ di kota Malang Raya</p>
+                        <p class="mb-3 tag-title py-2 px-4 text-center ">Berbagai Jenis Lowongan Pekerjaan</p>
                         <h1 class="font-weight-bolder title-tengah">Yuk Buat Waktumu Menjadi Berguna di <span
                                 class="text-primary font-weight-bolder">Humma</span><span
                                 class="text-warning font-weight-bolder">Tech</span> sesuai kebutuhan!</h1>
@@ -142,7 +142,7 @@
                     </div>
                     @guest
                         <div class="col-md-6 col-lg-6 col-sm-4">
-                            <p class="mb-4 tag-prom py-2 px-4 text-center">Tersedia 100+ di kota Malang Raya</p>
+                            <p class="mb-4 tag-prom py-2 px-4 text-center">Perusahaan Mitra PT Hummatech Digital Indonesia</p>
                             <h1 class="font-weight-bold mb-4 title-tengah2">Mau Rekrut Karyawan dengan Cepat Secara <span
                                     class="text-primary font-weight-bolder">GRATIS? </span><span
                                     class="text-white font-weight-bolder">Bisa!</span>

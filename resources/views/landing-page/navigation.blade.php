@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/landingpage.css') }}">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary-nav sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary-nav sticky-top card">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
                 <img src="{{ asset('assets/img/landing-page/logo.svg') }}" style="height: 30px;">
@@ -17,12 +17,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <div class="input-group ">
-                        <input type="text" class="form-control" placeholder="cari" aria-label="cari"
+                    <div class="search">
+                        <span class="fa fa-search"></span>
+                        <input type="text" class="searchinput" placeholder="cari" aria-label="cari"
                             aria-describedby="basic-addon1">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text fa fa-search form-control-feedback"></span>
-                        </div>
                     </div>
 
                 </ul>
