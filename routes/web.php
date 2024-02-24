@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AlljobsController;
+use App\Http\Controllers\AllPostinganController;
 use App\Http\Controllers\DemoController;
+use App\Http\Controllers\DetailPerusahaan;
 use App\Http\Controllers\Menu\MenuGroupController;
 use App\Http\Controllers\Menu\MenuItemController;
 use App\Http\Controllers\RoleAndPermission\AssignPermissionController;
@@ -14,6 +17,7 @@ use App\Http\Controllers\RoleAndPermission\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use App\Models\Category;
 
 /*
@@ -27,9 +31,35 @@ use App\Models\Category;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('auth/login');
+// });
+// Route::get('/', function () {
+//     return view('welcome');
+//     // return view('welcome');
+//     // return view('welcome');
+// });
+
+Route::get('/', [WelcomeController::class, 'index']);
+// Route::get('/all-jobs', [AlljobsController::class, 'index'])->name('all-jobs.index');
+// Route::get('/all-jobs/{loker}', [AlljobsController::class, 'show'])->name('all-jobs.show');
+// Route::get('/all-postingan', [AllPostinganController::class, 'index'])->name('all-postingan.index');
+// Route::get('/detail-perusahaan/{detail}', [DetailPerusahaan::class, 'show'])->name('detail-perusahaan.show');
+
+
+
+Route::get('/login', function () {
+    if (auth()->check()) {
+        $user = Auth::user();
+        if ($user->hasRole('super-admin')) {
+            return redirect('/dashboard');
+        } elseif ($user->hasRole('Lulusan') || $user->hasRole('Perusahaan')) {
+            return redirect('/welcome');
+        }
+    } else {
+        return view('auth/login');
+    }
+})->name('login');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', function () {

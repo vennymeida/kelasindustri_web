@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->string('no_telp');
             $table->string('website');
+            $table->enum('status', ['banned', 'unbanned'])->default('unbanned');
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->timestamps();
         });

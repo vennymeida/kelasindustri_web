@@ -2,84 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
 use Illuminate\Http\Request;
+use App\Models\Bookmark;
+use App\Models\KategoriPekerjaan;
+use App\Models\Kecamatan;
+use App\Models\Kelurahan;
+use App\Models\LowonganPekerjaan;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BookmarkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
+        $this->middleware('permission:bookmarks.index')->only('index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $query = $user->bookmarks()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.kategori', 'lowonganPekerjaan.perusahaan.kecamatan', 'lowonganPekerjaan.perusahaan.kelurahan']);
+
+        $kategoris = KategoriPekerjaan::all();
+
+
+        // Apply search filters if provided
+        $posisi = $request->input('posisi');
+        $lokasi = $request->input('lokasi');
+        $kategori = $request->input('kategori', []);
+
+        // Apply search filters if provided
+        if ($posisi) {
+            $query->whereHas('lowonganPekerjaan', function ($q) use ($posisi) {
+                $q->where('judul', 'like', '%' . $posisi . '%');
+            });
+        }
+
+        if ($lokasi) {
+            $query->whereHas('lowonganPekerjaan.perusahaan', function ($q) use ($lokasi) {
+                $q->whereHas('kecamatan', function ($q) use ($lokasi) {
+                    $q->where('kecamatan', 'like', '%' . $lokasi . '%');
+                });
+            });
+        }
+
+        if (!empty($kategori)) {
+            $query->whereHas('lowonganPekerjaan.kategori', function ($q) use ($kategori) {
+                $q->whereIn('kategori', $kategori);
+            });
+        }
+
+        $bookmarks = $query->orderByDesc('created_at')->paginate(3);
+
+        return view('bookmark.index', [
+            'bookmarks' => $bookmarks,
+
+            'kategoris' => $kategoris,
+            'selectedLokasi' => $lokasi,
+            'selectedKategori' => $kategori,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function toggleBookmark(Request $request)
     {
-        //
-    }
+        $lokerId = $request->input('loker_id');
+        $user = Auth::user();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Bookmark  $bookmark
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Bookmark $bookmark)
-    {
-        //
-    }
+        $bookmarked = false;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bookmark  $bookmark
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Bookmark $bookmark)
-    {
-        //
-    }
+        // Check if the user has already bookmarked the job
+        if ($user->bookmarks()->where('lowongan_pekerjaan_id', $lokerId)->exists()) {
+            // Remove the bookmark
+            $user->bookmarks()->where('lowongan_pekerjaan_id', $lokerId)->delete();
+        } else {
+            // Add the bookmark
+            $user->bookmarks()->create(['lowongan_pekerjaan_id' => $lokerId]);
+            $bookmarked = true;
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bookmark  $bookmark
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Bookmark $bookmark)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Bookmark  $bookmark
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Bookmark $bookmark)
-    {
-        //
+        return response()->json(['bookmarked' => $bookmarked]);
     }
 }
