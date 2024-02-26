@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('pendidikans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('tingkatan');
             $table->string('jurusan');
-            $table->string('nama_institusi');
+            $table->string('nama_instutsi');
             $table->date('tahun_mulai');
             $table->date('tahun_selesai');
+            $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->timestamps();
         });
     }

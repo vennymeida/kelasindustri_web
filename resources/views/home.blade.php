@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'JobKelasIndustri - Dashboard')
+@section('title', 'WaktuSaku - Dashboard')
 @section('content')
     <section class="section">
         <div class="section-header" style="border-radius: 15px;">
@@ -27,7 +27,7 @@
                                     <h4>Total Pencari Kerja</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\ProfileUser::whereNotNull('resume')->count() }}
+                                    {{-- {{ App\Models\ProfileUser::whereNotNull('resume')->count() }} --}}
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                                     <h4>Total Perusahaan</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\Perusahaan::count() }}
+                                    {{-- {{ App\Models\Perusahaan::count() }} --}}
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                     <h4>Total Lowongan Pekerjaan</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\LowonganPekerjaan::where('status', 'dibuka')->count() }}
+                                    {{-- {{ App\Models\LowonganPekerjaan::where('status', 'dibuka')->count() }} --}}
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                     <h4>Total Lamaran</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\lamar::count() }}
+                                    {{-- {{ App\Models\lamar::count() }} --}}
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled list-unstyled-border">
-                            @foreach ($dashboard as $lamar)
+                            {{-- @foreach ($dashboard as $lamar)
                                 <li class="media">
                                     @if ($lamar->foto)
                                         <img src="{{ asset('storage/' . $lamar->foto) }}" alt="Foto"
@@ -114,7 +114,7 @@
                                         <span class="text-small text-muted">{{ $lamar->perusahaan }}</span>
                                     </div>
                                 </li>
-                            @endforeach
+                            @endforeach --}}
                         </ul>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
     <script src="{{ asset('assets/js/jquery.sparkline.min.js') }}"></script>
     <script src="{{ asset('assets/js/chart.min.js') }}"></script>
 
-    <script>
+    {{-- <script>
         var ctx = document.getElementById("myChart").getContext('2d');
         const grafikData = @json($grafik);
         const monthNames = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
@@ -181,5 +181,5 @@
                 },
             },
         });
-    </script>
+    </script> --}}
 @endpush

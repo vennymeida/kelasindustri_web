@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('pelatihans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('deskripsi');
             $table->string('nama_sertifikat');
             $table->string('sertifikat');
             $table->string('penerbit');
             $table->date('tgl_dikeluarkan');
+            $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->timestamps();
         });
     }

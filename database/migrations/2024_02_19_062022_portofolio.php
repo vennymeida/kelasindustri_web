@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('portofolios', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('link_portofolio');
             $table->string('nama_portofolio');
+            $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->timestamps();
         });
     }

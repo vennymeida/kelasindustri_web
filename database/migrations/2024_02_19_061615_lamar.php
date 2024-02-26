@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::create('lamars', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('loker_id');
-            $table->string('resume');
-            $table->enum('status',['diterima', 'tolak', 'pending'])->default('pending');
+            $table->unsignedBigInteger('user_id');
+            $table->string('resume')->nullable();
+            $table->enum('status', ['diterima', 'tolak', 'pending'])->default('pending');
             $table->foreign('loker_id')->references('id')->on('lokers')->restrictOnDelete();
+            $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->timestamps();
         });
     }

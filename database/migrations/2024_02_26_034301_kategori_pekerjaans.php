@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('keahlians', function (Blueprint $table) {
+        Schema::create('kategori_pekerjaans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('keahlian');
-            $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
+            $table->string('kategori')->unique();
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('keahlians');
+        Schema::dropIfExists('kategori_pekerjaans');
     }
 };

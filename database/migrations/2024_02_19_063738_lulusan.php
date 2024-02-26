@@ -23,12 +23,12 @@ return new class extends Migration
             $table->unsignedBigInteger('pendidikan_id');
             $table->unsignedBigInteger('pengalaman_id');
             $table->unsignedBigInteger('lamaran_id');
-            $table->string('foto');
-            $table->enum('jenis_kelamin',['laki-laki', 'perempuan', 'kosong'])->default('kosong');
-            $table->enum('status',['diterima', 'tolak', 'pending'])->default('pending');
+            $table->string('foto')->nullable();
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan', 'kosong'])->default('kosong');
+            $table->enum('status', ['diterima', 'tolak', 'pending'])->default('pending');
             $table->string('alamat');
             $table->string('no_hp');
-            $table->string('resume');
+            $table->string('resume')->nullable();
             $table->string('ringkasan');
             $table->date('tgl_lahir');
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();

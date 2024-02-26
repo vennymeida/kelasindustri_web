@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProfileUser extends Model
+class Lulusan extends Model
 {
     use HasFactory;
-    protected $table = 'profile_users';
+    protected $table = 'lulusans';
     protected $fillable = [
         'user_id',
         'alamat',
@@ -18,20 +18,17 @@ class ProfileUser extends Model
         'resume',
         'tgl_lahir',
         'ringkasan',
-        'harapan_gaji',
+        'status'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function profile()
-    {
-        return $this->hasOne(ProfileUser::class);
-    }
+
     public function lamars()
     {
-        return $this->hasMany(Lamar::class, 'id_lulusan');
+        return $this->hasMany(Lamar::class, 'id_pencari_kerja');
     }
     public function isComplete()
     {

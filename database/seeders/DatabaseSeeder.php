@@ -21,6 +21,17 @@ class DatabaseSeeder extends Seeder
             MenuGroupSeeder::class,
             MenuItemSeeder::class,
             CategorySeeder::class,
+            PostinganSeeder::class,
+            PengalamanSeeder::class,
+            PendidikanSeeder::class,
+            KotaSeeder::class,
+            KeahlianSeeder::class,
+            PerusahaanSeeder::class,
+            PortofolioSeeder::class,
+            LokerSeeder::class,
+            LamarSeeder::class,
+            PelatihanSeeder::class,
+            LulusanSeeder::class,
         ]);
     }
 }
