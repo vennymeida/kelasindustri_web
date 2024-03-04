@@ -1,4 +1,3 @@
-
 @extends('landing-page.app')
 @section('title', 'JobKelasIndustri - Lamaran Pencari Kerja')
 @section('main')

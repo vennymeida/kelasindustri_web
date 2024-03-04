@@ -33,11 +33,11 @@
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        @foreach ($kecamatan as $key)
+                                        {{-- @foreach ($kecamatan as $key)
                                             <option value="{{ $key->kecamatan }}"
                                                 @if ($key->kecamatan == $lokasi) selected @endif>{{ $key->kecamatan }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -45,12 +45,12 @@
                                 <div class="input-group">
                                     <select name="kategori[]" id="kategori" class="form-control form-jobs select2 kategori"
                                         multiple>
-                                        @foreach ($kategoris as $key)
+                                        {{-- @foreach ($kategoris as $key)
                                             <option value="{{ $key->kategori }}"
                                                 @if (in_array($key->kategori, $kategori)) selected @endif>
                                                 {{ $key->kategori }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -68,34 +68,73 @@
             <div class="col-md-10 mx-auto mt-3">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="card-loker px-4 py-3">
-                            {{-- <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}"> --}}
-                            <p>Gaji</p>
-                            <label>
-                                <input class="mr-2" type="checkbox" name="gaji[]" id="less-1jt" value="less-1jt">
-                                Kurang dari 1 Juta
-                            </label>
-                            <br>
-                            <label>
-                                <input class="mr-2" type="checkbox" name="gaji[]" id="1jt-5jt" value="1jt-5jt">
-                                1 - 5 Juta
-                            </label>
-                            <br>
-                            <label>
-                                <input class="mr-2" type="checkbox" name="gaji[]" id="5jt-10jt" value="5jt-10jt">
-                                5 - 10 Juta
-                            </label>
-                            <br>
-                            <label>
-                                <input class="mr-2" type="checkbox" name="gaji[]" id="more-10jt" value="more-10jt">
-                                Lebih dari 10 Juta
-                            </label>
-                            </form>
+                        <div class="card">
+                            <div class="card-loker px-4 py-3">
+                                {{-- <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}"> --}}
+                                <p>Tipe Pekerjaan</p>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="less-1jt" value="less-1jt">
+                                    Harian
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="1jt-5jt" value="1jt-5jt">
+                                    Magang
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="5jt-10jt" value="5jt-10jt">
+                                    Full Time
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="more-10jt" value="more-10jt">
+                                    Part Time
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="more-10jt" value="more-10jt">
+                                    Part Time
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="more-10jt" value="more-10jt">
+                                    Kontrak
+                                </label>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-loker px-4 py-3">
+                                {{-- <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}"> --}}
+                                <p>Gaji</p>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="less-1jt" value="less-1jt">
+                                    Kurang dari 1 Juta
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="1jt-5jt" value="1jt-5jt">
+                                    1 - 5 Juta
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="5jt-10jt" value="5jt-10jt">
+                                    5 - 10 Juta
+                                </label>
+                                <br>
+                                <label>
+                                    <input class="mr-2" type="checkbox" name="gaji[]" id="more-10jt" value="more-10jt">
+                                    Lebih dari 10 Juta
+                                </label>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-9" id="job-listings-container">
                         <div class="col-md-12 mx-auto d-flex flex-wrap justify-content-between">
-                            @if ($allResults->isEmpty())
+                            {{-- @if ($allResults->isEmpty())
                                 <div class="col-md-12 text-center my-4">
                                     <img src="{{ asset('assets/img/landing-page/folder.png') }}">
                                     <p class="mt-1 text-not">Data tidak tersedia</p>
@@ -127,12 +166,10 @@
                                                             <p class="mb-2">{{ $loker->kategori }}</p>
                                                         </li>
                                                         <li class="mb-2">
-                                                            @if (auth()->check() &&
-                                                                    auth()->user()->hasRole('Pencari Kerja'))
+                                                            @if (auth()->check() && auth()->user()->hasRole('Pencari Kerja'))
                                                                 <a href="javascript:void(0);"
                                                                     class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
-                                                                    <i class="far fa-bookmark"
-                                                                        style="font-size: 20px;"></i>
+                                                                    <i class="far fa-bookmark" style="font-size: 20px;"></i>
                                                                 </a>
                                                             @endif
                                                         </li>
@@ -177,10 +214,10 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            @endif
+                            @endif --}}
                         </div>
                         <div class="d-flex justify-content-center">
-                            {{ $allResults->withQueryString()->links() }}
+                            {{-- {{ $allResults->withQueryString()->links() }} --}}
                         </div>
                     </div>
                 </div>
@@ -367,47 +404,47 @@
 
                 icon.click(function() {
                     // Make an AJAX request to update bookmark status
-                    $.ajax({
-                        type: 'POST',
-                        url: '{{ route('bookmark.toggle') }}',
-                        data: {
-                            loker_id: lokerId
-                        },
-                        success: function(response) {
-                            if (response.bookmarked) {
-                                icon.find('i').removeClass('far fa-bookmark').addClass(
-                                    'fas fa-bookmark');
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Lowongan Pekerjaan Disimpan',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                            } else {
-                                icon.find('i').removeClass('fas fa-bookmark').addClass(
-                                    'far fa-bookmark');
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Lowongan Pekerjaan Dihapus',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                            }
+                    // $.ajax({
+                    //     type: 'POST',
+                    //     url: '',
+                    //     data: {
+                    //         loker_id: lokerId
+                    //     },
+                    //     success: function(response) {
+                    //         if (response.bookmarked) {
+                    //             icon.find('i').removeClass('far fa-bookmark').addClass(
+                    //                 'fas fa-bookmark');
+                    //             Swal.fire({
+                    //                 icon: 'success',
+                    //                 title: 'Lowongan Pekerjaan Disimpan',
+                    //                 showConfirmButton: false,
+                    //                 timer: 1500
+                    //             });
+                    //         } else {
+                    //             icon.find('i').removeClass('fas fa-bookmark').addClass(
+                    //                 'far fa-bookmark');
+                    //             Swal.fire({
+                    //                 icon: 'success',
+                    //                 title: 'Lowongan Pekerjaan Dihapus',
+                    //                 showConfirmButton: false,
+                    //                 timer: 1500
+                    //             });
+                    //         }
 
-                            // Update bookmark status in local storage
-                            localStorage.setItem(storageKey, response.bookmarked);
+                    //         // Update bookmark status in local storage
+                    //         localStorage.setItem(storageKey, response.bookmarked);
 
-                            // Optionally, you can display a toast or notification to indicate success
-                            if (response.bookmarked) {
-                                // Example using Bootstrap Toast component
-                                $('.toast').toast('show');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle errors here if necessary
-                            console.error(error);
-                        }
-                    });
+                    //         // Optionally, you can display a toast or notification to indicate success
+                    //         if (response.bookmarked) {
+                    //             // Example using Bootstrap Toast component
+                    //             $('.toast').toast('show');
+                    //         }
+                    //     },
+                    //     error: function(xhr, status, error) {
+                    //         // Handle errors here if necessary
+                    //         console.error(error);
+                    //     }
+                    // });
                 });
             });
         });

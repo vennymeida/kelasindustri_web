@@ -28,7 +28,7 @@ class LokerSeeder extends Seeder
                 'tipe_pekerjaan' => 'slicing',
                 'tgl_tutup' => Carbon::create('2018', '01', '01'),
                 'lokasi' => 'malang raya',
-                'kouta' => '4'
+                'kuota' => '4'
             ],
 
         ]);

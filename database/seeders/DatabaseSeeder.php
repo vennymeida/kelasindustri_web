@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\KategoriPekerjaan;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
             LamarSeeder::class,
             PelatihanSeeder::class,
             LulusanSeeder::class,
+            KategoriPekerjaanSeeder::class,
         ]);
     }
 }

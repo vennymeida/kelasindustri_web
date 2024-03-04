@@ -41,10 +41,11 @@ use App\Models\Category;
 // });
 
 Route::get('/', [WelcomeController::class, 'index']);
-Route::get('/all-jobs', [AlljobsController::class, 'index'])->name('all-jobs.index');
-Route::get('/all-jobs/{loker}', [AlljobsController::class, 'show'])->name('all-jobs.show');
-Route::get('/all-postingan', [AllPostinganController::class, 'index'])->name('all-postingan.index');
-Route::get('/detail-perusahaan/{detail}', [DetailPerusahaan::class, 'show'])->name('detail-perusahaan.show');
+Route::get('/all-jobs' , [AlljobsController::class, 'index'])->name('all-jobs.index');
+// Route::get('/all-jobs/{loker}', [AlljobsController::class, 'show'])->name('all-jobs.show');
+// Route::get('/all-postingan', [AllPostinganController::class, 'index'])->name('all-postingan.index');
+// Route::get('/detail-perusahaan/{detail}', [DetailPerusahaan::class, 'show'])->name('detail-perusahaan.show');
+
 
 Route::get('/login', function () {
     if (auth()->check()) {
