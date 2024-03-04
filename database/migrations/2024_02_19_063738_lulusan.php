@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('no_hp');
             $table->string('resume')->nullable();
-            $table->string('ringkasan');
+            $table->text('ringkasan');
             $table->date('tgl_lahir');
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->foreign('pelatihan_id')->references('id')->on('pelatihans')->restrictOnDelete();

@@ -10,8 +10,10 @@ use App\Models\Keahlian;
 class RekomendasiLowongan extends Model
 {
     use HasFactory;
+    protected $table = 'rekomendasilowongans';
     protected $fillable = [
         'lulusan_id',
         'loker_id',
+        'score_similarity'
     ];
 }

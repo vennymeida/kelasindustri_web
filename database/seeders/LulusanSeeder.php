@@ -33,7 +33,11 @@ class LulusanSeeder extends Seeder
                 'alamat' => 'jln griya',
                 'no_hp' => '0852312412212',
                 'resume' => '',
-                'ringkasan' => '',
+                'ringkasan' => 'saya adalah lulusan smk jurusan rekayasa perangkat lunak (RPL).
+                saya memiliki keterampilan dalam bidang pembuatan perangkat lunak khususnya website,
+                saya memiliki pengalaman magang selama 6 bulan di PT Hummatech  backend .
+                Saya biasa menguasai pengembangan website api , framework laravel, dan lain sebagainya.
+                Saya mampu bekerja di dalam tim, bertanggung jawab dan mampu mempelajari hal baru.',
                 'tgl_lahir' => Carbon::create('2017', '01', '01'),
             ],
 

@@ -30,6 +30,19 @@ class LokerSeeder extends Seeder
                 'lokasi' => 'malang raya',
                 'kuota' => '4'
             ],
+            [
+                'perusahaan_id' => '1',
+                'nama_loker' => 'PT Hummantech ',
+                'persyaratan' => 'backend',
+                'deskripsi' => 'harus rajin , backend',
+                'min_persyaratan' => 'mengaji , SMA',
+                'gaji' => '1000',
+                'keahlian' => 'backend',
+                'tipe_pekerjaan' => 'API, JSON, PHP',
+                'tgl_tutup' => Carbon::create('2018', '01', '01'),
+                'lokasi' => 'malang raya',
+                'kuota' => '4'
+            ],
 
         ]);
     }

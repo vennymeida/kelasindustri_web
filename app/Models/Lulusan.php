@@ -11,6 +11,13 @@ class Lulusan extends Model
     protected $table = 'lulusans';
     protected $fillable = [
         'user_id',
+        'pelatihan_id',
+        'postingan_id',
+        'portofolio_id',
+        'keahlian_id',
+        'pendidikan_id',
+        'pengalaman_id',
+        'lamaran_id',
         'alamat',
         'jenis_kelamin',
         'no_hp',
@@ -28,7 +35,7 @@ class Lulusan extends Model
 
     public function lamars()
     {
-        return $this->hasMany(Lamar::class, 'id_pencari_kerja');
+        return $this->hasMany(Lamar::class, 'id_lulusan');
     }
     public function isComplete()
     {

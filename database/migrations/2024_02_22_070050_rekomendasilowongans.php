@@ -19,8 +19,7 @@ return new class extends Migration
             $table->foreign('lulusan_id')->references('id')->on('lulusans')->restrictOnDelete();
             $table->unsignedBigInteger('loker_id');
             $table->foreign('loker_id')->references('id')->on('lokers')->restrictOnDelete();
-            $table->unsignedBigInteger('rekomendasi_id');
-            $table->foreign('rekomendasi_id')->references('id')->on('rekomendasis')->restrictOnDelete();
+            $table->string('score_similarity');
             $table->timestamps();
         });
     }

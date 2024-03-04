@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rekomendasis', function (Blueprint $table) {
+        Schema::create('rekomendasis_lulusan', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('skor');
+            $table->integer('document_id');
+            $table->string('word');
+            $table->double('tf_value')->nullable();
+            $table->double('tfidf_value')->nullable();
+            $table->enum('document_type', ['lulusan', 'loker']);
             $table->timestamps();
         });
     }

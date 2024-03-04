@@ -11,6 +11,7 @@ use App\Models\ProfileKeahlian;
 use App\Models\User;
 use App\Http\Requests\StorelamarRequest;
 use App\Http\Requests\UpdatelamarRequest;
+use App\Models\Lulusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -65,7 +66,7 @@ class LamarController extends Controller
         $loggedInUserId = Auth::id();
         $user = auth()->user();
 
-        $profileUser = ProfileUser::where('user_id', $user->id)->first();
+        $profileUser = Lulusan::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
         $loker = LowonganPekerjaan::where('user_id', $user->id)->first();
 

@@ -36,7 +36,7 @@ class PerusahaanSeeder extends Seeder
                 'nama_perusahaan' => 'PT Berjuang Skripsi',
                 'logo_perusahaan' => '',
                 'email_perusahaan' => 'vnymeida@gmail.com',
-                'alamat_perusahaan' => 'jln griya',
+                'alamat_perusahaan' => 'jln perusahaan',
                 'deskripsi' => 'hahaha',
                 'no_telp' => '0823212314',
                 'website' => '',

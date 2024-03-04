@@ -8,30 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Perusahaan extends Model
 {
     use HasFactory;
-    protected $table = 'perusahaan';
+    protected $table = 'perusahaans';
     protected $fillable = [
         'user_id',
-        'kecamatan_id',
-        'kelurahan_id',
-        'pemilik',
-        'nama',
-        'alamat',
-        'email',
-        'website',
-        'logo',
-        'no_hp',
+        'nama_pemilik',
+        'surat_mou',
+        'nama_perusahaan',
+        'logo_perusahaan',
+        'email_perusahaan',
+        'alamat_perusahaan',
         'deskripsi',
-        'surat_mou'
+        'no_hp',
+        'website',
+        'status',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-
-    public function lowonganPekerjaan()
-    {
-        return $this->hasMany(LowonganPekerjaan::class, 'id_perusahaan');
     }
 }

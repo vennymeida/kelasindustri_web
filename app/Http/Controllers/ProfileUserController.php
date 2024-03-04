@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateProfileUserRequest;
 use App\Models\Keahlian;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
+use App\Models\Lulusan;
 use App\Models\Pendidikan;
 use App\Models\Pengalaman;
 use App\Models\Pelatihan;
@@ -43,33 +44,49 @@ class ProfileUserController extends Controller
     public function index(Request $request)
     {
         $userId = Auth::id();
-        $postingans = Postingan::select('postingans.*')
-            ->where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->paginate(3);
-        $pendidikans = Pendidikan::select('pendidikan.*')
-            ->where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->paginate(2);
-        $pengalamans = Pengalaman::select('pengalaman.*')
-            ->where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->paginate(2);
-        $pelatihans = Pelatihan::select('pelatihan.*')
-            ->where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->paginate(2);
+        // $postingans = Postingan::select('postingans.*')
+        //     ->where('user_id', $userId)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(3);
+        // $pendidikans = Pendidikan::select('pendidikan.*')
+        //     ->where('user_id', $userId)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(2);
+        // $pengalamans = Pengalaman::select('pengalaman.*')
+        //     ->where('user_id', $userId)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(2);
+        // $pelatihans = Pelatihan::select('pelatihan.*')
+        //     ->where('user_id', $userId)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(2);
 
-        foreach ($postingans as $time) {
-            $time->timeAgo = $this->getTimeAgo($time->updated_at);
+        // foreach ($postingans as $time) {
+        //     $time->timeAgo = $this->getTimeAgo($time->updated_at);
+        // }
+
+        $records = Lulusan::all();
+        foreach ($records as $record) {
+            $ringkasan = implode('-', [
+                $record->pelatihan_id,
+                $record->postingan_id,
+                $record->portofolio_id,
+                $record->keahlian_id,
+                $record->pendidikan_id,
+                $record->pengalaman_id,
+                $record->lamaran_id,
+            ]);
+
+            $record->update(['ringkasan' => $ringkasan]);
         }
 
-        return view('profile.index')->with([
-            'postingans' => $postingans,
-            'pendidikans' => $pendidikans,
-            'pengalamans' => $pengalamans,
-            'pelatihans' => $pelatihans,
-        ]);
+        // return view('profile.index')->with([
+        //     'postingans' => $postingans,
+        //     'pendidikans' => $pendidikans,
+        //     'pengalamans' => $pengalamans,
+        //     'pelatihans' => $pelatihans,
+        // ]);
+        return view('profile.index');
     }
 
     public function profile(ProfileUser $profileUser)
