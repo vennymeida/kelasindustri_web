@@ -602,33 +602,6 @@ select.form-control:not([size]):not([multiple]) {
     color: #495057;
 }
 
-.form-control.is-invalid {
-    border-color: #e5e7fc;
-}
-
-.form-control.is-invalid::before,
-.form-control.is-invalid::after {
-    content: none;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    background-color: transparent;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='1em' viewBox='0 0 448 512'%3E%3Cpath d='M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm64-192c0-8.8 7.2-16 16-16h288c8.8 0 16 7.2 16 16v64c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16v-64zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z'%3E%3C/path%3E%3C/svg%3E");
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    opacity: 0.8;
-    cursor: pointer;
-    padding-right: 20px;
-}
-
 .colorinput {
     margin: 0;
     position: relative;
@@ -2179,7 +2152,7 @@ h6 .badge {
     left: 0;
     width: 100%;
     height: 115px;
-    background-color: #6777ef;
+    background-color: #ffffff;
     z-index: -1;
 }
 
@@ -3225,6 +3198,8 @@ pre {
 .section {
     position: relative;
     z-index: 1;
+    width: 1200px;
+    padding-right: 120px;
 }
 .section > *:first-child {
     margin-top: -7px;
@@ -3303,6 +3278,19 @@ pre {
     border-top: 1px solid #f9f9f9;
     padding-left: 35px;
     padding-right: 35px;
+}
+.details-item {
+    display: flex;
+    align-items: center;
+}
+
+.small-cell {
+    width: 5%; /* Ubah lebar sesuai kebutuhan */
+}
+
+.large-cell {
+    width: 50%; /* Ubah lebar sesuai kebutuhan */
+    padding-left: -10px;
 }
 
 @media (max-width: 575.98px) {
@@ -3583,11 +3571,17 @@ body.layout-2 .navbar {
 body.layout-2 .main-wrapper {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 50px;
+    padding: 0 0px;
+    background-color: #CBD1FE;
 }
 
 body.layout-2 .main-sidebar,
-body.layout-2 .main-content,
+body.layout-2 .main-content {
+    padding-top: 107px;
+    padding-left: 0px;
+    padding-right: 60px;
+    width: calc(100%-200px);
+}
 body.layout-2 .main-footer {
     flex-shrink: 0;
     flex-grow: 0;
@@ -4150,25 +4144,4 @@ body:not(.sidebar-mini)
         -webkit-transform: scale(1.2, 1.2);
         opacity: 0;
     }
-}
-
-/* Membuat scrollbar vertikal lebih ramping */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-/* Mengubah warna background scrollbar */
-::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-}
-
-/* Mengubah warna scrollbar itu sendiri */
-::-webkit-scrollbar-thumb {
-    background-color: #b8b9c3;
-    border-radius: 15px;
-}
-
-/* Mengubah warna scrollbar thumb saat dihover */
-::-webkit-scrollbar-thumb:hover {
-    background-color: #a8a9b1;
 }

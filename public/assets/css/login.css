@@ -1,0 +1,19 @@
+@media only screen and (max-width: 767px) {
+    .bg-login {
+        background: white !important;
+    }
+
+    .p-login {
+        margin: 0px !important;
+    }
+
+    .img-login {
+        order: -1;
+    }
+
+    .icon-login {
+        width: 50%;
+        margin-top: 30px !important;
+        margin-bottom: 0px !important;
+    }
+}

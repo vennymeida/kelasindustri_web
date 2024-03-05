@@ -1,0 +1,136 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.custom-radio-image label img {
+    width: 100%;
+    /* 100% of the container */
+    max-width: 250px;
+    /* Maximum width it can go */
+    height: auto;
+    /* Maintain aspect ratio */
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Mobile View Styling */
+@media only screen and (max-width: 767px) {
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    h1.font-weight-bold {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .custom-radio-image label img {
+        width: 162px;
+        height: 162px;
+    }
+
+    p {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .bg-regis {
+        background: white !important;
+    }
+
+    h1.h-regis {
+        text-align: start;
+    }
+
+    p.p-regis {
+        text-align: start;
+    }
+
+    .p-regis {
+        margin: 0px !important;
+    }
+
+    .col-12 {
+        padding: 0 15px;
+    }
+
+    .icon-regis {
+        width: 50%;
+    }
+
+    .bg-regis {
+        flex-direction: column;
+    }
+
+    .img-regis {
+        order: -1;
+    }
+
+    .div-role {
+        margin-top: 10px !important;
+    }
+
+    .label-role {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+/* Tablet View Styling */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    h1.font-weight-bold {
+        font-size: 22px;
+    }
+
+    .custom-radio-image label img {
+        width: 150px;
+        height: 150px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+/* Small Desktop and Large Tablet */
+@media only screen and (min-width: 1025px) and (max-width: 1280px) {
+    h1.font-weight-bold {
+        font-size: 24px;
+    }
+
+    .custom-radio-image label img {
+        width: 180px;
+        height: 180px;
+    }
+
+    p {
+        font-size: 18px;
+    }
+}
+
+/* Large Desktop */
+@media only screen and (min-width: 1281px) {
+    h1.font-weight-bold {
+        font-size: 26px;
+    }
+
+    .custom-radio-image label img {
+        width: 225px;
+        height: 225px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}

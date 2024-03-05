@@ -9,7 +9,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-primary-nav sticky-top card">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="{{ asset('assets/img/landing-page/logo.svg') }}" style="height: 30px;">
+                <img src="{{ asset('assets/img/landing-page/logo.svg') }}" style="max-content">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

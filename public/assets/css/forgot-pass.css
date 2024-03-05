@@ -1,0 +1,17 @@
+@media only screen and (max-width: 767px) {
+    .bg-forgot {
+        background: white !important;
+    }
+
+    .p-forgot {
+        margin: 0px !important;
+    }
+
+    .img-forgot {
+        order: -1;
+    }
+
+    .icon-forgot {
+        width: 50%;
+    }
+}

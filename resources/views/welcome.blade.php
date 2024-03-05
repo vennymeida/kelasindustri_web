@@ -6,13 +6,14 @@
             <div class="col-md-12 col-lg-12 col-sm-6 py-5 bagan1">
                 <div class="d-flex justify-content-around align-items-center">
                     <div class="col-md-6">
-                        <p class="mb-3 tag-title py-2 px-4 text-center ">Berbagai Jenis Lowongan Pekerjaan</p>
-                        <h1 class="font-weight-bolder title-tengah">Yuk Buat Waktumu Menjadi Berguna di <span
-                                class="text-primary font-weight-bolder">Humma</span><span
-                                class="text-warning font-weight-bolder">Tech</span> sesuai kebutuhan!</h1>
-                        <p>Platform yang dirancang untuk memudahkan mencari peluang kerja paruh waktu yang sesuai dengan
-                            kebutuhan Anda khusus di daerah Malang Raya.</p>
-                        {{-- <form method="GET" action="{{ route('all-jobs.index') }}">
+                        <p class="mb-3 tag-title py-2 px-4 text-center ">Tersedia Berbagai Jenis Lowongan Pekerjaan</p>
+                        <h1 class="font-weight-bolder title-tengah">Temukan Berbagai<span
+                                class="text-primary font-weight-bolder"> Peluang</span><span
+                                class="text-warning font-weight-bolder"> Kerja</span> yang Cocok dengan Kualifikasi Anda</h1>
+                        <p>Platform yang dirancang untuk memudahkan mencari peluang bagi para lulusan
+                            kelas industri di PT Hummatech Digital Indonesia yang sesuai dengan kebutuhan anda
+                        </p>
+                        <form method="GET" action="{{ route('all-jobs.index') }}">
                             <div class="form-row">
                                 <div class="form-group col-lg-10 col-md-5 col-sm-5">
                                     <input type="text" name="posisi" class="form-control pencarian" id="posisi"
@@ -24,7 +25,7 @@
                                         style="border-radius: 25px;">Cari</button>
                                 </div>
                             </div>
-                        </form> --}}
+                        </form>
                     </div>
                     <div class="col-lg-4 col-sm-4 col-md-4 bagan2">
                         <img class="img-fluid" src="{{ asset('assets/img/landing-page/image-1.svg') }}" alt="">
@@ -210,8 +211,8 @@
                     <div class="row">
                         <div class="col-md-10 mx-auto">
                             <h2 class="text-center mt-4 font-weight-bold">Mengapa harus di <span
-                                    class="text-primary font-weight-bolder">Humma</span><span
-                                    class="text-warning font-weight-bolder">Tech</span><span
+                                    class="text-primary font-weight-bolder">Kelas</span><span
+                                    class="text-warning font-weight-bolder">Industri Jobs</span><span
                                     class="font-weight-bolder">?</span>
                             </h2>
                         </div>
@@ -259,10 +260,10 @@
                             <div class="card border-primary mb-2 card-waktusaku-view-mobile card-body h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-percent text-primary fa-3x mb-4"></i>
-                                    <h5 class="card-title font-weight-bold d-block mx-2">Mendapatkan Gaji Bonus</h5>
+                                    <h5 class="card-title font-weight-bold d-block mx-2">Terhubung dengan berbagai Perusahaan Mitra</h5>
                                     <p class="card-text text-center">
-                                        Selain mendapatkan peluang pekerjaan yang sesuai, Anda mendapatkan gaji bonus
-                                        dari masing-masing perusahaan yang Anda minati jika Anda pekerja aktif.
+                                        Anda akan mendapatkan pengalaman untuk terhubung langsung dengan perusahaan
+                                        yang bermitra dengan PT Hummatech Digital Indonesia
                                     </p>
                                 </div>
                             </div>
@@ -275,8 +276,8 @@
         <section>
             <div class="col-md-10 col-lg-10 col-sm-5 mt-0 mx-auto">
                 <h2 class="text-center font-weight-bold">Lowongan Kerja Terbaru di <span
-                        class="text-primary font-weight-bold">Humma</span><span
-                        class="text-warning font-weight-bold">Tech</span></h2>
+                        class="text-primary font-weight-bold">Kelas</span><span
+                        class="text-warning font-weight-bold">Industri Jobs</span></h2>
                 <div class="row flex-nowrap overflow-auto mt-5 horizontal-scroll equal-height-cards group-card-view-mobile">
                     <div class="scroll-arrow left bg-transparent text-secondary">
                         <i class="fas fa-angle-left"></i>

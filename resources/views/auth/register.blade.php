@@ -110,12 +110,12 @@
                                         <label class="font-weight-bold mb-2">Daftar sebagai:</label>
                                         <div class="role-regis d-flex align-items-left mt-2 div-role">
                                             <div class="custom-radio-image mr-2">
-                                                <input type="radio" id="pencari_kerja" name="user_type"
-                                                    value="pencari_kerja"
-                                                    @if (old('user_type') === 'pencari_kerja') checked @endif>
-                                                <label class="label-role" for="pencari_kerja">
+                                                <input type="radio" id="lulusan" name="user_type"
+                                                    value="lulusan"
+                                                    @if (old('user_type') === 'lulusan') checked @endif>
+                                                <label class="label-role" for="lulusan">
                                                     <img src="{{ asset('assets/img/registerrole/pencarikerjanobg.png') }}"
-                                                        alt="Pencari Kerja">
+                                                        alt="Lulusan">
                                                 </label>
                                             </div>
                                             <div class="custom-radio-image">
