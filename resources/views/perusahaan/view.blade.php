@@ -19,7 +19,7 @@
                                 </a>
                             </div>
                             <div class="profile-widget-name mt-2 ml-3 text-primary" style="font-size: 20px;">
-                                <a href="{{ route('pelamar.index') }}"
+                                <a href=""
                                     style="text-decoration: none; color: inherit;"><strong>Pertinjau Detail Pencari
                                         Kerja</strong></a>
                             </div>

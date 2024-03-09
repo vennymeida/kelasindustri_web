@@ -27,7 +27,7 @@ class PerusahaanListController extends Controller
         $rolePerusahaan = Role::where('name', 'Perusahaan')->first();
 
         // Mengambil data perusahaan dengan role "Perusahaan" dan relasi "profile"
-        $query = User::with(['perusahaan', 'profile']) // Eager-load the "users", "perusahaan", and "profile" relations
+        $query = User::with(['perusahaan']) // Eager-load the "users", "perusahaan", and "profile" relations
             ->whereHas('roles', function ($query) use ($rolePerusahaan) {
                 $query->where('id', $rolePerusahaan->id);
             });
@@ -84,7 +84,7 @@ class PerusahaanListController extends Controller
     public function show(User $perusahaan)
     {
         // Eager load the "perusahaan" relation with its "profile"
-        $perusahaan->load(['perusahaan', 'profile']);
+        $perusahaan->load(['perusahaan']);
 
         // Menghilangkan tag <p> dan tag lainnya dari deskripsi
         if ($perusahaan->perusahaan && $perusahaan->perusahaan->deskripsi) {

@@ -31,21 +31,15 @@ class MenuItemSeeder extends Seeder
                     'menu_group_id' => 2,
                 ],
                 [
-                    'name' => 'Pencari Kerja List',
-                    'route' => 'user-management/pelamar',
-                    'permission_name' => 'pelamar.index',
+                    'name' => 'Lulusan List',
+                    'route' => 'user-management/lulusan',
+                    'permission_name' => 'lulusan.index',
                     'menu_group_id' => 2,
                 ],
                 [
                     'name' => 'Perusahaan List',
                     'route' => 'user-management/perusahaan',
                     'permission_name' => 'perusahaan.index',
-                    'menu_group_id' => 2,
-                ],
-                [
-                    'name' => 'Message List',
-                    'route' => 'user-management/message',
-                    'permission_name' => 'message.index',
                     'menu_group_id' => 2,
                 ],
                 [

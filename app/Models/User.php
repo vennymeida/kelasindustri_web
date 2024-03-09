@@ -50,6 +50,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new CustomVerifyEmail()); // Menggunakan notifikasi kustom Anda
     }
+    public function lulusan()
+    {
+        return $this->hasOne(Lulusan::class);
+    }
 
     public function perusahaan()
     {

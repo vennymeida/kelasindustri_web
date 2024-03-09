@@ -12,7 +12,7 @@ use App\Http\Controllers\LokerPerusahaan;
 use App\Http\Controllers\LowonganPekerjaanController;
 use App\Http\Controllers\Menu\MenuGroupController;
 use App\Http\Controllers\Menu\MenuItemController;
-use App\Http\Controllers\PelamarListController;
+use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PendidikanController;
 use App\Http\Controllers\PengalamanController;
@@ -77,7 +77,7 @@ Route::get(
     }
 )->name('login');
 
-Route::group(['middleware' => ['auth', 'verified', 'role:super-admin']], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', function () {
         return view('home', ['users' => User::get(),]);
     });
@@ -93,8 +93,8 @@ Route::group(['middleware' => ['auth', 'verified', 'role:super-admin']], functio
         Route::post('user/update-roles/{user}', [UserController::class, 'updateRoles'])->name('user.update-roles'); // <- Add this line
         Route::get('/user/show/{user}', [UserController::class, 'view'])->name('user.view');
 
-        Route::resource('pelamar', PelamarListController::class);
-        Route::get('/pelamar', 'App\Http\Controllers\PelamarListController@index')->name('pelamar.index');
+        Route::resource('lulusan', PelamarController::class);
+        Route::get('/lulusan', 'App\Http\Controllers\PelamarController@index')->name('lulusan.index');
 
         Route::resource('perusahaan', PerusahaanListController::class);
         Route::get('/perusahaan', 'App\Http\Controllers\PerusahaanListController@index')->name('perusahaan.index');
@@ -145,6 +145,6 @@ Route::group(['middleware' => ['auth', 'verified', 'role:super-admin']], functio
     });
 });
 
-Route::group(['middleware' => ['auth', 'verified', 'role:lulusan']], function () {
-    Route::get('/welcome', [WelcomeController::class, 'index'])->name('lulusan.index');
+Route::group(['middleware' => ['auth', 'verified', 'role:lulusan|perusahaan']], function () {
+    Route::get('/welcome', [WelcomeController::class, 'index']);
 });
