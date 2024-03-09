@@ -27,4 +27,12 @@ class Perusahaan extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function kota()
+    {
+        return $this->belongsTo(Kota::class);
+    }
+    public function lowonganPekerjaan()
+    {
+        return $this->hasMany(LowonganPekerjaan::class, 'id_perusahaan');
+    }
 }

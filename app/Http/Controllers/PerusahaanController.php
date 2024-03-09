@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePerusahaanRequest;
 use App\Models\Perusahaan;
-use App\Models\Kecamatan;
-use App\Models\Kelurahan;
+use App\Models\Kota;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;

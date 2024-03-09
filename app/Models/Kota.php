@@ -12,6 +12,11 @@ class Kota extends Model
 
     protected $fillable = [
         'id',
-        'name',
+        'kota',
     ];
+
+    public function perusahaan()
+    {
+        return $this->hasOne(Perusahaan::class);
+    }
 }

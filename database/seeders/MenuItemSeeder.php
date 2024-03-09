@@ -31,6 +31,30 @@ class MenuItemSeeder extends Seeder
                     'menu_group_id' => 2,
                 ],
                 [
+                    'name' => 'Pencari Kerja List',
+                    'route' => 'user-management/pelamar',
+                    'permission_name' => 'pelamar.index',
+                    'menu_group_id' => 2,
+                ],
+                [
+                    'name' => 'Perusahaan List',
+                    'route' => 'user-management/perusahaan',
+                    'permission_name' => 'perusahaan.index',
+                    'menu_group_id' => 2,
+                ],
+                [
+                    'name' => 'Message List',
+                    'route' => 'user-management/message',
+                    'permission_name' => 'message.index',
+                    'menu_group_id' => 2,
+                ],
+                [
+                    'name' => 'Postingan List',
+                    'route' => 'user-management/postinganadmin',
+                    'permission_name' => 'postinganadmin.index',
+                    'menu_group_id' => 2,
+                ],
+                [
                     'name' => 'Role List',
                     'route' => 'role-and-permission/role',
                     'permission_name' => 'role.index',
@@ -66,6 +90,36 @@ class MenuItemSeeder extends Seeder
                     'permission_name' => 'menu-item.index',
                     'menu_group_id' => 4,
                 ],
+                [
+                    'name' => 'Keahlian Kerja',
+                    'route' => 'menu-pekerjaan/keahlian',
+                    'permission_name' => 'keahlian.index',
+                    'menu_group_id' => 5,
+                ],
+                [
+                    'name' => 'Kategori Pekerjaan',
+                    'route' => 'menu-pekerjaan/kategori',
+                    'permission_name' => 'kategori.index',
+                    'menu_group_id' => 5,
+                ],
+                [
+                    'name' => 'Lowongan Pekerjaan',
+                    'route' => 'menu-pekerjaan/loker',
+                    'permission_name' => 'loker.index',
+                    'menu_group_id' => 5,
+                ],
+                [
+                    'name' => 'Data Pelamar Kerja',
+                    'route' => 'menu-pekerjaan/pelamarkerja',
+                    'permission_name' => 'pelamarkerja.index',
+                    'menu_group_id' => 5,
+                ],
+                [
+                    'name' => 'Kota',
+                    'route' => 'location-management/kota',
+                    'permission_name' => 'kota.index',
+                    'menu_group_id' => 6,
+                ]
             ]
         );
     }

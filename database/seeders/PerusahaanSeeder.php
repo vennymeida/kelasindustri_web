@@ -18,7 +18,7 @@ class PerusahaanSeeder extends Seeder
         DB::table('perusahaans')->insert([
             [
                 'user_id' => '3',
-                'nama_pemilik' => 'Surabaya',
+                'nama_pemilik' => 'Meida',
                 'surat_mou' => 'surabaya',
                 'nama_perusahaan' => 'PT Elnusa',
                 'logo_perusahaan' => '',

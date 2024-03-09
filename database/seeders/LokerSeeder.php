@@ -20,12 +20,12 @@ class LokerSeeder extends Seeder
             [
                 'perusahaan_id' => '1',
                 'nama_loker' => 'PT Hummantech sejahtera',
-                'persyaratan' => 'frontend',
-                'deskripsi' => 'harus rajin , dan punya pengalaman s1',
+                'persyaratan' => 'menguasai framework laravel, bisa slicing website, lulusan SMK jurusan rekayasa perangkat lunak',
+                'deskripsi' => 'mengimplementasikan ui ke dalam frontend',
                 'min_persyaratan' => 'mengaji , SMA',
                 'gaji' => '1000',
-                'keahlian' => 'frontend',
-                'tipe_pekerjaan' => 'slicing',
+                'keahlian' => 'html, css, javascript, framework laravel',
+                'tipe_pekerjaan' => 'remote',
                 'tgl_tutup' => Carbon::create('2018', '01', '01'),
                 'lokasi' => 'malang raya',
                 'kuota' => '4'
@@ -33,12 +33,12 @@ class LokerSeeder extends Seeder
             [
                 'perusahaan_id' => '1',
                 'nama_loker' => 'PT Hummantech ',
-                'persyaratan' => 'backend',
-                'deskripsi' => 'harus rajin , backend',
+                'persyaratan' => 'menguasai bahasa pemrograman laravel, mampu merancang api',
+                'deskripsi' => 'mengelola basis data, mengelola api',
                 'min_persyaratan' => 'mengaji , SMA',
                 'gaji' => '1000',
-                'keahlian' => 'backend',
-                'tipe_pekerjaan' => 'API, JSON, PHP',
+                'keahlian' => 'laravel, mysql, api, ',
+                'tipe_pekerjaan' => 'onsite',
                 'tgl_tutup' => Carbon::create('2018', '01', '01'),
                 'lokasi' => 'malang raya',
                 'kuota' => '4'

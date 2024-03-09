@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Keahlian;
+use App\Notifications\CustomVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -43,4 +45,44 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new CustomVerifyEmail()); // Menggunakan notifikasi kustom Anda
+    }
+
+    public function perusahaan()
+    {
+        return $this->hasOne(Perusahaan::class);
+    }
+
+    public function pendidikan()
+    {
+        return $this->hasOne(Pendidikan::class);
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class, 'user_id');
+    }
+
+    public function lamars()
+    {
+        return $this->hasMany(Lamar::class, 'id_lulusan');
+    }
+
+    public function pengalaman()
+    {
+        return $this->hasOne(Pengalaman::class);
+    }
+
+    public function pelatihan()
+    {
+        return $this->hasOne(Pelatihan::class);
+    }
+
+    public function postingan()
+    {
+        return $this->hasOne(Postingan::class);
+    }
 }

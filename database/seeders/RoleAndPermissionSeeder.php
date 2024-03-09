@@ -25,6 +25,9 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'user.management']);
         Permission::create(['name' => 'role.permission.management']);
         Permission::create(['name' => 'menu.management']);
+        Permission::create(['name' => 'location.management']);
+        Permission::create(['name' => 'menu.kategori']);
+        Permission::create(['name' => 'menu.pekerjaan']);
         //user
         Permission::create(['name' => 'user.index']);
         Permission::create(['name' => 'user.create']);
@@ -33,8 +36,26 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'user.import']);
         Permission::create(['name' => 'user.export']);
 
-        //pencari-kerja
+        //lulusan
         Permission::create(['name' => 'lulusan.index']);
+        Permission::create(['name' => 'lulusan.create']);
+        Permission::create(['name' => 'lulusan.edit']);
+        Permission::create(['name' => 'lulusan.destroy']);
+        Permission::create(['name' => 'lulusan.import']);
+        Permission::create(['name' => 'lulusan.export']);
+
+         //Perusahaan
+         Permission::create(['name' => 'perusahaan.index']);
+         Permission::create(['name' => 'perusahaan.create']);
+         Permission::create(['name' => 'perusahaan.edit']);
+         Permission::create(['name' => 'perusahaan.destroy']);
+         Permission::create(['name' => 'perusahaan.import']);
+         Permission::create(['name' => 'perusahaan.export']);
+
+         //PostinganAdmin
+        Permission::create(['name' => 'postinganadmin.index']);
+        Permission::create(['name' => 'postinganadmin.destroy']);
+
         //role
         Permission::create(['name' => 'role.index']);
         Permission::create(['name' => 'role.create']);
@@ -73,6 +94,24 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'menu-item.create']);
         Permission::create(['name' => 'menu-item.edit']);
         Permission::create(['name' => 'menu-item.destroy']);
+
+        //menu kelurahan
+        Permission::create(['name' => 'kota.index']);
+        Permission::create(['name' => 'kota.create']);
+        Permission::create(['name' => 'kota.edit']);
+        Permission::create(['name' => 'kota.destroy']);
+
+        //menu kategori
+        Permission::create(['name' => 'kategori.index']);
+        Permission::create(['name' => 'kategori.create']);
+        Permission::create(['name' => 'kategori.edit']);
+        Permission::create(['name' => 'kategori.destroy']);
+
+        //menu lowongan pekerjaan
+        Permission::create(['name' => 'loker.index']);
+        Permission::create(['name' => 'loker.create']);
+        Permission::create(['name' => 'loker.edit']);
+        Permission::create(['name' => 'loker.destroy']);
 
         // create Super Admin
         $role = Role::create(['name' => 'super-admin']);

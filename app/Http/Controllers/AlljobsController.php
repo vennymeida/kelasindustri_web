@@ -18,7 +18,8 @@ class AlljobsController extends Controller
     public function index(Request $request)
     {
         $perusahaan = Perusahaan::all();
-        $stopwords = ['adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu'];
+        $stopwords = ['adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
+    'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'];
 
         $lulusanData = DB::table('lulusans')->select('id', 'ringkasan')->get();
         $lokerData = DB::table('lokers')->select('id', 'persyaratan', 'deskripsi', 'keahlian', 'tipe_pekerjaan', 'lokasi')->get();

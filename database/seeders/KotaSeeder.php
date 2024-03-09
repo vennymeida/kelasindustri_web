@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Kota;
 
 class KotaSeeder extends Seeder
 {
@@ -15,13 +16,20 @@ class KotaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('kotas')->insert([
-            ['name' => 'Surabaya'],
-            ['name' => 'Malang'],
-            ['name' => 'Batu'],
-            ['name' => 'Nganjuk'],
-            ['name' => 'Kediri'],
-            ['name' => 'Madiun'],
+        Kota::create([
+            'kota' => "Malang",
+        ]);
+        Kota::create([
+            'kota' => "Kediri",
+        ]);
+        Kota::create([
+            'kota' => "Blitar",
+        ]);
+        Kota::create([
+            'kota' => "Tulungagung",
+        ]);
+        Kota::create([
+            'kota' => "Nganjuk",
         ]);
     }
 }
