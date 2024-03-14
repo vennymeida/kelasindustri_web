@@ -14,15 +14,15 @@ class Lamar extends Model
 
     protected $fillable = [
         'id_loker',
-        'user_id',
+        'id_lulusan',
         'resume',
         'status',
     ];
 
 
-    public function lulusan()
+    public function pencarikerja()
     {
-        return $this->belongsTo(Lulusan::class, 'user_id');
+        return $this->belongsTo(ProfileUser::class, 'id_lulusan');
     }
 
     public function loker()

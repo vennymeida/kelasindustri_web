@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lamar;
+use App\Models\lamar;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
 use App\Models\KategoriPekerjaan;
+use App\Models\ProfileUser;
 use App\Models\ProfileKeahlian;
 use App\Models\User;
 use App\Http\Requests\StorelamarRequest;
@@ -34,7 +35,7 @@ class LamarController extends Controller
         $selectedStatus = $request->input('status');
 
         $allResults = DB::table('lamars as l')
-            ->join('lokers as lp', 'l.id_loker', '=', 'lp.id')
+            ->join('lowongan_pekerjaans as lp', 'l.id_loker', '=', 'lp.id')
             ->join('perusahaan as p', 'lp.id_perusahaan', '=', 'p.id')
             ->join('profile_users as pu', 'l.id_pencari_kerja', '=', 'pu.id')
             ->join('users as u', 'pu.user_id', '=', 'u.id')
@@ -70,7 +71,7 @@ class LamarController extends Controller
         $loker = LowonganPekerjaan::where('user_id', $user->id)->first();
 
         $loggedInUserResults = DB::table('lamars as l')
-            ->join('lokers as lp', 'l.id_loker', '=', 'lp.id')
+            ->join('lowongan_pekerjaans as lp', 'l.id_loker', '=', 'lp.id')
             ->join('perusahaan as p', 'lp.id_perusahaan', '=', 'p.id')
             ->join('profile_users as pu', 'l.id_pencari_kerja', '=', 'pu.id')
             ->join('users as u', 'pu.user_id', '=', 'u.id')
@@ -96,7 +97,7 @@ class LamarController extends Controller
             })
             ->paginate(10);
 
-        if (Auth::user()->hasRole('perusahaan')) {
+        if (Auth::user()->hasRole('Perusahaan')) {
             if ($profileUser == null && $perusahaan == null) {
                 return redirect()->route('profile.edit');
             } else {

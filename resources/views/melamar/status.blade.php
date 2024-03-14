@@ -61,15 +61,15 @@
                                         <i class="fas fa-map-marker-alt"></i>
                                     </span>
                                 </div> --}}
-                                    {{-- <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
+                                    <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        @foreach ($kota as $kec)
-                                            <option value="{{ $kec->kota }}"
-                                                @if (request('lokasi') === $kec->kota) selected @endif>
-                                                {{ $kec->kota }}
+                                        @foreach ($kecamatan as $kec)
+                                            <option value="{{ $kec->kecamatan }}"
+                                                @if (request('lokasi') === $kec->kecamatan) selected @endif>
+                                                {{ $kec->kecamatan }}
                                             </option>
                                         @endforeach
-                                    </select> --}}
+                                    </select>
                                     {{-- <div class="input-group-prepend">
                                     <div class="input-group-text"
                                             style="border-left: none; border-radius: 0px 15px 15px 0px;">
@@ -88,6 +88,7 @@
             </div>
 
         </section>
+        <!-- End: Search form -->
 
         <section>
             <div class="col-md-10 mt-4 mx-auto justify-content-center">
@@ -97,37 +98,40 @@
                         <div class="card-body d-flex flex-column">
                             <div class="row">
                                 <div class="col-md-1 mx-auto mr-5 align-self-start img-pelamar">
-                                    {{-- @if ($lamar && $lamar->loker->perusahaan && $lamar->loker->perusahaan->logo)
+                                    @if ($lamar && $lamar->loker->perusahaan && $lamar->loker->perusahaan->logo)
                                         <img src="{{ asset('storage/' . $lamar->loker->perusahaan->logo) }}"
                                             alt="Logo Perusahaan" class="rounded-circle"
                                             style="width: 100px; height: 100px;">
-                                    @else --}}
+                                    @else
                                         <img alt="image" src="{{ asset('assets/img/company/default-company-logo.png') }}"
                                             class="rounded-circle" style="width: 100px; height: 100px;">
-                                    {{-- @endif --}}
+                                    @endif
                                 </div>
                                 <div class="col-md-7">
                                     <h5 class="media-title">
-                                        <strong>{{ $lamar->loker->nama_loker }}</strong>
+                                        <strong>{{ $lamar->loker->judul }}</strong>
                                     </h5>
-                                    <h5 class="mb-4">{{ $lamar->loker->perusahaan->nama_pemilik }}</h5>
+                                    <h5 class="mb-4">{{ $lamar->loker->perusahaan->nama }}</h5>
+                                    <!-- Increased spacing after the title to mb-4 for consistency -->
+
                                     <div class="d-flex align-items-center justify-content-start mb-2 data-pelamar">
                                         <div class="d-flex align-items-center col-6 mb-2">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                            <span>{{ $lamar->loker->persyaratan }}</span>
+                                            <span>{{ $lamar->loker->min_pengalaman }}</span>
                                         </div>
                                         <div class="d-flex align-items-center col-6">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/money.svg') }}">
-                                            <span>IDR {{ $lamar->loker->gaji }}</span>
+                                            <span>IDR {{ $lamar->loker->gaji_bawah }} -
+                                                {{ $lamar->loker->gaji_atas }}</span>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-start mb-2 data-pelamar">
                                         <div class="d-flex align-items-left col-6 mb-2">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                            <span>{{ $lamar->loker->min_persyaratan }}</span>
+                                            <span>{{ $lamar->loker->min_pendidikan }}</span>
                                         </div>
                                         <div class="d-flex align-items-center col-6">
                                             <img class="img-fluid img-icon mr-2"
@@ -176,6 +180,7 @@
                 @endforelse
                 <div class="pagination justify-content-center mt-4">
                     {{ $lamaran->withQueryString()->links() }}
+                    <!-- withQueryString agar filter tetap berjalan saat pindah paginate #ilmubaru -->
                 </div>
             </div>
             <!-- Button to open Chatify modal -->

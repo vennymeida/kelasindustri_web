@@ -38,6 +38,11 @@ class LulusanSeeder extends Seeder
                 saya memiliki pengalaman magang selama 6 bulan pada posisi frontend developer.
                 Saya menguasai pengembangan website, framework laravel, html, css, javascript dan lain sebagainya.
                 Saya mampu bekerja di dalam tim, bertanggung jawab.',
+                'ringkasan_lowstr' => 'saya adalah lulusan smk jurusan rekayasa perangkat lunak.
+                saya memiliki keahlian dalam bidang pembuatan perangkat lunak khususnya website,
+                saya memiliki pengalaman magang selama 6 bulan pada posisi frontend developer.
+                Saya menguasai pengembangan website, framework laravel, html, css, javascript dan lain sebagainya.
+                Saya mampu bekerja di dalam tim, bertanggung jawab.',
                 'tgl_lahir' => Carbon::create('2017', '01', '01'),
             ],
 

@@ -24,10 +24,13 @@ class PerusahaanListController extends Controller
     public function index(Request $request)
     {
         // Mengambil role "Perusahaan"
-        $rolePerusahaan = Role::where('name', 'perusahaan')->first();
+        $rolePerusahaan = Role::where('name', 'Perusahaan')->first();
 
         // Mengambil data perusahaan dengan role "Perusahaan" dan relasi "profile"
-        $query = Perusahaan::query();
+        $query = User::with(['perusahaan']) // Eager-load the "users", "perusahaan", and "profile" relations
+            ->whereHas('roles', function ($query) use ($rolePerusahaan) {
+                $query->where('id', $rolePerusahaan->id);
+            });
 
         // Lakukan pencarian berdasarkan nama perusahaan jika parameter "name" ada
         if ($request->has('name')) {
@@ -38,9 +41,10 @@ class PerusahaanListController extends Controller
         // Paginasi hasil query
         $perusahaanData = $query->paginate(10);
 
+
+
         return view('perusahaan.index', compact('perusahaanData'));
     }
-
 
     public function edit(User $perusahaan)
     {
@@ -54,7 +58,7 @@ class PerusahaanListController extends Controller
         ]);
 
         // Update the user profile data
-        $perusahaan->update([
+        $perusahaan->profile->update([
             'alamat' => $request->input('alamat'),
             // Add other profile fields for perusahaan
         ]);
@@ -66,7 +70,7 @@ class PerusahaanListController extends Controller
     {
         try {
             // Delete the user and related profile data
-            $perusahaan->delete();
+            $perusahaan->profile->delete();
             $perusahaan->delete();
 
             return redirect()->route('perusahaan.index')->with('success', 'Profile deleted successfully.');
@@ -77,16 +81,19 @@ class PerusahaanListController extends Controller
         }
     }
 
-    public function show(Perusahaan $perusahaan)
+    public function show(User $perusahaan)
     {
+        // Eager load the "perusahaan" relation with its "profile"
+        $perusahaan->load(['perusahaan']);
+
         // Menghilangkan tag <p> dan tag lainnya dari deskripsi
-        if ($perusahaan && $perusahaan->deskripsi) {
-            $perusahaan->deskripsi = Str::replace(
+        if ($perusahaan->perusahaan && $perusahaan->perusahaan->deskripsi) {
+            $perusahaan->perusahaan->deskripsi = Str::replace(
                 ['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'],
                 ['', '', '', ", ", '', '', "\n"],
-                $perusahaan->deskripsi
+                $perusahaan->perusahaan->deskripsi
             );
-            $perusahaan->deskripsi = rtrim($perusahaan->deskripsi, ', ');
+            $perusahaan->perusahaan->deskripsi = rtrim($perusahaan->perusahaan->deskripsi, ', ');
         }
 
         return view('perusahaan.view', compact('perusahaan'));

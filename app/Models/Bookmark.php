@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\LowonganPekerjaan;
 
 
 class Bookmark extends Model
@@ -14,7 +13,7 @@ class Bookmark extends Model
 
     protected $fillable = [
         'user_id',
-        'loker_id',
+        'lowongan_pekerjaan_id',
     ];
 
     public function user()
@@ -24,6 +23,6 @@ class Bookmark extends Model
 
     public function lowonganPekerjaan()
     {
-        return $this->belongsTo(LowonganPekerjaan::class, 'lowongan_pekerjaan_id');
+        return $this->belongsTo(lowonganPekerjaan::class, 'lowongan_pekerjaan_id');
     }
 }

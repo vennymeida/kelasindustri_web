@@ -15,7 +15,7 @@ class PerusahaanSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('perusahaan')->insert([
+        DB::table('perusahaans')->insert([
             [
                 'user_id' => '3',
                 'nama_pemilik' => 'Meida',

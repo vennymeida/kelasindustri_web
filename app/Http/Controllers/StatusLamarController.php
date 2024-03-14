@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kota;
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\Lamar;
+use App\Models\lamar;
 use Illuminate\Database\Eloquent\Builder;
 
 class StatusLamarController extends Controller
@@ -22,12 +22,12 @@ class StatusLamarController extends Controller
         $user = Auth::user();
 
         // Cek apakah user memiliki profile
-        // if (!$user->profile) {
-        //     return redirect()->route('profile.edit')->with('error', 'Silahkan lengkapi profil Anda terlebih dahulu.');
-        // }
+        if (!$user->profile) {
+            return redirect()->route('profile.edit')->with('error', 'Silahkan lengkapi profil Anda terlebih dahulu.');
+        }
 
         $query = Lamar::with('loker.perusahaan')
-            ->where('user_id', $user->id);
+            ->where('id_lulusan', $user->profile->id);
 
         // Filter by posisi
         if ($request->has('posisi') && $request->posisi != '') {
@@ -54,9 +54,9 @@ class StatusLamarController extends Controller
         $lamaran = $query->orderByDesc('created_at')->paginate(3);
 
         if ($lamaran->isEmpty()) {
-            return view('melamar.status', ['lamaran' => $lamaran, 'message' => 'Belum ada loker tersedia.']);
+            return view('melamar.status', ['lamaran' => $lamaran, 'message' => 'Belum ada loker tersedia.', 'kota' => $kota]);
         }
 
-        return view('melamar.status', ['lamaran' => $lamaran]);
+        return view('melamar.status', ['lamaran' => $lamaran, 'kota' => $kota]);
     }
 }

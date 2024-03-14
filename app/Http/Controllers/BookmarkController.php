@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Bookmark;
 use App\Models\KategoriPekerjaan;
-use App\Models\Kota;
+use App\Models\Kecamatan;
+use App\Models\Kelurahan;
 use App\Models\LowonganPekerjaan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -16,14 +17,14 @@ class BookmarkController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:bookmark.index')->only('index');
+        $this->middleware('permission:bookmarks.index')->only('index');
     }
 
     public function index(Request $request)
     {
         $user = Auth::user();
 
-        $query = $user->bookmark()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.kategori', 'lowonganPekerjaan.perusahaan.kota']);
+        $query = $user->bookmarks()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.kategori', 'lowonganPekerjaan.perusahaan.kecamatan', 'lowonganPekerjaan.perusahaan.kelurahan']);
 
         $kategoris = KategoriPekerjaan::all();
 
@@ -42,8 +43,8 @@ class BookmarkController extends Controller
 
         if ($lokasi) {
             $query->whereHas('lowonganPekerjaan.perusahaan', function ($q) use ($lokasi) {
-                $q->whereHas('kota', function ($q) use ($lokasi) {
-                    $q->where('kota', 'like', '%' . $lokasi . '%');
+                $q->whereHas('kecamatan', function ($q) use ($lokasi) {
+                    $q->where('kecamatan', 'like', '%' . $lokasi . '%');
                 });
             });
         }

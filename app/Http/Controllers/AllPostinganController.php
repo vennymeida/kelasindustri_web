@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lulusan;
 use App\Models\Postingan;
 use App\Models\ProfileUser;
 use App\Models\User;
@@ -17,8 +18,18 @@ class AllPostinganController extends Controller
     {
         $allResults = DB::table('postingans as lp')
             ->join('users as u', 'lp.user_id', '=', 'u.id')
-            ->leftJoin('profile_users as pu', 'u.id', '=', 'pu.user_id')
-            ->select('lp.id', 'lp.user_id', 'lp.konteks', 'lp.media', 'pu.ringkasan', 'pu.foto', 'u.name', 'u.email', 'lp.created_at') // Sertakan created_at
+            ->leftJoin('lulusans as pu', 'u.id', '=', 'pu.user_id')
+            ->select(
+                'lp.id',
+                'lp.user_id',
+                'lp.konteks',
+                'lp.media',
+                'pu.ringkasan',
+                'pu.foto',
+                'u.name',
+                'u.email',
+                'lp.created_at'
+            )
             ->orderBy('lp.created_at', 'desc')
             ->paginate(5);
 
@@ -27,7 +38,7 @@ class AllPostinganController extends Controller
 
         if (auth()->check()) {
             $user = auth()->user();
-            $profile = ProfileUser::where('user_id', $user->id)->first();
+            $profile = Lulusan::where('user_id', $user->id)->first();
         }
 
         foreach ($allResults as $result) {

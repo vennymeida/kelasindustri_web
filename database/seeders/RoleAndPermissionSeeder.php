@@ -95,7 +95,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'menu-item.edit']);
         Permission::create(['name' => 'menu-item.destroy']);
 
-        //menu kota
+        //menu kelurahan
         Permission::create(['name' => 'kota.index']);
         Permission::create(['name' => 'kota.create']);
         Permission::create(['name' => 'kota.edit']);
@@ -113,23 +113,6 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'loker.edit']);
         Permission::create(['name' => 'loker.destroy']);
 
-        //loker-perusahaan
-        Permission::create(['name' => 'loker-perusahaan.index']);
-        Permission::create(['name' => 'loker-perusahaan.show']);
-        Permission::create(['name' => 'loker-perusahaan.create']);
-        Permission::create(['name' => 'loker-perusahaan.edit']);
-
-        //lamar-perusahaan
-        Permission::create(['name' => 'lamarperusahaan.index']);
-        Permission::create(['name' => 'lamarperusahaan.show']);
-        Permission::create(['name' => 'lamarperusahaan.edit']);
-
-        //bookmarks
-        Permission::create(['name' => 'bookmark.index']);
-
-        //status-lamaran
-        Permission::create(['name' => 'status-lamaran.index']);
-
         // create Super Admin
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());
@@ -138,8 +121,6 @@ class RoleAndPermissionSeeder extends Seeder
         $roleLulusan = Role::create(['name' => 'lulusan']);
         $roleLulusan->givePermissionTo([
             'lulusan.index',
-            'bookmark.index',
-            'status-lamaran.index',
         ]);
 
         // create roles

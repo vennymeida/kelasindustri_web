@@ -32,7 +32,7 @@ class LowonganPekerjaanController extends Controller
         $statuses = ['pending', 'dibuka', 'ditutup'];
         $selectedStatus = $request->input('status');
 
-        $allResults = DB::table('lokers as lp')
+        $allResults = DB::table('lowongan_pekerjaans as lp')
             ->join('perusahaan as p', 'lp.id_perusahaan', '=', 'p.id')
             ->join('lowongan_kategori as lk', 'lp.id', '=', 'lk.lowongan_id')
             ->join('kategori_pekerjaans as kp', 'lk.kategori_id', '=', 'kp.id')

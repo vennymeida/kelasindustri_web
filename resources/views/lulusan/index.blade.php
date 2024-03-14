@@ -62,21 +62,21 @@
                                                         </td>
                                                         <td>{{ $user->name }}</td>
                                                         <td>{{ $user->email }}</td>
-                                                        <td>{{ optional($user->lulusan)->alamat ?: '-' }}</td>
+                                                        <td>{{ optional($user->profile)->alamat ?: '-' }}</td>
                                                         <td>
-                                                            @if ($user->lulusan)
-                                                                @if ($user->lulusan->jenis_kelamin === 'L')
+                                                            @if ($user->profile)
+                                                                @if ($user->profile->jenis_kelamin === 'L')
                                                                     Laki-Laki
-                                                                @elseif ($user->lulusan->jenis_kelamin === 'P')
+                                                                @elseif ($user->profile->jenis_kelamin === 'P')
                                                                     Perempuan
                                                                 @else
-                                                                    {{ $user->lulusan->jenis_kelamin }}
+                                                                    {{ $user->profile->jenis_kelamin }}
                                                                 @endif
                                                             @else
                                                                 -
                                                             @endif
                                                         </td>
-                                                        <td>{{ optional($user->lulusan)->no_hp ?: '-' }}</td>
+                                                        <td>{{ optional($user->profile)->no_hp ?: '-' }}</td>
                                                         <td>
                                                             <a href="{{ route('lulusan.show', $user) }}"
                                                                 class="btn btn-sm btn-primary btn-icon">

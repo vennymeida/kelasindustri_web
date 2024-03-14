@@ -43,7 +43,7 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Nama Pemilik</th>
+                                                <th>Nama User</th>
                                                 <th>Nama Perusahaan</th>
                                                 <th>Email</th>
                                                 <th>Alamat</th>
@@ -61,21 +61,17 @@
                                                     <tr>
                                                         <td>{{ ($perusahaanData->currentPage() - 1) * $perusahaanData->perPage() + $key + 1 }}
                                                         </td>
-                                                        <td>{{ $perusahaan->nama_pemilik }}</td>
-                                                        <td>{{ optional($perusahaan)->nama_perusahaan ?: '-' }}</td>
-                                                        <td>{{ optional($perusahaan)->email_perusahaan ?: '-' }}</td>
-                                                        <td>{{ optional($perusahaan)->alamat_perusahaan ?: '-' }}
+                                                        <td>{{ $perusahaan->name }}</td>
+                                                        <td>{{ optional($perusahaan->perusahaan)->nama ?: '-' }}</td>
+                                                        <td>{{ optional($perusahaan->perusahaan)->email ?: '-' }}</td>
+                                                        <td>{{ optional($perusahaan->perusahaan)->alamat_perusahaan ?: '-' }}
                                                         </td>
-                                                        <td>{{ optional($perusahaan)->no_telp ?: '-' }}
+                                                        <td>{{ optional($perusahaan->perusahaan)->no_hp_perusahaan ?: '-' }}
                                                         </td>
                                                         <td>
                                                             <a href="{{ route('perusahaan.show', $perusahaan) }}"
                                                                 class="btn btn-sm btn-primary btn-icon">
                                                                 <i class="fas fa-eye"></i> Details
-                                                            </a>
-                                                            <a href="{{ route('perusahaan.show', $perusahaan) }}"
-                                                                class="btn btn-sm btn-warning btn-icon">
-                                                                <i class="fas fa-ban"></i> Banned
                                                             </a>
                                                         </td>
                                                     </tr>
