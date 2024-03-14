@@ -19,14 +19,15 @@ return new class extends Migration
             $table->string('nama_loker');
             $table->string('persyaratan');
             $table->string('deskripsi');
-            $table->string('min_persyaratan');
-            $table->string('gaji');
+            $table->enum('tipe_pekerjaan', ['Remote', 'Onsite']);
             $table->string('keahlian');
-            $table->string('tipe_pekerjaan');
-            $table->date('tgl_tutup');
             $table->string('lokasi');
+            $table->string('gaji_bawah');
+            $table->string('gaji_atas');
             $table->integer('kuota');
-            $table->foreign('perusahaan_id')->references('id')->on('perusahaans')->restrictOnDelete();
+            $table->date('tgl_tutup');
+            $table->enum('status', ['Pending', 'Dibuka', 'Ditutup']);
+            $table->foreign('perusahaan_id')->references('id')->on('perusahaan')->restrictOnDelete();
             $table->timestamps();
         });
     }

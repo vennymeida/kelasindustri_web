@@ -145,11 +145,11 @@
                                                             {{ $loker->gaji_atas }}
                                                         </p>
                                                     </li> --}}
-                                                    <li class="d-flex justify-content-start">
+                                                    {{-- <li class="d-flex justify-content-start">
                                                         <img class="img-fluid img-icon mr-2"
                                                             src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                                        <p class="mb-2">{{ $loker->min_persyaratan }}</p>
-                                                    </li>
+                                                        <p class="mb-2">{{ $loker->keahlian }}</p>
+                                                    </li> --}}
                                                     <li class="d-flex justify-content-start">
                                                         <img class="img-fluid img-icon mr-2"
                                                             src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">

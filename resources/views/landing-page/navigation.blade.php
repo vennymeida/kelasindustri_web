@@ -61,7 +61,7 @@
                             </a>
                             <hr class="hr-navbar" style="display: none;">
                             <div class="dropdown-menu dropdown-menu-right">
-                                @if (Auth::user()->hasRole('Pencari Kerja') || Auth::user()->hasRole('Perusahaan'))
+                                @if (Auth::user()->hasRole('lulusan') || Auth::user()->hasRole('perusahaan'))
                                     <a href="{{ url('/profile') }}" class="dropdown-item has-icon">
                                         <i class="far fa-user mx-1 mr-2"></i> Profile
                                     </a>
@@ -71,27 +71,27 @@
                                         <i class="far fa-user mx-1 mr-2"></i> Profile
                                     </a>
                                 @endif
-                                @if (auth()->user()->hasRole('Pencari Kerja'))
+                                @if (auth()->user()->hasRole('lulusan'))
                                     <a href="{{ route('bookmark.index') }}" class="dropdown-item has-icon">
                                         <i class="far fa-bookmark mx-1 mr-2"></i> Bookmark
                                     </a>
                                     <a href="{{ route('melamar.status') }}" class="dropdown-item has-icon">
                                         <i class="fas fa-info mx-1 mr-2"></i> Status Lamaran
                                     </a>
-                                    <a href="{{ route('chatify') }}" class="dropdown-item has-icon">
+                                    {{-- <a href="{{ route('chatify') }}" class="dropdown-item has-icon">
                                         <i class="far fa-comment mx-1 mr-2"></i> Pesan Obrolan
-                                    </a>
+                                    </a> --}}
                                 @endif
-                                @if (auth()->user()->hasRole('Perusahaan'))
+                                @if (auth()->user()->hasRole('perusahaan'))
                                     <a href="{{ route('loker-perusahaan.index') }}" class="dropdown-item has-icon">
                                         <i class="fas fa-briefcase mx-1 mr-2"></i> Lowongan Pekerjaan
                                     </a>
                                     <a href="{{ route('lamarperusahaan.index') }}" class="dropdown-item has-icon">
                                         <i class="fas fa-file-alt mx-1 mr-2"></i> Data Pelamar Kerja
                                     </a>
-                                    <a href="{{ route('chatify') }}" class="dropdown-item has-icon">
+                                    {{-- <a href="{{ route('chatify') }}" class="dropdown-item has-icon">
                                         <i class="fas fa-comment mx-1 mr-2"></i> Pesan Obrolan
-                                    </a>
+                                    </a> --}}
                                 @endif
                                 <hr class="my-0" style="background-color: rgba(249, 249, 249, 0.2);">
                                 <a href="{{ route('logout') }}"

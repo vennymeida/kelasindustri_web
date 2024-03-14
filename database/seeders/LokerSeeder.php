@@ -18,30 +18,32 @@ class LokerSeeder extends Seeder
     {
         DB::table('lokers')->insert([
             [
-                'perusahaan_id' => '1',
-                'nama_loker' => 'PT Hummantech sejahtera',
+                'perusahaan_id' => 1,
+                'nama_loker' => 'Web Developer',
                 'persyaratan' => 'menguasai framework laravel, bisa slicing website, lulusan SMK jurusan rekayasa perangkat lunak',
                 'deskripsi' => 'mengimplementasikan ui ke dalam frontend',
-                'min_persyaratan' => 'mengaji , SMA',
-                'gaji' => '1000',
+                'tipe_pekerjaan' => 'Remote',
                 'keahlian' => 'html, css, javascript, framework laravel',
-                'tipe_pekerjaan' => 'remote',
+                'lokasi' => 'Malang',
+                'gaji_bawah' => '500000',
+                'gaji_atas' => '100000',
+                'kuota' => 5,
                 'tgl_tutup' => Carbon::create('2018', '01', '01'),
-                'lokasi' => 'malang raya',
-                'kuota' => '4'
+                'status' => 'Dibuka'
             ],
             [
-                'perusahaan_id' => '1',
-                'nama_loker' => 'PT Hummantech ',
+                'perusahaan_id' => 1,
+                'nama_loker' => 'Backend Developer',
                 'persyaratan' => 'menguasai bahasa pemrograman laravel, mampu merancang api',
                 'deskripsi' => 'mengelola basis data, mengelola api',
-                'min_persyaratan' => 'mengaji , SMA',
-                'gaji' => '1000',
-                'keahlian' => 'laravel, mysql, api, ',
-                'tipe_pekerjaan' => 'onsite',
+                'tipe_pekerjaan' => 'Onsite',
+                'keahlian' => 'laravel, mysql, api',
+                'lokasi' => 'Surabaya',
+                'gaji_bawah' => '500000',
+                'gaji_atas' => '100000',
+                'kuota' => 5,
                 'tgl_tutup' => Carbon::create('2018', '01', '01'),
-                'lokasi' => 'malang raya',
-                'kuota' => '4'
+                'status' => 'Pending'
             ],
 
         ]);

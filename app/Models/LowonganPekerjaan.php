@@ -5,32 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bookmark;
-use App\Models\lamar;
+use App\Models\Lamar;
 
 class LowonganPekerjaan extends Model
 {
     use HasFactory;
     protected $table = 'lokers';
     protected $fillable = [
-        'user_id',
-        'id_perusahaan',
-        'judul',
+        'perusahaan_id',
+        'nama_loker',
+        'persyaratan',
         'deskripsi',
-        'requirement',
         'tipe_pekerjaan',
-        'min_pendidikan',
-        'min_pengalaman',
+        'keahlian',
         'lokasi',
         'gaji_bawah',
         'gaji_atas',
-        'jumlah_pelamar',
-        'tutup',
+        'kuota',
+        'tgl_tutup',
         'status',
     ];
 
     public function user()
     {
-        return $this->belongsTo(ProfileUser::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function perusahaan()
@@ -41,11 +39,6 @@ class LowonganPekerjaan extends Model
     public function kategori()
     {
         return $this->belongsToMany(KategoriPekerjaan::class, 'lowongan_kategori', 'lowongan_id', 'kategori_id');
-    }
-
-    public function keahlian()
-    {
-        return $this->belongsToMany(Keahlian::class, 'lowongan_keahlian', 'lowongan_id', 'keahlian_id');
     }
     public function bookmarks()
     {

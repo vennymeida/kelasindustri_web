@@ -65,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Pendidikan::class);
     }
 
-    public function bookmarks()
+    public function bookmark()
     {
         return $this->hasMany(Bookmark::class, 'user_id');
     }

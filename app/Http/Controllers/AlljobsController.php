@@ -165,14 +165,13 @@ class AlljobsController extends Controller
             ->join('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
             ->join('lokers as lk', 'rks.loker_id', '=', 'lk.id')
             ->join('users as u', 'ls.user_id', '=', 'u.id')
-            ->join('perusahaans as ps', 'lk.perusahaan_id', '=', 'ps.id')
+            ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
             ->select(
                 'lk.nama_loker',
                 'lk.persyaratan',
                 'lk.deskripsi',
-                'lk.gaji',
+                'lk.gaji_bawah',
                 'lk.tipe_pekerjaan',
-                'lk.min_persyaratan',
                 'lk.persyaratan',
                 'lk.tgl_tutup',
                 'lk.lokasi',

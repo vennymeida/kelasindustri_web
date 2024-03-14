@@ -32,11 +32,11 @@
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        @foreach ($kecamatan as $item)
-                                            <option value="{{ $item->kecamatan }}"
-                                                @if ($item->kecamatan == $selectedLokasi) selected @endif>{{ $item->kecamatan }}
+                                        {{-- @foreach ($kota as $item)
+                                            <option value="{{ $item->kota }}"
+                                                @if ($item->kota == $selectedLokasi) selected @endif>{{ $item->kota }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -44,12 +44,12 @@
                                 <div class="input-group">
                                     <select name="kategori" id="kategori" class="form-control form-jobs select2 kategori"
                                         multiple>
-                                        @foreach ($kategoris as $item)
+                                        {{-- @foreach ($kategoris as $item)
                                             <option value="{{ $item->kategori }}"
                                                 @if (in_array($item->kategori, $selectedKategori)) selected @endif>
                                                 {{ $item->kategori }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                                     src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
                                                 {{ $bookmark->lowonganPekerjaan->perusahaan->alamat_perusahaan }},
                                                 {{ $bookmark->lowonganPekerjaan->perusahaan->kelurahan->kelurahan }},
-                                                {{ $bookmark->lowonganPekerjaan->perusahaan->kecamatan->kecamatan }}
+                                                {{ $bookmark->lowonganPekerjaan->perusahaan->kota->kota }}
                                             </li>
                                         </ul>
                                     </div>

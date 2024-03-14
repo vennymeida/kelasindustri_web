@@ -18,7 +18,7 @@
                                         src="{{ asset('assets/img/Vector.svg') }}">
                                 </a>
                             </div>
-                            <div class="profile-widget-name mt-2 ml-3 text-primary" style="font-size: 20px;">
+                            <div class="lulusan-widget-name mt-2 ml-3 text-primary" style="font-size: 20px;">
                                 <a href="{{ route('lulusan.index') }}"
                                     style="text-decoration: none; color: inherit;"><strong>Pratinjau Detail Lulusan</strong></a>
                             </div>
@@ -27,8 +27,8 @@
                             <!-- Foto -->
                             <div class="col-md-2">
                                 <div class="text-center mb-4">
-                                    @if ($lulusan->profile && $lulusan->profile->foto)
-                                        <img src="{{ asset('storage/' . $lulusan->profile->foto) }}" alt="Foto"
+                                    @if ($lulusan->lulusan && $lulusan->lulusan->foto)
+                                        <img src="{{ asset('storage/' . $lulusan->lulusan->foto) }}" alt="Foto"
                                             class="img-thumbnail rounded-circle" style="width: 200px; height: 200px;">
                                     @else
                                         <span>No Photo Available</span>
@@ -39,7 +39,7 @@
                             <div class="col-md-9 ml-4">
                                 <h4><strong>{{ $lulusan->name }}</strong></h4>
                                 <h6 class="mt-4"><strong>Ringkasan</strong></h6>
-                                <p>{{ optional($lulusan->profile)->ringkasan ?: '-' }}</p>
+                                <p>{{ optional($lulusan->lulusan)->ringkasan ?: '-' }}</p>
 
                                 <h6 class="mt-5"><strong>Personal Info</strong></h6>
                                 <dl class="row">
@@ -47,28 +47,28 @@
                                     <dd class="col-sm-7 mt-3">{{ $lulusan->email }}</dd>
 
                                     <dt class="col-sm-3 mt-3">No. Telepon</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->profile)->no_hp ?: '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->lulusan)->no_hp ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Alamat</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->profile)->alamat ?: '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->lulusan)->alamat ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Tanggal Lahir</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        {{ optional($lulusan->profile)->tgl_lahir? \Carbon\Carbon::parse($lulusan->profile->tgl_lahir)->locale('id')->isoFormat('D MMMM Y'): '-' }}
+                                        {{ optional($lulusan->lulusan)->tgl_lahir? \Carbon\Carbon::parse($lulusan->lulusan->tgl_lahir)->locale('id')->isoFormat('D MMMM Y'): '-' }}
                                     </dd>
 
                                     <dt class="col-sm-3 mt-3">Jenis Kelamin</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        {{ $lulusan->profile ? ($lulusan->profile->jenis_kelamin === 'L' ? 'Laki-Laki' : 'Perempuan') : '-' }}
+                                        {{ $lulusan->lulusan ? ($lulusan->lulusan->jenis_kelamin === 'L' ? 'Laki-Laki' : 'Perempuan') : '-' }}
                                     </dd>
 
                                     <dt class="col-sm-3 mt-3">Harapan Gaji</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->profile)->harapan_gaji ?: '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->lulusan)->harapan_gaji ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Resume</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        @if ($lulusan->profile && $lulusan->profile->resume)
-                                            <a href="{{ asset('storage/' . $lulusan->profile->resume) }}" target="_blank"
+                                        @if ($lulusan->lulusan && $lulusan->lulusan->resume)
+                                            <a href="{{ asset('storage/' . $lulusan->lulusan->resume) }}" target="_blank"
                                                 class="btn btn-primary btn-sm">Lihat Resume</a>
                                         @else
                                             <span class="text-muted">Tidak ada Resume</span>
@@ -100,10 +100,10 @@
                                 <h6 class="mt-5"><strong>Keahlian</strong></h6>
                                 <dl class="row">
                                     <dt class="col-sm-3 mt-3">
-                                        @if ($lulusan->profileKeahlians && $lulusan->profileKeahlians->count() > 0)
+                                        @if ($lulusan->lulusanKeahlians && $lulusan->lulusanKeahlians->count() > 0)
                                             <ul>
-                                                @foreach ($lulusan->profileKeahlians as $profileKeahlian)
-                                                    <li>{{ $profileKeahlian->keahlian->keahlian }}</li>
+                                                @foreach ($lulusan->lulusanKeahlians as $lulusanKeahlian)
+                                                    <li>{{ $lulusanKeahlian->keahlian->keahlian }}</li>
                                                 @endforeach
                                             </ul>
                                         @else
