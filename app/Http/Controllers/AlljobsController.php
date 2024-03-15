@@ -7,6 +7,9 @@ use App\Models\lamar;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
 
+use Sastrawi\Stemmer\StemmerFactory;
+use Sastrawi\StopWordRemover\StopWordRemoverFactory;
+
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,11 +18,30 @@ use Illuminate\Support\Str;
 
 class AlljobsController extends Controller
 {
+
+    protected $stemmer;
+    protected $stopWordRemover;
+
+    public function __construct()
+    {
+
+        // Membuat stemmer dan stop word remover untuk bahasa Indonesia
+        $stemmerFactory = new StemmerFactory();
+        $this->stemmer = $stemmerFactory->createStemmer();
+
+        $stopWordRemoverFactory = new StopWordRemoverFactory();
+        $this->stopWordRemover = $stopWordRemoverFactory->createStopWordRemover();
+    }
+
     public function index(Request $request)
     {
+
+
         $perusahaan = Perusahaan::all();
-        $stopwords = ['adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
-    'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'];
+        $stopwords = [
+            'adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
+            'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'
+        ];
 
         $lulusanData = DB::table('lulusans')->select('id', 'ringkasan')->get();
         $lokerData = DB::table('lokers')->select('id', 'persyaratan', 'deskripsi', 'keahlian', 'tipe_pekerjaan', 'lokasi')->get();
@@ -38,16 +60,28 @@ class AlljobsController extends Controller
                 return !in_array($word, $stopwords) && !empty($word);
             });
 
-            return $this->calculateTF($filteredWords);
+            $stemmedWords = array_map(function ($word) {
+                // Melakukan stemming pada setiap kata
+                return $this->stemmer->stem($word);
+            }, $filteredWords);
+
+            // Filter out any empty elements
+            $stemmedWords = array_filter($stemmedWords, function ($word) {
+                return !empty($word);
+            });
+
+            return $this->calculateTF($stemmedWords);
         };
 
         // Mengolah data lulusan dan loker, dan menghitung TF untuk setiap dokumen
         foreach ($lulusanData as $lulusan) {
             $lulusan->tf = $processTextAndCalculateTF($lulusan->ringkasan);
         }
+
         foreach ($lokerData as $loker) {
             $loker->tf = $processTextAndCalculateTF($loker->persyaratan . ' ' . $loker->deskripsi . ' ' . $loker->keahlian . ' ' . $loker->tipe_pekerjaan);
         }
+
 
         // Mengumpulkan semua dokumen untuk menghitung IDF
         $allDocuments = $lulusanData->merge($lokerData);
@@ -191,6 +225,63 @@ class AlljobsController extends Controller
 
         return view('all-jobs', ['perusahaan' => $perusahaan, 'allResults' => $allResults, 'lokers' => $lokerData, 'lulusan' => $lulusanData]);
     }
+
+
+    protected function processTextAndCalculateTF($text)
+    {
+
+        $stopwords = [
+            'adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
+            'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'
+        ];
+        // $processTextAndCalculateTF = function ($text) use ($stopwords) {
+        //     // Mengonversi teks ke huruf kecil untuk menghilangkan case sensitivity
+        //     $textLower = strtolower($text);
+
+        //     // Tokenisasi: Memecah teks menjadi kata-kata dengan menghilangkan tanda baca
+        //     $textWithoutPunctuation = preg_replace('/[^\w\s]/', '', $textLower);
+
+        //     // Menghilangkan stopwords
+        //     $wordsArray = explode(' ', $textWithoutPunctuation);
+        //     $filteredWords = array_filter($wordsArray, function ($word) use ($stopwords) {
+        //         return !in_array($word, $stopwords) && !empty($word);
+        //     });
+
+        //     return $this->calculateTF($filteredWords);
+        // };
+
+
+        // Mengonversi teks ke huruf kecil untuk menghilangkan case sensitivity
+        $textLower = strtolower($text);
+
+        // Tokenisasi: Memecah teks menjadi kata-kata dengan menghilangkan tanda baca
+        $textWithoutPunctuation = preg_replace('/[^\w\s]/', '', $textLower);
+
+        // Menghilangkan stopwords
+        $textWithoutStopWords = $this->stopWordRemover->remove($textWithoutPunctuation);
+
+        // Memecah teks menjadi kata-kata setelah menghilangkan stopwords
+        $wordsArray = explode(' ', $textWithoutStopWords);
+
+        $filteredWords = array_filter($wordsArray, function ($word) use ($stopwords) {
+            return !in_array($word, $stopwords) && !empty($word);
+        });
+
+        // $stemmedWords = array_map(function ($filteredWords) {
+        //     // Melakukan stemming pada setiap kata
+        //     return $this->stemmer->stem($filteredWords);
+        // }, $wordsArray);
+
+        // // Filter out any empty elements
+        // $stemmedWords = array_filter($stemmedWords, function ($filteredWords) {
+        //     return !empty($filteredWords);
+        // });
+
+        return $this->calculateTF($filteredWords);
+    }
+
+
+
     // rumus
     protected function calculateTF($words)
     {
@@ -242,6 +333,7 @@ class AlljobsController extends Controller
         }
         return $tfidf;
     }
+
     // rumus
     protected function calculateCosineSimilarity($vec1, $vec2)
     {
