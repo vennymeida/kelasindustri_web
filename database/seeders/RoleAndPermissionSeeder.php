@@ -28,6 +28,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'location.management']);
         Permission::create(['name' => 'menu.kategori']);
         Permission::create(['name' => 'menu.pekerjaan']);
+        Permission::create(['name' => 'rekomendasi']);
         //user
         Permission::create(['name' => 'user.index']);
         Permission::create(['name' => 'user.create']);
@@ -101,17 +102,23 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'kota.edit']);
         Permission::create(['name' => 'kota.destroy']);
 
-        //menu kategori
-        Permission::create(['name' => 'kategori.index']);
-        Permission::create(['name' => 'kategori.create']);
-        Permission::create(['name' => 'kategori.edit']);
-        Permission::create(['name' => 'kategori.destroy']);
-
         //menu lowongan pekerjaan
         Permission::create(['name' => 'loker.index']);
         Permission::create(['name' => 'loker.create']);
         Permission::create(['name' => 'loker.edit']);
         Permission::create(['name' => 'loker.destroy']);
+
+        //menu data pelamar kerja
+        Permission::create(['name' => 'pelamarkerja.index']);
+        Permission::create(['name' => 'pelamarkerja.create']);
+        Permission::create(['name' => 'pelamarkerja.edit']);
+        Permission::create(['name' => 'pelamarkerja.destroy']);
+
+        //menu perhitungan rekomendasi
+        Permission::create(['name' => 'rekomendasi.index']);
+        Permission::create(['name' => 'rekomendasi.create']);
+        Permission::create(['name' => 'rekomendasi.edit']);
+        Permission::create(['name' => 'rekomendasi.destroy']);
 
         //loker-perusahaan
         Permission::create(['name' => 'loker-perusahaan.index']);

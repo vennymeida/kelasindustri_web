@@ -1,185 +1,180 @@
-@extends('layouts.app')
-@section('title', 'JobKelasIndustri - Dashboard')
-@section('content')
-    <section class="section">
-        <div class="section-header" style="border-radius: 15px;">
-            <div class="row">
-                <div class="col-md-12 mb-2">
-                    <h1>Selamat Datang</h1>
-                </div>
-                <div class="col-md-12">
-                    <h6>Sedang Melakukan Apa Hari ini ?</h6>
-                </div>
+@extends('landing-page.app')
+@section('title', 'JobKelasIndustri - Detail Lowongan Pekerjaan')
+@section('main')
+    <main class="bg-light">
+        <section>
+            <div class="col-md-12 text-right my-3">
+                <a class="text-primary" href="{{ route('all-jobs.index') }}" style="font-size: 14px;">Lowongan
+                    Pekerjaan</a><span> / </span>
+                <a class="text-secondary mr-5" style="font-size: 14px;" disabled>Detail</a>
             </div>
-        </div>
-    </section>
-    <section>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-statistic-1" style="border-radius: 15px;">
-                            <div class="card-icon bg-primary" style="border-radius: 50%;">
-                                <i class="far fa-user"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Total Pencari Kerja</h4>
-                                </div>
-                                <div class="card-body">
-                                    {{ App\Models\ProfileUser::whereNotNull('resume')->count() }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-statistic-1" style="border-radius: 15px;">
-                            <div class="card-icon bg-success" style="border-radius: 50%;">
-                                <i class="far fa-user"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Total Perusahaan</h4>
-                                </div>
-                                <div class="card-body">
-                                    {{ App\Models\Perusahaan::count() }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-statistic-1" style="border-radius: 15px;">
-                            <div class="card-icon bg-warning" style="border-radius: 50%;">
-                                <i class="fas fa-briefcase"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Total Lowongan Pekerjaan</h4>
-                                </div>
-                                <div class="card-body">
-                                    {{ App\Models\LowonganPekerjaan::where('status', 'dibuka')->count() }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-statistic-1" style="border-radius: 15px;">
-                            <div class="card-icon bg-danger" style="border-radius: 50%;">
-                                <i class="fas fa-building"></i>
-                            </div>
-                            <div class="card-wrap">
-                                <div class="card-header">
-                                    <h4>Total Lamaran</h4>
-                                </div>
-                                <div class="card-body">
-                                    {{ App\Models\lamar::count() }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card" style="border-radius: 15px;">
-                            <div class="card-header">
-                                <h4>Perusahaan dengan Pelamar Terbanyak</h4>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="myChart" height="158"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style="border-radius: 15px;">
-                    <div class="card-header">
-                        <h4>Pelamar Kerja Terbaru</h4>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled list-unstyled-border">
-                            @foreach ($dashboard as $lamar)
-                                <li class="media">
-                                    @if ($lamar->foto)
-                                        <img src="{{ asset('storage/' . $lamar->foto) }}" alt="Foto"
-                                            class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
-                                    @else
-                                        <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
-                                            class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
-                                    @endif
-                                    <div class="media-body">
-                                        <div class="media-title">{{ $lamar->name }}</div>
-                                        <span class="text-small text-muted">{{ $lamar->perusahaan }}</span>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-@endsection
+        </section>
 
-@push('customScript')
-    <script src="{{ asset('assets/js/jquery.sparkline.min.js') }}"></script>
-    <script src="{{ asset('assets/js/chart.min.js') }}"></script>
+        <section>
+            <div class="col-md-12 mx-auto mt-4">
+                <div class="col-md-10 bg-white mx-auto py-5 div-perusahaan" style="border-radius: 15px;">
+                    <div class="row">
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <img class="img-fluid rounded-circle img-perusahaan"
+                                src="{{ asset('storage/' . $rekomendasi->logo_perusahaan) }}"
+                                style="width: 255px; height: 255px; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7));">
+                        </div>
+                        <div class="col-md-7">
+                            <ul class="list-unstyled">
+                                <p class="mb-2 text-primary font-weight-bold" style="font-size: 28px;">{{ $rekomendasi->nama_perusahaan }}
+                                </p>
+                                <p class="mb-2" style="font-size: 19px;">{{ $rekomendasi->nama_loker }}</p>
+                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                        src="{{ asset('assets/img/landing-page/money.svg') }}">
+                                    {{ 'IDR ' . $rekomendasi->gaji_bawah }}
+                                    <span>-</span>
+                                    {{ $rekomendasi->gaji_atas }}
+                                </p>
+                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                        src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
+                                    {{ $rekomendasi->tipe_pekerjaan }}
+                                </p>
+                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                        src="{{ asset('assets/img/landing-page/list.svg') }}"> Dibutuhkan
+                                    {{ $rekomendasi->kuota }} Pekerja
+                                </p>
+                                {{-- <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                        src="{{ asset('assets/img/landing-page/information.jpg') }}"> Mendaftar
+                                    {{ $getLamarPending }}
+                                </p>
+                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                        src="{{ asset('assets/img/landing-page/active-user.jpg') }}"> Diterima
+                                    {{ $getLamarDiterima }}
+                                </p> --}}
+                            </ul>
+                            <ul class="list-unstyled d-flex justify-content-between">
+                                @if (Auth::check() &&
+                                        auth()->user()->hasRole('Lulusan'))
+                                    @if (!$hasApplied)
+                                        <a id="detail-button" class="btn btn-primary px-5 py-2"
+                                            style="border-radius: 25px; color: #ffffff;" data-toggle="modal"
+                                            data-target="#lamarModal">Lamar</a>
+                                    @else
+                                        @switch($lamaranStatus)
+                                            @case('Pending')
+                                                <button class="btn btn-danger px-5 py-2"
+                                                    style="border-radius: 25px; color: #ffffff;" disabled>Proses</button>
+                                            @break
+
+                                            @case('Diterima')
+                                                <button class="btn btn-success px-5 py-2"
+                                                    style="border-radius: 25px; color: #ffffff;" disabled>Diterima</button>
+                                            @break
+
+                                            @case('Ditolak')
+                                                <button class="btn btn-danger px-5 py-2"
+                                                    style="border-radius: 25px; color: #ffffff;" disabled>Ditolak</button>
+                                            @break
+                                        @endswitch
+                                    @endif
+                                @endif
+                                {{-- <p class="font-italic mt-2 time" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                        src="{{ asset('assets/img/landing-page/Time.svg') }}"> Tayang {{ $updatedAgo }}
+                                </p> --}}
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- <!-- Button to open Chatify modal -->
+                    @if ($lamaranStatus === 'Diterima')
+                        <div class="chat-icon-container">
+                            <a href="{{ url('chatify/' . $rekomendasi->perusahaan->user_id) }}" class="fas fa-comment-dots"
+                                style="font-size: 37px; color:#6777ef;"></a>
+                        </div>
+                    @endif --}}
+                    <hr class="my-4">
+                    <div class="col-md-11 mx-auto my-5 cardKeahlian">
+                        <h5 class="font-weight-bolder cardKeahlian2">Keahlian : </h5>
+                        @foreach ($rekomendasi as $key => $keahlian)
+                            <button class="px-4 mt-2 mr-1 btn btn-skill ">{{ $keahlian }}</button>
+                        @endforeach
+                    </div>
+
+                    <hr class="my-4">
+                    <div class="col-md-11 mx-auto my-5">
+                        <h5 class="font-weight-bolder">Persyaratan : </h5>
+                        <p class="ml-5 mt-0 text-syarat">
+                            {!! $rekomendasi->persyaratan !!}
+                        </p>
+                    </div>
+
+                    <hr class="mt-3">
+                    <div class="col-md-11 mx-auto mt-5">
+                        <h5 class="mb-5 font-weight-bold">Tentang Perusahaan</h5>
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                <img class="img-fluid" src="{{ asset('storage/' . $rekomendasi->logo_perusahaan) }}"
+                                    style="width: 100%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 10px;">
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center nama-perusahaan">
+                                <p class="mb-2" style="font-size: 19px;">{{ $rekomendasi->nama_perusahaan }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-11 mx-auto mt-5">
+                        <h5 class="font-weight-bold">Deskripsi Perusahaan</h5>
+                        <p class="text-justify">{!! $rekomendasi->deskripsi !!}</p>
+                    </div>
+
+                    <div class="col-md-11 mx-auto mt-5">
+                        <h5 class="font-weight-bold">Alamat Perusahaan</h5>
+                        <p class="text-justify">{{ $rekomendasi->alamat_perusahaan }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-11 mx-auto mt-5">
+                        <h5 class="font-weight-bold mb-4">Kontak Perusahaan</h5>
+                        <div class="col-md-12 justify-content-center">
+                            <div class="row kontakPerusahaan">
+                                <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
+                                    <i class="fas fa-globe-asia my-3"></i>
+                                    <p class="mb-4">{{ $rekomendasi->website }}</p>
+                                </div>
+                                <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
+                                    <i class="fas fa-phone my-3"></i>
+                                    <p class="mb-4">{{ $rekomendasi->no_telp }}</p>
+                                </div>
+                                <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
+                                    <i class="fas fa-envelope my-3"></i>
+                                    <p class="mb-4">{{ $rekomendasi->website }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @include('melamar.daftar')
+                </div>
+        </section>
+    </main>
 
     <script>
-        var ctx = document.getElementById("myChart").getContext('2d');
-        const grafikData = @json($grafik);
-        const monthNames = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
-            "Oktober", "November", "Desember"
-        ];
+        const textarea = document.getElementById('autoSizeTextarea');
 
-        const perusahaanData = {};
-        grafikData.forEach(item => {
-            if (!perusahaanData[item.nama]) {
-                perusahaanData[item.nama] = Array(12).fill(0);
-            }
-            perusahaanData[item.nama][parseInt(item.month) - 1] = item.jumlah_lamars;
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
         });
 
-        const colors = [
-            'rgba(75, 192, 192, 0.8)',
-            'rgba(255, 99, 132, 0.8)',
-            'rgba(54, 162, 235, 0.8)',
-            'rgba(255, 206, 86, 0.8)',
-            'rgba(153, 102, 255, 0.8)',
-            'rgba(255, 159, 64, 0.8)',
-        ];
-
-        const datasets = [];
-        let colorIndex = 0;
-        for (const [perusahaan, data] of Object.entries(perusahaanData)) {
-            datasets.push({
-                label: perusahaan,
-                data: data,
-                backgroundColor: colors[colorIndex++ % colors.length],
-                borderWidth: 1,
-            });
-        }
-
-        const myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: monthNames.slice(1),
-                datasets: datasets,
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString("id-ID"); // Format angka dalam format Indonesia
-                            },
-                        },
-                    },
-                },
-            },
-        });
+        textarea.style.height = (textarea.scrollHeight) + 'px';
     </script>
-@endpush
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function openChatifyChat(user_id) {
+            // Check if Chatify is defined (the Chatify JavaScript library is loaded)
+            if (typeof Chatify === 'object') {
+                // Open a chat with the specified user ID
+                Chatify.openChat(user_id);
+            } else {
+                // Handle the case where Chatify is not defined (library not loaded)
+                console.error('Chatify is not loaded.');
+            }
+        }
+    </script>
+@endsection

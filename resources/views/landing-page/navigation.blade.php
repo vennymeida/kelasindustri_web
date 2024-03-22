@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary-nav sticky-top card">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary-nav sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
                 <img src="{{ asset('assets/img/landing-page/logo.svg') }}" style="max-content">
@@ -22,7 +22,6 @@
                         <input type="text" class="searchinput" placeholder="cari" aria-label="cari"
                             aria-describedby="basic-addon1">
                     </div>
-
                 </ul>
                 <ul class="navbar-nav ml-auto navbar-atas">
                     <li class="nav-item active mr-4">

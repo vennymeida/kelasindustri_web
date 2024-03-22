@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('perusahaan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('kota_id');
             $table->string('nama_pemilik');
             $table->string('surat_mou');
             $table->string('nama_perusahaan');
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->enum('status', ['banned', 'unbanned'])->default('unbanned');
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
+            $table->foreign('kota_id')->references('id')->on('kotas')->restrictOnDelete();
             $table->timestamps();
         });
     }

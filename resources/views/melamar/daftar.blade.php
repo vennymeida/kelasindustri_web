@@ -5,8 +5,8 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                @if (auth()->user()->profile &&
-                        auth()->user()->profile->isComplete())
+                @if (auth()->user() &&
+                        auth()->user()->isComplete())
                     <!-- User Profile is Complete -->
                     <p><strong>Hai, {{ auth()->user()->name }}</strong></p>
                     <p>Data yang lengkap memudahkan Anda dalam melamar pekerjaan dan perusahaan (HRD) tertarik dengan
@@ -19,31 +19,23 @@
                                 <!-- Image on the left -->
                                 <div class="col-md-4">
                                     <img class="img-fluid rounded-circle"
-                                        src="{{ asset('storage/' . $loker->perusahaan->logo) }}"
+                                        src="{{ asset('storage/' . $rekomendasi->logo_perusahaan) }}"
                                         style="width: 180px; height: 180px; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7));">
                                 </div>
                                 <!-- Job details on the right -->
                                 <div class="col-md-8 job-details-col">
                                     <p class="mb-2 text-primary font-weight-bold" style="font-size: 24px;">
-                                        {{ $loker->judul }}
+                                        {{ $rekomendasi->nama_loker }}
                                     </p>
-                                    <p class="mb-2" style="font-size: 19px;">{{ $loker->perusahaan->nama }}</p>
+                                    <p class="mb-2" style="font-size: 19px;">{{ $rekomendasi->nama_perusahaan }}</p>
                                     <ul class="list-unstyled">
                                         <li class="mb-2"><img class="img-fluid img-icon"
                                                 src="{{ asset('assets/img/landing-page/money.svg') }}">
-                                            {{ 'IDR ' . $loker->gaji_bawah }} <span>-</span> {{ $loker->gaji_atas }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid img-icon"
-                                                src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                            {{ $loker->min_pengalaman }}
+                                            {{ 'IDR ' . $rekomendasi->gaji_bawah }} <span>-</span> {{ $rekomendasi->gaji_atas }}
                                         </li>
                                         <li class="mb-2"><img class="img-fluid img-icon"
                                                 src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                            Minimal {{ $loker->min_pendidikan }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid img-icon"
-                                                src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                                            {{ $loker->lokasi }}
+                                            Minimal {{ $rekomendasi->persyaratan }}
                                         </li>
                                     </ul>
                                 </div>
@@ -59,12 +51,12 @@
                                 <h6 class="mb-3">CV / Resume *</h6>
 
                                 <div class="d-flex flex-column align-items-center">
-                                    @if (auth()->user()->profile && auth()->user()->profile->resume)
+                                    @if (auth()->user() && auth()->user()->resume)
                                         <img id="fileIcon" src="{{ asset('assets/img/lamar/file2.svg') }}"
                                             alt="Upload Icon" class="img-fluid img-icon"
                                             style="width: 50px; height: 50px;">
                                         <span class="mb-2" id="current-resume-name"
-                                            data-url="{{ Storage::url(auth()->user()->profile->resume ?? '') }}">{{ basename(auth()->user()->profile->resume) }}</span>
+                                            data-url="{{ Storage::url(auth()->user()->resume ?? '') }}">{{ basename(auth()->user()->resume) }}</span>
                                         <a href="#" id="viewResumeLink" onclick="return openResume();"
                                             class="btn btn-link mb-2">View Current Resume</a>
                                         <small class="text-muted mb-2">Unggah berkas dalam format PDF (maksimal
@@ -88,7 +80,7 @@
                                 </div>
 
                                 <input type="file" class="form-control-file d-none" name="resume" id="new_resume">
-                                <input type="hidden" name="loker_id" value="{{ $loker->id }}">
+                                <input type="hidden" name="loker_id" value="{{ $rekomendasi->id }}">
 
                                 <button type="submit" class="btn btn-primary btn-block mt-3">Lamar Sekarang</button>
                             </form>
@@ -190,7 +182,7 @@
                     url: '{{ route('melamar.store') }}',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        loker_id: '{{ $loker->id }}'
+                        loker_id: '{{ $rekomendasi->id }}'
                     },
                     success: function(response) {
                         Swal.fire({

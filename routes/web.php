@@ -67,8 +67,9 @@ use App\Http\Controllers\StatusLamarController;
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/all-jobs', [AlljobsController::class, 'index'])->name('all-jobs.index');
 Route::get('/all-jobs/{loker}', [AlljobsController::class, 'show'])->name('all-jobs.show');
+Route::get('/all-jobs/{loker}', [AlljobsController::class, 'detail_rekomendasi'])->name('all-jobs.detail_rekomendasi');
 Route::get('/all-postingan', [AllPostinganController::class, 'index'])->name('all-postingan.index');
-Route::get('/detail-perusahaan/{detail}', [DetailPerusahaan::class, 'show'])->name('detail-perusahaan.show');
+Route::get('/detail-perusahaan/{detail}', [AlljobsController::class, 'show'])->name('detail-perusahaan.show');
 
 Route::get('/login', function () {
     if (auth()->check()) {
@@ -142,6 +143,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('kategori', KategoriPekerjaanController::class);
         Route::resource('loker', LowonganPekerjaanController::class);
         Route::resource('pelamarkerja', LamarController::class);
+    });
+
+    Route::prefix('rekomendasi-management')->group(function () {
+        Route::resource('tf-idf', AlljobsController::class);
+        Route::resource('cosine', AlljobsController::class);
     });
 
     Route::prefix('location-management')->group(function () {

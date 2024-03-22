@@ -15,11 +15,8 @@ class DetailPerusahaan extends Controller
 {
     public function index(Request $request)
     {
-        $allResults = DB::table('lowongan_pekerjaans as lp')
+        $allResults = DB::table('lokers as lp')
             ->join('perusahaan as p', 'lp.id_perusahaan', '=', 'p.id')
-            ->join('lowongan_kategori as lk', 'lp.id', '=', 'lk.lowongan_id')
-            ->join('kategori_pekerjaans as kp', 'lk.kategori_id', '=', 'kp.id')
-            ->join('profile_users as pu', 'lp.user_id', '=', 'pu.id')
             ->join('users as u', 'pu.user_id', '=', 'u.id')
             ->select(
                 'p.id',

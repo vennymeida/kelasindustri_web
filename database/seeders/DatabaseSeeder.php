@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
             LamarSeeder::class,
             PelatihanSeeder::class,
             LulusanSeeder::class,
-            KategoriPekerjaanSeeder::class,
         ]);
     }
 }

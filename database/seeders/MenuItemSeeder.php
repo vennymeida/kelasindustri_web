@@ -91,12 +91,6 @@ class MenuItemSeeder extends Seeder
                     'menu_group_id' => 5,
                 ],
                 [
-                    'name' => 'Kategori Pekerjaan',
-                    'route' => 'menu-pekerjaan/kategori',
-                    'permission_name' => 'kategori.index',
-                    'menu_group_id' => 5,
-                ],
-                [
                     'name' => 'Lowongan Pekerjaan',
                     'route' => 'menu-pekerjaan/loker',
                     'permission_name' => 'loker.index',
@@ -113,6 +107,18 @@ class MenuItemSeeder extends Seeder
                     'route' => 'location-management/kota',
                     'permission_name' => 'kota.index',
                     'menu_group_id' => 6,
+                ],
+                [
+                    'name' => 'Hasil TF - IDF',
+                    'route' => 'rekomendasi-management/tf-idf',
+                    'permission_name' => 'rekomendasi.index',
+                    'menu_group_id' => 7,
+                ],
+                [
+                    'name' => 'Hasil Cosine Similarity',
+                    'route' => 'rekomendasi-management/cosine',
+                    'permission_name' => 'rekomendasi.index',
+                    'menu_group_id' => 7,
                 ]
             ]
         );

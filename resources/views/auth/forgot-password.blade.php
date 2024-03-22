@@ -12,62 +12,66 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
+
     <!-- CSS Libraries -->
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="shortcut icon" href="assets/img/landing-page/logo.svg">
+    <link rel="stylesheet" href="../assets/css/forgot-pass.css">
+
 </head>
 
-<body>
+<body style="background: linear-gradient(to right, #f4f4f4 50%, #fff 50%);">
     <div id="app">
         <section class="section">
-            <div class="container mt-5">
-                <div class="row">
-                    <div
-                        class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-                        <div class="login-brand">
-                            <img src="../assets/img/stisla-fill.svg" alt="logo" width="100"
-                                class="shadow-light rounded-circle">
-                        </div>
-
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h4>Forgot Password</h4>
-                            </div>
-                            <div class="card-body">
-                                <p>We will send a link to reset your password</p>
+            <div class="container-fluid">
+                <div class="row bg-forgot" style="background: linear-gradient(to right, #f4f4f4 50%, #fff 50%);">
+                    <div class="col-md-6 d-flex flex-column justify-content-center my-5 p-forgot">
+                        <div class="col-md-9 mx-auto">
+                            <div>
+                                <h1 class="font-weight-bold" style="color: black">Jangan Cemas!</h1>
+                                <p style="width: 65%;">
+                                    Kami akan mengirimkan tautan untuk atur ulang kata sandi Anda.
+                                </p>
                                 @if (session('status'))
                                     <div class="alert alert-success" role="alert">
                                         {{ session('status') }}
                                     </div>
                                 @endif
-
-                                <form method="POST" action="{{ route('password.email') }}">
+                                <form action="{{ route('password.email') }}" method="POST">
                                     @csrf
-
-                                    <div class="form-group">
-                                        <label class="font-weight-bold text-uppercase">Email Address</label>
+                                    <div class="form-group mt-4">
+                                        <label class="font-weight-bold">Email</label>
                                         <input id="email" type="email"
                                             class="form-control @error('email') is-invalid @enderror" name="email"
                                             value="{{ old('email') }}" required autocomplete="email" autofocus
-                                            placeholder="Masukkan Alamat Email">
-
+                                            placeholder="Masukkan alamat email" style="border-radius: 15px;">
                                         @error('email')
                                             <div class="invalid-feedback">
                                                 <strong>{{ $message }}</strong>
                                             </div>
                                         @enderror
                                     </div>
-
-                                    <button type="submit" class="btn btn-primary btn-block">Send Password Reset
-                                        Link</button>
+                                    <div class="form-group mt-5">
+                                        <button type="submit" class="btn btn-primary btn-block"
+                                            style="border-radius: 15px;">Kirim</button>
+                                    </div>
                                 </form>
                             </div>
+                            <div class="mt-2 text-muted text-center">
+                                <p class="mt-2">Copyright &copy; 2024 Design By <a href="">JobKelasIndustri</a>
+                                </p>
+                            </div>
                         </div>
-                        <div class="simple-footer">
-                            Copyright &copy; Stisla 2018
-                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column align-items-center justify-content-center my-5 img-forgot">
+                        <a href="/" class="img-fluid text-center" style="width: 50%; height: auto;">
+                            <img class="img-fluid" src="{{ asset('assets/img/landing-page/logo.svg') }}" alt=""
+                                style="width: 65%; height: auto;">
+                        </a>
+                        <img class="img-fluid mt-5 icon-forgot" src="{{ asset('assets/img/landing-page/regis.svg') }}">
                     </div>
                 </div>
             </div>

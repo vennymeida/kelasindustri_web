@@ -48,6 +48,11 @@ class MenuGroupSeeder extends Seeder
                     'icon' => 'fas fa-city',
                     'permisison_name' => 'location.management',
                 ],
+                [
+                    'name' => 'Perhitungan Rekomendasi Loker',
+                    'icon' => 'fas fa-calculator',
+                    'permisison_name' => 'rekomendasi',
+                ],
             ]
         );
     }

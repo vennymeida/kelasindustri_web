@@ -18,6 +18,7 @@ class PerusahaanSeeder extends Seeder
         DB::table('perusahaan')->insert([
             [
                 'user_id' => '3',
+                'kota_id' => '3',
                 'nama_pemilik' => 'Meida',
                 'surat_mou' => 'surabaya',
                 'nama_perusahaan' => 'PT Elnusa',
@@ -31,6 +32,7 @@ class PerusahaanSeeder extends Seeder
             ],
             [
                 'user_id' => '3',
+                'kota_id' => '1',
                 'nama_pemilik' => 'Venny',
                 'surat_mou' => '2321232312',
                 'nama_perusahaan' => 'PT Berjuang Skripsi',
