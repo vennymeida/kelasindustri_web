@@ -43,6 +43,9 @@ use App\Models\LowonganPekerjaan;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\MelamarController;
 use App\Http\Controllers\StatusLamarController;
+use App\Http\Controllers\RekomendasiLokerController;
+use App\Http\Controllers\RekomendasiLulusanController;
+use App\Http\Controllers\RekomendasiRangkingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -146,13 +149,15 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     });
 
     Route::prefix('rekomendasi-management')->group(function () {
-        Route::resource('tf-idf', AlljobsController::class);
-        Route::resource('cosine', AlljobsController::class);
+        Route::get('/perhitungan/rekomendasi-loker', [RekomendasiLokerController::class, 'index']);
+        Route::get('/perhitungan/rekomendasi-lulusan', [RekomendasiLulusanController::class, 'index']);
+        Route::get('/perhitungan/perangkingan', [RekomendasiRangkingController::class, 'index']);
     });
 
     Route::prefix('location-management')->group(function () {
-        // ota
-        Route::resource('kota', KotaController::class);
+        // kota
+        Route::resource('kota', KotaController::class)->parameters([
+            'kota' => 'kotum',]);
         Route::post('kota/import', [KotaController::class, 'import'])->name('kota.import');
     });
 

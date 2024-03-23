@@ -25,50 +25,30 @@
                                 <div class="form-group">
                                     <label for="name">Nama Perusahaan</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $loker->perusahaan->nama }}" disabled style="border-radius: 15px;">
+                                        value="{{ $loker->perusahaan->nama_perusahaan }}" disabled style="border-radius: 15px;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Nama Pemilik</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $loker->perusahaan->pemilik }}" disabled style="border-radius: 15px;">
+                                        value="{{ $loker->perusahaan->nama_pemilik }}" disabled style="border-radius: 15px;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="id_kategori">Kategori</label>
-                                    <select name="id_kategori[]" class="form-control select2" multiple disabled>
-                                        <option value="">Pilih Kategori</option>
-                                        @foreach ($kategoris as $kategori)
-                                            <option value="{{ $kategori->id }}"
-                                                {{ in_array($kategori->id, $loker->kategori->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                {{ $kategori->kategori }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <label for="keahlian">Keahlian</label>
+                                    <input type="hidden" name="keahlian" value="{{ $loker->keahlian }}">
+                                    <input type="text" class="form-control" id="keahlian" name="keahlian"
+                                        value="{{ $loker->keahlian }}" disabled style="border-radius: 15px;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="id_keahlian">Keahlian</label>
-                                    <select name="id_keahlian[]" class="form-control select2" multiple disabled>
-                                        <option value="">Pilih Keahlian</option>
-                                        @foreach ($keahlians as $keahlian)
-                                            <option value="{{ $keahlian->id }}"
-                                                {{ in_array($keahlian->id, $loker->keahlian->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                {{ $keahlian->keahlian }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="judul">Judul</label>
-                                    <input type="hidden" name="judul" value="{{ $loker->judul }}">
-                                    <input type="text" class="form-control" id="judul" name="judul"
-                                        value="{{ $loker->judul }}" disabled style="border-radius: 15px;">
+                                    <label for="nama_loker">Nama Loker</label>
+                                    <input type="hidden" name="nama_loker" value="{{ $loker->nama_loker }}">
+                                    <input type="text" class="form-control" id="nama_loker" name="nama_loker"
+                                        value="{{ $loker->nama_loker }}" disabled style="border-radius: 15px;">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -93,57 +73,13 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="requirement">Persyaratan</label>
-                                    <input type="hidden" name="requirement" value="{{ $loker->requirement }}">
+                                    <label for="persyaratan">Persyaratan</label>
+                                    <input type="hidden" name="persyaratan" value="{{ $loker->persyaratan }}">
                                     <div class="col-md-12 px-4 py-1" style="background-color:#e9ecef; border-radius: 15px;">
-                                        <p id="requirement-2" type="text">
-                                            {!! $loker->requirement !!}
+                                        <p id="persyaratan-2" type="text">
+                                            {!! $loker->persyaratan !!}
                                         </p>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="min_pendidikan">Minimal Pendidikan</label>
-                                    <input type="hidden" name="min_pendidikan" value="{{ $loker->min_pendidikan }}">
-                                    <select class="form-control select2" id="min_pendidikan" name="min_pendidikan" disabled>
-                                        <option value="" disabled selected>Pilih minimal pendidikan</option>
-                                        <option value="SMA" {{ $loker->min_pendidikan === 'SMA' ? 'selected' : '' }}>
-                                            SMA
-                                        </option>
-                                        <option value="SMK" {{ $loker->min_pendidikan === 'SMK' ? 'selected' : '' }}>
-                                            SMK
-                                        </option>
-                                        <option value="SMA/SMK"
-                                            {{ $loker->min_pendidikan === 'SMA/SMK' ? 'selected' : '' }}>
-                                            SMA/SMK
-                                        </option>
-                                        <option value="S1" {{ $loker->min_pendidikan === 'S1' ? 'selected' : '' }}>
-                                            S1
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="min_pengalaman">Minimal Pengalaman</label>
-                                    <input type="hidden" name="min_pengalaman" value="{{ $loker->min_pengalaman }}">
-                                    <select class="form-control select2" id="min_pengalaman" name="min_pengalaman"
-                                        disabled>
-                                        <option value="" disabled selected>Pilih minimal pengalaman</option>
-                                        <option value="Tidak ada"
-                                            {{ $loker->min_pengalaman === 'Tidak ada' ? 'selected' : '' }}>
-                                            Tidak ada
-                                        </option>
-                                        <option value="Kurang dari setahun"
-                                            {{ $loker->min_pengalaman === 'Kurang dari setahun' ? 'selected' : '' }}>
-                                            Kurang dari setahun
-                                        </option>
-                                        <option value="Lebih dari setahun"
-                                            {{ $loker->min_pengalaman === 'Lebih dari setahun' ? 'selected' : '' }}>
-                                            Lebih dari setahun
-                                        </option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -173,18 +109,18 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="jumlah_pelamar">Kuota Pelamar</label>
-                                    <input type="hidden" name="jumlah_pelamar" value="{{ $loker->jumlah_pelamar }}">
-                                    <input type="number" class="form-control" id="jumlah_pelamar" name="jumlah_pelamar"
-                                        value="{{ $loker->jumlah_pelamar }}" disabled style="border-radius: 15px;">
+                                    <label for="kuota">Kuota Pelamar</label>
+                                    <input type="hidden" name="kuota" value="{{ $loker->kuota }}">
+                                    <input type="number" class="form-control" id="kuota" name="kuota"
+                                        value="{{ $loker->kuota }}" disabled style="border-radius: 15px;">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="tutup">Lowongan di tutup</label>
-                                    <input type="hidden" name="tutup" value="{{ $loker->tutup }}">
-                                    <input type="text" class="form-control" id="tutup" name="tutup"
-                                        value="{{ \Carbon\Carbon::parse($loker->tutup)->format('d F Y') }}" disabled
+                                    <label for="tgl_tutup">Lowongan di Tutup</label>
+                                    <input type="hidden" name="tgl_tutup" value="{{ $loker->tgl_tutup }}">
+                                    <input type="text" class="form-control" id="tgl_tutup" name="tgl_tutup"
+                                        value="{{ \Carbon\Carbon::parse($loker->tgl_tutup)->format('d F Y') }}" disabled
                                         style="border-radius: 15px;">
                                 </div>
                             </div>
@@ -202,26 +138,6 @@
                                     </select>
                                 </div>
                             </div>
-                            @role('super-admin')
-                                <select name="id_kategori[]" class="form-control" multiple style="display: none;">
-                                    <option value="">Pilih Kategori</option>
-                                    @foreach ($kategoris as $kategori)
-                                        <option value="{{ $kategori->id }}"
-                                            {{ in_array($kategori->id, $loker->kategori->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                            {{ $kategori->kategori }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <select name="id_keahlian[]" class="form-control" multiple style="display: none;">
-                                    <option value="">Pilih Keahlian</option>
-                                    @foreach ($keahlians as $keahlian)
-                                        <option value="{{ $keahlian->id }}"
-                                            {{ in_array($keahlian->id, $loker->keahlian->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                            {{ $keahlian->keahlian }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            @endrole
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary">Submit</button>

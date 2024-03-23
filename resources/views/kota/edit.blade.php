@@ -11,7 +11,7 @@
 
             <div class="card" style="border-radius: 15px;">
                 <div class="card-body">
-                    <form action="{{ route('kota.update', $kota) }}" method="POST">
+                    <form action="{{ route('kota.update', $kotum) }}" method="POST">
                         <div class="card-header">
                             <h4>Validasi Edit Data Kota</h4>
                         </div>
@@ -21,7 +21,7 @@
                             <div class="form-group">
                                 <label for="kota">Kota</label>
                                 <input type="text" class="form-control @error('kota') is-invalid @enderror"
-                                    id="kota" name="kota" value="{{ $kota->kota }}"
+                                    id="kota" name="kota" value="{{ $kotum->kota }}"
                                     style="border-radius: 15px;">
                                 @error('kota')
                                     <div class="invalid-feedback">

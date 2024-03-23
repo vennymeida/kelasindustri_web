@@ -50,7 +50,6 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Perusahaan</th>
-                                                <th class="col-md-3">Kategori Pekerjaan</th>
                                                 <th>Tipe Pekerjaan</th>
                                                 <th>Gaji</th>
                                                 <th>Status</th>
@@ -67,8 +66,7 @@
                                                     <td>
                                                         {{ ($allResults->currentPage() - 1) * $allResults->perPage() + $key + 1 }}
                                                     </td>
-                                                    <td>{{ $loker->nama }}</td>
-                                                    <td>{{ $loker->kategori }}</td>
+                                                    <td>{{ $loker->nama_perusahaan }}</td>
                                                     <td class="text-center">{{ $loker->tipe_pekerjaan }}</td>
                                                     <td>
                                                         {{ 'IDR ' . $loker->gaji_bawah }}<span> - </span>

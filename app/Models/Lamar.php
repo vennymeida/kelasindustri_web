@@ -13,7 +13,7 @@ class Lamar extends Model
     protected $table = 'lamars';
 
     protected $fillable = [
-        'id_loker',
+        'loker_id',
         'user_id',
         'resume',
         'status',
@@ -27,6 +27,6 @@ class Lamar extends Model
 
     public function loker()
     {
-        return $this->belongsTo(LowonganPekerjaan::class, 'id_loker');
+        return $this->belongsTo(LowonganPekerjaan::class, 'loker_id');
     }
 }

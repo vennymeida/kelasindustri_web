@@ -109,14 +109,20 @@ class MenuItemSeeder extends Seeder
                     'menu_group_id' => 6,
                 ],
                 [
-                    'name' => 'Hasil TF - IDF',
-                    'route' => 'rekomendasi-management/tf-idf',
+                    'name' => 'Hasil TF - IDF Loker',
+                    'route' => 'rekomendasi-management/perhitungan/rekomendasi-loker',
+                    'permission_name' => 'rekomendasi.index',
+                    'menu_group_id' => 7,
+                ],
+                [
+                    'name' => 'Hasil TF - IDF Lulusan',
+                    'route' => 'rekomendasi-management/perhitungan/rekomendasi-lulusan',
                     'permission_name' => 'rekomendasi.index',
                     'menu_group_id' => 7,
                 ],
                 [
                     'name' => 'Hasil Cosine Similarity',
-                    'route' => 'rekomendasi-management/cosine',
+                    'route' => 'rekomendasi-management/perangkingan',
                     'permission_name' => 'rekomendasi.index',
                     'menu_group_id' => 7,
                 ]

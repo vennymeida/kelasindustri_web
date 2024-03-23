@@ -50,27 +50,27 @@ class KotaController extends Controller
         //
     }
 
-    public function edit(Kota $kota)
+    public function edit(Kota $kotum)
     {
-        return view('kota.edit', compact('kota'));
+        return view('kota.edit', compact('kotum'));
     }
 
-    public function update(UpdateKotaRequest $request, Kota $kota)
+    public function update(UpdateKotaRequest $request, Kota $kotum)
     {
         $request->validate([
-            'kota' => 'required|unique:kotas,kota,' . $kota->id,
+            'kota' => 'required|unique:kotas,kota,' . $kotum->id,
         ]);
 
-        $kota->update($request->all());
+        $kotum->update($request->all());
 
         return redirect()->route('kota.index')
             ->with('success', 'Data kota berhasil diperbarui.');
     }
 
-    public function destroy(Kota $kota)
+    public function destroy(Kota $kotum)
     {
         try {
-            $kota->delete();
+            $kotum->delete();
             return redirect()->route('kota.index')->with('success', 'Data kota berhasil dihapus.');
         } catch (\Illuminate\Database\QueryException $e) {
             $error_code = $e->errorInfo[1];

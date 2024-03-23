@@ -68,75 +68,64 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="card card-statistic-1" style="border-radius: 15px; background-color: #F5F7FF;">
                                     <div class="card-icon bg-primary" style="border-radius: 50%;">
                                         <i class="fas fa-briefcase"></i>
                                     </div>
                                     <div class="card-wrap">
-                                        <div class="row">
-                                            <div class="card-header col-md-2" style="font-size: 25px;">
-                                                <strong>{{ App\Models\Perusahaan::count() }}</strong>
-                                            </div>
-                                            <div class="card-header col-md-4">
-                                                <h4>Total Lowongan Kerja</h4>
-                                            </div>
-                                            <div class="card-header col-md-6 d-flex justify-content-end">
-                                                <a href="{{ route('perusahaan.show', $perusahaan) }}"
-                                                class="btn btn-sm btn-primary btn-icon">
-                                                <i class="fas fa-eye"></i> Detail
-                                                </a>
-                                            </div>
+                                        <div class="card-body" style="font-size: 22px; margin-top: 20px;">
+                                            {{ App\Models\LowonganPekerjaan::where('status', 'dibuka')->count() }}
+                                        </div>
+                                        <div class="card-header" style="font-size: 18px; margin-bottom: 30px;">
+                                            <h4><strong> Total Lowongan Kerja</strong></h4>
+                                        </div>
+                                        <div class="text-right my-4 mr-5">
+                                            <a href="" class="" style="font-size: 12px;">
+                                                Lihat Detail . . .
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card card-statistic-1" style="border-radius: 15px; background-color: #F5F7FF;">
-                                    <div class="card-icon bg-primary" style="border-radius: 50%;">
-                                        <i class="far fa-user"></i>
-                                    </div>
-                                    <div class="card-wrap">
-                                        <div class="row">
-                                            <div class="card-header col-md-2" style="font-size: 25px;">
-                                                <strong>{{ App\Models\Perusahaan::count() }}</strong>
-                                            </div>
-                                            <div class="card-header col-md-4">
-                                                <h4>Total Pelamar</h4>
-                                            </div>
-                                            <div class="card-header col-md-6 d-flex justify-content-end">
-                                                <a href="{{ route('perusahaan.show', $perusahaan) }}"
-                                                class="btn btn-sm btn-primary btn-icon">
-                                                <i class="fas fa-eye"></i> Detail
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="card card-statistic-1" style="border-radius: 15px; background-color: #F5F7FF;">
                                     <div class="card-icon bg-success" style="border-radius: 50%;">
                                         <i class="far fa-user"></i>
                                     </div>
                                     <div class="card-wrap">
-                                        <div class="row">
-                                            <div class="card-header col-md-2" style="font-size: 25px;">
-                                                <strong>{{ App\Models\Perusahaan::count() }}</strong>
-                                            </div>
-                                            <div class="card-header col-md-4">
-                                                <h4>Total Lulusan yang diterima</h4>
-                                            </div>
-                                            <div class="card-header col-md-6 d-flex justify-content-end">
-                                                <a href="{{ route('perusahaan.show', $perusahaan) }}"
-                                                class="btn btn-sm btn-primary btn-icon">
-                                                <i class="fas fa-eye"></i> Detail
-                                                </a>
-                                            </div>
+                                        <div class="card-body" style=" font-size: 22px; margin-top: 20px;">
+                                            {{ App\Models\Lamar::count() }}
+                                        </div>
+                                        <div class="card-header" style="font-size: 18px; margin-bottom: 30px;">
+                                            <h4><strong>Total Pelamar</strong></h4>
+                                        </div>
+                                        <div class="text-right my-4 mr-5">
+                                            <a href="" class="" style="font-size: 12px;">
+                                                Lihat Detail . . .
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card card-statistic-1" style="border-radius: 15px; background-color: #F5F7FF;">
+                                    <div class="card-icon bg-warning" style="border-radius: 50%;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="card-wrap">
+                                        <div class="card-body" style=" font-size: 22px; margin-top: 20px;  margin-bottom: 10px;">
+                                            {{ App\Models\Lamar::where('status', 'diterima')->count() }}
+                                        </div>
+                                        <div class="card-header">
+                                            <h4><strong>Total Lulusan Yang Diterima</strong></h4>
+                                        </div>
+                                        <div class="text-right my-4 mr-5">
+                                            <a href="" class="" style="font-size: 12px;">
+                                                Lihat Detail . . .
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

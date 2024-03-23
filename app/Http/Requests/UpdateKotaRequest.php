@@ -23,7 +23,7 @@ class UpdateKotaRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route('kota')->id;
+        $id = $this->route('kotum')->id;
         return [
             'kota' => 'required|regex:/^[a-zA-Z\s]+$/u|unique:kotas,kota,' . $id
         ];

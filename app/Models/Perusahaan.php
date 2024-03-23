@@ -28,12 +28,16 @@ class Perusahaan extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function lulusan()
+    {
+        return $this->belongsTo(Lulusan::class, 'user_id');
+    }
     public function kota()
     {
         return $this->belongsTo(Kota::class);
     }
     public function lowonganPekerjaan()
     {
-        return $this->hasMany(LowonganPekerjaan::class, 'id_perusahaan');
+        return $this->hasMany(LowonganPekerjaan::class, 'perusahaan_id');
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'WaktuSaku - Dashboard')
+@section('title', 'JobKelasIndustri - Dashboard')
 @section('content')
     <section class="section">
         <div class="section-header" style="border-radius: 15px;">

@@ -22,34 +22,11 @@ class UpdateLowonganPekerjaanRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    // public function rules()
-    // {
-    //     return [
-    //         'id_kategori' => 'required',
-    //         'id_keahlian' => 'required',
-    //         'judul' => 'required|regex:/^[A-Za-z\s]+$/',
-    //         'deskripsi' => 'required',
-    //         'requirement' => 'required',
-    //         'tipe_pekerjaan' => 'required',
-    //         'min_pendidikan' => 'required',
-    //         'min_pengalaman' => 'required',
-    //         'lokasi' => 'required|regex:/^[A-Za-z\s,]+$/',
-    //         'gaji_bawah' => 'required',
-    //         'gaji_atas' => 'required',
-    //         'jumlah_pelamar' => 'required',
-    //         'tutup' => [
-    //             'required',
-    //             function ($attribute, $value, $fail) {
-    //                 $today = Carbon::now();
-    //                 $dateInput = Carbon::parse($value);
-
-    //                 if ($dateInput->isBefore($today)) {
-    //                     $fail(' tanggal tidak boleh kurang dari hari ini');
-    //                 }
-    //             },
-    //         ],
-    //     ];
-    // }
+    public function rules()
+    {
+        return [
+        ];
+    }
 
     // public function messages()
     // {

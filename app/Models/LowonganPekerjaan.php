@@ -33,22 +33,22 @@ class LowonganPekerjaan extends Model
 
     public function perusahaan()
     {
-        return $this->belongsTo(Perusahaan::class, 'id_perusahaan');
+        return $this->belongsTo(Perusahaan::class, 'perusahaan_id');
     }
     public function bookmarks()
     {
-        return $this->hasMany(Bookmark::class, 'lowongan_pekerjaan_id');
+        return $this->hasMany(Bookmark::class, 'loker_id');
     }
     public function lamars()
     {
-        return $this->hasMany(Lamar::class, 'id_loker');
+        return $this->hasMany(Lamar::class, 'loker_id');
     }
 
     public function getHasAppliedAttribute()
     {
         if (auth()->check() && auth()->user()->profile) {
-            return Lamar::where('id_loker', $this->id)
-                ->where('id_lulusan', auth()->user()->profile->id)
+            return Lamar::where('loker_id', $this->id)
+                ->where('user_id', auth()->user()->id)
                 ->exists();
         }
 

@@ -45,6 +45,21 @@ class LokerSeeder extends Seeder
                 'tgl_tutup' => Carbon::create('2018', '01', '01'),
                 'status' => 'Pending'
             ],
+            [
+                'perusahaan_id' => 1,
+                'nama_loker' => 'Frontend Developer',
+                'persyaratan' => 'menguasai bahasa pemrograman laravel, mampu merancang api',
+                'deskripsi' => 'mengelola basis data, mengelola api',
+                'tipe_pekerjaan' => 'Remote',
+                'keahlian' => 'html, css, boostrap',
+                'lokasi' => 'Kediri',
+                'gaji_bawah' => '1000000',
+                'gaji_atas' => '5000000',
+                'kuota' => 7,
+                'tgl_tutup' => Carbon::create('2018', '01', '01'),
+                'status' => 'Pending'
+            ],
+
 
         ]);
     }

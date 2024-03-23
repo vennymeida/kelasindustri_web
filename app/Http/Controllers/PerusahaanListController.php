@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Models\Perusahaan;
+use App\Models\LowonganPekerjaan;
 use Illuminate\Support\Str;
 
 class PerusahaanListController extends Controller
@@ -90,5 +91,13 @@ class PerusahaanListController extends Controller
         }
 
         return view('perusahaan.view', compact('perusahaan'));
+    }
+
+    public function showTotalLowonganPekerjaan()
+    {
+        $userId = Auth::id();
+        $totalLowongan = LowonganPekerjaan::where('user_id', $userId)->where('status', 'dibuka')->count();
+
+        return view('perusahaan.view', ['totalLowongan' => $totalLowongan]);
     }
 }

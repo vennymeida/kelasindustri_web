@@ -12,6 +12,8 @@ use App\Imports\UsersImport;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class UserController extends Controller
@@ -40,13 +42,27 @@ class UserController extends Controller
         ]);
 
         // mengambil data
-        $users = DB::table('users')
+        $users = User::with('roles') // Eager load the 'roles' relationship
             ->when($request->input('name'), function ($query, $name) {
                 return $query->where('name', 'like', '%' . $name . '%');
             })
+            ->when($request->input('roles'), function ($query, $roles) {
+                // The $roles parameter is an array of selected roles
+                // Filter users based on the selected roles
+                return $query->whereHas('roles', function (Builder $query) use ($roles) {
+                    $query->whereIn('name', $roles);
+                });
+            })
             ->select('id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d %M %Y') as created_at"))
+            ->select('id', 'name', 'email', DB::raw("DATE_FORMAT(users.email_verified_at, '%d %M %Y') as email_verified_at"))
+
             ->paginate(10);
-        return view('users.index', compact('users'));
+
+        // Get all roles for the filter dropdown
+        $roles = Role::all();
+
+
+        return view('users.index', compact('users', 'roles'));
     }
 
     /**
@@ -68,13 +84,22 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //simpan data
-        User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
+        $validatedData = $request->validated();
+
+        // Create the user
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'email_verified_at' => now(),
         ]);
-        return redirect(route('user.index'))->with('success', 'Data Berhasil Ditambahkan');;
+
+        // Assign roles based on the selected user_type
+        $roleName = ($validatedData['user_type'] === 'perusahaan') ? 'Perusahaan' : 'Pencari Kerja';
+        $role = Role::where('name', $roleName)->first();
+        $user->assignRole($role);
+
+        return redirect(route('user.index'))->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -124,28 +149,40 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //delete data
-        $user->delete();
-        return redirect()->route('user.index')->with('success', 'User Deleted Successfully');
-    }
-
-    public function export()
-    {
-        // export data ke excel
-        return Excel::download(new UsersExport, 'users.xlsx');
-    }
-
-    public function import(Request $request)
-    {
-        // import excel ke data tables
-        $users = Excel::toCollection(new UsersImport, $request->import_file);
-        foreach ($users[0] as $user) {
-            User::where('id', $user[0])->update([
-                'name' => $user[1],
-                'email' => $user[2],
-                'password' => $user[3],
-            ]);
+        try {
+            $user->delete();
+            return redirect()->route('user.index')
+                ->with('success', 'Hapus Data User Sukses');
+        } catch (\Illuminate\Database\QueryException $e) {
+            $error_code = $e->errorInfo[1];
+            if ($error_code == 1451) {
+                return redirect()->route('user.index')
+                    ->with('error', 'Tidak Dapat Menghapus Data User Yang Masih Digunakan Oleh Kolom Lain');
+            } else {
+                return redirect()->route('user.index')
+                    ->with('success', 'Hapus Data User Sukses');
+            }
         }
-        return redirect()->route('user.index');
+    }
+
+    public function verifyEmail($id, $hash)
+    {
+        $user = User::findOrFail($id);
+
+        if (sha1($user->email) !== $hash) {
+            abort(404);
+        }
+
+        if (is_null($user->email_verified_at)) {
+            $user->email_verified_at = now();
+            $user->save();
+
+            return redirect()->route('user.index')->with('success', 'Email verified successfully');
+        } else {
+            $user->email_verified_at = null;
+            $user->save();
+
+            return redirect()->route('user.index')->with('success', 'Email verification deleted successfully');
+        }
     }
 }
