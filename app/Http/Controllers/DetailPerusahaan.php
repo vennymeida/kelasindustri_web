@@ -17,31 +17,26 @@ class DetailPerusahaan extends Controller
     {
         $allResults = DB::table('lokers as lp')
             ->join('perusahaan as p', 'lp.id_perusahaan', '=', 'p.id')
-            ->join('users as u', 'pu.user_id', '=', 'u.id')
             ->select(
                 'p.id',
-                'lp.user_id',
-                'lp.id_perusahaan',
-                'lp.judul',
+                'lp.perusahaan_id',
+                'lp.nama_loker',
                 'lp.deskripsi',
-                'lp.requirement',
+                'lp.persyaratan',
                 'lp.gaji_bawah',
                 'lp.gaji_atas',
                 'lp.tipe_pekerjaan',
-                'lp.jumlah_pelamar',
-                'lp.min_pengalaman',
-                'lp.min_pendidikan',
+                'lp.kuota',
                 'lp.status',
                 'lp.lokasi',
-                'lp.tutup',
-                'p.nama',
-                'p.pemilik',
-                'p.logo',
-                DB::raw("GROUP_CONCAT(kp.kategori SEPARATOR ', ') as kategori"),
+                'lp.tgl_tutup',
+                'p.nama_pemilik',
+                'p.nama_perusahaan',
+                'p.logo_perusahaan',
             )
             ->where('lp.status', 'dibuka')
             ->orderBy('lp.created_at', 'desc')
-            ->groupBy('p.id', 'lp.user_id', 'lp.id_perusahaan', 'p.nama', 'lp.judul', 'lp.deskripsi', 'lp.requirement', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.jumlah_pelamar', 'lp.status', 'lp.tutup', 'lp.lokasi', 'lp.min_pengalaman', 'lp.min_pendidikan', 'p.pemilik', 'p.logo')
+            ->groupBy('p.id','lp.perusahaan_id', 'p.nama_perusahaan', 'p.nama_pemilik', 'lp.nama_loker', 'lp.deskripsi', 'lp.persyaratan', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.kuota', 'lp.status', 'lp.tgl_tutup', 'lp.lokasi','p.nama_pemilik', 'p.logo_perusahaan')
             ->paginate(10);
 
         return view('detailPerusahaan', ['allResults' => $allResults]);

@@ -19,23 +19,23 @@
                                 <!-- Image on the left -->
                                 <div class="col-md-4">
                                     <img class="img-fluid rounded-circle"
-                                        src="{{ asset('storage/' . $rekomendasi->logo_perusahaan) }}"
+                                        src="{{ asset('storage/' . $loker->perusahaan->logo_perusahaan) }}"
                                         style="width: 180px; height: 180px; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7));">
                                 </div>
                                 <!-- Job details on the right -->
                                 <div class="col-md-8 job-details-col">
                                     <p class="mb-2 text-primary font-weight-bold" style="font-size: 24px;">
-                                        {{ $rekomendasi->nama_loker }}
+                                        {{ $loker->nama_loker }}
                                     </p>
-                                    <p class="mb-2" style="font-size: 19px;">{{ $rekomendasi->nama_perusahaan }}</p>
+                                    <p class="mb-2" style="font-size: 19px;">{{ $loker->perusahaan->nama_perusahaan }}</p>
                                     <ul class="list-unstyled">
                                         <li class="mb-2"><img class="img-fluid img-icon"
                                                 src="{{ asset('assets/img/landing-page/money.svg') }}">
-                                            {{ 'IDR ' . $rekomendasi->gaji_bawah }} <span>-</span> {{ $rekomendasi->gaji_atas }}
+                                            {{ 'IDR ' . $loker->gaji_bawah }} <span>-</span> {{ $loker->gaji_atas }}
                                         </li>
                                         <li class="mb-2"><img class="img-fluid img-icon"
                                                 src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                            Minimal {{ $rekomendasi->persyaratan }}
+                                            Minimal {{ $loker->persyaratan }}
                                         </li>
                                     </ul>
                                 </div>
@@ -51,12 +51,12 @@
                                 <h6 class="mb-3">CV / Resume *</h6>
 
                                 <div class="d-flex flex-column align-items-center">
-                                    @if (auth()->user() && auth()->user()->resume)
+                                    @if (auth()->user() && auth()->user()->lulusan->resume)
                                         <img id="fileIcon" src="{{ asset('assets/img/lamar/file2.svg') }}"
                                             alt="Upload Icon" class="img-fluid img-icon"
                                             style="width: 50px; height: 50px;">
                                         <span class="mb-2" id="current-resume-name"
-                                            data-url="{{ Storage::url(auth()->user()->resume ?? '') }}">{{ basename(auth()->user()->resume) }}</span>
+                                            data-url="{{ Storage::url(auth()->user()->lulusan->resume ?? '') }}">{{ basename(auth()->user()->lulusan->resume) }}</span>
                                         <a href="#" id="viewResumeLink" onclick="return openResume();"
                                             class="btn btn-link mb-2">View Current Resume</a>
                                         <small class="text-muted mb-2">Unggah berkas dalam format PDF (maksimal
@@ -80,7 +80,7 @@
                                 </div>
 
                                 <input type="file" class="form-control-file d-none" name="resume" id="new_resume">
-                                <input type="hidden" name="loker_id" value="{{ $rekomendasi->id }}">
+                                <input type="hidden" name="loker_id" value="{{ $loker->id }}">
 
                                 <button type="submit" class="btn btn-primary btn-block mt-3">Lamar Sekarang</button>
                             </form>
@@ -182,7 +182,7 @@
                     url: '{{ route('melamar.store') }}',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        loker_id: '{{ $rekomendasi->id }}'
+                        loker_id: '{{ $loker->id }}'
                     },
                     success: function(response) {
                         Swal.fire({

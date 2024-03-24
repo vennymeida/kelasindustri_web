@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Keahlian;
 use App\Notifications\CustomVerifyEmail;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -88,5 +89,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function postingan()
     {
         return $this->hasOne(Postingan::class);
+    }
+    public function isComplete()
+    {
+        return !empty($this->name) && !empty($this->email) && !empty($this->password);
     }
 }

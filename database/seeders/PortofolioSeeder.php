@@ -20,8 +20,7 @@ class PortofolioSeeder extends Seeder
                 'user_id' => '3',
                 'link_portofolio' => 'hahahha',
                 'nama_portofolio' => 'frontend',
-            ],
-
+            ]
         ]);
     }
 }

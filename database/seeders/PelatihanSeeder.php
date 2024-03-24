@@ -32,7 +32,7 @@ class PelatihanSeeder extends Seeder
                 'sertifikat' => 'Pt uwsa',
                 'penerbit' => Carbon::create('2000', '01', '01'),
                 'tgl_dikeluarkan' => Carbon::create('2000', '01', '01'),
-            ],
+            ]
         ]);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\lamar;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
+use App\Models\User;
 use App\Models\RekomendasiLoker;
 use App\Models\RekomendasiLowongan;
 use Sastrawi\Stemmer\StemmerFactory;
@@ -35,13 +36,17 @@ class AlljobsController extends Controller
 
     public function index(Request $request)
     {
+        $user = Auth::user();
         $perusahaan = Perusahaan::all();
         $stopwords = [
             'adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
             'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'
         ];
 
-        $lulusanData = DB::table('lulusans')->select('id', 'ringkasan')->get();
+        $lulusanData = DB::table('lulusans')
+        ->select('id', 'ringkasan')
+        ->where('user_id', $user->id)
+        ->get();
         $lokerData = DB::table('lokers')->select('id', 'persyaratan', 'deskripsi', 'keahlian', 'tipe_pekerjaan', 'lokasi')->get();
 
         // Fungsi untuk memproses teks dan menghitung TF untuk setiap dokumen
@@ -192,7 +197,7 @@ class AlljobsController extends Controller
                 ]);
             }
         }
-
+        $userId = Auth::id();
         $allResults = DB::table('rekomendasilowongans as rks')
             ->join('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
             ->join('lokers as lk', 'rks.loker_id', '=', 'lk.id')
@@ -220,6 +225,7 @@ class AlljobsController extends Controller
                 'rks.score_similarity'
             )
             ->where('rks.score_similarity', '>', 0)
+            ->where('ls.id', $userId)
             ->get();
 
             $tableloker = DB::table('lokers as lk')
@@ -241,8 +247,8 @@ class AlljobsController extends Controller
                 'ps.email_perusahaan',
                 'ps.alamat_perusahaan',
                 'ps.deskripsi',
-            )->when($request->input('nama_loker'), function ($query, $judul) {
-                return $query->where('lk.nama_loker', 'like', '%' . $judul . '%');
+            )->when($request->input('nama_loker'), function ($query, $nama_loker) {
+                return $query->where('lk.nama_loker', 'like', '%' . $nama_loker . '%');
             })
             ->when($request->input('persyaratan'), function ($query, $name) {
                 return $query->where('lk.persyaratan', 'like', '%' . $name . '%');
@@ -251,29 +257,6 @@ class AlljobsController extends Controller
 
         return view('all-jobs', ['perusahaan' => $perusahaan, 'allResults' => $allResults, 'lokers' => $lokerData, 'lulusan' => $lulusanData, 'tableloker' => $tableloker]);
     }
-
-
-    // protected function processTextAndCalculateTF($text)
-    // {
-    //     $stopwords = [
-    //         'adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
-    //         'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'
-    //     ];
-    //     // Mengonversi teks ke huruf kecil untuk menghilangkan case sensitivity
-    //     $textLower = strtolower($text);
-    //     // Tokenisasi: Memecah teks menjadi kata-kata dengan menghilangkan tanda baca
-    //     $textWithoutPunctuation = preg_replace('/[^\w\s]/', '', $textLower);
-    //     // Menghilangkan stopwords
-    //     $textWithoutStopWords = $this->stopWordRemover->remove($textWithoutPunctuation);
-    //     // Memecah teks menjadi kata-kata setelah menghilangkan stopwords
-    //     $wordsArray = explode(' ', $textWithoutStopWords);
-    //     $filteredWords = array_filter($wordsArray, function ($word) use ($stopwords) {
-    //         return !in_array($word, $stopwords) && !empty($word);
-    //     });
-    //     return $this->calculateTF($filteredWords);
-    // }
-
-
 
     // rumus
     protected function calculateTF($words)
@@ -347,138 +330,104 @@ class AlljobsController extends Controller
         return $dotProduct / ($magnitude1 * $magnitude2);
     }
 
-    public function detail_rekomendasi(LowonganPekerjaan $loker)
+    // public function detail_rekomendasi(LowonganPekerjaan $loker)
+    // {
+    //     $perusahaan = Perusahaan::all();
+    //     $rekomendasi = DB::table('rekomendasilowongans as rks')
+    //         ->join('lokers as lk', 'rks.loker_id', '=', 'lk.id')
+    //         ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
+    //         ->select(
+    //             'lk.id',
+    //             'rks.id',
+    //             'lk.nama_loker',
+    //             'lk.persyaratan',
+    //             'lk.deskripsi',
+    //             'lk.gaji_bawah',
+    //             'lk.gaji_atas',
+    //             'lk.tipe_pekerjaan',
+    //             'lk.tgl_tutup',
+    //             'lk.keahlian',
+    //             'lk.kuota',
+    //             'lk.keahlian',
+    //             'ps.nama_pemilik',
+    //             'ps.nama_perusahaan',
+    //             'ps.logo_perusahaan',
+    //             'ps.email_perusahaan',
+    //             'ps.alamat_perusahaan',
+    //             'ps.deskripsi',
+    //             'ps.no_telp',
+    //             'ps.website',
+    //             'ps.email_perusahaan',
+    //         )
+    //         ->first();
+
+    //     return view('showAllJobs', [
+    //         'perusahaan' => $perusahaan,
+    //         'rekomendasi' => $rekomendasi,
+    //     ]);
+    // }
+
+
+    public function show(LowonganPekerjaan $loker)
     {
         $perusahaan = Perusahaan::all();
-        $rekomendasi = DB::table('rekomendasilowongans as rks')
-            ->join('lokers as lk', 'rks.loker_id', '=', 'lk.id')
-            ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
-            ->select(
-                'lk.id',
-                'rks.id',
-                'lk.nama_loker',
-                'lk.persyaratan',
-                'lk.deskripsi',
-                'lk.gaji_bawah',
-                'lk.gaji_atas',
-                'lk.tipe_pekerjaan',
-                'lk.tgl_tutup',
-                'lk.keahlian',
-                'lk.kuota',
-                'lk.keahlian',
-                'ps.nama_pemilik',
-                'ps.nama_perusahaan',
-                'ps.logo_perusahaan',
-                'ps.email_perusahaan',
-                'ps.alamat_perusahaan',
-                'ps.deskripsi',
-                'ps.no_telp',
-                'ps.website',
-                'ps.email_perusahaan',
-            )
-            ->first();
 
-        return view('showAllJobs', [
-            'perusahaan' => $perusahaan,
-            'rekomendasi' => $rekomendasi,
-        ]);
-    }
+        $getLamarPending = lamar::select(
+            'lamars.loker_id',
+            'lamars.status'
+        )
+        ->where('loker_id', $loker->id)
+        ->where('status', 'Pending')
+        ->count();
+        $getLamarDiterima = lamar::select(
+            'lamars.loker_id',
+            'lamars.status'
+        )
+        ->where('loker_id', $loker->id)
+        ->where('status', 'Diterima')
+        ->count();
+        // dd($getLamarDiterima);
 
+        // $updatedDiff = $loker->updated_at->diffInSeconds(now());
 
-    public function show(Request $request)
-    {
-        $perusahaan = Perusahaan::all();
-        $rekomendasi = DB::table('lokers as lk')
-            ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
-            ->select(
-                'lk.id',
-                'lk.nama_loker',
-                'lk.persyaratan',
-                'lk.deskripsi',
-                'lk.gaji_atas',
-                'lk.gaji_bawah',
-                'lk.tipe_pekerjaan',
-                'lk.tgl_tutup',
-                'lk.keahlian',
-                'lk.kuota',
-                'ps.nama_pemilik',
-                'ps.nama_perusahaan',
-                'ps.logo_perusahaan',
-                'ps.email_perusahaan',
-                'ps.alamat_perusahaan',
-                'ps.deskripsi',
-                'ps.no_telp',
-                'ps.email_perusahaan',
-                'ps.website',
-            )
-            ->first();
+        // if ($updatedDiff < 60) {
+        //     $updatedAgo = $updatedDiff . ' detik yang lalu';
+        // } elseif ($updatedDiff < 3600) {
+        //     $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
+        // } elseif ($updatedDiff < 86400) {
+        //     $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
+        // } else {
+        //     $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
+        // }
 
-        return view('showAllJobs', [
-            'perusahaan' => $perusahaan,
-            'rekomendasi' => $rekomendasi,
-        ]);
+        $hasApplied = $loker->hasApplied;
+        // Mengecek apakah user sudah melamar untuk loker ini
+        $lamaran = null;
+
+        if (Auth::check()) {
+            // Check if user has a profile before attempting to access the profile's id.
+            if (Auth::user()->lulusan) {
+                $lamaran = Lamar::where('loker_id', $loker->id)
+                    ->where('user_id', Auth::user()->lulusan->id)
+                    ->first();
+            }
+            // If the user doesn't have a profile or isn't authenticated, $lamaran will remain null.
+        }
+
+        $lamaranStatus = $lamaran ? $lamaran->status : null;
+
+        if (Auth::check()) {
+            return view('showAllJobs', [
+                'loker' => $loker,
+                'perusahaan' => $perusahaan,
+                'hasApplied' => $hasApplied,
+                'lamaranStatus' => $lamaranStatus,
+                // 'updatedAgo' => $updatedAgo,
+                'getLamarPending' => $getLamarPending,
+                'getLamarDiterima' => $getLamarDiterima,
+            ]);
+        } else {
+            return view('auth.login');
+        }
     }
 }
-
-//     public function show(LowonganPekerjaan $loker)
-//     {
-//         $perusahaan = Perusahaan::all();
-//         $getLamarPending = lamar::select(
-//             'lamars.id_loker',
-//             'lamars.status'
-//         )
-//             ->where('id_loker', $loker->id)
-//             ->where('status', 'Pending')
-//             ->count();
-//         $getLamarDiterima = lamar::select(
-//             'lamars.id_loker',
-//             'lamars.status'
-//         )
-//             ->where('id_loker', $loker->id)
-//             ->where('status', 'Diterima')
-//             ->count();
-//         // dd($getLamarDiterima);
-
-//         $updatedDiff = $loker->updated_at->diffInSeconds(now());
-
-//         if ($updatedDiff < 60) {
-//             $updatedAgo = $updatedDiff . ' detik yang lalu';
-//         } elseif ($updatedDiff < 3600) {
-//             $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
-//         } elseif ($updatedDiff < 86400) {
-//             $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
-//         } else {
-//             $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
-//         }
-
-//         $hasApplied = $loker->hasApplied;
-//         // Mengecek apakah user sudah melamar untuk loker ini
-//         $lamaran = null;
-
-//         if (Auth::check()) {
-//             // Check if user has a profile before attempting to access the profile's id.
-//             if (Auth::user()->profile) {
-//                 $lamaran = Lamar::where('id_loker', $loker->id)
-//                     ->where('id_lulusan', Auth::user()->id)
-//                     ->first();
-//             }
-//             // If the user doesn't have a profile or isn't authenticated, $lamaran will remain null.
-//         }
-
-//         $lamaranStatus = $lamaran ? $lamaran->status : null;
-
-//         if (Auth::check()) {
-//             return view('showAllJobs', [
-//                 'loker' => $loker,
-//                 'perusahaan' => $perusahaan,
-//                 'hasApplied' => $hasApplied,
-//                 'lamaranStatus' => $lamaranStatus,
-//                 'updatedAgo' => $updatedAgo,
-//                 'getLamarPending' => $getLamarPending,
-//                 'getLamarDiterima' => $getLamarDiterima,
-//             ]);
-//         } else {
-//             return view('auth.login');
-//         }
-//     }
-// }

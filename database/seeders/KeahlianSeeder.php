@@ -44,11 +44,6 @@ class KeahlianSeeder extends Seeder
                 'user_id' => '3',
                 'keahlian' => 'PHP Developer',
             ],
-            [
-                'user_id' => '3',
-                'keahlian' => 'Data Analis',
-            ],
-
 
         ]);
     }

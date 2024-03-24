@@ -19,13 +19,12 @@ return new class extends Migration
             $table->unsignedBigInteger('pelatihan_id');
             $table->unsignedBigInteger('postingan_id');
             $table->unsignedBigInteger('portofolio_id');
-            $table->unsignedBigInteger('keahlian_id');
             $table->unsignedBigInteger('pendidikan_id');
             $table->unsignedBigInteger('pengalaman_id');
             $table->unsignedBigInteger('lamaran_id');
             $table->string('foto')->nullable();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan', 'kosong'])->default('kosong');
-            $table->enum('status', ['diterima', 'tolak', 'pending'])->default('pending');
+            $table->enum('status', ['aktif mencari kerja', 'sudah diterima kerja', 'melanjutkan kuliah'])->default('aktif mencari kerja');
             $table->string('alamat');
             $table->string('no_hp');
             $table->string('resume')->nullable();
@@ -35,7 +34,6 @@ return new class extends Migration
             $table->foreign('pelatihan_id')->references('id')->on('pelatihans')->restrictOnDelete();
             $table->foreign('postingan_id')->references('id')->on('postingans')->restrictOnDelete();
             $table->foreign('portofolio_id')->references('id')->on('portofolios')->restrictOnDelete();
-            $table->foreign('keahlian_id')->references('id')->on('keahlians')->restrictOnDelete();
             $table->foreign('pendidikan_id')->references('id')->on('pendidikans')->restrictOnDelete();
             $table->foreign('pengalaman_id')->references('id')->on('pengalamans')->restrictOnDelete();
             $table->foreign('lamaran_id')->references('id')->on('lamars')->restrictOnDelete();

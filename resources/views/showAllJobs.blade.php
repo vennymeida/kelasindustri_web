@@ -16,27 +16,27 @@
                     <div class="row">
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
                             <img class="img-fluid rounded-circle img-perusahaan"
-                                src="{{ asset('storage/' . $rekomendasi->logo_perusahaan) }}"
+                                src="{{ asset('storage/' . $loker->perusahaan->logo) }}"
                                 style="width: 255px; height: 255px; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7));">
                         </div>
                         <div class="col-md-7">
                             <ul class="list-unstyled">
-                                <p class="mb-2 text-primary font-weight-bold" style="font-size: 28px;">{{ $rekomendasi->nama_perusahaan }}
+                                <p class="mb-2 text-primary font-weight-bold" style="font-size: 28px;">{{ $loker->perusahaan->nama_perusahaan }}
                                 </p>
-                                <p class="mb-2" style="font-size: 19px;">{{ $rekomendasi->nama_loker }}</p>
+                                <p class="mb-2" style="font-size: 19px;">{{ $loker->perusahaan->nama_loker }}</p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/money.svg') }}">
-                                    {{ 'IDR ' . $rekomendasi->gaji_bawah }}
+                                    {{ 'IDR ' . $loker->gaji_bawah }}
                                     <span>-</span>
-                                    {{ $rekomendasi->gaji_atas }}
+                                    {{ $loker->gaji_atas }}
                                 </p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
-                                    {{ $rekomendasi->tipe_pekerjaan }}
+                                    {{ $loker->tipe_pekerjaan }}
                                 </p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/list.svg') }}"> Dibutuhkan
-                                    {{ $rekomendasi->kuota }} Pekerja
+                                    {{ $loker->kuota }} Pekerja
                                 </p>
                                 {{-- <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/information.jpg') }}"> Mendaftar
@@ -83,23 +83,23 @@
                     {{-- <!-- Button to open Chatify modal -->
                     @if ($lamaranStatus === 'Diterima')
                         <div class="chat-icon-container">
-                            <a href="{{ url('chatify/' . $rekomendasi->perusahaan->user_id) }}" class="fas fa-comment-dots"
+                            <a href="{{ url('chatify/' . $loker->perusahaan->user_id) }}" class="fas fa-comment-dots"
                                 style="font-size: 37px; color:#6777ef;"></a>
                         </div>
                     @endif --}}
                     <hr class="my-4">
-                    <div class="col-md-11 mx-auto my-5 cardKeahlian">
+                    {{-- <div class="col-md-11 mx-auto my-5 cardKeahlian">
                         <h5 class="font-weight-bolder cardKeahlian2">Keahlian : </h5>
                         @foreach ($rekomendasi as $key => $keahlian)
                             <button class="px-4 mt-2 mr-1 btn btn-skill ">{{ $keahlian }}</button>
                         @endforeach
-                    </div>
+                    </div> --}}
 
                     <hr class="my-4">
                     <div class="col-md-11 mx-auto my-5">
                         <h5 class="font-weight-bolder">Persyaratan : </h5>
                         <p class="ml-5 mt-0 text-syarat">
-                            {!! $rekomendasi->persyaratan !!}
+                            {!! $loker->persyaratan !!}
                         </p>
                     </div>
 
@@ -108,23 +108,23 @@
                         <h5 class="mb-5 font-weight-bold">Tentang Perusahaan</h5>
                         <div class="row">
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <img class="img-fluid" src="{{ asset('storage/' . $rekomendasi->logo_perusahaan) }}"
+                                <img class="img-fluid" src="{{ asset('storage/' . $loker->perusahaan->logo_perusahaan) }}"
                                     style="width: 100%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 10px;">
                             </div>
                             <div class="col-md-4 d-flex align-items-center nama-perusahaan">
-                                <p class="mb-2" style="font-size: 19px;">{{ $rekomendasi->nama_perusahaan }}</p>
+                                <p class="mb-2" style="font-size: 19px;">{{ $loker->perusahaan->nama_perusahaan }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-11 mx-auto mt-5">
                         <h5 class="font-weight-bold">Deskripsi Perusahaan</h5>
-                        <p class="text-justify">{!! $rekomendasi->deskripsi !!}</p>
+                        <p class="text-justify">{!! $loker->perusahaan->deskripsi !!}</p>
                     </div>
 
                     <div class="col-md-11 mx-auto mt-5">
                         <h5 class="font-weight-bold">Alamat Perusahaan</h5>
-                        <p class="text-justify">{{ $rekomendasi->alamat_perusahaan }}
+                        <p class="text-justify">{{ $loker->perusahaan->alamat_perusahaan }}
                         </p>
                     </div>
 
@@ -134,15 +134,11 @@
                             <div class="row kontakPerusahaan">
                                 <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
                                     <i class="fas fa-globe-asia my-3"></i>
-                                    <p class="mb-4">{{ $rekomendasi->website }}</p>
+                                    <p class="mb-4">{{ $loker->perusahaan->website }}</p>
                                 </div>
                                 <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
                                     <i class="fas fa-phone my-3"></i>
-                                    <p class="mb-4">{{ $rekomendasi->no_telp }}</p>
-                                </div>
-                                <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
-                                    <i class="fas fa-envelope my-3"></i>
-                                    <p class="mb-4">{{ $rekomendasi->website }}</p>
+                                    <p class="mb-4">{{ $loker->perusahaan->no_telp }}</p>
                                 </div>
                             </div>
                         </div>

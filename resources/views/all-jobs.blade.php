@@ -207,7 +207,7 @@
                                                 <div class="text-center">
                                                     <a id="detail-button" class="btn btn-primary px-4 py-2"
                                                         style="border-radius: 25px;"
-                                                        href="{{ route('all-jobs.detail_rekomendasi', $loker->id) }}">Lihat
+                                                        href="{{ route('all-jobs.show', $loker->id) }}">Lihat
                                                         Detail</a>
                                                 </div>
                                             </div>
@@ -215,12 +215,10 @@
                                     @endforeach
                                 @endif
                             </div>
-
                             <div class="d-flex justify-content-center">
                                 {{-- {{ $allResults->withQueryString()->links() }} --}}
                             </div>
                         </div>
-
                         {{-- data loker  --}}
                         <div class="col-md-12" id="job-listings-container">
                             <div class="col-md-12">

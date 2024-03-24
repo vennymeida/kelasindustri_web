@@ -32,7 +32,7 @@ class PendidikanSeeder extends Seeder
                 'nama_instutsi' => 'SMA 1 Nganjuk',
                 'tahun_mulai' => Carbon::create('2017', '01', '01'),
                 'tahun_selesai' => Carbon::create('2017', '01', '01'),
-            ],
+            ]
         ]);
     }
 }

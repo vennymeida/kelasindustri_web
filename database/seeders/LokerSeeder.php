@@ -47,11 +47,11 @@ class LokerSeeder extends Seeder
             ],
             [
                 'perusahaan_id' => 1,
-                'nama_loker' => 'Frontend Developer',
+                'nama_loker' => 'Backend Developer',
                 'persyaratan' => 'menguasai bahasa pemrograman laravel, mampu merancang api',
                 'deskripsi' => 'mengelola basis data, mengelola api',
                 'tipe_pekerjaan' => 'Remote',
-                'keahlian' => 'html, css, boostrap',
+                'keahlian' => 'spatie',
                 'lokasi' => 'Kediri',
                 'gaji_bawah' => '1000000',
                 'gaji_atas' => '5000000',

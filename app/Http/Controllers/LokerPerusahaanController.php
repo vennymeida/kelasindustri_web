@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class LokerPerusahaan extends Controller
+class LokerPerusahaanController extends Controller
 {
     public function __construct()
     {
