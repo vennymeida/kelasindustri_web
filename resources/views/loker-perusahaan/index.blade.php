@@ -19,14 +19,14 @@
                                                 <i class="fas fa-search ml-2"></i>
                                             </div>
                                         </div>
-                                        <input type="text" name="judul"
-                                            class="form-control form-jobs clearable inputSearch" id="judul"
+                                        <input type="text" name="nama_loker"
+                                            class="form-control form-jobs clearable inputSearch" id="nama_loker"
                                             placeholder="Cari posisi pekerjaan"
-                                            value="{{ app('request')->input('judul') }}">
+                                            value="{{ app('request')->input('nama_loker') }}">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"
                                                 style="border-left: none; border-radius: 0px 15px 15px 0px;">
-                                                <i class="fas fa-times-circle" id="clear-judul" style="display: none;"></i>
+                                                <i class="fas fa-times-circle" id="clear-nama_loker" style="display: none;"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -62,7 +62,7 @@
                             <div class="card-body d-flex flex-column">
                                 <ul class="list-unstyled">
                                     <ul class="list-unstyled d-flex justify-content-between align-items-center">
-                                        <li class="font-weight-bold p-loker">Posisi : {{ $loker->judul }}</li>
+                                        <li class="font-weight-bold p-loker">Posisi : {{ $loker->nama_loker }}</li>
                                         <a href="{{ route('loker-perusahaan.edit', $loker->id) }}"
                                             class="btn btn-info btn-icon py-1 px-4" style="border-radius: 15px;">
                                             Edit
@@ -75,16 +75,8 @@
                                         {{ $loker->gaji_atas }}
                                     </li>
                                     <li class="mb-2"><img class="img-fluid img-icon"
-                                            src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                        {{ $loker->min_pengalaman }}
-                                    </li>
-                                    <li class="mb-2"><img class="img-fluid img-icon"
                                             src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
                                         {{ $loker->tipe_pekerjaan }}
-                                    </li>
-                                    <li class="mb-2"><img class="img-fluid img-icon"
-                                            src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                        Minimal {{ $loker->min_pendidikan }}
                                     </li>
                                     <li class="mb-2">
                                         Keahlian : {{ $loker->keahlian }}

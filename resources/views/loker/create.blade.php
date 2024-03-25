@@ -12,7 +12,6 @@
                         <form action="{{ route('loker.store') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <input type="hidden" name="user_id" value="{{ $profileUser->id }}">
                                 <input type="hidden" name="id_perusahaan" value="{{ $perusahaan->id }}">
                                 <div class="col-md-6">
                                     <div class="form-group">

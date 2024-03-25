@@ -36,6 +36,7 @@ class AlljobsController extends Controller
 
     public function index(Request $request)
     {
+        if(Auth::check()){
         $user = Auth::user();
         $perusahaan = Perusahaan::all();
         $stopwords = [
@@ -256,7 +257,12 @@ class AlljobsController extends Controller
             ->paginate(10);
 
         return view('all-jobs', ['perusahaan' => $perusahaan, 'allResults' => $allResults, 'lokers' => $lokerData, 'lulusan' => $lulusanData, 'tableloker' => $tableloker]);
+    } else {
+        // Jika pengguna belum login, tampilkan semua data loker
+        $tableloker = LowonganPekerjaan::paginate(10);
+        return view('all-jobs', ['tableloker' => $tableloker]);
     }
+}
 
     // rumus
     protected function calculateTF($words)

@@ -25,19 +25,15 @@ class UpdateLokerPerusahaanRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_kategori' => 'required',
-            'id_keahlian' => 'required',
-            'judul' => 'required|regex:/^[A-Za-z\s]+$/',
+            'nama_loker' => 'required|regex:/^[A-Za-z\s]+$/',
             'deskripsi' => 'required',
-            'requirement' => 'required',
+            'persyaratan' => 'required',
             'tipe_pekerjaan' => 'required',
-            'min_pendidikan' => 'required',
-            'min_pengalaman' => 'required',
             'lokasi' => 'required|regex:/^[A-Za-z\s,]+$/',
             'gaji_bawah' => 'required',
             'gaji_atas' => 'required',
-            'jumlah_pelamar' => 'required',
-            'tutup' => [
+            'kuota' => 'required',
+            'tgl_tutup' => [
                 'required',
                 function ($attribute, $value, $fail) {
                     $today = Carbon::now();
@@ -54,22 +50,17 @@ class UpdateLokerPerusahaanRequest extends FormRequest
     public function messages()
     {
         return [
-            'id_kategori.required' => 'Kategori tidak boleh kosong',
-            'id_keahlian.required' => 'Keahlian tidak boleh kosong',
-            'judul.required' => 'Judul tidak boleh kosong',
-            'judul.regex' => 'Judul tidak boleh mengandung selain huruf',
+            'nama_loker.required' => 'Nama Loker tidak boleh kosong',
+            'nama_loker.regex' => 'Nama Loker tidak boleh mengandung selain huruf',
             'deskripsi.required' => 'Diskripsi tidak boleh kosong',
-            'requirement.required' => 'Persyaratan tidak boleh kosong',
-            'tipe_pekerjaan.required' => 'Tipe Pekerjaan tidak boleh kosong',
-            'min_pendidikan.required' => 'Minimal Pendidikan tidak boleh kosong',
-            'min_pengalaman.required' => 'Minimal Pengalaman tidak boleh kosong',
+            'persyaratan.required' => 'Persyaratan tidak boleh kosong',
+            'tipe_pekerjaan.required' => 'Jenis Pekerjaan tidak boleh kosong',
             'lokasi.required' => 'Lokasi kerja tidak boleh kosong',
             'lokasi.regex' => 'Lokasi kerja tidak boleh mengandung selain huruf',
             'gaji_bawah.required' => 'Gaji tidak boleh kosong',
             'gaji_atas.required' => 'Gaji tidak boleh kosong',
-            'gaji.required' => 'Gaji tidak boleh kosong',
-            'jumlah_pelamar.required' => 'Jumlah Pelamar tidak boleh kosong',
-            'tutup.required' => 'Lowongan di tutup tidak boleh kosong',
+            'kuota.required' => 'Kuota Karyawan tidak boleh kosong',
+            'tgl_tutup.required' => 'Lowongan di tutup tidak boleh kosong',
         ];
     }
 

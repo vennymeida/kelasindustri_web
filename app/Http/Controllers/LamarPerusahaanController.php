@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\lamar;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
-use App\Models\KategoriPekerjaan;
-use App\Models\ProfileUser;
 use App\Models\User;
 use App\Http\Requests\StorelamarRequest;
 use App\Http\Requests\UpdatelamarRequest;
@@ -18,7 +16,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
-class LamarPerusahaan extends Controller
+class LamarPerusahaanController extends Controller
 {
     public function __construct()
     {
@@ -36,20 +34,32 @@ class LamarPerusahaan extends Controller
         $loggedInUserId = Auth::id();
         $user = auth()->user();
 
-        $profileUser = ProfileUser::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
         $loker = LowonganPekerjaan::where('user_id', $user->id)->first();
 
         $loggedInUserResults = DB::table('lamars as l')
-            ->join('lowongan_pekerjaans as lp', 'l.id_loker', '=', 'lp.id')
-            ->join('perusahaan as p', 'lp.id_perusahaan', '=', 'p.id')
-            ->join('profile_users as pu', 'l.id_pencari_kerja', '=', 'pu.id')
-            ->join('users as u', 'pu.user_id', '=', 'u.id')
-            ->select('l.id', 'u.name', 'u.id as user_id', 'pu.no_hp', 'pu.foto', 'pu.resume', 'pu.alamat', 'pu.harapan_gaji', 'u.email', 'p.nama', 'lp.judul', 'l.status', 'l.created_at', 'pu.tgl_lahir')
+            ->join('lokers as lp', 'l.loker_id', '=', 'lp.id')
+            ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
+            ->join('lulusans as lu', 'l.user_id', '=', 'lu.id')
+            ->join('users as u', 'lu.user_id', '=', 'u.id')
+            ->select(
+                'l.id',
+                'l.user_id',
+                'u.name',
+                'lu.no_hp',
+                'lu.foto',
+                'l.resume',
+                'u.email',
+                'p.nama_perusahaan',
+                'lp.nama_loker',
+                'l.status',
+                'p.user_id',
+                'l.created_at'
+            )
             ->where('p.user_id', $loggedInUserId)
             ->when($request->has('posisi'), function ($query) use ($request) {
                 $search = $request->input('posisi');
-                return $query->where('lp.judul', 'like', '%' . $search . '%');
+                return $query->where('lp.nama_loker', 'like', '%' . $search . '%');
             })
             ->when($selectedStatus, function ($query, $selectedStatus) {
                 return $query->where('l.status', $selectedStatus);
@@ -57,43 +67,40 @@ class LamarPerusahaan extends Controller
             ->orderBy('l.created_at', 'desc')
             ->paginate(4);
 
-        if (Auth::user()->hasRole('Perusahaan')) {
-            if ($profileUser == null && $perusahaan == null) {
+        if (Auth::user()->hasRole('perusahaan')) {
+            if ($perusahaan == null) {
                 return redirect()->route('profile.edit')->with('message-data', 'Lengkapi data profil dan data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
-            } elseif ($profileUser == null) {
-                return redirect()->route('profile.edit')->with('message-data', 'Lengkapi data profil terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
             } elseif ($perusahaan == null) {
                 return redirect()->route('profile.edit')->with('message-data', 'Lengkapi data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
             } else {
-                return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'profilUser' => $profileUser, 'perusahaan' => $perusahaan, 'loker' => $loker]);
+                return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus,'perusahaan' => $perusahaan, 'loker' => $loker]);
             }
         } else {
-            return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'profilUser' => $profileUser, 'perusahaan' => $perusahaan, 'loker' => $loker]);
+            return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus,'perusahaan' => $perusahaan, 'loker' => $loker]);
         }
     }
 
     public function show($id)
     {
         $lamar = Lamar::findOrFail($id);
-        $profileUser = $lamar->pencarikerja;
 
-        $lamar->load(['pencarikerja.user', 'loker.perusahaan']);
+        $lamar->load(['lulusan.user', 'loker.perusahaan']);
+        $lulusan = Lulusan::all();
 
-        $profileUser->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $profileUser->ringkasan);
-        $tanggalLahir = Carbon::parse($profileUser->tgl_lahir)->format('j F Y');
+        $lulusan->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $profileUser->ringkasan);
+        $tanggalLahir = Carbon::parse($lulusan->tgl_lahir)->format('j F Y');
 
-        $relasiLamar = $lamar->load(['pencarikerja.user', 'pencarikerja.user.profileKeahlians.keahlian', 'loker.perusahaan']);
+        $relasiLamar = $lamar->load(['lulusan.user', 'lulusan.user.profileKeahlians.keahlian', 'loker.perusahaan']);
 
-        $namaPengguna = $relasiLamar->pencarikerja->user->name;
-        $email = $relasiLamar->pencarikerja->user->email;
-        $resume = $relasiLamar->pencarikerja->user->resume;
-        $pendidikan = $relasiLamar->pencarikerja->user->pendidikan()->orderBy('created_at', 'desc')->get();
-        $pengalaman = $relasiLamar->pencarikerja->user->pengalaman()->orderBy('created_at', 'desc')->get();
-        $tanggal_mulai = optional($relasiLamar->pencarikerja->user->pengalaman)->tanggal_mulai ? Carbon::parse($relasiLamar->pencarikerja->user->pengalaman->tanggal_mulai)->format('j F Y') : '';
-        $tanggal_berakhir = optional($relasiLamar->pencarikerja->user->pengalaman)->tanggal_berakhir ? Carbon::parse($relasiLamar->pencarikerja->user->pengalaman->tanggal_berakhir)->format('j F Y') : '';
+        $namaPengguna = $relasiLamar->lulusan->user->name;
+        $email = $relasiLamar->lulusan->user->email;
+        $resume = $relasiLamar->lulusan->user->resume;
+        $pendidikan = $relasiLamar->lulusan->user->pendidikan()->orderBy('created_at', 'desc')->get();
+        $pengalaman = $relasiLamar->lulusan->user->pengalaman()->orderBy('created_at', 'desc')->get();
+        $tanggal_mulai = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_mulai ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_mulai)->format('j F Y') : '';
+        $tanggal_berakhir = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_berakhir ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_berakhir)->format('j F Y') : '';
 
-        $pelatihan = $relasiLamar->pencarikerja->user->pelatihan()->orderBy('created_at', 'desc')->get();
-        $keahlian = $profileUser->user->keahlians;
+        $pelatihan = $relasiLamar->lulusan->user->pelatihan()->orderBy('created_at', 'desc')->get();
         $judulPekerjaan = $relasiLamar->loker->judul;
         $namaPerusahaan = $relasiLamar->loker->perusahaan->nama;
 
@@ -106,11 +113,9 @@ class LamarPerusahaan extends Controller
             'judulPekerjaan' => $judulPekerjaan,
             'namaPerusahaan' => $namaPerusahaan,
             'lamar' => $lamar,
-            'profileUser' => $profileUser,
             'pendidikan' => $pendidikan,
             'pengalaman' => $pengalaman,
             'pelatihan' => $pelatihan,
-            'keahlian' => $keahlian,
             'tglLahir' => $tanggalLahir,
         ]);
     }
@@ -134,17 +139,17 @@ class LamarPerusahaan extends Controller
         // $lamarId = $lamar->id;
 
         $getPerusahaanId = LowonganPekerjaan::select(
-            'lowongan_pekerjaans.user_id',
-            'lowongan_pekerjaans.id_perusahaan',
-            'lowongan_pekerjaans.judul'
+            'lokers.user_id',
+            'lokers.perusahaan_id',
+            'lokers.nama_loker'
         )
-            ->where('id', $lamar->id_loker)
+            ->where('id', $lamar->loker_id)
             ->first();
         // dd($getPerusahaanId);
-        $userIdFromProfile = ProfileUser::select('profile_users.user_id')->where('id', $lamar->id_pencari_kerja)->first();
+        $userIdFromProfile = Lulusan::select('lulusan.user_id')->where('id', $lamar->user_id)->first();
         $getUserId = User::select('users.name', 'users.email')->where('id', $userIdFromProfile->user_id)->first();
-        $getPerusahaan = Perusahaan::select('perusahaan.nama')
-            ->where('id', $getPerusahaanId->id_perusahaan)
+        $getPerusahaan = Perusahaan::select('perusahaan.nama_perusahaan')
+            ->where('id', $getPerusahaanId->perusahaan_id)
             ->first();
         $view = view('email-pelamar', ['getPerusahaan' => $getPerusahaan, 'getPerusahaanId' => $getPerusahaanId, 'getUserId' => $getUserId, 'lamar' => $lamar])->render();
         $dataOkeOke = [

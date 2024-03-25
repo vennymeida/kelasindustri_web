@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLokerPerusahaanRequest;
 use App\Http\Requests\UpdateLokerPerusahaanRequest;
-use App\Models\Kecamatan;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
-use App\Models\KategoriPekerjaan;
-use App\Models\Keahlian;
-use App\Models\ProfileUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,111 +44,93 @@ class LokerPerusahaanController extends Controller
 
     public function index(Request $request)
     {
-        $judul = $request->input('judul');
+        $nama_loker = $request->input('nama_loker');
         $loggedInUserId = Auth::id();
         $user = auth()->user();
 
-        $profileUser = ProfileUser::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
 
-        $loggedInUserResults = DB::table('lowongan_pekerjaans as lp')
-            ->join('perusahaan as p', 'lp.id_perusahaan', '=', 'p.id')
-            // ->join('lowongan_kategori as lk', 'lp.id', '=', 'lk.lowongan_id')
-            // ->join('kategori_pekerjaans as kp', 'lk.kategori_id', '=', 'kp.id')
-            ->join('lowongan_keahlian as ls', 'lp.id', '=', 'ls.lowongan_id')
-            ->join('keahlians as k', 'ls.keahlian_id', '=', 'k.id')
-            ->join('profile_users as pu', 'lp.user_id', '=', 'pu.id')
-            ->join('users as u', 'pu.user_id', '=', 'u.id')
+        $loggedInUserResults = DB::table('lokers as lp')
+            ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
+            ->join('users as u', 'p.user_id', '=', 'u.id')
             ->select(
                 'lp.id',
-                'lp.user_id',
-                'lp.id_perusahaan',
-                'p.nama',
-                'lp.judul',
+                'lp.perusahaan_id',
+                'p.nama_perusahaan',
+                'lp.nama_loker',
                 'lp.deskripsi',
-                'lp.requirement',
+                'lp.persyaratan',
                 'lp.gaji_bawah',
                 'lp.gaji_atas',
                 'lp.tipe_pekerjaan',
-                'lp.min_pengalaman',
-                'lp.min_pendidikan',
-                'lp.jumlah_pelamar',
+                'lp.kuota',
+                'lp.keahlian',
                 'lp.status',
                 'lp.lokasi',
-                'lp.tutup',
+                'lp.tgl_tutup',
                 'lp.updated_at',
-                'p.pemilik',
-                // DB::raw("GROUP_CONCAT(kp.kategori SEPARATOR ', ') as kategori"),
-                DB::raw("GROUP_CONCAT(k.keahlian SEPARATOR ', ') as keahlian"),
+                'p.nama_pemilik',
             )
-            ->when($judul, function ($allResults, $judul) {
-                return $allResults->where('lp.judul', 'like', '%' . $judul . '%');
+            ->when($nama_loker, function ($allResults, $nama_loker) {
+                return $allResults->where('lp.nama_loker', 'like', '%' . $nama_loker . '%');
             })
             ->where('u.id', $loggedInUserId)
-            ->groupBy('lp.id', 'lp.user_id', 'lp.id_perusahaan', 'p.nama', 'lp.judul', 'lp.deskripsi', 'lp.requirement', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.jumlah_pelamar', 'lp.status', 'lp.tutup', 'lp.lokasi', 'lp.min_pengalaman', 'lp.min_pendidikan', 'lp.updated_at', 'p.pemilik')
+            ->groupBy('lp.id','lp.perusahaan_id', 'p.nama_perusahaan', 'lp.nama_loker', 'lp.deskripsi', 'lp.persyaratan', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.kuota', 'lp.keahlian', 'lp.status', 'lp.tgl_tutup', 'lp.lokasi','lp.updated_at', 'p.nama_pemilik')
             ->paginate(10);
 
-        foreach ($loggedInUserResults as $requirement) {
-            $requirement->requirement = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', ", ", '', '', "\n"], $requirement->requirement);
-            $requirement->requirement = rtrim($requirement->requirement, ', ');
+        foreach ($loggedInUserResults as $persyaratan) {
+            $persyaratan->persyaratan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', ", ", '', '', "\n"], $persyaratan->persyaratan);
+            $persyaratan->persyaratan = rtrim($persyaratan->persyaratan, ', ');
 
-            $requirement->timeAgo = $this->getTimeAgo($requirement->updated_at);
+            $persyaratan->timeAgo = $this->getTimeAgo($persyaratan->updated_at);
         }
 
-        if (Auth::user()->hasRole('Perusahaan')) {
-            if ($profileUser == null && $perusahaan == null) {
+        if (Auth::user()->hasRole('perusahaan')) {
+            if ($perusahaan == null) {
                 return redirect()->route('profile.edit')->with('message', 'Lengkapi data profil dan data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
-            } elseif ($profileUser == null) {
-                return redirect()->route('profile.edit')->with('message', 'Lengkapi data profil terlebih dahulu untuk menambahkan lowongan kerja.');
             } elseif ($perusahaan == null) {
                 return redirect()->route('profile.edit')->with('message', 'Lengkapi data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
             } else {
-                return view('loker-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'profilUser' => $profileUser, 'perusahaan' => $perusahaan]);
+                return view('loker-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults,'perusahaan' => $perusahaan]);
             }
         } else {
-            return view('loker-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'profilUser' => $profileUser, 'perusahaan' => $perusahaan]);
+            return view('loker-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults,'perusahaan' => $perusahaan]);
         }
     }
 
     public function create()
     {
-        $kategoris = KategoriPekerjaan::all();
-        $keahlians = Keahlian::all();
-
         $user = auth()->user();
-        $profileUser = ProfileUser::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
 
         return view('loker-perusahaan.create', [
-            'kategoris' => $kategoris,
-            'keahlians' => $keahlians,
             'user' => $user,
             'perusahaan' => $perusahaan,
-            'profileUser' => $profileUser,
-        ])->with(['kategoris' => $kategoris, 'keahlians' => $keahlians]);
+        ]);
     }
 
     public function store(StoreLokerPerusahaanRequest $request)
     {
+        // Ambil pengguna yang sedang login
+    $user = auth()->user();
+
+    // Dapatkan perusahaan yang terkait dengan pengguna yang sedang login
+    $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
         $lowongan = LowonganPekerjaan::create([
-            'user_id' => $request->user_id,
-            'id_perusahaan' => $request->id_perusahaan,
-            'judul' => $request->judul,
+            'perusahaan_id' => $perusahaan->id,
+            'nama_loker' => $request->nama_loker,
             'deskripsi' => $request->deskripsi,
-            'requirement' => $request->requirement,
+            'persyaratan' => $request->persyaratan,
             'tipe_pekerjaan' => $request->tipe_pekerjaan,
-            'min_pendidikan' => $request->min_pendidikan,
-            'min_pengalaman' => $request->min_pengalaman,
             'gaji_bawah' => $request->gaji_bawah,
             'gaji_atas' => $request->gaji_atas,
-            'jumlah_pelamar' => $request->jumlah_pelamar,
-            'tutup' => $request->tutup,
+            'kuota' => $request->kuota,
+            'keahlian' => $request->keahlian,
+            'tgl_tutup' => $request->tgl_tutup,
             'lokasi' => $request->lokasi,
             'status' => $request->status,
         ]);
-
-        $lowongan->kategori()->attach($request->id_kategori);
-        $lowongan->keahlian()->attach($request->id_keahlian);
 
         return redirect()->route('loker-perusahaan.index')
             ->with('success', 'success-create');
@@ -161,10 +139,6 @@ class LokerPerusahaanController extends Controller
     public function show(LowonganPekerjaan $loker_perusahaan)
     {
         $perusahaan = Perusahaan::all();
-
-        $kategori = $loker_perusahaan->kategori()->pluck('kategori')->implode(', ');
-        $keahlian = $loker_perusahaan->keahlian()->pluck('keahlian');
-
         $updatedDiff = $loker_perusahaan->updated_at->diffInSeconds(now());
 
         if ($updatedDiff < 60) {
@@ -177,33 +151,28 @@ class LokerPerusahaanController extends Controller
             $updatedAgo = $loker_perusahaan->updated_at->diffInDays(now()) . ' hari yang lalu';
         }
 
-        return view('loker-perusahaan.show', ['loker_perusahaan' => $loker_perusahaan, 'perusahaan' => $perusahaan, 'kategori' => $kategori, 'keahlian' => $keahlian, 'updatedAgo' => $updatedAgo]);
+        return view('loker-perusahaan.show', ['loker_perusahaan' => $loker_perusahaan, 'perusahaan' => $perusahaan,'updatedAgo' => $updatedAgo]);
     }
 
     public function edit(LowonganPekerjaan $loker_perusahaan)
     {
-        $kategoris = KategoriPekerjaan::all();
-        $keahlians = Keahlian::all();
         $user = auth()->user();
-        $profileUser = ProfileUser::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
 
         return view('loker-perusahaan.edit', [
             'loker_perusahaan' => $loker_perusahaan,
-            'kategoris' => $kategoris,
-            'keahlians' => $keahlians,
             'user' => $user,
             'perusahaan' => $perusahaan,
-            'profileUser' => $profileUser,
-        ])->with(['kategoris' => $kategoris, 'keahlians' => $keahlians]);
+        ]);
     }
 
     public function update(UpdateLokerPerusahaanRequest $request, LowonganPekerjaan $loker_perusahaan)
     {
+        // Ambil perusahaan yang terkait dengan lowongan pekerjaan
+        $perusahaan = Perusahaan::where('user_id', auth()->id())->first();
+        // Pastikan perusahaan_id tidak berubah
+        $request->merge(['perusahaan_id' => $perusahaan->id]);
         $loker_perusahaan->update($request->all());
-
-        $loker_perusahaan->kategori()->sync($request->id_kategori);
-        $loker_perusahaan->keahlian()->sync($request->id_keahlian);
 
         return redirect()->route('loker-perusahaan.index')
             ->with('success', 'success-edit');

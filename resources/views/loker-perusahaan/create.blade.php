@@ -16,35 +16,14 @@
                     </div>
                     <form action="{{ route('loker-perusahaan.store') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="user_id" value="{{ $profileUser->id }}">
-                        <input type="hidden" name="id_perusahaan" value="{{ $perusahaan->id }}">
-                        <div class="col-md-10 mx-auto mt-4">
-                            <div class="form-group">
-                                <label for="id_kategori">Kategori Pekerjaan</label>
-                                <select name="id_kategori[]"
-                                    class="form-control select2 @error('id_kategori') is-invalid @enderror kategori"
-                                    multiple>
-                                    @foreach ($kategoris as $kategori)
-                                        <option
-                                            value="{{ $kategori->id }}"{{ in_array($kategori->id, old('id_kategori', [])) ? 'selected' : '' }}>
-                                            {{ $kategori->kategori }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('id_kategori')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
+                        <input type="hidden" name="perusahaan_id" value="{{ $perusahaan->id }}">
                         <div class="col-md-10 mx-auto mt-3">
                             <div class="form-group">
-                                <label for="judul">Judul</label>
-                                <input type="text" class="form-loker form-control @error('judul') is-invalid @enderror"
-                                    id="judul" name="judul" placeholder="Masukkan judul lowongan pekerjaan"
-                                    value="{{ old('judul') }}">
-                                @error('judul')
+                                <label for="nama_loker">Nama Loker</label>
+                                <input type="text" class="form-loker form-control @error('nama_loker') is-invalid @enderror"
+                                    id="nama_loker" name="nama_loker" placeholder="Masukkan Nama lowongan pekerjaan"
+                                    value="{{ old('nama_loker') }}">
+                                @error('nama_loker')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -96,10 +75,10 @@
                         </div>
                         <div class="col-md-10 mx-auto mt-3">
                             <div class="form-group">
-                                <label for="requirement">Persyaratan</label>
-                                <textarea name="requirement" id="requirement" class="form-control summernote @error('requirement') is-invalid @enderror"
-                                    type="text">{{ old('requirement') }}</textarea>
-                                @error('requirement')
+                                <label for="persyaratan">Persyaratan</label>
+                                <textarea name="persyaratan" id="persyaratan" class="form-control summernote @error('persyaratan') is-invalid @enderror"
+                                    type="text">{{ old('persyaratan') }}</textarea>
+                                @error('persyaratan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -107,82 +86,23 @@
                         <div class="col-md-10 mx-auto mt-3">
                             <div class="form-group">
                                 <label for="id_keahlian">Keahlian</label>
-                                <select name="id_keahlian[]"
-                                    class="form-control select2 @error('id_keahlian') is-invalid @enderror keahlian"
-                                    multiple>
-                                    @foreach ($keahlians as $keahlian)
-                                        <option
-                                            value="{{ $keahlian->id }}"{{ in_array($keahlian->id, old('id_keahlian', [])) ? 'selected' : '' }}>
-                                            {{ $keahlian->keahlian }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('id_keahlian')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                <textarea name="keahlian" id="keahlian" class="text-loker form-control @error('keahlian') is-invalid @enderror"
+                                    type="text" style="height: 200px;" placeholder="Masukkan keahlian pekerjaan">{{ old('keahlian') }}</textarea>
+                                @error('keahlian')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                         <div class="col-md-10 mx-auto mt-3">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="min_pendidikan">Pendidikan Minimal yang Dibutuhkan</label>
-                                    <select class="form-control select2 @error('min_pendidikan') is-invalid @enderror"
-                                        id="min_pendidikan" name="min_pendidikan">
-                                        <option value="" disabled selected>Pilih minimal pendidikan</option>
-                                        <option value="SMA" {{ old('min_pendidikan') === 'SMA' ? 'selected' : '' }}>
-                                            SMA
-                                        </option>
-                                        <option value="SMK" {{ old('min_pendidikan') === 'SMK' ? 'selected' : '' }}>
-                                            SMK
-                                        </option>
-                                        <option value="SMA/SMK"
-                                            {{ old('min_pendidikan') === 'SMA/SMK' ? 'selected' : '' }}>
-                                            SMA/SMK
-                                        </option>
-                                        <option value="S1" {{ old('min_pendidikan') === 'S1' ? 'selected' : '' }}>
-                                            S1
-                                        </option>
-                                    </select>
-                                    @error('min_pendidikan')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="min_pengalaman">Pengalaman Kerja Minimal yang Dibutuhkan</label>
-                                    <select class="form-control select2 @error('min_pengalaman') is-invalid @enderror"
-                                        id="min_pengalaman" name="min_pengalaman">
-                                        <option value="" disabled selected>Pilih minimal pengalaman</option>
-                                        <option value="Tidak ada"
-                                            {{ old('min_pengalaman') === 'Tidak ada' ? 'selected' : '' }}>
-                                            Tidak ada
-                                        </option>
-                                        <option value="Kurang dari setahun"
-                                            {{ old('min_pengalaman') === 'kurang dari setahun' ? 'selected' : '' }}>
-                                            Kurang dari setahun
-                                        </option>
-                                        <option value="Lebih dari setahun"
-                                            {{ old('min_pengalaman') === 'Lebih dari setahun' ? 'selected' : '' }}>
-                                            Lebih dari setahun
-                                        </option>
-                                    </select>
-                                    @error('min_pengalaman')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-10 mx-auto mt-3">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="jumlah_pelamar">Jumlah Karyawan</label>
+                                    <label for="kuota">Jumlah Karyawan</label>
                                     <input type="number"
-                                        class="form-loker form-control @error('jumlah_pelamar') is-invalid @enderror"
-                                        id="jumlah_pelamar" name="jumlah_pelamar"
+                                        class="form-loker form-control @error('kuota') is-invalid @enderror"
+                                        id="kuota" name="kuota"
                                         placeholder="Masukkan jumlah karyawan yang dibutuhkan"
-                                        value="{{ old('jumlah_pelamar') }}">
-                                    @error('jumlah_pelamar')
+                                        value="{{ old('kuota') }}">
+                                    @error('kuota')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -220,11 +140,11 @@
                         <div class="col-md-10 mx-auto mt-3">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="tutup">Lowongan di tutup</label>
+                                    <label for="tgl_tutup">Lowongan di tutup</label>
                                     <input type="date"
-                                        class="form-loker form-control @error('tutup') is-invalid @enderror"
-                                        id="tutup" name="tutup" value="{{ old('tutup') }}">
-                                    @error('tutup')
+                                        class="form-loker form-control @error('tgl_tutup') is-invalid @enderror"
+                                        id="tgl_tutup" name="tgl_tutup" value="{{ old('tgl_tutup') }}">
+                                    @error('tgl_tutup')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

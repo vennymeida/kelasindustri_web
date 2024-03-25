@@ -14,25 +14,21 @@
                     <div class="row">
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
                             <img class="img-fluid rounded-circle img-perusahaan"
-                                src="{{ asset('storage/' . $loker_perusahaan->perusahaan->logo) }}"
+                                src="{{ asset('storage/' . $loker_perusahaan->perusahaan->logo_perusahaan) }}"
                                 style="width: 255px; height: 255px; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7));">
                         </div>
                         <div class="col-md-7">
                             <ul class="list-unstyled">
                                 <ul class="list-unstyled d-flex justify-content-between align-items-center">
                                     <p class="mb-2 text-primary font-weight-bold" style="font-size: 28px;">
-                                        {{ $loker_perusahaan->judul }}
+                                        {{ $loker_perusahaan->nama_loker }}
                                     </p>
                                     <a class="btn btn-secondary px-4" href="{{ route('loker-perusahaan.index') }}"
                                         style="border-radius: 15px;">
                                         Kembali
                                     </a>
                                 </ul>
-                                <p class="mb-2" style="font-size: 19px;">{{ $loker_perusahaan->perusahaan->nama }}</p>
-                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
-                                        src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
-                                    {{ $kategori }}
-                                </p>
+                                <p class="mb-2" style="font-size: 19px;">{{ $loker_perusahaan->perusahaan->nama_perusahaan }}</p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/money.svg') }}">
                                     {{ 'IDR ' . $loker_perusahaan->gaji_bawah }}
@@ -40,16 +36,8 @@
                                     {{ $loker_perusahaan->gaji_atas }}
                                 </p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
-                                        src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                    {{ $loker_perusahaan->min_pengalaman }}
-                                </p>
-                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
                                     {{ $loker_perusahaan->tipe_pekerjaan }}
-                                </p>
-                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
-                                        src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                    {{ $loker_perusahaan->min_pendidikan }}
                                 </p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/location pin.svg') }}">
@@ -82,16 +70,16 @@
                     <hr class="my-4">
                     <div class="col-md-11 mx-auto my-5 cardKeahlian">
                         <h5 class="font-weight-bolder">Keahlian : </h5>
-                        @foreach ($loker_perusahaan->keahlian as $key => $keahlian)
+                        {{-- @foreach ($loker_perusahaan->keahlian as $key => $keahlian)
                             <button class="px-4 mt-2 mr-1 btn btn-skill">{{ $keahlian->keahlian }}</button>
-                        @endforeach
+                        @endforeach --}}
                     </div>
 
                     <hr class="my-4">
                     <div class="col-md-11 mx-auto my-5">
                         <h5 class="font-weight-bolder">Persyaratan : </h5>
                         <p class="ml-5 mt-0 text-syarat">
-                            {!! $loker_perusahaan->requirement !!}
+                            {!! $loker_perusahaan->persyaratan !!}
                         </p>
                     </div>
 
@@ -100,11 +88,11 @@
                         <h5 class="mb-5 font-weight-bold">Tentang Perusahaan</h5>
                         <div class="row">
                             <div class="col-md-3 d-flex align-items-center justify-content-center">
-                                <img class="img-fluid" src="{{ asset('storage/' . $loker_perusahaan->perusahaan->logo) }}"
+                                <img class="img-fluid" src="{{ asset('storage/' . $loker_perusahaan->perusahaan->logo_perusahaan) }}"
                                     style="width: 100%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 10px;">
                             </div>
                             <div class="col-md-4 d-flex align-items-center nama-perusahaan">
-                                <p class="mb-2" style="font-size: 19px;">{{ $loker_perusahaan->perusahaan->nama }}</p>
+                                <p class="mb-2" style="font-size: 19px;">{{ $loker_perusahaan->perusahaan->nama_perusahaan }}</p>
                             </div>
                         </div>
                     </div>
@@ -117,8 +105,6 @@
                     <div class="col-md-11 mx-auto mt-5">
                         <h5 class="font-weight-bold">Alamat Perusahaan</h5>
                         <p class="text-justify">{{ $loker_perusahaan->perusahaan->alamat_perusahaan }},
-                            {{ $loker_perusahaan->perusahaan->kelurahan->kelurahan }},
-                            {{ $loker_perusahaan->perusahaan->kecamatan->kecamatan }}
                         </p>
                     </div>
 
@@ -132,7 +118,7 @@
                                 </div>
                                 <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
                                     <i class="fas fa-phone my-3"></i>
-                                    <p class="mb-4">{{ $loker_perusahaan->perusahaan->no_hp_perusahaan }}</p>
+                                    <p class="mb-4">{{ $loker_perusahaan->perusahaan->no_telp}}</p>
                                 </div>
                                 <div class="card-primary-left col-md-3 mr-5 mb-1 text-center">
                                     <i class="fas fa-envelope my-3"></i>

@@ -136,6 +136,7 @@
                     </div>
 
                     <div class="col">
+                        @role('lulusan')
                         <div class="col-md-12" id="job-listings-container">
                             <div class="col-md-9">
                                 <h2>Rekomendasi Pekerjaan Untukmu</h2>
@@ -219,6 +220,7 @@
                                 {{-- {{ $allResults->withQueryString()->links() }} --}}
                             </div>
                         </div>
+                        @endrole
                         {{-- data loker  --}}
                         <div class="col-md-12" id="job-listings-container">
                             <div class="col-md-12">
