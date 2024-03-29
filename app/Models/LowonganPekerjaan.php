@@ -46,7 +46,7 @@ class LowonganPekerjaan extends Model
 
     public function getHasAppliedAttribute()
     {
-        if (auth()->check() && auth()->user()->profile) {
+        if (auth()->check() && auth()->user()->lulusan) {
             return Lamar::where('loker_id', $this->id)
                 ->where('user_id', auth()->user()->id)
                 ->exists();

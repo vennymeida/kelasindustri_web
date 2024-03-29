@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>{{ config('app.name') }} </title>
+    {{-- <title>{{ config('app.name') }}</title> --}}
+    <title>@yield('title', config('app.name'))</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -14,6 +15,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.css" />
 
     <!-- CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="assets/img/landing-page/logo.svg">
+
     @stack('customStyle')
     <!-- Template CSS -->
     <link rel="stylesheet" href="/assets/css/style.css">
@@ -33,75 +37,9 @@
                         <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
                                     class="fas fa-search"></i></a></li>
                     </ul>
-                    <div class="search-element">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search"
-                            data-width="250">
-                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                        <div class="search-backdrop"></div>
-                        <div class="search-result">
-                            <div class="search-header">
-                                Histories
-                            </div>
-                            <div class="search-item">
-                                <a href="#">How to hack NASA using CSS</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">Kodinger.com</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">#Stisla</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
-                            <div class="search-header">
-                                Result
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="/assets/img/products/product-3-50.png"
-                                        alt="product">
-                                    oPhone S9 Limited Edition
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="/assets/img/products/product-2-50.png"
-                                        alt="product">
-                                    Drone X2 New Gen-7
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="/assets/img/products/product-1-50.png"
-                                        alt="product">
-                                    Headphone Blitz
-                                </a>
-                            </div>
-                            <div class="search-header">
-                                Projects
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <div class="search-icon bg-danger text-white mr-3">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    Stisla Admin Template
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <div class="search-icon bg-primary text-white mr-3">
-                                        <i class="fas fa-laptop"></i>
-                                    </div>
-                                    Create a new Homepage Design
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </form>
                 <ul class="navbar-nav navbar-right">
-                    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+                    {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
                             class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right">
                             <div class="dropdown-header">Messages
@@ -109,32 +47,32 @@
                                     <a href="#">Mark All As Read</a>
                                 </div>
                             </div>
-                    </li>
+                    </li> --}}
 
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                            @if (Auth::user()->superadmin && Auth::user()->superadmin->foto != '')
+                                <img alt="image"
+                                src="{{ asset('images/' . Auth::user()->superadmin->foto) }}"
+                                    class="rounded-circle mr-1" style="width: 35px; height: 35px;">
+                            @else
+                                <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                                    class="rounded-circle mr-1" style="width: 35px; height: 35px;">
+                            @endif
                             <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->name }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            <a href="features-profile.html" class="dropdown-item has-icon">
+                            <a href="{{ url('/profile-admin') }}" class="dropdown-item has-icon">
                                 <i class="far fa-user"></i> Profile
-                            </a>
-                            <a href="features-activities.html" class="dropdown-item has-icon">
-                                <i class="fas fa-bolt"></i> Activities
-                            </a>
-                            <a href="features-settings.html" class="dropdown-item has-icon">
-                                <i class="fas fa-cog"></i> Settings
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                 class="dropdown-item has-icon text-danger">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                                <i class="fas fa-sign-out-alt"></i> Keluar
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </div>
@@ -142,7 +80,7 @@
                 </ul>
             </nav>
             <div class="main-sidebar">
-                <x-sidebar title="Test" />
+                <x-sidebar title="KelasIndustriJobs" />
                 {{-- @include('layouts.sidebar') --}}
             </div>
 
@@ -173,11 +111,19 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/assets/js/page/modules-sweetalert.js"></script>
 
-    <!-- Template JS File -->
+    <!-- Template JS Files -->
     <script src="/assets/js/scripts.js"></script>
     <script src="/assets/js/custom.js"></script>
 
     <!-- Page Specific JS File -->
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        // Inisialisasi dropdown
+        $(document).ready(function() {
+            $('.dropdown-toggle').dropdown();
+        });
+    </script>
     @stack('customScript')
 </body>
 

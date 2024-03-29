@@ -51,9 +51,9 @@
 
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            @if (Auth::user()->profile && Auth::user()->profile->foto != '')
+                            @if (Auth::user()->superadmin && Auth::user()->superadmin->foto != '')
                                 <img alt="image"
-                                    src="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->foto) : '' }}"
+                                src="{{ asset('images/' . Auth::user()->superadmin->foto) }}"
                                     class="rounded-circle mr-1" style="width: 35px; height: 35px;">
                             @else
                                 <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
@@ -80,7 +80,7 @@
                 </ul>
             </nav>
             <div class="main-sidebar">
-                <x-sidebar title="WaktuSaku" />
+                <x-sidebar title="KelasIndustriJobs" />
                 {{-- @include('layouts.sidebar') --}}
             </div>
 

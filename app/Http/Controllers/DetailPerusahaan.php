@@ -63,22 +63,18 @@ class DetailPerusahaan extends Controller
 
     public function show(Perusahaan $detail)
     {
-        $lowonganPekerjaan = DB::table('lowongan_pekerjaans as lp')
-            ->join('lowongan_keahlian as ls', 'lp.id', '=', 'ls.lowongan_id')
-            ->join('keahlians as k', 'ls.keahlian_id', '=', 'k.id')
-            ->select('lp.id', 'lp.judul', 'lp.deskripsi', 'lp.user_id', 'lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi', 'lp.min_pendidikan', 'lp.min_pengalaman', 'lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at', DB::raw("GROUP_CONCAT(k.keahlian SEPARATOR ', ') as keahlian"))
-            ->where('lp.id_perusahaan', $detail->id)
+        $lowonganPekerjaan = DB::table('lokers as lp')
+            ->select('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at',)
+            ->where('lp.perusahaan_id', $detail->id)
             ->where('lp.status', 'dibuka')
-            ->groupBy('lp.id', 'lp.judul', 'lp.deskripsi', 'lp.user_id', 'lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi', 'lp.min_pendidikan', 'lp.min_pengalaman', 'lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at')
+            ->groupBy('lp.id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at')
             ->paginate(4);
 
-        $lokers = DB::table('lowongan_pekerjaans as lp')
-            ->join('lowongan_kategori', 'lp.id', '=', 'lowongan_kategori.lowongan_id')
-            ->join('kategori_pekerjaans as kp', 'lowongan_kategori.kategori_id', '=', 'kp.id')
-            ->select('lp.id', 'lp.judul', 'lp.deskripsi', 'lp.user_id', 'lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi', 'lp.min_pendidikan', 'lp.min_pengalaman', 'lp.updated_at', DB::raw("GROUP_CONCAT(kp.kategori SEPARATOR ', ') as kategori"))
-            ->where('lp.id_perusahaan', $detail->id)
+        $lokers = DB::table('lokers as lp')
+            ->select('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at',)
+            ->where('lp.perusahaan_id', $detail->id)
             ->where('lp.status', 'dibuka')
-            ->groupBy('lp.id', 'lp.judul', 'lp.deskripsi', 'lp.user_id', 'lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi', 'lp.min_pendidikan', 'lp.min_pengalaman', 'lp.updated_at')
+            ->groupBy('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at')
             ->paginate(6);
 
 

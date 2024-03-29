@@ -77,9 +77,6 @@
                                     <a href="{{ route('melamar.status') }}" class="dropdown-item has-icon">
                                         <i class="fas fa-info mx-1 mr-2"></i> Status Lamaran
                                     </a>
-                                    {{-- <a href="{{ route('chatify') }}" class="dropdown-item has-icon">
-                                        <i class="far fa-comment mx-1 mr-2"></i> Pesan Obrolan
-                                    </a> --}}
                                 @endif
                                 @if (auth()->user()->hasRole('perusahaan'))
                                     <a href="{{ route('loker-perusahaan.index') }}" class="dropdown-item has-icon">
@@ -88,9 +85,6 @@
                                     <a href="{{ route('lamarperusahaan.index') }}" class="dropdown-item has-icon">
                                         <i class="fas fa-file-alt mx-1 mr-2"></i> Data Pelamar Kerja
                                     </a>
-                                    {{-- <a href="{{ route('chatify') }}" class="dropdown-item has-icon">
-                                        <i class="fas fa-comment mx-1 mr-2"></i> Pesan Obrolan
-                                    </a> --}}
                                 @endif
                                 <hr class="my-0" style="background-color: rgba(249, 249, 249, 0.2);">
                                 <a href="{{ route('logout') }}"

@@ -72,7 +72,7 @@
                     <div class="col-md-3">
                     <div class="card">
                         <div class="card-loker px-4 py-3">
-                            {{-- <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}"> --}}
+                            <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}">
                             <p>Tipe Pekerjaan</p>
                             <label>
                                 <input class="mr-2" type="checkbox" name="tipe[]" id="less-1jt" value="less-1jt">
@@ -109,7 +109,7 @@
                     <br>
                         <div class="card">
                             <div class="card-loker px-4 py-3">
-                                {{-- <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}"> --}}
+                                <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}">
                                 <p>Gaji</p>
                                 <label>
                                     <input class="mr-2" type="checkbox" name="gaji[]" id="less-1jt" value="less-1jt">
@@ -292,7 +292,7 @@
                                                 <div class="text-center">
                                                     <a id="detail-button" class="btn btn-primary px-4 py-2"
                                                         style="border-radius: 25px;"
-                                                        href="{{ route('detail-perusahaan.show', $loker->id) }}">Lihat
+                                                        href="{{ route('all-jobs.show', $loker->id) }}">Lihat
                                                         Detail</a>
                                                 </div>
                                             </div>

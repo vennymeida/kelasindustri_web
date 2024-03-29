@@ -18,16 +18,16 @@
                         <ul class="list-unstyled d-flex justify-content-start title-detail">
                             <li class="col-md-4 d-flex justify-content-start mr-5 mt-3">
                                 <img class="img-fluid img-icon mr-2" src="{{ asset('assets/img/landing-page/phone.svg') }}">
-                                <p class="mb-3 detail-left" style="font-size: 15px;">{{ $detail->no_hp_perusahaan }} </p>
+                                <p class="mb-3 detail-left" style="font-size: 15px;">{{ $detail->no_hp }} </p>
                             </li>
                             <li class="col-md-8 mt-3 detail-right">
-                                <h5 class="font-weight-bolder">{{ $detail->nama }} </h5>
+                                <h5 class="font-weight-bolder">{{ $detail->nama_perusahaan }} </h5>
                             </li>
                         </ul>
                         <ul class="list-unstyled d-flex justify-content-start text-justify title-detail">
                             <li class="col-md-4 d-flex justify-content-start mr-5">
                                 <img class="img-fluid img-icon mr-2" src="{{ asset('assets/img/landing-page/Email.svg') }}">
-                                <p class="mb-3 detail-left" style="font-size: 15px;">{{ $detail->email }} </p>
+                                <p class="mb-3 detail-left" style="font-size: 15px;">{{ $detail->email_perusahaan }} </p>
                             </li>
                             <li class="col-md-8">
                                 <p class="detail-right" style="font-size: 15px;">
@@ -45,9 +45,7 @@
                             style="margin-left: 45%;">
                             <img class="img-fluid img-icon mr-1"
                                 src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                            <p class="mb-5 detail-alamat-bottom" style="font-size: 15px;">{{ $detail->alamat_perusahaan }},
-                                {{ $detail->kelurahan->kelurahan }},
-                                {{ $detail->kecamatan->kecamatan }} </p>
+                            <p class="mb-5 detail-alamat-bottom" style="font-size: 15px;">{{ $detail->alamat_perusahaan }},</p>
                         </li>
                     </ul>
                 </div>
@@ -57,7 +55,7 @@
         <div class="col-md-10 mx-auto">
             <div class="col-md-3">
                 <div class="logo-container">
-                    <img class="img-fluid bg-white mt-4 img-detail" src="{{ asset('storage/' . $detail->logo) }}"
+                    <img class="img-fluid bg-white mt-4 img-detail" src="{{ asset('storage/' . $detail->logo_perusahaan) }}"
                         style="width: 75%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
                 </div>
             </div>
@@ -77,7 +75,7 @@
             </div>
         </section>
 
-        @if (Auth::guest() || (Auth::check() && Auth::user()->hasRole('Pencari Kerja')))
+        @if (Auth::guest() || (Auth::check() && Auth::user()->hasRole('Lulusan')))
             <section>
                 <div class="col-md-12 mt-4 mx-auto d-flex flex-wrap justify-content-center">
                     @foreach ($lokers as $loker)
@@ -86,31 +84,26 @@
                                 <div class="position-relative">
                                     <div class="gradient-overlay"></div>
                                     <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                        src="{{ asset('storage/' . $detail->logo) }}" alt="Company Logo">
+                                        src="{{ asset('storage/' . $detail->logo_perusahaan) }}" alt="Company Logo">
                                     <p class="text-white card-title font-weight-bold mb-0 ml-2 overlap-text"
                                         style="font-size: 20px;">
-                                        {{ $loker->judul }}
+                                        {{ $loker->nama_loker }}
                                     </p>
                                     <a class="text-white ml-2 overlap-text-2" style="font-size: 14px;">
-                                        {{ $detail->nama }}
+                                        {{ $detail->nama_loker }}
                                     </a>
                                 </div>
                                 <div class="card-text mt-4">
                                     <ul class="list-unstyled ml-2">
                                         <ul class="list-unstyled d-flex justify-content-between">
-                                            <li class="d-flex justify-content-start">
-                                                <img class="img-fluid img-icon mr-2"
-                                                    src="{{ asset('assets/img/landing-page/list.svg') }}">
-                                                <p class="mb-2">{{ $loker->kategori }}</p>
-                                            </li>
                                             <li class="mb-2">
-                                                @if (auth()->check() &&
-                                                        auth()->user()->hasRole('Pencari Kerja'))
+                                                {{-- @if (auth()->check() &&
+                                                        auth()->user()->hasRole('lulusan'))
                                                     <a href="javascript:void(0);"
                                                         class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
                                                         <i class="far fa-bookmark" style="font-size: 20px;"></i>
                                                     </a>
-                                                @endif
+                                                @endif --}}
                                             </li>
                                         </ul>
                                         <li class="d-flex justify-content-start">
@@ -123,25 +116,13 @@
                                         </li>
                                         <li class="d-flex justify-content-start">
                                             <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                            <p class="mb-2">{{ $loker->min_pengalaman }}</p>
-                                        </li>
-                                        <li class="d-flex justify-content-start">
-                                            <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                            <p class="mb-2">Minimal {{ $loker->min_pendidikan }}</p>
-                                        </li>
-                                        <li class="d-flex justify-content-start">
-                                            <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/location pin.svg') }}">
                                             <p class="mb-2">{{ $loker->lokasi }}</p>
                                         </li>
                                         <li class="d-flex justify-content-start">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
-                                            <p class="mb-2">{{ $detail->alamat_perusahaan }},
-                                                {{ $detail->kelurahan->kelurahan }},
-                                                {{ $detail->kecamatan->kecamatan }}</p>
+                                            <p class="mb-2">{{ $detail->alamat_perusahaan }},</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -160,7 +141,7 @@
                 {{ $lokers->withQueryString()->links() }}
             </div>
         @endif
-        @role('Perusahaan')
+        @role('perusahaan')
             <section>
                 <div class="col-md-12 mt-4 mx-auto d-flex flex-wrap justify-content-center">
                     @if ($lowonganPekerjaan->isEmpty())
@@ -171,25 +152,13 @@
                                 <div class="card-body d-flex flex-column">
                                     <ul class="list-unstyled">
                                         <ul class="list-unstyled d-flex justify-content-between align-items-center">
-                                            <li class="font-weight-bold p-loker">Posisi : {{ $loker->judul }}</li>
+                                            <li class="font-weight-bold p-loker">Posisi : {{ $loker->nama_loker }}</li>
                                         </ul>
                                         <li class="mb-2"><img class="img-fluid img-icon"
                                                 src="{{ asset('assets/img/landing-page/money.svg') }}">
                                             {{ 'IDR ' . $loker->gaji_bawah }}
                                             <span>-</span>
                                             {{ $loker->gaji_atas }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid img-icon"
-                                                src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                            {{ $loker->min_pengalaman }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid img-icon"
-                                                src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
-                                            {{ $loker->tipe_pekerjaan }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid img-icon"
-                                                src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                            Minimal {{ $loker->min_pendidikan }}
                                         </li>
                                         <li class="mb-2">
                                             Keahlian : {{ $loker->keahlian }}

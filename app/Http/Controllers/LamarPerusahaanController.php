@@ -40,11 +40,12 @@ class LamarPerusahaanController extends Controller
         $loggedInUserResults = DB::table('lamars as l')
             ->join('lokers as lp', 'l.loker_id', '=', 'lp.id')
             ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
-            ->join('lulusans as lu', 'l.user_id', '=', 'lu.id')
+            ->join('lulusans as lu', 'p.user_id', '=', 'lu.id')
             ->join('users as u', 'lu.user_id', '=', 'u.id')
             ->select(
                 'l.id',
                 'l.user_id',
+                'p.user_id',
                 'u.name',
                 'lu.no_hp',
                 'lu.foto',
@@ -53,7 +54,6 @@ class LamarPerusahaanController extends Controller
                 'p.nama_perusahaan',
                 'lp.nama_loker',
                 'l.status',
-                'p.user_id',
                 'l.created_at'
             )
             ->where('p.user_id', $loggedInUserId)

@@ -122,7 +122,7 @@ class MenuItemSeeder extends Seeder
                 ],
                 [
                     'name' => 'Hasil Cosine Similarity',
-                    'route' => 'rekomendasi-management/perangkingan',
+                    'route' => 'rekomendasi-management/perhitungan/perangkingan',
                     'permission_name' => 'rekomendasi.index',
                     'menu_group_id' => 7,
                 ]

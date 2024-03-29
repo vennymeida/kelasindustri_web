@@ -33,6 +33,7 @@ use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PerusahaanListController;
 use App\Http\Controllers\ProfileKeahlianController;
+use App\Http\Controllers\ProfileSuperadminController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -161,20 +162,23 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('kota/import', [KotaController::class, 'import'])->name('kota.import');
     });
 
-    //profile lulusan
-    Route::GET('/profilelulusan', [LulusanController::class, 'profile']);
-    Route::GET('/profilelulusan', [LulusanController::class, 'index']);
-    Route::get('/profilelulusan', [LulusanController::class, 'index'])->name('profile.index');
-    Route::delete('/profilelulusan/{profile}', [LulusanController::class, 'destroy'])->name('profile.destroy');
+    // //profile lulusan
+    // Route::GET('/profilelulusan', [LulusanController::class, 'profile']);
+    // Route::GET('/profilelulusan', [LulusanController::class, 'index']);
+    // Route::get('/profilelulusan', [LulusanController::class, 'index'])->name('profile.index');
+    // Route::delete('/profilelulusan/{profile}', [LulusanController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/profile-admin', function () {
-        return view('profile.super-admin');
-    });
-    Route::GET('/profile-edit', [LulusanController::class, 'profile'])->name('profile.edit');
-    Route::get('/getKelurahans', [LulusanController::class, 'getKelurahans'])->name('getKelurahans');
-    Route::PUT('/update-profile-information', [LulusanController::class, 'update'])->name('profile.user.update');
-    Route::PUT('/update-perusahaan-information', [PerusahaanController::class, 'update'])->name('profile.perusahaan.update');
+    // Route::get('/profile-admin', function () {
+    //     return view('profile.super-admin');
+    // });
 
+    Route::get('/profile-admin', [ProfileSuperadminController::class, 'index'])->name('profile.admin');
+    Route::put('/profile-admin/update', [ProfileSuperadminController::class, 'update'])->name('profile.admin.update');
+
+    // Route::GET('/profile-edit', [LulusanController::class, 'profile'])->name('profile.edit');
+    // Route::get('/getKelurahans', [LulusanController::class, 'getKelurahans'])->name('getKelurahans');
+    // Route::PUT('/update-profile-information', [LulusanController::class, 'update'])->name('profile.user.update');
+    // Route::PUT('/update-perusahaan-information', [PerusahaanController::class, 'update'])->name('profile.perusahaan.update');
     // //profile perusahaan
     // Route::GET('/profileperusahaan', [PerusahaanController::class, 'profile']);
     // Route::GET('/profileperusahaan', [PerusahaanController::class, 'index']);

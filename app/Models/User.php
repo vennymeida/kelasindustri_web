@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\Keahlian;
 use App\Notifications\CustomVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,6 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function perusahaan()
     {
         return $this->hasOne(Perusahaan::class);
+    }
+
+    public function superadmin()
+    {
+        return $this->hasOne(Superadmin::class);
     }
 
     public function pendidikan()
