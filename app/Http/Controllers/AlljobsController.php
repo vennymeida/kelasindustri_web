@@ -39,10 +39,15 @@ class AlljobsController extends Controller
         if(Auth::check()){
         $user = Auth::user();
         $perusahaan = Perusahaan::all();
-        $stopwords = [
-            'adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
-            'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'
-        ];
+        // $stopwords = [
+        //     'adalah', 'saya', 'dalam', 'memiliki', 'biasa', 'menguasai', 'mampu', 'di', 'lulusan', 'pengalaman', 'keterampilan', 'dan', 'selama', 'aku', 'bulan', 'lain', 'sebagainya', 'mampu',
+        //     'jurusan', 'sebagainya', 'keahlian', 'bidang', 'pembuatan', 'khususnya', 'magang', 'pada', 'posisi', '6', 'bisa', 'ke'
+        // ];
+
+        $stopwords = DB::table('stop_word')->pluck('text')->toArray();
+
+        // dd($stopwords);
+
 
         $lulusanData = DB::table('lulusans')
         ->select('id', 'ringkasan')
@@ -200,10 +205,10 @@ class AlljobsController extends Controller
         }
         $userId = Auth::id();
         $allResults = DB::table('rekomendasilowongans as rks')
-            ->join('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
-            ->join('lokers as lk', 'rks.loker_id', '=', 'lk.id')
-            ->join('users as u', 'ls.user_id', '=', 'u.id')
-            ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
+            ->leftJoin('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
+            ->leftJoin('lokers as lk', 'rks.loker_id', '=', 'lk.id')
+            ->leftJoin('users as u', 'ls.user_id', '=', 'u.id')
+            ->leftJoin('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
             ->select(
                 'lk.id',
                 'lk.nama_loker',
@@ -215,6 +220,7 @@ class AlljobsController extends Controller
                 'lk.tgl_tutup',
                 'lk.kuota',
                 'ls.ringkasan',
+                'ls.user_id',
                 'u.email',
                 'u.name',
                 'ps.nama_pemilik',
@@ -223,7 +229,8 @@ class AlljobsController extends Controller
                 'ps.email_perusahaan',
                 'ps.alamat_perusahaan',
                 'ps.deskripsi',
-                'rks.score_similarity'
+                'rks.score_similarity',
+                DB::raw('rks.score_similarity * 100 as score_similarity_persen')
             )
             ->where('rks.score_similarity', '>', 0)
             ->where('ls.user_id', $userId)

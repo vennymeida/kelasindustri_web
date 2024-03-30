@@ -7,7 +7,7 @@ use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\KeahlianController;
 use App\Http\Controllers\KotaController;
-use App\Http\Controllers\KategoriPekerjaanController;
+// use App\Http\Controllers\KategoriPekerjaanController;
 use App\Http\Controllers\LokerPerusahaanController;
 use App\Http\Controllers\LowonganPekerjaanController;
 use App\Http\Controllers\Menu\MenuGroupController;
@@ -48,6 +48,7 @@ use App\Http\Controllers\StatusLamarController;
 use App\Http\Controllers\RekomendasiLokerController;
 use App\Http\Controllers\RekomendasiLulusanController;
 use App\Http\Controllers\RekomendasiRangkingController;
+use App\Http\Controllers\StopWordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,15 +146,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     });
     Route::prefix('menu-pekerjaan')->group(function () {
         Route::resource('keahlian', KeahlianController::class);
-        Route::resource('kategori', KategoriPekerjaanController::class);
+        // Route::resource('kategori', KategoriPekerjaanController::class);
         Route::resource('loker', LowonganPekerjaanController::class);
         Route::resource('pelamarkerja', LamarController::class);
     });
 
-    Route::prefix('rekomendasi-management')->group(function () {
-        Route::get('/perhitungan/rekomendasi-loker', [RekomendasiLokerController::class, 'index']);
-        Route::get('/perhitungan/rekomendasi-lulusan', [RekomendasiLulusanController::class, 'index']);
-        Route::get('/perhitungan/perangkingan', [RekomendasiRangkingController::class, 'index']);
+    Route::prefix('rekomendasi-management/perhitungan')->group(function () {
+        Route::get('/rekomendasi-loker', [RekomendasiLokerController::class, 'index']);
+        Route::get('/rekomendasi-lulusan', [RekomendasiLulusanController::class, 'index']);
+        Route::get('/perangkingan', [RekomendasiRangkingController::class, 'index']);
+        Route::resource('stop-word', StopWordController::class);
     });
 
     Route::prefix('location-management')->group(function () {

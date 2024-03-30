@@ -120,6 +120,12 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'rekomendasi.edit']);
         Permission::create(['name' => 'rekomendasi.destroy']);
 
+        //menu stop word
+        Permission::create(['name' => 'stop-word.index']);
+        Permission::create(['name' => 'stop-word.create']);
+        Permission::create(['name' => 'stop-word.edit']);
+        Permission::create(['name' => 'stop-word.destroy']);
+
         //loker-perusahaan
         Permission::create(['name' => 'loker-perusahaan.index']);
         Permission::create(['name' => 'loker-perusahaan.show']);

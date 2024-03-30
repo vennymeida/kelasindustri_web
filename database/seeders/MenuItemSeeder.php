@@ -109,6 +109,12 @@ class MenuItemSeeder extends Seeder
                     'menu_group_id' => 6,
                 ],
                 [
+                    'name' => 'Stop Word',
+                    'route' => 'rekomendasi-management/perhitungan/stop-word',
+                    'permission_name' => 'stop-word.index',
+                    'menu_group_id' => 7,
+                ],
+                [
                     'name' => 'Hasil TF - IDF Loker',
                     'route' => 'rekomendasi-management/perhitungan/rekomendasi-loker',
                     'permission_name' => 'rekomendasi.index',
