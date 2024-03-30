@@ -168,5 +168,9 @@ class RoleAndPermissionSeeder extends Seeder
         if ($user) {
             $user->assignRole('lulusan');
         }
+        $user = User::find(4);
+        if ($user) {
+            $user->assignRole('lulusan');
+        }
     }
 }

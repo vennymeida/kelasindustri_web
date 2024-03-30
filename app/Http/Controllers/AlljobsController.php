@@ -226,7 +226,7 @@ class AlljobsController extends Controller
                 'rks.score_similarity'
             )
             ->where('rks.score_similarity', '>', 0)
-            ->where('ls.id', $userId)
+            ->where('ls.user_id', $userId)
             ->get();
 
             $tableloker = DB::table('lokers as lk')
