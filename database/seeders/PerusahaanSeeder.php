@@ -17,34 +17,19 @@ class PerusahaanSeeder extends Seeder
     {
         DB::table('perusahaan')->insert([
             [
-                'user_id' => '3',
+                'user_id' => '2',
                 'kota_id' => '3',
                 'nama_pemilik' => 'Meida',
                 'surat_mou' => 'surabaya',
-                'nama_perusahaan' => 'PT Elnusa',
+                'nama_perusahaan' => 'PT Hummasoft Technology',
                 'logo_perusahaan' => '',
                 'email_perusahaan' => 'vnymeida@gmail.com',
                 'alamat_perusahaan' => 'jln griya',
                 'deskripsi' => 'hahaha',
                 'no_telp' => '0823212312123',
-                'website' => '',
+                'website' => 'www.hummatech.com',
                 'status' => 'unbanned',
             ],
-            [
-                'user_id' => '3',
-                'kota_id' => '1',
-                'nama_pemilik' => 'Venny',
-                'surat_mou' => '2321232312',
-                'nama_perusahaan' => 'PT Berjuang Skripsi',
-                'logo_perusahaan' => '',
-                'email_perusahaan' => 'vnymeida@gmail.com',
-                'alamat_perusahaan' => 'jln perusahaan',
-                'deskripsi' => 'hahaha',
-                'no_telp' => '0823212314',
-                'website' => '',
-                'status' => 'unbanned',
-            ],
-
         ]);
     }
 }

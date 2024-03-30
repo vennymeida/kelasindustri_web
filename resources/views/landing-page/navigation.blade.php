@@ -60,10 +60,15 @@
                             </a>
                             <hr class="hr-navbar" style="display: none;">
                             <div class="dropdown-menu dropdown-menu-right">
-                                @if (Auth::user()->hasRole('lulusan') || Auth::user()->hasRole('perusahaan'))
-                                    <a href="{{ url('/profile') }}" class="dropdown-item has-icon">
+                                @if (Auth::user()->hasRole('lulusan'))
+                                    <a href="{{ url('/profile-lulusan') }}" class="dropdown-item has-icon">
                                         <i class="far fa-user mx-1 mr-2"></i> Profile
                                     </a>
+                                @endif
+                                @if (Auth::user()->hasRole('perusahaan'))
+                                <a href="{{ url('/profile-perusahaan') }}" class="dropdown-item has-icon">
+                                    <i class="far fa-user mx-1 mr-2"></i> Profile
+                                </a>
                                 @endif
                                 @if (Auth::user()->hasRole('super-admin'))
                                     <a href="{{ url('/profile-admin') }}" class="dropdown-item has-icon">
