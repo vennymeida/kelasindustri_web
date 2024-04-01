@@ -101,7 +101,7 @@
                     <div class="col-md-3">
                         @if (Auth::user()->perusahaan && Auth::user()->perusahaan->logo_perusahaan != '')
                             <img class="img-fluid bg-white mt-4 img-detail-profile"
-                                src="{{ asset('images/' . Auth::user()->perusahaan->logo_perusahaan) }}"
+                            src="{{ asset('storage/' . Auth::user()->perusahaan->logo_perusahaan) }}"
                                 style="width: 100%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
                         @else
                             <img class="img-fluid bg-white mt-4 img-detail-profile"

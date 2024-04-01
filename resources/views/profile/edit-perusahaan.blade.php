@@ -1,3 +1,21 @@
+<!-- Modal for Logo Preview -->
+<div class="modal fade" id="logoPreviewModal" tabindex="-1" role="dialog" aria-labelledby="logoPreviewModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header m-4">
+                <h5 class="modal-title" id="logoPreviewModalLabel" style="color: #6777ef; font-weight: bold;">Logo
+                    Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="logoPreviewImage" src="" alt="logo Preview" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
 @extends('landing-page.app')
 @section('main')
     <main class="bg-light">
@@ -143,7 +161,7 @@
                             </div>
                         </div>
                     </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="card border-primary mb-2">
                                 <div class="card-body">
                                     <div class="text-left mb-4 mt-2 ml-2">
@@ -204,43 +222,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @if (Auth::user()->hasRole('Pencari Kerja'))
-                        <div class="col-md-6">
-                            <div class="card border-primary mb-2">
-                                <div class="card-body">
-                                    <div class="text-left mb-4 mt-2 ml-2">
-                                        <h5 class="card-title font-weight-bold d-block mx-2" style="color:#6777EF;">
-                                            Tambah Keahlian Yang Dimiliki</h5>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <form action="{{ route('profile.keahlian.update') }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group col-md-12 col-12">
-                                                <select name="keahlian_ids[]" multiple
-                                                    class="form-control select2 keahlian">
-                                                    {{-- <option value="" disabled selected></option> --}}
-                                                    @foreach ($keahlians as $keahlian)
-                                                        <option value="{{ $keahlian->id }}"
-                                                            {{ in_array($keahlian->id, $selectedKeahlians) ? 'selected' : '' }}>
-                                                            {{ $keahlian->keahlian }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-12 text-right my-4">
-                                                <button class="btn btn-primary mr-1 px-3"
-                                                    style="border-radius: 15px; font-size: 14px; font-weight: lighter;"
-                                                    type="submit">Tambah</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if (Auth::user()->hasRole('Perusahaan'))
+                        </div> --}}
                         <div class="col-md-6">
                             <div class="card border-primary mb-2">
                                 <div class="card-body">
@@ -257,7 +239,7 @@
                                                 <label>Nama Pemilik Perusahaan</label>
                                                 <input name="pemilik" type="text"
                                                     class="form-control custom-input @error('pemilik') is-invalid @enderror"
-                                                    value="{{ Auth::user()->perusahaan ? Auth::user()->perusahaan->pemilik : '' }}"
+                                                    value="{{Auth::user()->perusahaan->nama_pemilik}}"
                                                     placeholder="Masukkan nama pemilik perusahaan">
                                                 @error('pemilik')
                                                     <div class="invalid-feedback">
@@ -267,11 +249,11 @@
                                             </div>
                                             <div class="form-group col-md-12 col-12">
                                                 <label>Nama Perusahaan</label>
-                                                <input name="nama" type="text"
-                                                    class="form-control custom-input @error('nama') is-invalid @enderror"
-                                                    value="{{ Auth::user()->perusahaan ? Auth::user()->perusahaan->nama : '' }}"
+                                                <input name="nama_perusahaan" type="text"
+                                                    class="form-control custom-input @error('nama_perusahaan') is-invalid @enderror"
+                                                    value="{{Auth::user()->perusahaan->nama_perusahaan}}"
                                                     placeholder="Masukkan nama perusahaan">
-                                                @error('nama')
+                                                @error('nama_perusahaan')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -281,50 +263,36 @@
                                                 <label for="alamat_perusahaan">Alamat Perusahaan</label>
                                                 <textarea name="alamat_perusahaan" id="alamat_perusahaan"
                                                     class="text-loker form-control @error('alamat_perusahaan') is-invalid @enderror" rows="3" type="text"
-                                                    style="height: 100px;" placeholder="Masukkan alamat perusahaan">{{ Auth::user()->perusahaan ? Auth::user()->perusahaan->alamat_perusahaan : '' }}</textarea>
+                                                    style="height: 100px;" placeholder="Masukkan alamat perusahaan">{{Auth::user()->perusahaan->alamat_perusahaan}}</textarea>
                                                 @error('alamat_perusahaan')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="row col-12">
+                                            {{-- <div class="row col-12">
                                                 <div class="form-group col-md-6 col-12">
-                                                    <label for="kecamatan_id">Kecamatan</label>
+                                                    <label for="kota_id">kota</label>
                                                     <select
-                                                        class="form-control select2 @error('kecamatan_id') is-invalid @enderror"
-                                                        name="kecamatan_id" data-id="select-kecamatan" id="kecamatan_id">
-                                                        <option value="">Pilih Kecamatan</option>
-                                                        @foreach ($kecamatans as $kecamatan)
-                                                            @if (!empty($perusahaans->kecamatan_id))
-                                                                <option @selected($perusahaans->kecamatan_id == $kecamatan->id)
-                                                                    value="{{ $kecamatan->id }}">
-                                                                    {{ $kecamatan->kecamatan }}</option>
+                                                        class="form-control select2 @error('kota_id') is-invalid @enderror"
+                                                        name="kota_id" data-id="select-kota" id="kota_id">
+                                                        <option value="">Pilih kota</option>
+                                                        @foreach ($kotas as $kota)
+                                                            @if (!empty($perusahaans->kota_id))
+                                                                <option @selected($perusahaans->kota_id == $kota->id)
+                                                                    value="{{ $kota->id }}">
+                                                                    {{ $kota->kota }}</option>
                                                             @else
-                                                                <option value="{{ $kecamatan->id }}">
-                                                                    {{ $kecamatan->kecamatan }}</option>
+                                                                <option value="{{ $kota->id }}">
+                                                                    {{ $kota->kota }}</option>
                                                             @endif
                                                         @endforeach
                                                     </select>
-                                                    @error('kecamatan_id')
+                                                    @error('kota_id')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group col-md-6 col-12">
-                                                    <label for="kelurahan_id">Kelurahan</label>
-                                                    <select
-                                                        class="form-control select2 @error('kelurahan_id') is-invalid @enderror"
-                                                        name="kelurahan_id" data-id="select-kelurahan" id="kelurahan_id"
-                                                        disabled="disabled ">
-                                                        <option value="">Pilih Kelurahan</option>
-                                                    </select>
-                                                    @error('kelurahan_id')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group col-md-12 col-12">
                                                 <label>Email Perusahaan</label>
                                                 <div class="input-group">
@@ -333,11 +301,11 @@
                                                             <i class="fas fa-envelope"></i>
                                                         </div>
                                                     </div>
-                                                    <input name="email" type="text"
-                                                        class="form-control custom-input email @error('email') is-invalid @enderror"
-                                                        value="{{ Auth::user()->perusahaan ? Auth::user()->perusahaan->email : '' }}"
+                                                    <input name="email_perusahaan" type="text"
+                                                        class="form-control custom-input email @error('email_perusahaan') is-invalid @enderror"
+                                                        value="{{Auth::user()->perusahaan->email_perusahaan }}"
                                                         placeholder="Masukkan email perusahaan">
-                                                    @error('email')
+                                                    @error('email_perusahaan')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>
@@ -354,7 +322,7 @@
                                                     </div>
                                                     <input name="website" type="text"
                                                         class="form-control custom-input website @error('website') is-invalid @enderror"
-                                                        value="{{ Auth::user()->perusahaan ? Auth::user()->perusahaan->website : '' }}"
+                                                        value="{{Auth::user()->perusahaan->website }}"
                                                         placeholder="Masukkan website perusahaan">
                                                     @error('website')
                                                         <div class="invalid-feedback">
@@ -371,11 +339,11 @@
                                                             <i class="fas fa-phone"></i>
                                                         </div>
                                                     </div>
-                                                    <input name="no_hp_perusahaan" type="number"
-                                                        class="form-control phone-number custom-input @error('no_hp_perusahaan') is-invalid @enderror"
-                                                        value="{{ Auth::user()->perusahaan ? Auth::user()->perusahaan->no_hp_perusahaan : '' }}"
+                                                    <input name="no_telp" type="number"
+                                                        class="form-control phone-number custom-input @error('no_telp') is-invalid @enderror"
+                                                        value="{{ Auth::user()->perusahaan->no_telp }}"
                                                         placeholder="Contoh: 08...">
-                                                    @error('no_hp_perusahaan')
+                                                    @error('no_telp')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>
@@ -386,10 +354,9 @@
                                                 <label>Informasi Tentang Perusahaan</label>
                                                 <textarea id="deskripsi" name="deskripsi" type="text"
                                                     class="form-control summernote-simple @error('deskripsi') is-invalid @enderror">
-                                                    @if (!empty($perusahaans->deskripsi))
-{{ $perusahaans->deskripsi }}
-@else
-@endif
+                                                    @if (!empty($perusahaan->deskripsi)){{ $perusahaan->deskripsi }}
+                                                    @else
+                                                    @endif
                                                 </textarea>
                                                 @error('deskripsi')
                                                     <div class="invalid-feedback">
@@ -399,9 +366,9 @@
                                             </div>
                                             <div class="form-group col-md-12 col-12">
                                                 <label>Unggah Logo Perusahaan</label>
-                                                <input id="logo" name="logo" type="file"
-                                                    class="form-control custom-input @error('logo') is-invalid @enderror">
-                                                @error('logo')
+                                                <input id="logo_perusahaan" name="logo_perusahaan" type="file"
+                                                    class="form-control custom-input @error('logo_perusahaan') is-invalid @enderror">
+                                                @error('logo_perusahaan')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -411,10 +378,10 @@
                                                     (Tipe berkas : jpeg,jpg,png | Max size : 2MB)</div>
                                             </div>
                                             <div class="form-group col-md-12 col-12">
-                                                <label>Unggah Surat Izin Usaha</label>
-                                                <input id="siu" name="siu" type="file"
-                                                    class="form-control custom-input @error('siu') is-invalid @enderror">
-                                                @error('siu')
+                                                <label>Unggah Surat Kerja Sama / MoU</label>
+                                                <input id="surat_mou" name="surat_mou" type="file"
+                                                    class="form-control custom-input @error('surat_mou') is-invalid @enderror">
+                                                @error('surat_mou')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -425,11 +392,11 @@
                                             </div>
                                             <div class="row col-12 mb-4">
                                                 <div class="form-group col-md-6">
-                                                    @if (Auth::user()->perusahaan && Auth::user()->perusahaan->logo != '')
+                                                    @if (Auth::user()->perusahaan->logo_perusahaan != '')
                                                         <div>
                                                             <a href="#" class="btn btn-sm btn-warning btn-icon"
                                                                 data-toggle="modal" data-target="#logoPreviewModal"
-                                                                data-pdf="{{ Storage::url(Auth::user()->perusahaan->logo) }}"
+                                                                data-pdf="{{ Storage::url(Auth::user()->perusahaan->logo_perusahaan) }}"
                                                                 style="border-radius: 15px;">
                                                                 <i class="fas fa-eye mt-6"></i> Lihat Logo
                                                             </a>
@@ -437,20 +404,14 @@
                                                     @endif
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    @if (Auth::user()->perusahaan && Auth::user()->perusahaan->siu != '')
+                                                    @if (Auth::user()->perusahaan && Auth::user()->perusahaan->surat_mou != '')
                                                         <div>
-                                                            {{-- <a href="#" class="btn btn-sm btn-warning btn-icon"
-                                                                data-toggle="modal" data-target="#siuPreviewModal"
-                                                                data-pdf="{{ Auth::user()->perusahaan ? Storage::url(Auth::user()->perusahaan->siu) : '' }}"
-                                                                style="border-radius: 15px;">
-                                                                <i class="fas fa-eye mt-6"></i> Lihat SIU
-                                                            </a> --}}
-                                                            <a href="{{ Auth::user()->perusahaan ? Storage::url(Auth::user()->perusahaan->siu) : '' }}"
+                                                            <a href="{{ Storage::url(Auth::user()->perusahaan->surat_mou) }}"
                                                                 onclick="return openResume();" target="_blank"
                                                                 class="btn btn-sm btn-warning btn-icon"
                                                                 style="border-radius:15px;"><i
                                                                     class="fas fa-eye mt-6"></i>
-                                                                Lihat SIU
+                                                                Lihat MoU
                                                             </a>
                                                         </div>
                                                     @endif
@@ -466,7 +427,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                        {{-- @endif --}}
                 </div>
             </div>
         </section>
@@ -476,4 +437,18 @@
 @push('customStyle')
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+@endpush
+
+@push('customScript')
+<script>
+    $(document).ready(function() {
+        $('#logoPreviewModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var logoUrl = button.data('pdf');
+
+            var modal = $(this);
+            modal.find('#logoPreviewImage').attr('src', logoUrl);
+        });
+    });
+</script>
 @endpush

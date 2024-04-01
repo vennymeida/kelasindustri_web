@@ -385,14 +385,14 @@ class AlljobsController extends Controller
     {
         $perusahaan = Perusahaan::all();
 
-        $getLamarPending = lamar::select(
+        $getLamarPending = Lamar::select(
             'lamars.loker_id',
             'lamars.status'
         )
         ->where('loker_id', $loker->id)
         ->where('status', 'Pending')
         ->count();
-        $getLamarDiterima = lamar::select(
+        $getLamarDiterima = Lamar::select(
             'lamars.loker_id',
             'lamars.status'
         )

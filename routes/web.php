@@ -170,7 +170,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('/profile-perusahaan', [ProfilePerusahaanController::class, 'index'])->name('profile.perusahaan');
     Route::get('/profile-perusahaan-edit', [ProfilePerusahaanController::class, 'edit'])->name('profile.perusahaan.edit');
-    Route::get('/profile-perusahaan-update', [ProfilePerusahaanController::class, 'update'])->name('profile.perusahaan.update');
+    Route::put('/profile-perusahaan-update', [ProfilePerusahaanController::class, 'update'])->name('profile.perusahaan.update');
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'role:lulusan|perusahaan']], function () {
