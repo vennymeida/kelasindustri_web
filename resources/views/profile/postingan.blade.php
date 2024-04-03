@@ -27,8 +27,8 @@
                     <div class="col-md-10 mx-auto my-4">
                         <div class="post" style="padding:3%">
                             <div class="post-author">
-                                @if (Auth::user()->profile && Auth::user()->profile->foto)
-                                    <img src="{{ Storage::url(Auth::user()->profile->foto) }}" alt=""
+                                @if (Auth::user()->lulusan && Auth::user()->lulusan->foto)
+                                    <img src="{{ Storage::url(Auth::user()->lulusan->foto) }}" alt=""
                                         class="profile-img" style="width: 50px; height: 50px;">
                                 @else
                                     <img src="{{ asset('assets/img/avatar/avatar-1.png') }}" alt=""

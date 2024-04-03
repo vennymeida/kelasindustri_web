@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlljobsController;
 use App\Http\Controllers\AllPostinganController;
+use App\Http\Controllers\BannedController;
 use App\Http\Controllers\DetailPerusahaan;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\DemoController;
@@ -33,8 +34,6 @@ use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PerusahaanListController;
 use App\Http\Controllers\ProfileKeahlianController;
-use App\Http\Controllers\ProfileSuperadminController;
-use App\Http\Controllers\ProfilePerusahaanController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -44,6 +43,9 @@ use App\Models\Kota;
 use App\Models\LowonganPekerjaan;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\MelamarController;
+use App\Http\Controllers\ProfileLulusanController;
+use App\Http\Controllers\ProfileSuperadminController;
+use App\Http\Controllers\ProfilePerusahaanController;
 use App\Http\Controllers\StatusLamarController;
 use App\Http\Controllers\RekomendasiLokerController;
 use App\Http\Controllers\RekomendasiLulusanController;
@@ -111,6 +113,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('perusahaan', PerusahaanListController::class);
         Route::get('/perusahaan', 'App\Http\Controllers\PerusahaanListController@index')->name('perusahaan.index');
+        Route::put('/perusahaan/banned/{perusahaan}', [PerusahaanListController::class, 'banned'])->name('perusahaan.banned');
+        Route::get('/banned', [BannedController::class, 'index'])->name('perusahaan.unbanned');
+        Route::put('/banned/unbanned/{perusahaan}', [BannedController::class, 'unbanned'])->name('perusahaan-status.update');
 
         Route::resource('postinganadmin', PostinganAdminController::class);
     });
@@ -171,6 +176,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile-perusahaan', [ProfilePerusahaanController::class, 'index'])->name('profile.perusahaan');
     Route::get('/profile-perusahaan-edit', [ProfilePerusahaanController::class, 'edit'])->name('profile.perusahaan.edit');
     Route::put('/profile-perusahaan-update', [ProfilePerusahaanController::class, 'update'])->name('profile.perusahaan.update');
+
+    Route::resource('/profile-lulusan', ProfileLulusanController::class);
+
+    Route::resource('pendidikan', PendidikanController::class);
+    Route::resource('pengalaman', PengalamanController::class);
+    Route::resource('pelatihan', PelatihanController::class);
+    Route::resource('postingan', PostinganController::class);
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'role:lulusan|perusahaan']], function () {

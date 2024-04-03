@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'JobKelasIndustri - Daftar Perusahaan')
+@section('title', 'JobKelasIndustri - Daftar Perusahaan Banned')
 
 @section('content')
     <section class="section">
@@ -20,7 +20,7 @@
                     <div class="card">
                         <div class="card card-primary" style="border-radius: 15px;">
                             <div class="card-header">
-                                <h4>Perusahaan List</h4>
+                                <h4>List Perusahaan Banned</h4>
                             </div>
                             <div class="card-body">
                                 <form id="search-form" method="GET" action="{{ route('perusahaan.index') }}">
@@ -68,16 +68,8 @@
                                                         </td>
                                                         <td>{{ optional($perusahaan)->no_telp ?: '-' }}
                                                         <td>
-                                                            <a href="{{ route('perusahaan.show', $perusahaan) }}"
-                                                                class="btn btn-sm btn-primary btn-icon">
-                                                                <i class="fas fa-eye"></i> Details
-                                                            </a>
-                                                            {{-- <a href="{{ route('perusahaan.banned', $perusahaan) }}"
-                                                                class="btn btn-sm btn-warning btn-icon">
-                                                                <i class="fas fa-ban"></i> Banned
-                                                            </a> --}}
                                                             <form
-                                                                action="{{ route('perusahaan.banned', $perusahaan->id) }}"
+                                                                action="{{ route('perusahaan-status.update', $perusahaan->id) }}"
                                                                 method="post" id="rej-<?= $perusahaan->id ?>"
                                                                 enctype="multipart/form-data">
                                                                 @csrf
@@ -87,7 +79,7 @@
                                                                     data-confirm="Verifikasi Biodata | Apakah data biodata belum bisa diverifikasi dan kirim pesan kesalahan ?"
                                                                     data-confirm-yes="sumbitRej(<?= $perusahaan->id ?>)"
                                                                     data-id="rej-{{ $perusahaan->id }}">
-                                                                    Banned
+                                                                    Unbanned
                                                                 </button>
                                                             </form>
                                                         </td>

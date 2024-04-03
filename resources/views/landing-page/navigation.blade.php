@@ -47,8 +47,12 @@
                         <li class="nav-item dropdown">
                             <a href="#" data-toggle="dropdown"
                                 class="nav-link dropdown-toggle nav-link-lg nav-link-user text-primary authVerifikasi">
-                                @if (Auth::user()->profile && Auth::user()->profile->foto != '')
-                                    <img alt="image" src="{{ Storage::url(Auth::user()->profile->foto) }}"
+                                @if (Auth::user()->hasRole('perusahaan') && Auth::user()->perusahaan && Auth::user()->perusahaan->logo_perusahaan)
+                                    <img alt="image"
+                                        src="{{ Storage::url(Auth::user()->perusahaan->logo_perusahaan) }}"
+                                        class="rounded-circle mr-1" style="width: 35px; height: 35px;">
+                                @elseif (Auth::user()->hasRole('lulusan') && Auth::user()->lulusan && Auth::user()->lulusan->foto)
+                                    <img alt="image" src="{{ Storage::url(Auth::user()->lulusan->foto) }}"
                                         class="rounded-circle mr-1" style="width: 35px; height: 35px;">
                                 @else
                                     <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
@@ -66,9 +70,9 @@
                                     </a>
                                 @endif
                                 @if (Auth::user()->hasRole('perusahaan'))
-                                <a href="{{ url('/profile-perusahaan') }}" class="dropdown-item has-icon">
-                                    <i class="far fa-user mx-1 mr-2"></i> Profile
-                                </a>
+                                    <a href="{{ url('/profile-perusahaan') }}" class="dropdown-item has-icon">
+                                        <i class="far fa-user mx-1 mr-2"></i> Profile
+                                    </a>
                                 @endif
                                 @if (Auth::user()->hasRole('super-admin'))
                                     <a href="{{ url('/profile-admin') }}" class="dropdown-item has-icon">

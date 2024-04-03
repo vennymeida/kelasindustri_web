@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lamar;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Models\Perusahaan;
 use App\Models\LowonganPekerjaan;
+use App\Models\RekomendasiLowongan;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class PerusahaanListController extends Controller
 {
@@ -36,6 +39,8 @@ class PerusahaanListController extends Controller
             $query->where('name', 'like', "%$name%");
         }
 
+        $query->where('status', 'unbanned');
+
         // Paginasi hasil query
         $perusahaanData = $query->paginate(10);
 
@@ -47,6 +52,33 @@ class PerusahaanListController extends Controller
     {
         return view('perusahaan.edit', compact('perusahaan'));
     }
+
+    public function banned(Perusahaan $perusahaan)
+    {
+        $perusahaan->update([
+            'status' => 'banned',
+        ]);
+
+        $idLowongan = DB::table('lokers')
+            ->select(
+                'lokers.id'
+            )
+            ->where('lokers.perusahaan_id', $perusahaan->id)
+            ->get();
+
+        if ($perusahaan->id != null) {
+            foreach ($idLowongan as $lowongan) {
+                RekomendasiLowongan::where('loker_id', $lowongan->id)->delete();
+            }
+            foreach ($idLowongan as $lowongan) {
+                Lamar::where('loker_id', $lowongan->id)->delete();
+            }
+            LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)->delete();
+        }
+
+        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan berhasil di banned');
+    }
+
 
     public function update(Request $request, User $perusahaan)
     {

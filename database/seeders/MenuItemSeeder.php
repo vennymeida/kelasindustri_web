@@ -43,6 +43,12 @@ class MenuItemSeeder extends Seeder
                     'menu_group_id' => 2,
                 ],
                 [
+                    'name' => 'List Perusahaan Banned',
+                    'route' => 'user-management/banned',
+                    'permission_name' => 'perusahaan.banned',
+                    'menu_group_id' => 2,
+                ],
+                [
                     'name' => 'Postingan List',
                     'route' => 'user-management/postinganadmin',
                     'permission_name' => 'postinganadmin.index',

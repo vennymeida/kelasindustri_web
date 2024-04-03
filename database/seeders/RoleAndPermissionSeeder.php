@@ -52,6 +52,7 @@ class RoleAndPermissionSeeder extends Seeder
          Permission::create(['name' => 'perusahaan.destroy']);
          Permission::create(['name' => 'perusahaan.import']);
          Permission::create(['name' => 'perusahaan.export']);
+         Permission::create(['name' => 'perusahaan.banned']);
 
          //PostinganAdmin
         Permission::create(['name' => 'postinganadmin.index']);

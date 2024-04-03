@@ -472,124 +472,153 @@
     </div>
 </div>
 
-@extends('landing-page.app')
-@section('title', 'WaktuSaku - Profile')
-@section('main')
-    @if (Auth::user()->hasRole('Perusahaan'))
-        <main class="bg-light">
-            <br><br>
-            <div class="col-md-11 bg-white mx-auto py-4 mb-0" style="border-radius: 20px;">
-                <h4 class="text-center mt-4" style="text-align: center; font-weight: bold;">Data Perusahaan</h4>
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-11 d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                            <a href="{{ url('/profile-edit') }}">
-                                <img class="img-fluid" style="width: 35px; height: 35px;"
-                                    src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <section>
-                    <div class="col-md-12 detail-header">
-                        <div class="col-md-10 mx-auto">
-                            <ul class="list-unstyled">
-                                <ul class="list-unstyled d-flex justify-content-start title-detail">
-                                    @if (Auth::user()->perusahaan && Auth::user()->perusahaan->no_hp_perusahaan != '')
-                                        <li class="col-md-4 d-flex justify-content-start mr-5 mt-3">
-                                            <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/phone.svg') }}">
-                                            <p class="mb-3 detail-left" style="font-size: 15px;">
-                                                {{ Auth::user()->perusahaan ? Auth::user()->perusahaan->no_hp_perusahaan : '' }}
-                                            </p>
-                                        </li>
-                                    @else
-                                        <li class="col-md-4 d-flex justify-content-start mr-5 mt-3">
-                                            <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/phone.svg') }}">
-                                            <p class="mb-3 detail-left" style="font-size: 15px;"></p>
-                                        </li>
-                                    @endif
-                                    <li class="col-md-8 mt-3 detail-right">
-                                        <h5 class="font-weight-bolder">
-                                            {{ Auth::user()->perusahaan ? Auth::user()->perusahaan->nama : '' }} -
-                                            {{ Auth::user()->perusahaan ? Auth::user()->perusahaan->pemilik : '' }}</h5>
-                                    </li>
-                                </ul>
-                                <ul class="list-unstyled d-flex justify-content-start text-justify title-detail">
-                                    @if (Auth::user()->perusahaan && Auth::user()->perusahaan->email != '')
-                                        <li class="col-md-4 d-flex justify-content-start mr-5">
-                                            <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/Email.svg') }}">
-                                            <p class="mb-3 detail-left" style="font-size: 15px;">
-                                                {{ Auth::user()->perusahaan ? Auth::user()->perusahaan->email : '' }}</p>
-                                        </li>
-                                    @else
-                                        <li class="col-md-4 d-flex justify-content-start mr-5">
-                                            <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/Email.svg') }}">
-                                            <p class="mb-3 detail-left" style="font-size: 15px;">&nbsp</p>
-                                        </li>
-                                    @endif
-                                    <li class="col-md-8">
-                                        <p class="detail-right" style="font-size: 15px;">
-                                            {!! Auth::user()->perusahaan ? Auth::user()->perusahaan->deskripsi : '' !!}
-                                        </p>
-                                    </li>
-                                </ul>
-                                <ul class="list-unstyled d-flex justify-content-start title-detail">
-                                    @if (Auth::user()->perusahaan && Auth::user()->perusahaan->website != '')
-                                        <li class="col-md-2 d-flex justify-content-start mr-5 detail-web">
-                                            <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/global.svg') }}">
-                                            <p class="mb-3 detail-left" style="font-size: 15px;">
-                                                {{ Auth::user()->perusahaan ? Auth::user()->perusahaan->website : '' }}</p>
-                                        </li>
-                                    @else
-                                        <li class="col-md-2 d-flex justify-content-start mr-5 detail-web">
-                                            <img class="img-fluid img-icon mr-2"
-                                                src="{{ asset('assets/img/landing-page/global.svg') }}">
-                                            <p class="mb-3 detail-left" style="font-size: 15px;">&nbsp</p>
-                                        </li>
-                                    @endif
-                                </ul>
-                                @if (Auth::user()->perusahaan && Auth::user()->perusahaan->alamat_perusahaan != '')
-                                    <li class="col-md-12 d-flex justify-content-end ml-5 detail-alamat">
-                                        <img class="img-fluid img-icon mr-1"
-                                            src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                                        <p class="mb-5 detail-alamat-bottom" style="font-size: 15px;">
-                                            {{ Auth::user()->perusahaan ? Auth::user()->perusahaan->alamat_perusahaan : '' }}
-                                        </p>
-                                    </li>
-                                @else
-                                    <li class="col-md-12 d-flex justify-content-end ml-5 detail-alamat">
-                                        <img class="img-fluid img-icon mr-1"
-                                            src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                                        <p class="mb-5 detail-alamat-bottom" style="font-size: 15px;">&nbsp&nbsp&nbsp</p>
-                                    </li>
-                                @endif
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-                <div class="col-md-10 mx-auto mb-4">
-                    <div class="col-md-3">
-                        @if (Auth::user()->perusahaan && Auth::user()->perusahaan->logo != '')
-                            <img class="img-fluid bg-white mt-4 img-detail-profile"
-                                src="{{ Auth::user()->perusahaan ? Storage::url(Auth::user()->perusahaan->logo) : '' }}"
-                                style="width: 100%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
-                        @else
-                            <img class="img-fluid bg-white mt-4 img-detail-profile"
-                                src="{{ asset('assets/img/avatar/avatar-1.png') }}"
-                                style="width: 100%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
-                        @endif
-                    </div>
-                </div>
+<!-- Modal Rekrut Karyawan oleh Perusahaan -->
+<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header m-4">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah
+                    Jadwal Interview / Tes Lanjutan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </main>
-    @endif
+            <div class="modal-body">
+                <form method="POST" action="{{ route('pengalaman.store') }}" class="needs-validation"
+                    novalidate="" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label for="nama_pekerjaan">Nama Pekerjaaan</label>
+                            <input name="nama_pekerjaan" type="text"
+                                class="form-control custom-input @error('nama_pekerjaan') is-invalid @enderror"
+                                value="{{ old('nama_pekerjaan') }}"
+                                placeholder="Masukkan nama pekerjaan yang pernah anda lakukan">
+                            @error('nama_pekerjaan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label>Nama Perusahaan</label>
+                            <input name="nama_perusahaan" type="text"
+                                class="form-control custom-input @error('nama_perusahaan') is-invalid @enderror"
+                                value="{{ old('nama_perusahaan') }}"
+                                placeholder="Masukkan nama perusahaan tempat anda bekerja">
+                            @error('nama_perusahaan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label>Alamat</label>
+                            <textarea name="alamat" class="form-control custom-input @error('alamat') is-invalid @enderror" rows="4"
+                                placeholder="Masukkan alamat perusahaan tempat anda bekerja">{{ old('alamat') }}</textarea>
+                            @error('alamat')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-6 col-12">
+                            <label>Tipe Pekerjaan</label>
+                            <select class="form-control select2 custom-input @error('tipe') is-invalid @enderror"
+                                name="tipe" id="tipe">
+                                <option value="">Pilih Tipe Pekerjaan</option>
+                                <option value="Fulltime">Fulltime</option>
+                                <option value="Parttime">Part Time</option>
+                                <option value="Freelance">Freelance</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                            @error('tipe')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6 col-12">
+                            <label for="gaji">Gaji (Opsional)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text custom-input">
+                                        <a>Rp</a>
+                                    </div>
+                                </div>
+                                <input name="gaji" type="number" step="100000"
+                                    class="form-control custom-input @error('gaji') is-invalid @enderror"
+                                    value="{{ old('gaji') }}" placeholder="Masukkan gaji anda bekerja">
+                                @error('gaji')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-6 col-12">
+                            <label>Tanggal Mulai</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text custom-input">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <input name="tanggal_mulai" type="date"
+                                    class="form-control custom-input @error('tanggal_mulai') is-invalid @enderror"
+                                    value="{{ old('tanggal_mulai') }}">
+                                @error('tanggal_mulai')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-6 col-12">
+                            <label>Tanggal Berakhir</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text custom-input">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <input name="tanggal_berakhir" type="date"
+                                    class="form-control custom-input @error('tanggal_berakhir') is-invalid @enderror"
+                                    value="{{ old('tanggal_berakhir') }}">
+                                @error('tanggal_berakhir')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-whitesmoke m-4">
+                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
+                    style="border-radius: 15px; font-size: 14px">Tambah</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    style="border-radius: 15px; font-size: 14px">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    @if (Auth::user()->hasRole('Pencari Kerja'))
+@extends('landing-page.app')
+@section('title', 'JobsKelasIndustri - Profile')
+@section('main')
         <main class="bg-light">
             <h4 class="text-center my-4" style="text-align: center; font-weight: bold;">Data Diri</h4>
             <section class="centered-section-1">
@@ -597,9 +626,9 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="profile-widget-description m-4">
-                                @if (Auth::user()->profile && Auth::user()->profile->foto != '')
+                                @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
                                     <img alt="image"
-                                        src="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->foto) : '' }}"
+                                        src="{{ Storage::url(Auth::user()->lulusan->foto) }}"
                                         class="rounded-square profile-widget-picture img-fluid card-profile-img"
                                         style="width: 180px; height: 180px; border-radius:15px;">
                                 @else
@@ -624,22 +653,22 @@
                                 <div class="d-flex justify-content-end" style="font-size: 2.00em;">
                                     <button class="btn btn-primary"
                                     style="background-color:#4ED373; font-size:13px; border-radius:15px;
-                                    border-color:#4ED373;margin-right: 10px;">Aktif Mencari Kerja</button>
-                                    <a href="{{ url('/profile-edit') }}">
+                                    border-color:#4ED373;margin-right: 10px;">{!! Auth::user()->lulusan->status !!}</button>
+                                    <a href="{{ route('profile-lulusan.edit', $lulusan) }}">
                                         <img class="img-fluid" style="width: 35px; height: 35px;"
                                             src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                     </a>
                                 </div>
                             </div>
                             <div class="col-md-11 ml-2 card-profile2">
-                                @if (Auth::user()->profile && Auth::user()->profile->alamat != '')
-                                    <div class="profile-widget-description mb-3"
+                                @if (Auth::user()->lulusan && Auth::user()->lulusan->alamat != '')
+                                    <div class="lulusan-widget-description mb-3"
                                         style="display: flex; align-items: center;">
                                         <img class="img-fluid" style="width: 25px; height: 25px;"
-                                            src="{{ asset('assets/img/landing-page/location pin.svg') }}">&nbsp&nbsp<a>{{ Auth::user()->profile ? Auth::user()->profile->alamat : '' }}</a>
+                                            src="{{ asset('assets/img/landing-page/location pin.svg') }}">&nbsp&nbsp<a>{{Auth::user()->lulusan->alamat}}</a>
                                     </div>
                                 @endif
-                                @if (Auth::user()->profile && Auth::user()->profile->resume != '')
+                                @if (Auth::user()->lulusan && Auth::user()->lulusan->resume != '')
                                     <div class="profile-widget-description lihat-resume" style=" ">
                                         {{-- <a href="#" class="btn btn-primary" id="skill-button" data-toggle="modal"
                                             data-target="#resumePreviewModal"
@@ -647,12 +676,12 @@
                                             style="background-color:#eb9481; font-size:13px; border-radius:15px;">
                                             <i class="fas fa-eye"></i> Lihat Resume
                                         </a> --}}
-                                        <a href="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->resume) : '' }}"
+                                        <a href="{{Storage::url(Auth::user()->lulusan->resume)}}"
                                             onclick="return openResume();" target="_blank" class="btn btn-primary"
                                             style="background-color:#eb9481; font-size:13px; border-radius:15px; border-color:#eb9481; margin-right: 10px;">
                                             Lihat Resume
                                         </a>
-                                        <a href="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->resume) : '' }}"
+                                        <a href="{{Storage::url(Auth::user()->lulusan->resume)}}"
                                             onclick="return openResume();" target="_blank" class="btn btn-primary"
                                             style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;">
                                             Rekrut Karyawan
@@ -677,11 +706,11 @@
                                         </h5>
                                         <hr>
                                         <div class="text-left mb-4 mt-2 ml-2">
-                                            @if (Auth::user()->profile && Auth::user()->profile->tgl_lahir != '')
+                                            @if (Auth::user()->lulusan && Auth::user()->lulusan->tgl_lahir != '')
                                                 <span style="color: #808080; font-size: 15px; font-weight:bold">Tanggal
                                                     Lahir&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:
                                                     <span
-                                                        style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->profile ? Auth::user()->profile->tgl_lahir : '' }}</span>
+                                                        style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->lulusan->tgl_lahir}}</span>
                                                 </span><br><br>
                                             @else
                                                 <span style="color: #808080; font-size: 15px; font-weight:bold">Tanggal
@@ -689,16 +718,16 @@
                                                 <span
                                                     style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
                                             @endif
-                                            @if (Auth::user()->profile && Auth::user()->profile->jenis_kelamin != '')
+                                            @if (Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin != '')
                                                 <span style="color: #808080; font-size: 15px; font-weight:bold">Jenis
                                                     Kelamin&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp&nbsp&nbsp
                                                     <span style="color: #000000; line-height: 2; font-weight:500">
-                                                        @if (Auth::user()->profile->jenis_kelamin == 'P')
+                                                        @if (Auth::user()->lulusan->jenis_kelamin == 'P')
                                                             Perempuan
-                                                        @elseif (Auth::user()->profile->jenis_kelamin == 'L')
+                                                        @elseif (Auth::user()->lulusan->jenis_kelamin == 'L')
                                                             Laki-laki
                                                         @else
-                                                            {{ Auth::user()->profile->jenis_kelamin }}
+                                                            {{ Auth::user()->lulusan->jenis_kelamin }}
                                                         @endif
                                                     </span>
                                                 </span><br><br>
@@ -708,24 +737,13 @@
                                                 <span
                                                     style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
                                             @endif
-                                            @if (Auth::user()->profile && Auth::user()->profile->no_hp != '')
+                                            @if (Auth::user()->lulusan && Auth::user()->lulusan->no_hp != '')
                                                 <span style="color: #808080; font-size: 15px; font-weight:bold">No
                                                     Telepon&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<span
-                                                        style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->profile ? Auth::user()->profile->no_hp : '' }}</span></span><br><br>
+                                                        style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{Auth::user()->lulusan->no_hp}}</span></span><br><br>
                                             @else
                                                 <span style="color: #808080; font-size: 15px; font-weight:bold">No Telepon
                                                     :</span>
-                                                <span
-                                                    style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
-                                            @endif
-                                            @if (Auth::user()->profile && Auth::user()->profile->harapan_gaji != '')
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">Harapan
-                                                    Gaji&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                    <span
-                                                        style="color: #000000; line-height: 2; font-weight:500">{{ Auth::user()->profile ? Auth::user()->profile->harapan_gaji : '' }}</span></span><br><br>
-                                            @else
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">Harapan
-                                                    Gaji :</span>
                                                 <span
                                                     style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
                                             @endif
@@ -743,10 +761,10 @@
                                             Ringkasan Pribadi
                                         </h5>
                                         <hr>
-                                        @if (Auth::user()->profile && Auth::user()->profile->ringkasan != '')
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->ringkasan != '')
                                             <div class="text-left mb-4 mt-2 ml-2"
                                                 style="color: #000000; line-height: 2; font-weight:500;">
-                                                {!! Auth::user()->profile ? Auth::user()->profile->ringkasan : '' !!}</div>
+                                                {!! Auth::user()->lulusan->ringkasan !!}</div>
                                         @else
                                             <div class="text-center mb-4 mt-2 ml-2"
                                                 style="color: #808080; font-weight:lighter"><br>Belum Ada Ringkasan
@@ -781,9 +799,9 @@
                     </div>
                     <div class="col-md-12">
                         <div class="media mb-2">
-                            @if (Auth::user()->profile && Auth::user()->profile->foto != '')
+                            @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
                                 <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
-                                    src="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->foto) : '' }}"
+                                    src="{{ Storage::url(Auth::user()->lulusan->foto) }}"
                                     alt="Profile Image">
                             @else
                                 <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
@@ -799,13 +817,12 @@
             </section>
             <section class="centered-section my-4">
                 <div class="bg-primary-section card col-md-10 py-2 card-profile4 ">
-                    <div class="profile-widget-description m-3"
-                        style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
                         <div class="flex-grow-1">
                             <div class="profile-widget-name" style="color:#6777ef;">Cerita / Postingan</div>
                         </div>
                     </div>
-                    @if (count($postingans) > 0)
+                    @if ($postingans && count($postingans) > 0)
                         <div id="postingan-container">
                             <div class="col-md-12">
                                 @foreach ($postingans as $post)
@@ -817,28 +834,19 @@
                                     <br>
                                     <div class="media mb-2 p-postingan">
                                         @if (!empty($post->media))
-                                            <img class="mr-3 rounded p-img-media"width="10%;"
-                                                src="{{ asset('storage/' . $post->media) }}">
+                                            <img class="mr-3 rounded p-img-media" width="10%;" src="{{ asset('storage/' . $post->media) }}">
                                             <div class="media-body col-md-9 p-postingan-konteks">
                                                 {!! $post->konteks !!}
                                             </div>
                                             <div class="d-flex justify-content-end" style="" id="fluid">
-                                                <a href="#" data-id="{{ $post->id }}"
-                                                    data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}"
-                                                    class="modal-edit-trigger-postingan mt-2">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                        src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                                <a href="#" data-id="{{ $post->id }}" data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}" class="modal-edit-trigger-postingan mt-2">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                                 </a>
-                                                <form class="m-0"
-                                                    action="{{ route('profile.destroy', ['profile' => $post->id]) }}"
-                                                    method="POST" id="delete-post{{ $post->id }}">
+                                                <form class="m-0" action="{{ route('profile-lulusan.destroy', ['profile_lulusan' => $post->id]) }}" method="POST" id="delete-post{{ $post->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-edu"
-                                                        onclick="confirmPost({{ $post->id }})">
-                                                        <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                            src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                            alt="Hapus">
+                                                    <button type="submit" class="btn btn-edu" onclick="confirmPost({{ $post->id }})">
+                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
                                                     </button>
                                                 </form>
                                             </div>
@@ -847,22 +855,14 @@
                                                 {!! $post->konteks !!}
                                             </div>
                                             <div class="d-flex justify-content-end ml-4" style="" id="fluid">
-                                                <a href="#" data-id="{{ $post->id }}"
-                                                    data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}"
-                                                    class="modal-edit-trigger-postingan mt-2">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                        src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                                <a href="#" data-id="{{ $post->id }}" data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}" class="modal-edit-trigger-postingan mt-2">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                                 </a>
-                                                <form class="m-0"
-                                                    action="{{ route('profile.destroy', ['profile' => $post->id]) }}"
-                                                    method="POST" id="delete-post{{ $post->id }}">
+                                                <form class="m-0" action="{{ route('profile-lulusan.destroy', ['profile_lulusan' => $post->id]) }}" method="POST" id="delete-post{{ $post->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-edu"
-                                                        onclick="confirmPost({{ $post->id }})">
-                                                        <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                            src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                            alt="Hapus">
+                                                    <button type="submit" class="btn btn-edu" onclick="confirmPost({{ $post->id }})">
+                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
                                                     </button>
                                                 </form>
                                             </div>
@@ -884,6 +884,7 @@
                     @endif
                 </div>
             </section>
+
             <section class="centered-section my-4">
                 <div class="bg-primary-section card col-md-10 py-1 card-profile5">
                     <div class="profile-widget-description m-3"
@@ -898,23 +899,6 @@
                             </a>
                         </div>
                     </div>
-                    @if (count(auth()->user()->keahlians) > 0)
-                        <div class="col-md-12 mb-4">
-                            <div class="flex-grow-1 mb-2">
-                                <div class="card-header-action keahlianPelamar">
-                                    @foreach (auth()->user()->keahlians as $keahlian)
-                                        <button class="btn btn-skill keahlianPelamar1"
-                                            style="font-size: 14px">{{ $keahlian->keahlian }}</button>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="col-md-12 text-center my-4"><br><br>
-                            <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                            <p class="mt-1 text-not">Data Keahlian Masih Kosong</p>
-                        </div>
-                    @endif
                 </div>
             </section>
             <section class="centered-section my-4">
@@ -1176,7 +1160,6 @@
                 </div>
             </section>
         </main>
-    @endif
 
     <!-- Modal Edit Pendidikan -->
     <div id="modal-edit-pendidikan" class="modal fade" tabindex="-1" role="dialog">
@@ -2383,7 +2366,7 @@
                     isLoadingMore = true;
                     let nextPage = parseInt($(this).data('page')) + 1;
 
-                    $.get('{{ route('profile.index') }}?page=' + nextPage, function(data) {
+                    $.get('{{ route('profile-lulusan.index') }}?page=' + nextPage, function(data) {
                         let content = $(data).find('#pendidikan-container').html();
                         if (content) {
                             $('#pendidikan-container').append(content);
@@ -2415,7 +2398,7 @@
                     isLoadingMorePengalaman = true;
                     let nextPage = parseInt($(this).data('page')) + 1;
 
-                    $.get('{{ route('profile.index') }}?page=' + nextPage, function(data) {
+                    $.get('{{ route('profile-lulusan.index') }}?page=' + nextPage, function(data) {
                         let content = $(data).find('#pengalaman-container').html();
                         if (content) {
                             $('#pengalaman-container').append(content);
@@ -2447,7 +2430,7 @@
                     isLoadingMorePelatihan = true;
                     let nextPage = parseInt($(this).data('page')) + 1;
 
-                    $.get('{{ route('profile.index') }}?page=' + nextPage, function(data) {
+                    $.get('{{ route('profile-lulusan.index') }}?page=' + nextPage, function(data) {
                         let content = $(data).find('#pelatihan-container').html();
                         if (content) {
                             $('#pelatihan-container').append(content);
@@ -2494,7 +2477,7 @@
                     isLoadingMorePostingan = true;
                     let nextPage = parseInt($(this).data('page')) + 1;
 
-                    $.get('{{ route('profile.index') }}?page=' + nextPage, function(data) {
+                    $.get('{{ route('profile-lulusan.index') }}?page=' + nextPage, function(data) {
                         let content = $(data).find('#postingan-container').html();
                         if (content) {
                             $('#postingan-container').append(content);
