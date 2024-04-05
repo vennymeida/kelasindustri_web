@@ -33,7 +33,7 @@ class PendidikanController extends Controller
         $pendidikan->save();
 
         return redirect()
-            ->route('profile.index')
+            ->route('profile-lulusan.index')
             ->with('success', 'success-create');
     }
 
@@ -57,7 +57,7 @@ class PendidikanController extends Controller
     {
         $pendidikan->delete();
         return redirect()
-            ->route('profile.index')
+            ->route('profile-lulusan.index')
             ->with('success', 'success-delete');
     }
 }

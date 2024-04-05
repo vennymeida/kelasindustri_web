@@ -33,7 +33,7 @@ class PengalamanController extends Controller
         $pengalaman->save();
 
         return redirect()
-            ->route('profile.index')
+            ->route('profile-lulusan.index')
             ->with('success', 'success-create');
     }
 
@@ -57,7 +57,7 @@ class PengalamanController extends Controller
     {
         $pengalaman->delete();
         return redirect()
-            ->route('profile.index')
+            ->route('profile-lulusan.index')
             ->with('success', 'success-delete');
     }
 }

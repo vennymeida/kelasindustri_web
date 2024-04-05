@@ -19,19 +19,19 @@ class PendidikanSeeder extends Seeder
         DB::table('pendidikans')->insert([
             [
                 'user_id' => '3',
-                'tingkatan' => '3',
-                'jurusan' => 'IPA',
-                'nama_instutsi' => 'SMA 1 Nganjuk',
-                'tahun_mulai' => Carbon::create('2017', '01', '01'),
-                'tahun_selesai' => Carbon::create('2017', '01', '01'),
+                'tingkatan' => 'SMK',
+                'jurusan' => 'Rekayasa Perangkat Lunak',
+                'nama_institusi' => 'SMKN 2 Kediri',
+                'tahun_mulai' => '2017',
+                'tahun_selesai' => '2020',
             ],
             [
-                'user_id' => '3',
-                'tingkatan' => '3',
-                'jurusan' => 'BAHASA',
-                'nama_instutsi' => 'SMA 1 Nganjuk',
-                'tahun_mulai' => Carbon::create('2017', '01', '01'),
-                'tahun_selesai' => Carbon::create('2017', '01', '01'),
+                'user_id' => '4',
+                'tingkatan' => 'SMK',
+                'jurusan' => 'Game',
+                'nama_institusi' => 'SMKN 3 Kediri',
+                'tahun_mulai' => '2020',
+                'tahun_selesai' => '2023',
             ]
         ]);
     }

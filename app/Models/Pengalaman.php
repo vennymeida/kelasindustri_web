@@ -11,13 +11,12 @@ class Pengalaman extends Model
     protected $table = 'pengalamans';
     protected $fillable = [
         'user_id',
-        'nama_pekerjaan',
-        'nama_perusahaan',
+        'nama_pengalaman',
+        'nama_instansi',
         'alamat',
         'tipe',
-        'gaji',
-        'tanggal_mulai',
-        'tanggal_berakhir',
+        'tgl_mulai',
+        'tgl_selesai',
     ];
 
     public function user()

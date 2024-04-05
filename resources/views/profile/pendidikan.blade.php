@@ -8,7 +8,7 @@
                     <div class="flex-grow-1">
                         <div class="row">
                             <div>
-                                <a href="{{ url('/profile') }}">
+                                <a href="{{ url('/profile-lulusan') }}">
                                     <img class="img-fluid mt-1" style="width: 30px; height: 30px;"
                                         src="{{ asset('assets/img/Vector.svg') }}">
                                 </a>
@@ -29,7 +29,7 @@
                             <div class="flex-grow-1">
                                 <div class="profile-widget-name"
                                     style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                                    {{ $item->institusi }}
+                                    {{ $item->nama_institusi }}
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
@@ -45,19 +45,11 @@
                             <ul class="list-unstyled ml-2">
                                 <li class="mb-2"><img class="img-fluid"
                                         src="{{ asset('assets/img/landing-page/Graduation Cap (2).svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                    {{ $item->gelar }} - {{ $item->jurusan }}
-                                </li>
-                                <li class="mb-2"><img class="img-fluid"
-                                        src="{{ asset('assets/img/landing-page/Award.svg') }}">&nbsp&nbsp&nbsp
-                                    {{ $item->prestasi }}
-                                </li>
-                                <li class="mb-2"><img class="img-fluid"
-                                        src="{{ asset('assets/img/landing-page/timeline.svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                    {{ $item->ipk }}
+                                    {{ $item->tingkatan }} - {{ $item->jurusan }}
                                 </li>
                                 <li class="mb-2"><img class="img-fluid"
                                         src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                    {{ $item->tahun_mulai }} - {{ $item->tahun_berakhir }}
+                                    {{ $item->tahun_mulai }} - {{ $item->tahun_selesai }}
                                 </li>
                             </ul>
                         </div>
@@ -86,17 +78,17 @@
                             @method('PUT')
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
-                                    <label for="gelar">Gelar</label>
-                                    <select class="form-control custom-input @error('gelar') is-invalid @enderror"
-                                        name="gelar" id="gelar">
-                                        <option value="">Pilih Gelar</option>
-                                        <option value="SMA/SMK">SMA/SMK</option>
+                                    <label for="tingkatan">Tingkatan</label>
+                                    <select class="form-control custom-input @error('tingkatan') is-invalid @enderror"
+                                        name="tingkatan" id="tingkatan">
+                                        <option value="">Pilih Tingkatan</option>
+                                        <option value="SMA/SMK">SMK</option>
                                         <option value="D3">Diploma III</option>
                                         <option value="D4">Diploma IV</option>
                                         <option value="S1">Sarjana</option>
                                         <option value="S2">Magister</option>
                                     </select>
-                                    @error('gelar')
+                                    @error('tingkatan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -106,10 +98,10 @@
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
                                     <label>Nama Institusi</label>
-                                    <input name="institusi" type="text"
-                                        class="form-control custom-input @error('institusi') is-invalid @enderror"
-                                        value="{{ old('institusi') }}">
-                                    @error('institusi')
+                                    <input name="nama_institusi" type="text"
+                                        class="form-control custom-input @error('nama_institusi') is-invalid @enderror"
+                                        value="{{ old('nama_institusi') }}">
+                                    @error('nama_institusi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -123,17 +115,6 @@
                                         class="form-control custom-input @error('jurusan') is-invalid @enderror"
                                         value="{{ old('jurusan') }}">
                                     @error('jurusan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row ml-4 mr-4">
-                                <div class="form-group col-md-12 col-12">
-                                    <label>Prestasi Akademik (Opsional)</label>
-                                    <textarea name="prestasi" class="form-control custom-input @error('prestasi') is-invalid @enderror" rows="4">{{ old('prestasi') }}</textarea>
-                                    @error('prestasi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -160,28 +141,15 @@
                                 </div>
                                 <span> - </span>
                                 <div class="col-md-4 form-group">
-                                    <select class="form-control custom-input @error('tahun_berakhir') is-invalid @enderror"
-                                        name="tahun_berakhir" id="tahun_berakhir">
+                                    <select class="form-control custom-input @error('tahun_selesai') is-invalid @enderror"
+                                        name="tahun_selesai" id="tahun_selesai">
                                         <option value="">Pilih Tahun</option>
                                         @for ($tahun = 2017; $tahun <= date('Y'); $tahun++)
                                             <option value="{{ $tahun }}">{{ $tahun }}</option>
                                         @endfor
                                         <option value="Saat Ini">Saat Ini</option>
                                     </select>
-                                    @error('tahun_berakhir')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12 mb-1 form-group">
-                                    <label for="ipk">IPK (Opsional)</label>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <input name="ipk" type="number" step="0.01"
-                                        class="form-control custom-input @error('ipk') is-invalid @enderror"
-                                        value="{{ old('ipk') }}">
-                                    @error('ipk')
+                                    @error('tahun_selesai')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -219,14 +187,11 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        $('#modal-edit select[name="gelar"]').val(data.gelar);
-                        $('#modal-edit input[name="institusi"]').val(data.institusi);
+                        $('#modal-edit select[name="tingkatan"]').val(data.tingkatan);
+                        $('#modal-edit input[name="nama_institusi"]').val(data.nama_institusi);
                         $('#modal-edit input[name="jurusan"]').val(data.jurusan);
-                        $('#modal-edit textarea[name="prestasi"]').val(data.prestasi);
                         $('#modal-edit select[name="tahun_mulai"]').val(data.tahun_mulai);
-                        $('#modal-edit select[name="tahun_berakhir"]').val(data.tahun_berakhir);
-                        $('#modal-edit input[name="ipk"]').val(data.ipk);
-
+                        $('#modal-edit select[name="tahun_selesai"]').val(data.tahun_selesai);
                         $('#modal-edit').modal('show');
                     }
                 });

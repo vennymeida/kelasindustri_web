@@ -27,7 +27,7 @@ class StorePelatihanRequest extends FormRequest
             'nama_sertifikat' => 'required|string|max:255',
             'deskripsi' => 'nullable|string|max:2000',
             'penerbit' => 'required|string|max:255',
-            'tanggal_dikeluarkan' => 'required|date',
+            'tgl_dikeluarkan' => 'required|date',
             'sertifikat' => 'required|file|mimes:pdf|max:2048',
         ];
     }
@@ -40,7 +40,7 @@ class StorePelatihanRequest extends FormRequest
             'deskripsi.max' => 'Inputan Deskripsi Melebihi Batas Maksimal',
             'penerbit.required' => 'Penerbit Tidak Boleh Kosong',
             'penerbit.max' => 'Inputan Penerbit Melebihi Batas Maksimal',
-            'tanggal_dikeluarkan.required' => 'Tanggal Dikeluarkan Tidak Boleh Kosong',
+            'tgl_dikeluarkan.required' => 'Tanggal Dikeluarkan Tidak Boleh Kosong',
             'sertifikat.required' => 'Sertifikat Tidak Boleh Kosong',
             'sertifikat.mimes' => 'Dokumen Hanya Mendukung Format pdf',
             'sertifikat.max' => 'Ukuran Dokumen Terlalu Besar',

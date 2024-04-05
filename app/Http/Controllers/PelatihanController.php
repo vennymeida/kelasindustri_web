@@ -42,7 +42,7 @@ class PelatihanController extends Controller
         $pelatihan->save();
 
         return redirect()
-            ->route('profile.index')
+            ->route('profile-lulusan.index')
             ->with('success', 'success-create');
     }
 
@@ -90,7 +90,7 @@ class PelatihanController extends Controller
         $pelatihan->delete();
 
         return redirect()
-            ->route('profile.index')
+            ->route('profile-lulusan.index')
             ->with('success', 'success-delete');
     }
 }

@@ -14,7 +14,7 @@ class Pelatihan extends Model
         'nama_sertifikat',
         'deskripsi',
         'penerbit',
-        'tanggal_dikeluarkan',
+        'tgl_dikeluarkan',
         'sertifikat',
     ];
 

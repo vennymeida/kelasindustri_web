@@ -235,10 +235,33 @@
                                         Ubah Data Diri</h5>
                                 </div>
                                 <div class="col-md-12">
-                                    <form method="POST" action="{{ route('profile-lulusan.update', ['profile_lulusan' => $lulusan->id]) }}"
+                                    <form method="POST"
+                                        action="{{ route('profile-lulusan.update', ['profile_lulusan' => $lulusan->id]) }}"
                                         class="needs-validation" novalidate="" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
+                                        <div class="form-group col-md-12 col-12">
+                                            <label for="status">Status</label>
+                                            <select
+                                                class="form-control select2 custom-input @error('status') is-invalid @enderror"
+                                                name="status" id="status">
+                                                <option value="">Pilih Status</option>
+                                                <option value="Aktif Mencari Kerja"
+                                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->status === 'Aktif Mencari Kerja' ? 'selected' : '' }}>
+                                                    Aktif Mencari Kerja</option>
+                                                <option value="Sudah Bekerja"
+                                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->status === 'Sudah Bekerja' ? 'selected' : '' }}>
+                                                    Sudah Bekerja</option>
+                                                <option value="Melanjutkan Kuliah"
+                                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->status === 'Melanjutkan Kuliah' ? 'selected' : '' }}>
+                                                    Melanjutkan Kuliah</option>
+                                                @error('status')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </select>
+                                        </div>
                                         <div class="form-group col-md-12 col-12">
                                             <label>Tanggal Lahir</label>
                                             <div class="input-group">
@@ -337,7 +360,7 @@
                                                     <div>
                                                         <a href="#" class="btn btn-sm btn-warning btn-icon"
                                                             data-toggle="modal" data-target="#fotoPreviewModal"
-                                                            data-pdf="{{Storage::url(Auth::user()->lulusan->foto)}}"
+                                                            data-pdf="{{ Storage::url(Auth::user()->lulusan->foto) }}"
                                                             style="border-radius: 15px;">
                                                             <i class="fas fa-eye mt-6"></i> Lihat Foto
                                                         </a>
@@ -347,7 +370,7 @@
                                             <div class="form-group col-md-6">
                                                 @if (Auth::user()->lulusan && Auth::user()->lulusan->resume != '')
                                                     <div>
-                                                        <a href="{{Storage::url(Auth::user()->lulusan->resume)}}"
+                                                        <a href="{{ Storage::url(Auth::user()->lulusan->resume) }}"
                                                             onclick="return openResume();" target="_blank"
                                                             class="btn btn-sm btn-warning btn-icon"
                                                             style="border-radius:15px;"><i class="fas fa-eye mt-6"></i>

@@ -37,9 +37,9 @@
                         <div class="col-12">
                             <div class="card-body">
                                 <div class="media mb-4">
-                                    @if (Auth::user()->profile && Auth::user()->profile->foto != '')
+                                    @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
                                         <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
-                                            src="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->foto) : '' }}"
+                                            src="{{Storage::url(Auth::user()->lulusan->foto)}}"
                                             alt="Profile Image">
                                     @else
                                         <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
@@ -110,17 +110,17 @@
                     @csrf
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
-                            <label for="gelar">Gelar</label>
-                            <select class="form-control select2 custom-input @error('gelar') is-invalid @enderror"
-                                name="gelar" id="gelar">
-                                <option value="">Pilih Gelar</option>
-                                <option value="SMA/SMK">SMA/SMK</option>
+                            <label for="tingkatan">Tingkatan</label>
+                            <select class="form-control select2 custom-input @error('tingkatan') is-invalid @enderror"
+                                name="tingkatan" id="tingkatan">
+                                <option value="">Pilih Tingkatan</option>
+                                <option value="SMK">SMK</option>
                                 <option value="D3">Diploma III</option>
                                 <option value="D4">Diploma IV</option>
                                 <option value="S1">Sarjana</option>
                                 <option value="S2">Magister</option>
                             </select>
-                            @error('gelar')
+                            @error('tingkatan')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -130,10 +130,10 @@
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label>Nama Institusi</label>
-                            <input name="institusi" type="text"
-                                class="form-control custom-input @error('institusi') is-invalid @enderror"
-                                value="{{ old('institusi') }}" placeholder="Masukkan nama institusi anda">
-                            @error('institusi')
+                            <input name="nama_institusi" type="text"
+                                class="form-control custom-input @error('nama_institusi') is-invalid @enderror"
+                                value="{{ old('nama_institusi') }}" placeholder="Masukkan nama nama_institusi anda">
+                            @error('nama_institusi')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -147,18 +147,6 @@
                                 class="form-control custom-input @error('jurusan') is-invalid @enderror"
                                 value="{{ old('jurusan') }}" placeholder="Masukkan jurusan anda">
                             @error('jurusan')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label>Prestasi Akademik (Opsional)</label>
-                            <textarea name="prestasi" class="form-control custom-input @error('prestasi') is-invalid @enderror" rows="4"
-                                placeholder="Masukkan prestasi akademik yang anda miliki">{{ old('prestasi') }}</textarea>
-                            @error('prestasi')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -187,28 +175,15 @@
                         <span> - </span>
                         <div class="col-md-3 form-group">
                             <select
-                                class="form-control select2 custom-input @error('tahun_berakhir') is-invalid @enderror"
-                                name="tahun_berakhir" id="tahun_berakhir">
+                                class="form-control select2 custom-input @error('tahun_selesai') is-invalid @enderror"
+                                name="tahun_selesai" id="tahun_selesai">
                                 <option value="">Pilih Tahun</option>
                                 @for ($tahun = 2017; $tahun <= 2030; $tahun++)
                                     <option value="{{ $tahun }}">{{ $tahun }}</option>
                                 @endfor
                                 <option value="Saat Ini">Saat Ini</option>
                             </select>
-                            @error('tahun_berakhir')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-md-12 mb-1 form-group">
-                            <label for="ipk">IPK (Opsional)</label>
-                        </div>
-                        <div class="col-md-3 form-group">
-                            <input name="ipk" type="number" step="0.01"
-                                class="form-control custom-input @error('ipk') is-invalid @enderror"
-                                value="{{ old('ipk') }}" placeholder="Contoh : 3,75 / 4.00">
-                            @error('ipk')
+                            @error('tahun_selesai')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -245,12 +220,12 @@
                     @csrf
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
-                            <label for="nama_pekerjaan">Nama Pekerjaaan</label>
-                            <input name="nama_pekerjaan" type="text"
-                                class="form-control custom-input @error('nama_pekerjaan') is-invalid @enderror"
-                                value="{{ old('nama_pekerjaan') }}"
-                                placeholder="Masukkan nama pekerjaan yang pernah anda lakukan">
-                            @error('nama_pekerjaan')
+                            <label for="nama_pengalaman">Nama Pengalaman</label>
+                            <input name="nama_pengalaman" type="text"
+                                class="form-control custom-input @error('nama_pengalaman') is-invalid @enderror"
+                                value="{{ old('nama_pengalaman') }}"
+                                placeholder="Masukkan nama pengalaman yang pernah anda lakukan">
+                            @error('nama_pengalaman')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -259,12 +234,12 @@
                     </div>
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
-                            <label>Nama Perusahaan</label>
-                            <input name="nama_perusahaan" type="text"
-                                class="form-control custom-input @error('nama_perusahaan') is-invalid @enderror"
-                                value="{{ old('nama_perusahaan') }}"
-                                placeholder="Masukkan nama perusahaan tempat anda bekerja">
-                            @error('nama_perusahaan')
+                            <label>Nama Instansi</label>
+                            <input name="nama_instansi" type="text"
+                                class="form-control custom-input @error('nama_instansi') is-invalid @enderror"
+                                value="{{ old('nama_instansi') }}"
+                                placeholder="Masukkan nama instansi">
+                            @error('nama_instansi')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -275,7 +250,7 @@
                         <div class="form-group col-md-12 col-12">
                             <label>Alamat</label>
                             <textarea name="alamat" class="form-control custom-input @error('alamat') is-invalid @enderror" rows="4"
-                                placeholder="Masukkan alamat perusahaan tempat anda bekerja">{{ old('alamat') }}</textarea>
+                                placeholder="Masukkan Lokasi">{{ old('alamat') }}</textarea>
                             @error('alamat')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -293,30 +268,13 @@
                                 <option value="Parttime">Part Time</option>
                                 <option value="Freelance">Freelance</option>
                                 <option value="Internship">Internship</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
                             @error('tipe')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
-                        </div>
-                        <div class="form-group col-md-6 col-12">
-                            <label for="gaji">Gaji (Opsional)</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text custom-input">
-                                        <a>Rp</a>
-                                    </div>
-                                </div>
-                                <input name="gaji" type="number" step="100000"
-                                    class="form-control custom-input @error('gaji') is-invalid @enderror"
-                                    value="{{ old('gaji') }}" placeholder="Masukkan gaji anda bekerja">
-                                @error('gaji')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
                         </div>
                     </div>
                     <div class="row ml-4 mr-4">
@@ -328,10 +286,10 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
-                                <input name="tanggal_mulai" type="date"
-                                    class="form-control custom-input @error('tanggal_mulai') is-invalid @enderror"
-                                    value="{{ old('tanggal_mulai') }}">
-                                @error('tanggal_mulai')
+                                <input name="tgl_mulai" type="date"
+                                    class="form-control custom-input @error('tgl_mulai') is-invalid @enderror"
+                                    value="{{ old('tgl_mulai') }}">
+                                @error('tgl_mulai')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -341,17 +299,17 @@
                     </div>
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-6 col-12">
-                            <label>Tanggal Berakhir</label>
+                            <label>Tanggal Selesai</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text custom-input">
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
-                                <input name="tanggal_berakhir" type="date"
-                                    class="form-control custom-input @error('tanggal_berakhir') is-invalid @enderror"
-                                    value="{{ old('tanggal_berakhir') }}">
-                                @error('tanggal_berakhir')
+                                <input name="tgl_selesai" type="date"
+                                    class="form-control custom-input @error('tgl_selesai') is-invalid @enderror"
+                                    value="{{ old('tgl_selesai') }}">
+                                @error('tgl_selesai')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -435,10 +393,10 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
-                                <input name="tanggal_dikeluarkan" type="date"
-                                    class="form-control custom-input @error('tanggal_dikeluarkan') is-invalid @enderror"
-                                    value="{{ old('tanggal_dikeluarkan') }}">
-                                @error('tanggal_dikeluarkan')
+                                <input name="tgl_dikeluarkan" type="date"
+                                    class="form-control custom-input @error('tgl_dikeluarkan') is-invalid @enderror"
+                                    value="{{ old('tgl_dikeluarkan') }}">
+                                @error('tgl_dikeluarkan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -490,12 +448,11 @@
                     @csrf
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
-                            <label for="nama_pekerjaan">Nama Pekerjaaan</label>
-                            <input name="nama_pekerjaan" type="text"
-                                class="form-control custom-input @error('nama_pekerjaan') is-invalid @enderror"
-                                value="{{ old('nama_pekerjaan') }}"
-                                placeholder="Masukkan nama pekerjaan yang pernah anda lakukan">
-                            @error('nama_pekerjaan')
+                            <label for="subject">Subject</label>
+                            <input name="subject" type="text"
+                                class="form-control custom-input @error('subject') is-invalid @enderror"
+                                value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
+                            @error('subject')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -504,12 +461,11 @@
                     </div>
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
-                            <label>Nama Perusahaan</label>
-                            <input name="nama_perusahaan" type="text"
-                                class="form-control custom-input @error('nama_perusahaan') is-invalid @enderror"
-                                value="{{ old('nama_perusahaan') }}"
-                                placeholder="Masukkan nama perusahaan tempat anda bekerja">
-                            @error('nama_perusahaan')
+                            <label>Tempat Interview</label>
+                            <input name="tempat_interview" type="text"
+                                class="form-control custom-input @error('tempat_interview') is-invalid @enderror"
+                                value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
+                            @error('tempat_interview')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -530,78 +486,32 @@
                     </div>
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-6 col-12">
-                            <label>Tipe Pekerjaan</label>
-                            <select class="form-control select2 custom-input @error('tipe') is-invalid @enderror"
-                                name="tipe" id="tipe">
-                                <option value="">Pilih Tipe Pekerjaan</option>
-                                <option value="Fulltime">Fulltime</option>
-                                <option value="Parttime">Part Time</option>
-                                <option value="Freelance">Freelance</option>
-                                <option value="Internship">Internship</option>
-                            </select>
-                            @error('tipe')
+                            <label>Tanggal Interview</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text custom-input">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <input name="tgl_interview" type="date"
+                                    class="form-control custom-input @error('tgl_interview') is-invalid @enderror"
+                                    value="{{ old('tgl_interview') }}">
+                                @error('tgl_interview')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12 col-12">
+                            <label>Catatan (Opsional)</label>
+                            <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4"
+                                placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
+                            @error('catatan')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
-                        </div>
-                        <div class="form-group col-md-6 col-12">
-                            <label for="gaji">Gaji (Opsional)</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text custom-input">
-                                        <a>Rp</a>
-                                    </div>
-                                </div>
-                                <input name="gaji" type="number" step="100000"
-                                    class="form-control custom-input @error('gaji') is-invalid @enderror"
-                                    value="{{ old('gaji') }}" placeholder="Masukkan gaji anda bekerja">
-                                @error('gaji')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-6 col-12">
-                            <label>Tanggal Mulai</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text custom-input">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                                <input name="tanggal_mulai" type="date"
-                                    class="form-control custom-input @error('tanggal_mulai') is-invalid @enderror"
-                                    value="{{ old('tanggal_mulai') }}">
-                                @error('tanggal_mulai')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-6 col-12">
-                            <label>Tanggal Berakhir</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text custom-input">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                                <input name="tanggal_berakhir" type="date"
-                                    class="form-control custom-input @error('tanggal_berakhir') is-invalid @enderror"
-                                    value="{{ old('tanggal_berakhir') }}">
-                                @error('tanggal_berakhir')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -619,547 +529,529 @@
 @extends('landing-page.app')
 @section('title', 'JobsKelasIndustri - Profile')
 @section('main')
-        <main class="bg-light">
-            <h4 class="text-center my-4" style="text-align: center; font-weight: bold;">Data Diri</h4>
-            <section class="centered-section-1">
-                <div class="bg-primary-section card col-lg-10 col-md-10 col-sm-6 py-1 card-profile1">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="profile-widget-description m-4">
-                                @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
-                                    <img alt="image"
-                                        src="{{ Storage::url(Auth::user()->lulusan->foto) }}"
-                                        class="rounded-square profile-widget-picture img-fluid card-profile-img"
-                                        style="width: 180px; height: 180px; border-radius:15px;">
-                                @else
-                                    <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
-                                        class="rounded-square profile-widget-picture img-fluid card-profile-img"
-                                        style="width: 180px; height: 180px; border-radius:15px;">
-                                @endif
-                            </div>
+    <main class="bg-light">
+        <h4 class="text-center my-4" style="text-align: center; font-weight: bold;">Data Diri</h4>
+        <section class="centered-section-1">
+            <div class="bg-primary-section card col-lg-10 col-md-10 col-sm-6 py-1 card-profile1">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-widget-description m-4">
+                            @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
+                                <img alt="image" src="{{ Storage::url(Auth::user()->lulusan->foto) }}"
+                                    class="rounded-square profile-widget-picture img-fluid card-profile-img"
+                                    style="width: 180px; height: 180px; border-radius:15px;">
+                            @else
+                                <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                                    class="rounded-square profile-widget-picture img-fluid card-profile-img"
+                                    style="width: 180px; height: 180px; border-radius:15px;">
+                            @endif
                         </div>
-                        <div class="col-md-9">
-                            <div class="profile-widget-description ml-4 mr-4 mt-4"
-                                style="display: flex; align-items: center;">
-                                <div class="flex-grow-1">
-                                    <div class="profile-widget-name"
-                                        style="font-weight: bold; font-size: 22px; color: #000000">
-                                        {{ Auth::user()->name }}</div>
-                                    <div class="profile-widget-name" style="font-weight: light; font-size: 16px;">
-                                        {{ Auth::user()->email }}</div>
-                                    <hr
-                                        style="background-color:#ebebeb; height: 1px; border: none; width: 90%; float: left;">
-                                </div>
-                                <div class="d-flex justify-content-end" style="font-size: 2.00em;">
-                                    <button class="btn btn-primary"
+                    </div>
+                    <div class="col-md-9">
+                        <div class="profile-widget-description ml-4 mr-4 mt-4"
+                            style="display: flex; align-items: center;">
+                            <div class="flex-grow-1">
+                                <div class="profile-widget-name"
+                                    style="font-weight: bold; font-size: 22px; color: #000000">
+                                    {{ Auth::user()->name }}</div>
+                                <div class="profile-widget-name" style="font-weight: light; font-size: 16px;">
+                                    {{ Auth::user()->email }}</div>
+                                <hr style="background-color:#ebebeb; height: 1px; border: none; width: 90%; float: left;">
+                            </div>
+                            <div class="d-flex justify-content-end" style="font-size: 2.00em;">
+                                <button class="btn btn-primary"
                                     style="background-color:#4ED373; font-size:13px; border-radius:15px;
                                     border-color:#4ED373;margin-right: 10px;">{!! Auth::user()->lulusan->status !!}</button>
-                                    <a href="{{ route('profile-lulusan.edit', $lulusan) }}">
-                                        <img class="img-fluid" style="width: 35px; height: 35px;"
-                                            src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                    </a>
-                                </div>
+                                <a href="{{ route('profile-lulusan.edit', $lulusan) }}">
+                                    <img class="img-fluid" style="width: 35px; height: 35px;"
+                                        src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                </a>
                             </div>
-                            <div class="col-md-11 ml-2 card-profile2">
-                                @if (Auth::user()->lulusan && Auth::user()->lulusan->alamat != '')
-                                    <div class="lulusan-widget-description mb-3"
-                                        style="display: flex; align-items: center;">
-                                        <img class="img-fluid" style="width: 25px; height: 25px;"
-                                            src="{{ asset('assets/img/landing-page/location pin.svg') }}">&nbsp&nbsp<a>{{Auth::user()->lulusan->alamat}}</a>
-                                    </div>
-                                @endif
-                                @if (Auth::user()->lulusan && Auth::user()->lulusan->resume != '')
-                                    <div class="profile-widget-description lihat-resume" style=" ">
-                                        {{-- <a href="#" class="btn btn-primary" id="skill-button" data-toggle="modal"
+                        </div>
+                        <div class="col-md-11 ml-2 card-profile2">
+                            @if (Auth::user()->lulusan && Auth::user()->lulusan->alamat != '')
+                                <div class="lulusan-widget-description mb-3" style="display: flex; align-items: center;">
+                                    <img class="img-fluid" style="width: 25px; height: 25px;"
+                                        src="{{ asset('assets/img/landing-page/location pin.svg') }}">&nbsp&nbsp<a>{{ Auth::user()->lulusan->alamat }}</a>
+                                </div>
+                            @endif
+                            @if (Auth::user()->lulusan && Auth::user()->lulusan->resume != '')
+                                <div class="profile-widget-description lihat-resume" style=" ">
+                                    {{-- <a href="#" class="btn btn-primary" id="skill-button" data-toggle="modal"
                                             data-target="#resumePreviewModal"
                                             data-pdf="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->resume) : '' }}"
                                             style="background-color:#eb9481; font-size:13px; border-radius:15px;">
                                             <i class="fas fa-eye"></i> Lihat Resume
                                         </a> --}}
-                                        <a href="{{Storage::url(Auth::user()->lulusan->resume)}}"
-                                            onclick="return openResume();" target="_blank" class="btn btn-primary"
-                                            style="background-color:#eb9481; font-size:13px; border-radius:15px; border-color:#eb9481; margin-right: 10px;">
-                                            Lihat Resume
-                                        </a>
-                                        <a href="{{Storage::url(Auth::user()->lulusan->resume)}}"
-                                            onclick="return openResume();" target="_blank" class="btn btn-primary"
-                                            style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;">
-                                            Rekrut Karyawan
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="col-md-10 mx-auto mt-4 mb-0">
-                <div>
-                    <div class="row">
-                        <div class="col-md-5 mb-2">
-                            <div class="card border-primary">
-                                <div class="card-body">
-                                    <div class="text-left mb-4 mt-2 ml-2">
-                                        <h5 class="card-title font-weight-bold d-block mx-2"
-                                            style="color:#000000; font-size:18px;">
-                                            Informasi Pribadi
-                                        </h5>
-                                        <hr>
-                                        <div class="text-left mb-4 mt-2 ml-2">
-                                            @if (Auth::user()->lulusan && Auth::user()->lulusan->tgl_lahir != '')
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">Tanggal
-                                                    Lahir&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:
-                                                    <span
-                                                        style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->lulusan->tgl_lahir}}</span>
-                                                </span><br><br>
-                                            @else
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">Tanggal
-                                                    Lahir :</span>
-                                                <span
-                                                    style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
-                                            @endif
-                                            @if (Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin != '')
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">Jenis
-                                                    Kelamin&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                    <span style="color: #000000; line-height: 2; font-weight:500">
-                                                        @if (Auth::user()->lulusan->jenis_kelamin == 'P')
-                                                            Perempuan
-                                                        @elseif (Auth::user()->lulusan->jenis_kelamin == 'L')
-                                                            Laki-laki
-                                                        @else
-                                                            {{ Auth::user()->lulusan->jenis_kelamin }}
-                                                        @endif
-                                                    </span>
-                                                </span><br><br>
-                                            @else
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">Jenis
-                                                    Kelamin :</span>
-                                                <span
-                                                    style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
-                                            @endif
-                                            @if (Auth::user()->lulusan && Auth::user()->lulusan->no_hp != '')
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">No
-                                                    Telepon&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<span
-                                                        style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{Auth::user()->lulusan->no_hp}}</span></span><br><br>
-                                            @else
-                                                <span style="color: #808080; font-size: 15px; font-weight:bold">No Telepon
-                                                    :</span>
-                                                <span
-                                                    style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
-                                            @endif
-                                        </div>
-                                    </div>
+                                    <a href="{{ Storage::url(Auth::user()->lulusan->resume) }}"
+                                        onclick="return openResume();" target="_blank" class="btn btn-primary"
+                                        style="background-color:#eb9481; font-size:13px; border-radius:15px; border-color:#eb9481; margin-right: 10px;">
+                                        Lihat Resume
+                                    </a>
+                                    <a href="#" class="btn btn-primary"
+                                        style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;"
+                                        data-toggle="modal" data-target="#modal-rekrut-karyawan">
+                                        Rekrut Karyawan
+                                    </a>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="card border-primary" style="height: 345px; overflow-y: auto;">
-                                <div class="card-body">
-                                    <div class="text-left mb-4 mt-2 ml-2">
-                                        <h5 class="card-title font-weight-bold d-block mx-2"
-                                            style="color:#000000; font-size:18px;">
-                                            Ringkasan Pribadi
-                                        </h5>
-                                        <hr>
-                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->ringkasan != '')
-                                            <div class="text-left mb-4 mt-2 ml-2"
-                                                style="color: #000000; line-height: 2; font-weight:500;">
-                                                {!! Auth::user()->lulusan->ringkasan !!}</div>
-                                        @else
-                                            <div class="text-center mb-4 mt-2 ml-2"
-                                                style="color: #808080; font-weight:lighter"><br>Belum Ada Ringkasan
-                                                Tentang
-                                                Diri Anda</div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="centered-section container-garis my-0 garisPembatasProfile">
-                <div class="lines my-0">
-                    <div class="diamond"></div>
-                    <div class="circle"></div>
-                    <div class="diamond"></div>
-                </div>
-            </section>
-            <section class="centered-section my-0">
-                <div class="bg-primary-section card col-md-10 py-3 card-profile3">
-                    <div class="profile-widget-description m-3"
-                        style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                        <div class="flex-grow-1">
-                            <div class="profile-widget-name" style="color:#6777ef;">Cerita Saya</div>
-                        </div>
-                        <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                            <a href="#" data-toggle="modal" data-target="#modal-create-postingan">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="media mb-2">
-                            @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
-                                <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
-                                    src="{{ Storage::url(Auth::user()->lulusan->foto) }}"
-                                    alt="Profile Image">
-                            @else
-                                <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
-                                    src="{{ asset('assets/img/avatar/avatar-1.png') }}">
                             @endif
-                            <div class="form-group col-md-11" data-toggle="modal" data-target="#modal-create-postingan">
-                                <input name="postingan" type="text" class="form-control custom-input"
-                                    placeholder="Tambahkan Cerita Anda . . .">
-                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section class="centered-section my-4">
-                <div class="bg-primary-section card col-md-10 py-2 card-profile4 ">
-                    <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                        <div class="flex-grow-1">
-                            <div class="profile-widget-name" style="color:#6777ef;">Cerita / Postingan</div>
-                        </div>
-                    </div>
-                    @if ($postingans && count($postingans) > 0)
-                        <div id="postingan-container">
-                            <div class="col-md-12">
-                                @foreach ($postingans as $post)
+            </div>
+        </section>
+        <section class="col-md-10 mx-auto mt-4 mb-0">
+            <div>
+                <div class="row">
+                    <div class="col-md-5 mb-2">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div class="text-left mb-4 mt-2 ml-2">
+                                    <h5 class="card-title font-weight-bold d-block mx-2"
+                                        style="color:#000000; font-size:18px;">
+                                        Informasi Pribadi
+                                    </h5>
                                     <hr>
-                                    <div class="font-italic mt-2 time" style="font-size: 14px;">
-                                        {{ auth()->user()->name }}
-                                        - {{ $post->timeAgo }}
-                                    </div>
-                                    <br>
-                                    <div class="media mb-2 p-postingan">
-                                        @if (!empty($post->media))
-                                            <img class="mr-3 rounded p-img-media" width="10%;" src="{{ asset('storage/' . $post->media) }}">
-                                            <div class="media-body col-md-9 p-postingan-konteks">
-                                                {!! $post->konteks !!}
-                                            </div>
-                                            <div class="d-flex justify-content-end" style="" id="fluid">
-                                                <a href="#" data-id="{{ $post->id }}" data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}" class="modal-edit-trigger-postingan mt-2">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                                </a>
-                                                <form class="m-0" action="{{ route('profile-lulusan.destroy', ['profile_lulusan' => $post->id]) }}" method="POST" id="delete-post{{ $post->id }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-edu" onclick="confirmPost({{ $post->id }})">
-                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
-                                                    </button>
-                                                </form>
-                                            </div>
+                                    <div class="text-left mb-4 mt-2 ml-2">
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->tgl_lahir != '')
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">Tanggal
+                                                Lahir&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:
+                                                <span
+                                                    style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->lulusan->tgl_lahir }}</span>
+                                            </span><br><br>
                                         @else
-                                            <div class="media-body col-md-10 mr-5">
-                                                {!! $post->konteks !!}
-                                            </div>
-                                            <div class="d-flex justify-content-end ml-4" style="" id="fluid">
-                                                <a href="#" data-id="{{ $post->id }}" data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}" class="modal-edit-trigger-postingan mt-2">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                                </a>
-                                                <form class="m-0" action="{{ route('profile-lulusan.destroy', ['profile_lulusan' => $post->id]) }}" method="POST" id="delete-post{{ $post->id }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-edu" onclick="confirmPost({{ $post->id }})">
-                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">Tanggal
+                                                Lahir :</span>
+                                            <span style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
+                                        @endif
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin != '')
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">Jenis
+                                                Kelamin&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                <span style="color: #000000; line-height: 2; font-weight:500">
+                                                    @if (Auth::user()->lulusan->jenis_kelamin == 'P')
+                                                        Perempuan
+                                                    @elseif (Auth::user()->lulusan->jenis_kelamin == 'L')
+                                                        Laki-laki
+                                                    @else
+                                                        {{ Auth::user()->lulusan->jenis_kelamin }}
+                                                    @endif
+                                                </span>
+                                            </span><br><br>
+                                        @else
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">Jenis
+                                                Kelamin :</span>
+                                            <span style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
+                                        @endif
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->no_hp != '')
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">No
+                                                Telepon&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<span
+                                                    style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->lulusan->no_hp }}</span></span><br><br>
+                                        @else
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">No Telepon
+                                                :</span>
+                                            <span style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
                                         @endif
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
                         </div>
-                        <div class="text-right my-4 mr-5">
-                            <a href="{{ route('postingan.index') }}" class="" style="font-size: 16px;">
-                                Lihat Lainnya . . .
-                            </a>
-                        </div>
-                    @else
-                        <div class="col-md-12 text-center my-4"><br><br>
-                            <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                            <p class="mt-1 text-not">Belum Ada Postingan Anda</p>
-                        </div>
-                    @endif
-                </div>
-            </section>
-
-            <section class="centered-section my-4">
-                <div class="bg-primary-section card col-md-10 py-1 card-profile5">
-                    <div class="profile-widget-description m-3"
-                        style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                        <div class="flex-grow-1">
-                            <div class="profile-widget-name" style="color:#6777ef;">Keahlian</div>
-                        </div>
-                        <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                            <a href="{{ url('/profile/keahlian/edit') }}">
-                                <img class="img-fluid" style="width: 35px; height: 35px;"
-                                    src="{{ asset('assets/img/landing-page/Plus.svg') }}">
-                            </a>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card border-primary" style="height: 345px; overflow-y: auto;">
+                            <div class="card-body">
+                                <div class="text-left mb-4 mt-2 ml-2">
+                                    <h5 class="card-title font-weight-bold d-block mx-2"
+                                        style="color:#000000; font-size:18px;">
+                                        Ringkasan Pribadi
+                                    </h5>
+                                    <hr>
+                                    @if (Auth::user()->lulusan && Auth::user()->lulusan->ringkasan != '')
+                                        <div class="text-left mb-4 mt-2 ml-2"
+                                            style="color: #000000; line-height: 2; font-weight:500;">
+                                            {!! Auth::user()->lulusan->ringkasan !!}</div>
+                                    @else
+                                        <div class="text-center mb-4 mt-2 ml-2"
+                                            style="color: #808080; font-weight:lighter"><br>Belum Ada Ringkasan
+                                            Tentang
+                                            Diri Anda</div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section class="centered-section my-4">
-                <div class="bg-primary-section card col-md-10 py-1 card-profile6">
-                    <div class="profile-widget-description m-3"
-                        style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                        <div class="flex-grow-1">
-                            <div class="profile-widget-name" style="color:#6777ef;">Pendidikan</div>
-                        </div>
-                        <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                            <a href="#" data-toggle="modal" data-target="#modal-create">
-                                <img class="img-fluid" style="width: 35px; height: 35px;"
-                                    src="{{ asset('assets/img/landing-page/Plus.svg') }}">
-                            </a>
+            </div>
+        </section>
+        <section class="centered-section container-garis my-0 garisPembatasProfile">
+            <div class="lines my-0">
+                <div class="diamond"></div>
+                <div class="circle"></div>
+                <div class="diamond"></div>
+            </div>
+        </section>
+        <section class="centered-section my-0">
+            <div class="bg-primary-section card col-md-10 py-3 card-profile3">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="flex-grow-1">
+                        <div class="profile-widget-name" style="color:#6777ef;">Cerita Saya</div>
+                    </div>
+                    <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
+                        <a href="#" data-toggle="modal" data-target="#modal-create-postingan">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="media mb-2">
+                        @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
+                            <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
+                                src="{{ Storage::url(Auth::user()->lulusan->foto) }}" alt="Profile Image">
+                        @else
+                            <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
+                                src="{{ asset('assets/img/avatar/avatar-1.png') }}">
+                        @endif
+                        <div class="form-group col-md-11" data-toggle="modal" data-target="#modal-create-postingan">
+                            <input name="postingan" type="text" class="form-control custom-input"
+                                placeholder="Tambahkan Cerita Anda . . .">
                         </div>
                     </div>
-                    @if (count($pendidikans) > 0)
-                        <div id="pendidikan-container" class="pendidikancardprofile">
-                            @foreach ($pendidikans as $item)
+                </div>
+            </div>
+        </section>
+        <section class="centered-section my-4">
+            <div class="bg-primary-section card col-md-10 py-2 card-profile4 ">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="flex-grow-1">
+                        <div class="profile-widget-name" style="color:#6777ef;">Cerita / Postingan</div>
+                    </div>
+                </div>
+                @if ($postingans && count($postingans) > 0)
+                    <div id="postingan-container">
+                        <div class="col-md-12">
+                            @foreach ($postingans as $post)
                                 <hr>
-                                <div class="mr-5 ml-5">
-                                    <div class="profile-widget-description m-3"
-                                        style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                        <div class="flex-grow-1">
-                                            <div class="profile-widget-name"
-                                                style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                                {{ $item->institusi }}
-                                            </div>
+                                <div class="font-italic mt-2 time" style="font-size: 14px;">
+                                    {{ auth()->user()->name }}
+                                    - {{ $post->timeAgo }}
+                                </div>
+                                <br>
+                                <div class="media mb-2 p-postingan">
+                                    @if (!empty($post->media))
+                                        <img class="mr-3 rounded p-img-media" width="10%;"
+                                            src="{{ asset('storage/' . $post->media) }}">
+                                        <div class="media-body col-md-9 p-postingan-konteks">
+                                            {!! $post->konteks !!}
                                         </div>
-                                        <div class="d-flex justify-content-end align-items-center"
-                                            style="font-size: 2.00em;" id="fluid">
-                                            <a href="#" data-id="{{ $item->id }}"
-                                                data-edit-url="{{ route('pendidikan.edit', ['pendidikan' => $item->id]) }}"
-                                                class="modal-edit-trigger-pendidikan">
+                                        <div class="d-flex justify-content-end" style="" id="fluid">
+                                            <a href="#" data-id="{{ $post->id }}"
+                                                data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}"
+                                                class="modal-edit-trigger-postingan mt-2">
                                                 <img class="img-fluid" style="width: 30px; height: 30px;"
                                                     src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                             </a>
                                             <form class="m-0"
-                                                action="{{ route('pendidikan.destroy', ['pendidikan' => $item->id]) }}"
-                                                method="POST" id="delete-edu{{ $item->id }}">
+                                                action="{{ route('postingan.destroy', ['postingan' => $post->id]) }}"
+                                                method="POST" id="delete-post{{ $post->id }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-edu"
-                                                    onclick="confirmDelete({{ $item->id }})">
+                                                    onclick="confirmPost({{ $post->id }})">
                                                     <img class="img-fluid" style="width: 30px; height: 30px;"
                                                         src="{{ asset('assets/img/landing-page/delete.svg') }}"
                                                         alt="Hapus">
                                                 </button>
                                             </form>
                                         </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <ul class="list-unstyled ml-2">
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/Graduation Cap (2).svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                                {{ $item->gelar }} - {{ $item->jurusan }}
-                                            </li>
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/Award.svg') }}">&nbsp&nbsp&nbsp
-                                                {{ $item->prestasi }}
-                                            </li>
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/timeline.svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                                {{ $item->ipk }}
-                                            </li>
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                                {{ $item->tahun_mulai }} - {{ $item->tahun_berakhir }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="text-right mt-4 mr-4">
-                            <button id="load-more" class="btn btn-more mb-3"
-                                data-page="{{ $pendidikans->currentPage() }}">Muat Lebih Banyak . . .</button>
-                        </div>
-                    @else
-                        <div class="col-md-12 text-center my-4"><br><br>
-                            <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                            <p class="mt-1 text-not">Data Pendidikan Masih Kosong</p>
-                        </div>
-                    @endif
-                </div>
-            </section>
-            <section class="centered-section my-4">
-                <div class="bg-primary-section card col-md-10 py-1 card-profile7">
-                    <div class="profile-widget-description m-3"
-                        style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                        <div class="flex-grow-1">
-                            <div class="profile-widget-name" style="color:#6777ef;">Pengalaman Kerja</div>
-                        </div>
-                        <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                            <a href="#" data-toggle="modal" data-target="#modal-create-pengalaman">
-                                <img class="img-fluid" style="width: 35px; height: 35px;"
-                                    src="{{ asset('assets/img/landing-page/Plus.svg') }}">
-                            </a>
-                        </div>
-                    </div>
-                    @if (count($pengalamans) > 0)
-                        <div id="pengalaman-container" class="pendidikancardprofile">
-                            @foreach ($pengalamans as $pl)
-                                <hr>
-                                <div class="mr-5 ml-5">
-                                    <div class="profile-widget-description m-3"
-                                        style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                        <div class="flex-grow-1">
-                                            <div class="profile-widget-name"
-                                                style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                                {{ $pl->nama_pekerjaan }}
-                                            </div>
+                                    @else
+                                        <div class="media-body col-md-10 mr-5">
+                                            {!! $post->konteks !!}
                                         </div>
-                                        <div class="d-flex justify-content-end align-items-center"
-                                            style="font-size: 2.00em;" id="fluid">
-                                            <a href="#" data-id="{{ $pl->id }}"
-                                                data-edit-url="{{ route('pengalaman.edit', ['pengalaman' => $pl->id]) }}"
-                                                class="modal-edit-trigger-pengalaman">
+                                        <div class="d-flex justify-content-end ml-4" style="" id="fluid">
+                                            <a href="#" data-id="{{ $post->id }}"
+                                                data-edit-url="{{ route('postingan.edit', ['postingan' => $post->id]) }}"
+                                                class="modal-edit-trigger-postingan mt-2">
                                                 <img class="img-fluid" style="width: 30px; height: 30px;"
                                                     src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                             </a>
                                             <form class="m-0"
-                                                action="{{ route('pengalaman.destroy', ['pengalaman' => $pl->id]) }}"
-                                                method="POST" id="delete-pl{{ $pl->id }}">
+                                                action="{{ route('profile-lulusan.destroy', ['profile_lulusan' => $post->id]) }}"
+                                                method="POST" id="delete-post{{ $post->id }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-edu"
-                                                    onclick="confirmPl({{ $pl->id }})">
+                                                    onclick="confirmPost({{ $post->id }})">
                                                     <img class="img-fluid" style="width: 30px; height: 30px;"
                                                         src="{{ asset('assets/img/landing-page/delete.svg') }}"
                                                         alt="Hapus">
                                                 </button>
                                             </form>
                                         </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="flex-grow-1 mb-2">
-                                            <div class="profile-widget-name"
-                                                style="font-size: 16px; display: flex; align-items: center;">
-                                                {{ $pl->nama_perusahaan }} | {{ $pl->alamat }}
-                                            </div>
-                                        </div>
-                                        <ul class="list-unstyled ml-2">
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/Hourglass.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tipe }}
-                                            </li>
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/money-2.svg') }}">&nbsp&nbsp&nbspIDR
-                                                {{ $pl->gaji }}
-                                            </li>
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tanggal_mulai }}
-                                                - {{ $pl->tanggal_berakhir }}
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    @endif
                                 </div>
                             @endforeach
-                        </div>
-                        <div class="text-right mt-4 mr-4">
-                            <button id="load-more-pengalaman" class="btn btn-more mb-3"
-                                data-page="{{ $pengalamans->currentPage() }}">Muat Lebih Banyak . . .</button>
-                        </div>
-                    @else
-                        <div class="col-md-12 text-center my-4"><br><br>
-                            <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                            <p class="mt-1 text-not">Data Pengalaman Kerja Masih Kosong</p>
-                        </div>
-                    @endif
-                </div>
-            </section>
-            <section class="centered-section my-4">
-                <div class="bg-primary-section card col-md-10 py-1 card-profile8">
-                    <div class="profile-widget-description m-3"
-                        style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                        <div class="flex-grow-1">
-                            <div class="profile-widget-name" style="color:#6777ef;">Pelatihan / Sertifikat</div>
-                        </div>
-                        <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                            <a href="#" data-toggle="modal" data-target="#modal-create-pelatihan">
-                                <img class="img-fluid" style="width: 35px; height: 35px;"
-                                    src="{{ asset('assets/img/landing-page/Plus.svg') }}">
-                            </a>
                         </div>
                     </div>
-                    @if (count($pelatihans) > 0)
-                        <div id="pelatihan-container" class="pendidikancardprofile">
-                            @foreach ($pelatihans as $lat)
-                                <hr>
-                                <div class="mr-5 ml-5">
-                                    <div class="profile-widget-description m-3"
-                                        style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                        <div class="flex-grow-1">
-                                            <div class="profile-widget-name"
-                                                style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                                {{ $lat->nama_sertifikat }}
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-end align-items-center"
-                                            style="font-size: 2.00em;" id="fluid">
-                                            <a href="#" data-id="{{ $lat->id }}"
-                                                data-edit-url="{{ route('pelatihan.edit', ['pelatihan' => $lat->id]) }}"
-                                                class="modal-edit-trigger-pelatihan">
-                                                <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                    src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                            </a>
-                                            <form class="m-0"
-                                                action="{{ route('pelatihan.destroy', ['pelatihan' => $lat->id]) }}"
-                                                method="POST" id="delete-lat{{ $lat->id }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-edu"
-                                                    onclick="confirmLat({{ $lat->id }})">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                        src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                        alt="Hapus">
-                                                </button>
-                                            </form>
+                    <div class="text-right my-4 mr-5">
+                        <a href="{{ route('postingan.index') }}" class="" style="font-size: 16px;">
+                            Lihat Lainnya . . .
+                        </a>
+                    </div>
+                @else
+                    <div class="col-md-12 text-center my-4"><br><br>
+                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
+                        <p class="mt-1 text-not">Belum Ada Postingan Anda</p>
+                    </div>
+                @endif
+            </div>
+        </section>
+        <section class="centered-section my-4">
+            <div class="bg-primary-section card col-md-10 py-1 card-profile6">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="flex-grow-1">
+                        <div class="profile-widget-name" style="color:#6777ef;">Pendidikan</div>
+                    </div>
+                    <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
+                        <a href="#" data-toggle="modal" data-target="#modal-create">
+                            <img class="img-fluid" style="width: 35px; height: 35px;"
+                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                        </a>
+                    </div>
+                </div>
+                @if (count($pendidikans) > 0)
+                    <div id="pendidikan-container" class="pendidikancardprofile">
+                        @foreach ($pendidikans as $item)
+                            <hr>
+                            <div class="mr-5 ml-5">
+                                <div class="profile-widget-description m-3"
+                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                    <div class="flex-grow-1">
+                                        <div class="profile-widget-name"
+                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                            {{ $item->nama_institusi }}
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="flex-grow-1 mb-2">
-                                            <div class="profile-widget-name"
-                                                style="font-size: 16px; display: flex; align-items: center;">
-                                                {{ $lat->deskripsi }}
-                                            </div>
-                                        </div>
-                                        <ul class="list-unstyled ml-2">
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
-                                                {{ $lat->penerbit }}
-                                            </li>
-                                            <li class="mb-2"><img class="img-fluid"
-                                                    src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
-                                                {{ $lat->tanggal_dikeluarkan }}
-                                            </li>
-                                        </ul>
-                                        @if (!empty($lat->sertifikat))
-                                            <div style="font-size: 16px;">
-                                                <a href="{{ asset('storage/' . $lat->sertifikat) }}" target="_blank">
-                                                    <p class="">Lihat Sertifikat</p>
-                                                </a>
-                                            </div>
-                                        @endif
+                                    <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
+                                        id="fluid">
+                                        <a href="#" data-id="{{ $item->id }}"
+                                            data-edit-url="{{ route('pendidikan.edit', ['pendidikan' => $item->id]) }}"
+                                            class="modal-edit-trigger-pendidikan">
+                                            <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                        </a>
+                                        <form class="m-0"
+                                            action="{{ route('pendidikan.destroy', ['pendidikan' => $item->id]) }}"
+                                            method="POST" id="delete-edu{{ $item->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-edu"
+                                                onclick="confirmDelete({{ $item->id }})">
+                                                <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                    alt="Hapus">
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
-                        <div class="text-right mt-4 mr-4">
-                            <button id="load-more-pelatihan" class="btn btn-more mb-3"
-                                data-page="{{ $pelatihans->currentPage() }}">Muat Lebih Banyak . . .</button>
-                        </div>
-                    @else
-                        <div class="col-md-12 text-center my-4"><br><br>
-                            <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                            <p class="mt-1 text-not">Data Pelatihan/Sertifikat Masih Kosong</p>
-                        </div>
-                    @endif
+                                <div class="col-md-12">
+                                    <ul class="list-unstyled ml-2">
+                                        <li class="mb-2"><img class="img-fluid"
+                                                src="{{ asset('assets/img/landing-page/Graduation Cap (2).svg') }}">&nbsp&nbsp&nbsp&nbsp
+                                            {{ $item->tingkatan }} - {{ $item->jurusan }}
+                                        </li>
+                                        <li class="mb-2"><img class="img-fluid"
+                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp
+                                            {{ $item->tahun_mulai }} - {{ $item->tahun_selesai }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="text-right mt-4 mr-4">
+                        <button id="load-more" class="btn btn-more mb-3"
+                            data-page="{{ $pendidikans->currentPage() }}">Muat Lebih Banyak . . .</button>
+                    </div>
+                @else
+                    <div class="col-md-12 text-center my-4"><br><br>
+                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
+                        <p class="mt-1 text-not">Data Pendidikan Masih Kosong</p>
+                    </div>
+                @endif
+            </div>
+        </section>
+        <section class="centered-section my-4">
+            <div class="bg-primary-section card col-md-10 py-1 card-profile7">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="flex-grow-1">
+                        <div class="profile-widget-name" style="color:#6777ef;">Pengalaman Kerja</div>
+                    </div>
+                    <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
+                        <a href="#" data-toggle="modal" data-target="#modal-create-pengalaman">
+                            <img class="img-fluid" style="width: 35px; height: 35px;"
+                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                        </a>
+                    </div>
                 </div>
-            </section>
-        </main>
+                @if (count($pengalamans) > 0)
+                    <div id="pengalaman-container" class="pendidikancardprofile">
+                        @foreach ($pengalamans as $pl)
+                            <hr>
+                            <div class="mr-5 ml-5">
+                                <div class="profile-widget-description m-3"
+                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                    <div class="flex-grow-1">
+                                        <div class="profile-widget-name"
+                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                            {{ $pl->nama_pengalaman}}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
+                                        id="fluid">
+                                        <a href="#" data-id="{{ $pl->id }}"
+                                            data-edit-url="{{ route('pengalaman.edit', ['pengalaman' => $pl->id]) }}"
+                                            class="modal-edit-trigger-pengalaman">
+                                            <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                        </a>
+                                        <form class="m-0"
+                                            action="{{ route('pengalaman.destroy', ['pengalaman' => $pl->id]) }}"
+                                            method="POST" id="delete-pl{{ $pl->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-edu"
+                                                onclick="confirmPl({{ $pl->id }})">
+                                                <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                    alt="Hapus">
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="flex-grow-1 mb-2">
+                                        <div class="profile-widget-name"
+                                            style="font-size: 16px; display: flex; align-items: center;">
+                                            {{ $pl->nama_instansi }} | {{ $pl->alamat }}
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled ml-2">
+                                        <li class="mb-2"><img class="img-fluid"
+                                                src="{{ asset('assets/img/landing-page/Hourglass.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tipe }}
+                                        </li>
+                                        <li class="mb-2"><img class="img-fluid"
+                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tgl_mulai }}
+                                            - {{ $pl->tgl_selesai }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="text-right mt-4 mr-4">
+                        <button id="load-more-pengalaman" class="btn btn-more mb-3"
+                            data-page="{{ $pengalamans->currentPage() }}">Muat Lebih Banyak . . .</button>
+                    </div>
+                @else
+                    <div class="col-md-12 text-center my-4"><br><br>
+                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
+                        <p class="mt-1 text-not">Data Pengalaman Kerja Masih Kosong</p>
+                    </div>
+                @endif
+            </div>
+        </section>
+        <section class="centered-section my-4">
+            <div class="bg-primary-section card col-md-10 py-1 card-profile8">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="flex-grow-1">
+                        <div class="profile-widget-name" style="color:#6777ef;">Pelatihan / Sertifikat</div>
+                    </div>
+                    <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
+                        <a href="#" data-toggle="modal" data-target="#modal-create-pelatihan">
+                            <img class="img-fluid" style="width: 35px; height: 35px;"
+                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                        </a>
+                    </div>
+                </div>
+                @if (count($pelatihans) > 0)
+                    <div id="pelatihan-container" class="pendidikancardprofile">
+                        @foreach ($pelatihans as $lat)
+                            <hr>
+                            <div class="mr-5 ml-5">
+                                <div class="profile-widget-description m-3"
+                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                    <div class="flex-grow-1">
+                                        <div class="profile-widget-name"
+                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                            {{ $lat->nama_sertifikat }}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
+                                        id="fluid">
+                                        <a href="#" data-id="{{ $lat->id }}"
+                                            data-edit-url="{{ route('pelatihan.edit', ['pelatihan' => $lat->id]) }}"
+                                            class="modal-edit-trigger-pelatihan">
+                                            <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                        </a>
+                                        <form class="m-0"
+                                            action="{{ route('pelatihan.destroy', ['pelatihan' => $lat->id]) }}"
+                                            method="POST" id="delete-lat{{ $lat->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-edu"
+                                                onclick="confirmLat({{ $lat->id }})">
+                                                <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                    alt="Hapus">
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="flex-grow-1 mb-2">
+                                        <div class="profile-widget-name"
+                                            style="font-size: 16px; display: flex; align-items: center;">
+                                            {{ $lat->deskripsi }}
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled ml-2">
+                                        <li class="mb-2"><img class="img-fluid"
+                                                src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
+                                            {{ $lat->penerbit }}
+                                        </li>
+                                        <li class="mb-2"><img class="img-fluid"
+                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
+                                            {{ $lat->tgl_dikeluarkan }}
+                                        </li>
+                                    </ul>
+                                    @if (!empty($lat->sertifikat))
+                                        <div style="font-size: 16px;">
+                                            <a href="{{ asset('storage/' . $lat->sertifikat) }}" target="_blank">
+                                                <p class="">Lihat Sertifikat</p>
+                                            </a>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="text-right mt-4 mr-4">
+                        <button id="load-more-pelatihan" class="btn btn-more mb-3"
+                            data-page="{{ $pelatihans->currentPage() }}">Muat Lebih Banyak . . .</button>
+                    </div>
+                @else
+                    <div class="col-md-12 text-center my-4"><br><br>
+                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
+                        <p class="mt-1 text-not">Data Pelatihan/Sertifikat Masih Kosong</p>
+                    </div>
+                @endif
+            </div>
+        </section>
+    </main>
 
     <!-- Modal Edit Pendidikan -->
     <div id="modal-edit-pendidikan" class="modal fade" tabindex="-1" role="dialog">
@@ -1180,17 +1072,17 @@
                             @method('PUT')
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
-                                    <label for="gelar">Gelar</label>
-                                    <select class="form-control select2 custom-input @error('gelar') is-invalid @enderror"
-                                        name="gelar" id="gelar">
-                                        <option value="">Pilih Gelar</option>
-                                        <option value="SMA/SMK">SMA/SMK</option>
+                                    <label for="tingkatan">Tingkatan</label>
+                                    <select class="form-control select2 custom-input @error('tingkatan') is-invalid @enderror"
+                                        name="tingkatan" id="tingkatan">
+                                        <option value="">Pilih Tingkatan</option>
+                                        <option value="SMK">SMK</option>
                                         <option value="D3">Diploma III</option>
                                         <option value="D4">Diploma IV</option>
                                         <option value="S1">Sarjana</option>
                                         <option value="S2">Magister</option>
                                     </select>
-                                    @error('gelar')
+                                    @error('tingkatan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -1200,10 +1092,10 @@
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
                                     <label>Nama Institusi</label>
-                                    <input name="institusi" type="text"
-                                        class="form-control custom-input @error('institusi') is-invalid @enderror"
-                                        value="{{ old('institusi') }}" placeholder="Masukkan nama institusi anda">
-                                    @error('institusi')
+                                    <input name="nama_institusi" type="text"
+                                        class="form-control custom-input @error('nama_institusi') is-invalid @enderror"
+                                        value="{{ old('nama_institusi') }}" placeholder="Masukkan nama nama_institusi anda">
+                                    @error('nama_institusi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -1217,18 +1109,6 @@
                                         class="form-control custom-input @error('jurusan') is-invalid @enderror"
                                         value="{{ old('jurusan') }}" placeholder="Masukkan jurusan anda">
                                     @error('jurusan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row ml-4 mr-4">
-                                <div class="form-group col-md-12 col-12">
-                                    <label>Prestasi Akademik (Opsional)</label>
-                                    <textarea name="prestasi" class="form-control custom-input @error('prestasi') is-invalid @enderror" rows="4"
-                                        placeholder="Masukkan prestasi akademik yang anda miliki">{{ old('prestasi') }}</textarea>
-                                    @error('prestasi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -1257,28 +1137,15 @@
                                 <span> - </span>
                                 <div class="col-md-4 form-group">
                                     <select
-                                        class="form-control select2 custom-input @error('tahun_berakhir') is-invalid @enderror"
-                                        name="tahun_berakhir" id="tahun_berakhir">
+                                        class="form-control select2 custom-input @error('tahun_selesai') is-invalid @enderror"
+                                        name="tahun_selesai" id="tahun_selesai">
                                         <option value="">Pilih Tahun</option>
                                         @for ($tahun = 2017; $tahun <= 2030; $tahun++)
                                             <option value="{{ $tahun }}">{{ $tahun }}</option>
                                         @endfor
                                         <option value="Saat Ini">Saat Ini</option>
                                     </select>
-                                    @error('tahun_berakhir')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12 mb-1 form-group">
-                                    <label for="ipk">IPK (Opsional)</label>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <input name="ipk" type="number" step="0.01"
-                                        class="form-control custom-input @error('ipk') is-invalid @enderror"
-                                        value="{{ old('ipk') }}" placeholder="Contoh : 3,75 / 4.00">
-                                    @error('ipk')
+                                    @error('tahun_selesai')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -1305,7 +1172,7 @@
                 <div class="modal-content">
                     <div class="modal-header m-4">
                         <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Edit
-                            Pengalaman Kerja</h5>
+                            Pengalaman</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -1317,12 +1184,12 @@
                             @method('PUT')
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
-                                    <label for="nama_pekerjaan">Nama Pekerjaaan</label>
-                                    <input name="nama_pekerjaan" type="text"
-                                        class="form-control custom-input @error('nama_pekerjaan') is-invalid @enderror"
-                                        value="{{ old('nama_pekerjaan') }}"
-                                        placeholder="Masukkan nama pekerjaan yang pernah anda lakukan">
-                                    @error('nama_pekerjaan')
+                                    <label for="nama_pengalaman">Nama Pengalaman</label>
+                                    <input name="nama_pengalaman" type="text"
+                                        class="form-control custom-input @error('nama_pengalaman') is-invalid @enderror"
+                                        value="{{ old('nama_pengalaman') }}"
+                                        placeholder="Masukkan nama pengalaman yang pernah anda lakukan">
+                                    @error('nama_pengalaman')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -1331,12 +1198,12 @@
                             </div>
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
-                                    <label>Nama Perusahaan</label>
-                                    <input name="nama_perusahaan" type="text"
-                                        class="form-control custom-input @error('nama_perusahaan') is-invalid @enderror"
-                                        value="{{ old('nama_perusahaan') }}"
-                                        placeholder="Masukkan nama perusahaan tempat anda bekerja">
-                                    @error('nama_perusahaan')
+                                    <label>Nama Instansi</label>
+                                    <input name="nama_instansi" type="text"
+                                        class="form-control custom-input @error('nama_instansi') is-invalid @enderror"
+                                        value="{{ old('nama_instansi') }}"
+                                        placeholder="Masukkan nama instansi">
+                                    @error('nama_instansi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -1347,7 +1214,7 @@
                                 <div class="form-group col-md-12 col-12">
                                     <label>Alamat</label>
                                     <textarea name="alamat" class="form-control custom-input @error('alamat') is-invalid @enderror" rows="4"
-                                        placeholder="Masukkan alamat perusahaan tempat anda bekerja">{{ old('alamat') }}</textarea>
+                                        placeholder="Masukkan alamat">{{ old('alamat') }}</textarea>
                                     @error('alamat')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -1365,30 +1232,13 @@
                                         <option value="Parttime">Part Time</option>
                                         <option value="Freelance">Freelance</option>
                                         <option value="Internship">Internship</option>
+                                        <option value="Lainnya">Lainnya</option>
                                     </select>
                                     @error('tipe')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label for="gaji">Gaji (Opsional)</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text custom-input">
-                                                <a>Rp</a>
-                                            </div>
-                                        </div>
-                                        <input name="gaji" type="number" step="100000"
-                                            class="form-control custom-input @error('gaji') is-invalid @enderror"
-                                            value="{{ old('gaji') }}" placeholder="Masukkan gaji anda bekerja">
-                                        @error('gaji')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
                                 </div>
                             </div>
                             <div class="row ml-4 mr-4">
@@ -1400,10 +1250,10 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                         </div>
-                                        <input name="tanggal_mulai" type="date"
-                                            class="form-control custom-input @error('tanggal_mulai') is-invalid @enderror"
-                                            value="{{ old('tanggal_mulai') }}">
-                                        @error('tanggal_mulai')
+                                        <input name="tgl_mulai" type="date"
+                                            class="form-control custom-input @error('tgl_mulai') is-invalid @enderror"
+                                            value="{{ old('tgl_mulai') }}">
+                                        @error('tgl_mulai')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -1413,17 +1263,17 @@
                             </div>
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-6 col-12">
-                                    <label>Tanggal Berakhir</label>
+                                    <label>Tanggal Selesai</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text custom-input">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                         </div>
-                                        <input name="tanggal_berakhir" type="date"
-                                            class="form-control custom-input @error('tanggal_berakhir') is-invalid @enderror"
-                                            value="{{ old('tanggal_berakhir') }}">
-                                        @error('tanggal_berakhir')
+                                        <input name="tgl_selesai" type="date"
+                                            class="form-control custom-input @error('tgl_selesai') is-invalid @enderror"
+                                            value="{{ old('tgl_selesai') }}">
+                                        @error('tgl_selesai')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -1451,7 +1301,7 @@
                 <div class="modal-content">
                     <div class="modal-header m-4">
                         <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Edit
-                            Pelatihan Kerja</h5>
+                            Pelatihan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -1509,10 +1359,10 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                         </div>
-                                        <input name="tanggal_dikeluarkan" type="date"
-                                            class="form-control custom-input @error('tanggal_dikeluarkan') is-invalid @enderror"
-                                            value="{{ old('tanggal_dikeluarkan') }}">
-                                        @error('tanggal_dikeluarkan')
+                                        <input name="tgl_dikeluarkan" type="date"
+                                            class="form-control custom-input @error('tgl_dikeluarkan') is-invalid @enderror"
+                                            value="{{ old('tgl_dikeluarkan') }}">
+                                        @error('tgl_dikeluarkan')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -1567,9 +1417,9 @@
                             <div class="form-group col-md-12 col-12">
                                 <div class="card-body">
                                     <div class="media mb-4">
-                                        @if (Auth::user()->profile && Auth::user()->profile->foto != '')
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
                                             <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
-                                                src="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->foto) : '' }}"
+                                                src="{{Storage::url(Auth::user()->lulusan->foto)}}"
                                                 alt="Profile Image">
                                         @else
                                             <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
@@ -1783,21 +1633,21 @@
                 inputField.closest('.form-group').find('.invalid-feedback').text(message)
             }
 
-            // Menambahkan aturan kustom untuk memvalidasi tahun mulai dan tahun berakhir
-            $.validator.addMethod("tahunBerakhirLebihBesar", function(value, element) {
+            // Menambahkan aturan kustom untuk memvalidasi tahun mulai dan tahun selesai
+            $.validator.addMethod("tahunSelesaiLebihBesar", function(value, element) {
                 var tahunMulai = parseInt($('#modal-edit-pendidikan select[name="tahun_mulai"]').val(), 10);
-                var tahunBerakhir = parseInt($('#modal-edit-pendidikan select[name="tahun_berakhir"]')
+                var tahunSelesai = parseInt($('#modal-edit-pendidikan select[name="tahun_selesai"]')
                     .val(), 10);
-                return tahunMulai <= tahunBerakhir;
-            }, "Tahun mulai tidak boleh melebihi tahun berakhir.");
+                return tahunMulai <= tahunSelesai;
+            }, "Tahun mulai tidak boleh melebihi tahun selesai.");
 
             // Validasi form
             $("#modal-edit-pendidikan-form").validate({
                 rules: {
-                    gelar: {
+                    tingkatan: {
                         required: true
                     },
-                    institusi: {
+                    nama_institusi: {
                         required: true,
                         maxlength: 255
                     },
@@ -1805,25 +1655,19 @@
                         required: true,
                         maxlength: 255
                     },
-                    prestasi: {
-                        maxlength: 225
-                    },
                     tahun_mulai: {
                         required: true,
-                        tahunBerakhirLebihBesar: true // Menggunakan aturan kustom
+                        tahunSelesaiLebihBesar: true // Menggunakan aturan kustom
                     },
-                    tahun_berakhir: {
+                    tahun_selesai: {
                         required: true
                     },
-                    ipk: {
-                        range: [0, 4],
-                    }
                 },
                 messages: {
-                    gelar: {
-                        required: "Gelar Tidak Boleh Kosong"
+                    tingkatan: {
+                        required: "Tingkatan Tidak Boleh Kosong"
                     },
-                    institusi: {
+                    nama_institusi: {
                         required: "Institusi Tidak Boleh Kosong",
                         maxlength: "Nama Institusi Melebihi Batas Maksimal"
                     },
@@ -1831,19 +1675,12 @@
                         required: "Jurusan Tidak Boleh Kosong",
                         maxlength: "Nama Jurusan Melebihi Batas Maksimal"
                     },
-                    prestasi: {
-                        maxlength: "Inputan Prestasi Akademik Melebihi Batas Maksimal"
-                    },
                     tahun_mulai: {
                         required: "Tahun Mulai Tidak Boleh Kosong"
                     },
-                    tahun_berakhir: {
-                        required: "Tahun Berakhir Tidak Boleh Kosong"
+                    tahun_selesai: {
+                        required: "Tahun Selesai Tidak Boleh Kosong"
                     },
-                    ipk: {
-                        range: "Inputan IPK harus berada dalam rentang 0 hingga 4"
-
-                    }
                 },
                 highlight: function(element, errorClass) {
                     $(element).addClass('is-invalid').next('.invalid-feedback').show();
@@ -1889,15 +1726,13 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        $('#modal-edit-pendidikan select[name="gelar"]').val(data.gelar).change();
-                        $('#modal-edit-pendidikan input[name="institusi"]').val(data.institusi);
+                        $('#modal-edit-pendidikan select[name="tingkatan"]').val(data.tingkatan).change();
+                        $('#modal-edit-pendidikan input[name="nama_institusi"]').val(data.nama_institusi);
                         $('#modal-edit-pendidikan input[name="jurusan"]').val(data.jurusan);
-                        $('#modal-edit-pendidikan textarea[name="prestasi"]').val(data.prestasi);
                         $('#modal-edit-pendidikan select[name="tahun_mulai"]').val(data.tahun_mulai)
                             .change();
-                        $('#modal-edit-pendidikan select[name="tahun_berakhir"]').val(data
-                            .tahun_berakhir).change();
-                        $('#modal-edit-pendidikan input[name="ipk"]').val(data.ipk);
+                        $('#modal-edit-pendidikan select[name="tahun_selesai"]').val(data
+                            .tahun_selesai).change();
 
                         editModal.modal('show');
                     }
@@ -1952,18 +1787,18 @@
 
             // Validasi custom
             $.validator.addMethod("greaterThanStartDate", function(value, element) {
-                var startDate = $('#modal-edit-pengalaman input[name="tanggal_mulai"]').val();
+                var startDate = $('#modal-edit-pengalaman input[name="tgl_mulai"]').val();
                 return new Date(value) > new Date(startDate);
-            }, "Tanggal berakhir harus setelah tanggal mulai .");
+            }, "Tanggal selesai harus setelah tgl mulai .");
 
             // Validasi form
             $("#modal-edit-pengalaman-form").validate({
                 rules: {
-                    nama_pekerjaan: {
+                    nama_pengalaman: {
                         required: true,
                         maxlength: 255
                     },
-                    nama_perusahaan: {
+                    nama_instansi: {
                         required: true,
                         maxlength: 255
                     },
@@ -1973,27 +1808,24 @@
                     tipe: {
                         required: true,
                     },
-                    gaji: {
-                        maxlength: 8
-                    },
-                    tanggal_mulai: {
+                    tgl_mulai: {
                         required: true,
                         date: true
                     },
-                    tanggal_berakhir: {
+                    tgl_selesai: {
                         required: true,
                         date: true,
                         greaterThanStartDate: true
                     }
                 },
                 messages: {
-                    nama_pekerjaan: {
-                        required: "Nama Pekerjaan Tidak Boleh Kosong",
-                        maxlength: "Inputan Nama Pekerjaan Melebihi Batas Maksimal"
+                    nama_pengalaman: {
+                        required: "Nama Pengalaman Tidak Boleh Kosong",
+                        maxlength: "Inputan Nama Pengalaman Melebihi Batas Maksimal"
                     },
-                    nama_perusahaan: {
-                        required: "Nama Perusahaan Tidak Boleh Kosong",
-                        maxlength: "Inputan Nama Perusahaan Melebihi Batas Maksimal"
+                    nama_instansi: {
+                        required: "Nama Instansi Tidak Boleh Kosong",
+                        maxlength: "Inputan Nama Instansi Melebihi Batas Maksimal"
                     },
                     alamat: {
                         maxlength: "Inputan Alamat Melebihi Batas Maksimal"
@@ -2001,17 +1833,14 @@
                     tipe: {
                         required: "Tipe Tidak Boleh Kosong"
                     },
-                    gaji: {
-                        maxlength: "Inputan Gaji Maximal Puluhan Juta. Contoh Masukkan 50000000 tanpa titik/koma"
-                    },
-                    tanggal_mulai: {
+                    tgl_mulai: {
                         required: "Tanggal mulai harus diisi.",
-                        date: "Format tanggal tidak valid."
+                        date: "Format tgl tidak valid."
                     },
-                    tanggal_berakhir: {
-                        required: "Tanggal berakhir harus diisi.",
-                        date: "Format tanggal tidak valid.",
-                        greaterThanStartDate: "Tanggal berakhir harus setelah tanggal mulai."
+                    tgl_selesai: {
+                        required: "Tanggal selesai harus diisi.",
+                        date: "Format tgl tidak valid.",
+                        greaterThanStartDate: "Tanggal selesai harus setelah tgl mulai."
                     }
                 },
                 highlight: function(element, errorClass) {
@@ -2058,17 +1887,16 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        $('#modal-edit-pengalaman input[name="nama_pekerjaan"]').val(data
-                            .nama_pekerjaan);
-                        $('#modal-edit-pengalaman input[name="nama_perusahaan"]').val(data
-                            .nama_perusahaan);
+                        $('#modal-edit-pengalaman input[name="nama_pengalaman"]').val(data
+                            .nama_pengalaman);
+                        $('#modal-edit-pengalaman input[name="nama_instansi"]').val(data
+                            .nama_instansi);
                         $('#modal-edit-pengalaman textarea[name="alamat"]').val(data.alamat);
                         $('#modal-edit-pengalaman select[name="tipe"]').val(data.tipe).change();
-                        $('#modal-edit-pengalaman input[name="gaji"]').val(data.gaji);
-                        $('#modal-edit-pengalaman input[name="tanggal_mulai"]').val(data
-                            .tanggal_mulai);
-                        $('#modal-edit-pengalaman input[name="tanggal_berakhir"]').val(data
-                            .tanggal_berakhir);
+                        $('#modal-edit-pengalaman input[name="tgl_mulai"]').val(data
+                            .tgl_mulai);
+                        $('#modal-edit-pengalaman input[name="tgl_selesai"]').val(data
+                            .tgl_selesai);
 
                         editModal.modal('show');
                     }
@@ -2135,7 +1963,7 @@
                         required: true,
                         maxlength: 255
                     },
-                    tanggal_dikeluarkan: {
+                    tgl_dikeluarkan: {
                         required: true
                     },
                     sertifikat: {
@@ -2154,7 +1982,7 @@
                         required: "Nama Penerbit Tidak Boleh Kosong",
                         maxlength: "Nama Penerbit Melebihi Batas Maksimal"
                     },
-                    tanggal_dikeluarkan: {
+                    tgl_dikeluarkan: {
                         required: "Tanggal Dikeluarkan Tidak Boleh Kosong"
                     },
                     sertifikat: {
@@ -2208,8 +2036,8 @@
                             .nama_sertifikat);
                         $('#modal-edit-pelatihan textarea[name="deskripsi"]').val(data.deskripsi);
                         $('#modal-edit-pelatihan input[name="penerbit"]').val(data.penerbit);
-                        $('#modal-edit-pelatihan input[name="tanggal_dikeluarkan"]').val(data
-                            .tanggal_dikeluarkan);
+                        $('#modal-edit-pelatihan input[name="tgl_dikeluarkan"]').val(data
+                            .tgl_dikeluarkan);
                         // $('#modal-edit-pelatihan input[name="sertifikat"]').val(data.sertifikat);
 
                         editModal.modal('show');

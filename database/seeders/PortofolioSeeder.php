@@ -18,8 +18,8 @@ class PortofolioSeeder extends Seeder
         DB::table('portofolios')->insert([
             [
                 'user_id' => '3',
-                'link_portofolio' => 'hahahha',
-                'nama_portofolio' => 'frontend',
+                'link_portofolio' => 'www.portofolio.com',
+                'nama_portofolio' => 'Portofolio',
             ]
         ]);
     }

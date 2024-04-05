@@ -11,13 +11,11 @@ class Pendidikan extends Model
     protected $table = 'pendidikans';
     protected $fillable = [
         'user_id',
-        'gelar',
-        'institusi',
+        'tingkatan',
+        'nama_institusi',
         'jurusan',
-        'prestasi',
         'tahun_mulai',
-        'tahun_berakhir',
-        'ipk',
+        'tahun_selesai',
     ];
 
     public function user()

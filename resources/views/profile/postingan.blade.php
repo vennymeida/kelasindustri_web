@@ -1,5 +1,5 @@
 @extends('landing-page.app')
-@section('title', 'WaktuSaku - Aktivitas Saya')
+@section('title', 'JobsKelasIndustri - Aktivitas Saya')
 @section('main')
     <main class="bg-light">
         <section>
@@ -9,7 +9,7 @@
                     <div class="flex-grow-1">
                         <div class="row">
                             <div>
-                                <a href="{{ url('/profile') }}">
+                                <a href="{{ url('/profile-lulusan') }}">
                                     <img class="img-fluid mt-1" style="width: 30px; height: 30px;"
                                         src="{{ asset('assets/img/Vector.svg') }}">
                                 </a>

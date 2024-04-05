@@ -16,11 +16,10 @@ return new class extends Migration
         Schema::create('pengalamans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('tingkatan');
-            $table->string('alamat');
-            $table->string('tipe');
             $table->string('nama_pengalaman');
-            $table->string('nama_instasi');
+            $table->string('nama_instansi')->nullable();
+            $table->string('alamat')->nullable();
+            $table->enum('tipe', ['Fulltime', 'Parttime', 'Freelance', 'Internship', 'Lainnya']);
             $table->date('tgl_selesai');
             $table->date('tgl_mulai');
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();

@@ -19,18 +19,18 @@ class PelatihanSeeder extends Seeder
         DB::table('pelatihans')->insert([
             [
                 'user_id' => '3',
+                'nama_sertifikat' => 'Sertifikasi Junior Frontend Developer',
                 'deskripsi' => 'frontend',
-                'nama_sertifikat' => 'HUMANTECH',
-                'sertifikat' => 'PT hymmma',
-                'penerbit' => Carbon::create('2000', '01', '01'),
+                'sertifikat' => '',
+                'penerbit' => 'PT Wijaya',
                 'tgl_dikeluarkan' => Carbon::create('2000', '01', '01'),
             ],
             [
                 'user_id' => '3',
+                'nama_sertifikat' => 'Pelatihan Web Developer',
                 'deskripsi' => 'backend',
-                'nama_sertifikat' => 'HUMANTECH SOFT',
-                'sertifikat' => 'Pt uwsa',
-                'penerbit' => Carbon::create('2000', '01', '01'),
+                'sertifikat' => '',
+                'penerbit' => 'PT Hummatech',
                 'tgl_dikeluarkan' => Carbon::create('2000', '01', '01'),
             ]
         ]);

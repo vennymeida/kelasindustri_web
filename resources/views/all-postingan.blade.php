@@ -28,7 +28,7 @@
                                         @endif
                                     </div>
                                     <div>
-                                        <a class="btn btn-primary font-weight-light mt-3" href="{{ url('/profile') }}"
+                                        <a class="btn btn-primary font-weight-light mt-3" href="{{ url('/profile-lulusan') }}"
                                             style="border-radius: 25px; font-size:12px;">Lihat Profile
                                         </a>
                                     </div>

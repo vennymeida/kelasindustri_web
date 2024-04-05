@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProfileLulusanController extends Controller
 {
@@ -95,6 +96,30 @@ class ProfileLulusanController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'tingkatan' => 'required',
+            'nama_institusi' => 'required',
+            'jurusan' => 'required',
+            'tahun_mulai' => 'required|integer|min:2017|max:2030',
+            'tahun_selesai' => 'nullable|integer|min:2017|max:2030',
+        ]);
+
+        $userId = Auth::id();
+
+        $pendidikan = new Pendidikan();
+        $pendidikan->user_id = $userId;
+        $pendidikan->tingkatan = $request->tingkatan;
+        $pendidikan->nama_institusi = $request->nama_institusi;
+        $pendidikan->jurusan = $request->jurusan;
+        $pendidikan->tahun_mulai = $request->tahun_mulai;
+        $pendidikan->tahun_selesai = $request->tahun_selesai ?? null;
+        $pendidikan->save();
+
+        return redirect()->route('profile-lulusan.index')->with('success', 'Pendidikan berhasil ditambahkan');
+    }
+
     public function update(Request $request)
     {
         try {
@@ -103,6 +128,10 @@ class ProfileLulusanController extends Controller
                 [
                     'alamat' => 'nullable|string|max:255',
                     'jenis_kelamin' => 'nullable|in:L,P',
+                    'status' => [
+                        'nullable',
+                        Rule::in(['Aktif Mencari Kerja', 'Sudah Bekerja', 'Melanjutkan Kuliah']),
+                    ],
                     'no_hp' => ['nullable', 'regex:/^08[0-9]{8,13}$/', 'min:11', 'max:13'],
                     'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                     'resume' => 'nullable|file|mimes:pdf|max:2048',
@@ -112,6 +141,7 @@ class ProfileLulusanController extends Controller
                 [
                     'alamat.max' => 'Alamat Melebihi Batas Maksimal',
                     'jenis_kelamin.in' => 'Jenis Kelamin Hanya Pada Pilihan L/P',
+                    'status.in' => 'Status Hanya Pada Pilihan',
                     'no_hp.regex' => 'Nomor Hp Tidak Sesuai Format',
                     'no_hp.min' => 'Digit Nomor Hp Kurang Dari Batas Minimal',
                     'no_hp.max' => 'Digit Nomor Hp Melebihi Batas Maksimal',
@@ -136,6 +166,12 @@ class ProfileLulusanController extends Controller
 
             // Update profile user
             $profile = $user->lulusan; // Menggunakan relasi lulusan pada model User
+
+            // Update status
+            $profile->status = $request->status;
+
+            // Simpan perubahan ke dalam database
+            $profile->save();
 
             // Update foto profile
             if ($request->hasFile('foto')) {
