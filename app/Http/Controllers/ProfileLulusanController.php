@@ -175,11 +175,21 @@ class ProfileLulusanController extends Controller
 
             // Update foto profile
             if ($request->hasFile('foto')) {
+                // Dapatkan path foto lama
+                $oldFotoPath = $profile->foto;
+
+                // Simpan foto yang baru
                 $foto = $request->file('foto');
-                $fotoPath = $foto->store('public/lulusan');
+                $fotoPath = $foto->store('foto', 'public');
                 $profile->foto = $fotoPath;
                 $profile->save();
+
+                // Hapus foto lama dari storage
+                if ($oldFotoPath) {
+                    Storage::disk('public')->delete($oldFotoPath);
+                }
             }
+
 
             // Update resume
             if ($request->hasFile('resume')) {

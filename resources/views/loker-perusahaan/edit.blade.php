@@ -88,7 +88,7 @@
                                 <div class="form-group">
                                     <label for="id_keahlian">Keahlian</label>
                                     <textarea name="keahlian" id="keahlian" class="text-loker form-control @error('keahlian') is-invalid @enderror"
-                                    type="text" style="height: 200px;" placeholder="Masukkan keahlian pekerjaan">{{ old('keahlian') }}</textarea>
+                                    type="text" style="height: 200px;" placeholder="Masukkan keahlian pekerjaan">{{ $loker_perusahaan->keahlian }}</textarea>
                                 @error('keahlian')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -152,7 +152,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-gorup col-md-6">
-                                        @if ($loker_perusahaan->status == 'Pending')
+                                        @if ($loker_perusahaan->status == 'pending')
                                             <input type="hidden" name="status" value="Pending">
                                         @else
                                             <label for="status">Status Pekerjaan</label>

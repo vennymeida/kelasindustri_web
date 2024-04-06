@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <form id="search-form" class="form-row cardDatalowongan2" method="GET"
                             action="{{ route('all-jobs.index') }}" onsubmit="handleFormSubmit()">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-md-6">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text icon-form">
@@ -31,26 +31,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
                                         {{-- @foreach ($kecamatan as $key)
                                             <option value="{{ $key->kecamatan }}"
                                                 @if ($key->kecamatan == $lokasi) selected @endif>{{ $key->kecamatan }}
-                                            </option>
-                                        @endforeach --}}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <div class="input-group">
-                                    <select name="kategori[]" id="kategori" class="form-control form-jobs select2 kategori"
-                                        multiple>
-                                        {{-- @foreach ($kategoris as $key)
-                                            <option value="{{ $key->kategori }}"
-                                                @if (in_array($key->kategori, $kategori)) selected @endif>
-                                                {{ $key->kategori }}
                                             </option>
                                         @endforeach --}}
                                     </select>

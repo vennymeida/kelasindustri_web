@@ -5,8 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                @if (auth()->user() &&
-                        auth()->user()->isComplete())
+                @if (auth()->user() && auth()->user()->isComplete())
                     <!-- User Profile is Complete -->
                     <p><strong>Hai, {{ auth()->user()->name }}</strong></p>
                     <p>Data yang lengkap memudahkan Anda dalam melamar pekerjaan dan perusahaan (HRD) tertarik dengan
@@ -27,7 +26,8 @@
                                     <p class="mb-2 text-primary font-weight-bold" style="font-size: 24px;">
                                         {{ $loker->nama_loker }}
                                     </p>
-                                    <p class="mb-2" style="font-size: 19px;">{{ $loker->perusahaan->nama_perusahaan }}</p>
+                                    <p class="mb-2" style="font-size: 19px;">{{ $loker->perusahaan->nama_perusahaan }}
+                                    </p>
                                     <ul class="list-unstyled">
                                         <li class="mb-2"><img class="img-fluid img-icon"
                                                 src="{{ asset('assets/img/landing-page/money.svg') }}">
@@ -49,7 +49,6 @@
                             <form action="{{ route('melamar.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <h6 class="mb-3">CV / Resume *</h6>
-
                                 <div class="d-flex flex-column align-items-center">
                                     @if (auth()->user() && auth()->user()->lulusan->resume)
                                         <img id="fileIcon" src="{{ asset('assets/img/lamar/file2.svg') }}"
@@ -90,7 +89,8 @@
                     <!-- User Profile is Incomplete -->
                     <div class="alert alert-warning">
                         Tolong selesaikan profile anda sebelum melamar pekerjaan.
-                        <a href="{{ route('profile.edit') }}" class="alert-link">Click disini untuk menyelesaikan
+                        <a href="{{ route('profile-lulusan.edit') }}" class="alert-link">Click disini untuk
+                            menyelesaikan
                             profile anda</a>.
                     </div>
                     <div class="modal-footer">

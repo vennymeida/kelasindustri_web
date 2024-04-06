@@ -16,7 +16,7 @@ class AllPostinganController extends Controller
     public function index(Request $request)
     {
         $allResults = DB::table('postingans as lp')
-            ->join('users as u', 'lp.user_id', '=', 'u.id')
+            ->leftjoin('users as u', 'lp.user_id', '=', 'u.id')
             ->leftJoin('lulusans as pu', 'u.id', '=', 'pu.user_id')
             ->select(
                 'lp.id',

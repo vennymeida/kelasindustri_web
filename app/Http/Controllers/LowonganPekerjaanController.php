@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Keahlian;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
 use App\Models\User;
@@ -42,6 +41,7 @@ class LowonganPekerjaanController extends Controller
                 'lp.gaji_bawah',
                 'lp.gaji_atas',
                 'lp.tipe_pekerjaan',
+                'lp.keahlian',
                 'lp.kuota',
                 'lp.status',
                 'lp.lokasi',
@@ -104,13 +104,13 @@ class LowonganPekerjaanController extends Controller
             $persyaratan->persyaratan = rtrim($persyaratan->persyaratan, ', ');
         }
 
-        if (Auth::user()->hasRole('Perusahaan')) {
+        if (Auth::user()->hasRole('perusahaan')) {
             if ($user == null && $perusahaan == null) {
-                return redirect()->route('profile.edit')->with('message', 'Lengkapi data profil dan data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
+                return redirect()->route('profile-perusahaan.edit')->with('message', 'Lengkapi data profil dan data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
             } elseif ($user == null) {
-                return redirect()->route('profile.edit')->with('message', 'Lengkapi data profil terlebih dahulu untuk menambahkan lowongan kerja.');
+                return redirect()->route('profile-perusahaan.edit')->with('message', 'Lengkapi data profil terlebih dahulu untuk menambahkan lowongan kerja.');
             } elseif ($perusahaan == null) {
-                return redirect()->route('profile.edit')->with('message', 'Lengkapi data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
+                return redirect()->route('profile-perusahaan.edit')->with('message', 'Lengkapi data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
             } else {
                 return view('loker.index', ['allResults' => $allResults, 'loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan]);
             }
@@ -122,20 +122,13 @@ class LowonganPekerjaanController extends Controller
 
     public function create()
     {
-        $kategoris = KategoriPekerjaan::all();
-        $keahlians = Keahlian::all();
-
         $user = auth()->user();
-        $profileUser = ProfileUser::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
 
         return view('loker.create', [
-            'kategoris' => $kategoris,
-            'keahlians' => $keahlians,
             'user' => $user,
             'perusahaan' => $perusahaan,
-            'profileUser' => $profileUser,
-        ])->with(['kategoris' => $kategoris, 'keahlians' => $keahlians]);
+        ]);
     }
 
     public function store(StoreLowonganPekerjaanRequest $request)
@@ -154,9 +147,6 @@ class LowonganPekerjaanController extends Controller
             'lokasi' => $request->lokasi,
             'status' => $request->status,
         ]);
-
-        // $lowongan->kategori()->attach($request->id_kategori);
-        // $lowongan->keahlian()->attach($request->id_keahlian);
 
         return redirect()->route('loker.index')
             ->with('success', 'Lowongan Pekerjaan berhasil ditambahkan');

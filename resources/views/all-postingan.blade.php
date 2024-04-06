@@ -10,8 +10,8 @@
                             <div class="profile-card">
                                 @if (auth()->check())
                                     <div class="image">
-                                        @if (!empty($profile) && !empty($profile->foto))
-                                            <img src="{{ Storage::url(Auth::user()->profile->foto) }}" alt=""
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
+                                            <img src="{{ Storage::url(Auth::user()->lulusan->foto) }}" alt=""
                                                 class="profile-img">
                                         @else
                                             <img src="{{ asset('assets/img/avatar/avatar-1.png') }}" alt=""
@@ -21,8 +21,8 @@
                                     <div class="text-data ket-pos" style="height: 200px; overflow-y: auto;">
                                         <span class="profile-name" style="font-weight: bold; text-align:center;">Hi!
                                             {{ auth()->user()->name }}</span>
-                                        @if (!empty($profile) && !empty($profile->ringkasan))
-                                            <span class="profile-deskripsi">{!! $profile->ringkasan ?? '' !!}</span>
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->ringkasan != '')
+                                            <span class="profile-deskripsi">{!! Auth::user()->lulusan->ringkasan !!}</span>
                                         @else
                                             <span class="profile-deskripsi"><br><br></span>
                                         @endif
@@ -60,7 +60,7 @@
                                 @foreach ($allResults as $result)
                                     <div class="post">
                                         <div class="post-author">
-                                            @if ($result->foto)
+                                            @if (!empty($result->foto))
                                                 <img src="{{ asset('storage/' . $result->foto) }}" alt=""
                                                     style="width: 50px; height: 50px;">
                                             @else

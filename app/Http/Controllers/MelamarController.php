@@ -17,7 +17,7 @@ class MelamarController extends Controller
     {
 
         // Validasi jika tidak ada resume di profil dan juga tidak di-upload
-        if (!auth()->user()->resume && !$request->hasFile('resume')) {
+        if (!auth()->user()->lulusan->resume && !$request->hasFile('resume')) {
             return back()->with('error', 'Anda harus mengunggah resume sebelum melamar.');
         }
 
@@ -34,30 +34,30 @@ class MelamarController extends Controller
             $data['resume'] = $resumePath;
         } else {
             // Jika tidak ada file yang di-upload, kita tetap menyertakan resume saat ini
-            // dari profile_user ke tabel lamars tanpa mengubahnya di profile_user
-            $data['resume'] = auth()->user()->resume;
+            // dari profile_user ke tabel lamars tanpa mengubahnya di lulusan
+            $data['resume'] = auth()->user()->lulusan->resume;
         }
 
-        // Menyertakan id_loker dan id_pencari_kerja
+        // Menyertakan id_loker dan id_lulusan
         $data['id_loker'] = $request->input('loker_id');
-        $data['id_lulusan'] = auth()->user()->id; // mengambil ID dari profile user
+        $data['user_id'] = auth()->user()->id; // mengambil ID dari lulusan
         // Simpan ke database
         $lamar = Lamar::create($data);
-        $authId = auth()->user()->id;
+        $authId = auth()->user()->lulusan->id;
         $lamarId = $lamar->id;
-        $getProfileUserId = ProfileUser::select('users.user_id')
+        $getLulusanId = Lulusan::select('lulusans.user_id')
             ->where('id', $authId)
             ->first();
         $getUserId = User::select('users.name')
-            ->where('id', $getProfileUserId->user_id)
+            ->where('id', $getLulusanId->user_id)
             ->first();
         $getLowonganPekerjaan = LowonganPekerjaan::select(
             'lokers.perusahaan_id',
             'lokers.nama_loker'
         )
-            ->where('id', $data['id_loker'])
+            ->where('id', $data['loker_id'])
             ->first();
-        $getPerusahaan = Perusahaan::select('perusahaan.email', 'perusahaan.nama_perusahaan')
+        $getPerusahaan = Perusahaan::select('perusahaan.email_perusahaan', 'perusahaan.nama_perusahaan')
             ->where('id', $getLowonganPekerjaan->perusahaan_id)
             ->first();
         $view = view('email', ['getPerusahaan' => $getPerusahaan, 'getLowonganPekerjaan' => $getLowonganPekerjaan, 'getUserId' => $getUserId, 'lamarId' => $lamarId])->render();
@@ -66,7 +66,7 @@ class MelamarController extends Controller
             'body' => $view
         ];
 
-        Mail::to($getPerusahaan->email)->send(new SendEmail($dataOke));
+        Mail::to($getPerusahaan->email_perusahaan)->send(new SendEmail($dataOke));
 
         return back()->with('success', 'Pekerjaan berhasil dilamar.');
     }

@@ -16,14 +16,14 @@
                     <div class="row">
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
                             <img class="img-fluid rounded-circle img-perusahaan"
-                                src="{{ asset('storage/' . $loker->perusahaan->logo) }}"
+                                src="{{ asset('storage/' . $loker->perusahaan->logo_perusahaan) }}"
                                 style="width: 255px; height: 255px; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7));">
                         </div>
                         <div class="col-md-7">
                             <ul class="list-unstyled">
                                 <p class="mb-2 text-primary font-weight-bold" style="font-size: 28px;">{{ $loker->perusahaan->nama_perusahaan }}
                                 </p>
-                                <p class="mb-2" style="font-size: 19px;">{{ $loker->perusahaan->nama_loker }}</p>
+                                <p class="mb-2" style="font-size: 19px;">{{ $loker->nama_loker}}</p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/money.svg') }}">
                                     {{ 'IDR ' . $loker->gaji_bawah }}
@@ -48,8 +48,7 @@
                                 </p> --}}
                             </ul>
                             <ul class="list-unstyled d-flex justify-content-between">
-                                @if (Auth::check() &&
-                                        auth()->user()->hasRole('Lulusan'))
+                                @if (Auth::user()->lulusan)
                                     @if (!$hasApplied)
                                         <a id="detail-button" class="btn btn-primary px-5 py-2"
                                             style="border-radius: 25px; color: #ffffff;" data-toggle="modal"

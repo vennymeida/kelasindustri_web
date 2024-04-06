@@ -19,6 +19,10 @@ class Postingan extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function lulusan()
+    {
+        return $this->belongsTo(Lulusan::class, 'user_id');
+    }
     public function postingan()
     {
         return $this->hasOne(Postingan::class);

@@ -13,9 +13,9 @@
                 <table width="600" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
                     <tr>
                         <td style="background-color: #f0f0f0; padding: 20px; text-align: center;">
-                            <h1 style="color: #333;">Perusahaan {{ $getPerusahaan->nama }}</h1>
+                            <h1 style="color: #333;">Perusahaan {{ $getPerusahaan->nama_perusahaan }}</h1>
                             <p style="font-size: 16px; color: #555;">Lowongan Pekerjaan dengan posisi
-                                {{ $getLowonganPekerjaan->judul }}</p>
+                                {{ $getLowonganPekerjaan->nama_loker }}</p>
                             <p style="font-size: 16px; color: #555;">Telah dilamar oleh {{ $getUserId->name }}</p>
 
                             <!-- Formulir dengan metode GET -->

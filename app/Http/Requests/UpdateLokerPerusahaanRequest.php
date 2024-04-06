@@ -29,6 +29,7 @@ class UpdateLokerPerusahaanRequest extends FormRequest
             'deskripsi' => 'required',
             'persyaratan' => 'required',
             'tipe_pekerjaan' => 'required',
+            'keahlian' => 'required',
             'lokasi' => 'required|regex:/^[A-Za-z\s,]+$/',
             'gaji_bawah' => 'required',
             'gaji_atas' => 'required',
@@ -44,6 +45,7 @@ class UpdateLokerPerusahaanRequest extends FormRequest
                     }
                 },
             ],
+            'status' => 'required',
         ];
     }
 
@@ -55,12 +57,14 @@ class UpdateLokerPerusahaanRequest extends FormRequest
             'deskripsi.required' => 'Diskripsi tidak boleh kosong',
             'persyaratan.required' => 'Persyaratan tidak boleh kosong',
             'tipe_pekerjaan.required' => 'Jenis Pekerjaan tidak boleh kosong',
+            'keahlian.required' => 'Keahlian tidak boleh kosong',
             'lokasi.required' => 'Lokasi kerja tidak boleh kosong',
             'lokasi.regex' => 'Lokasi kerja tidak boleh mengandung selain huruf',
             'gaji_bawah.required' => 'Gaji tidak boleh kosong',
             'gaji_atas.required' => 'Gaji tidak boleh kosong',
             'kuota.required' => 'Kuota Karyawan tidak boleh kosong',
             'tgl_tutup.required' => 'Lowongan di tutup tidak boleh kosong',
+            'status' => 'Status tidak boleh kosong',
         ];
     }
 

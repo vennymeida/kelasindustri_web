@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\lamar;
+use App\Models\Lamar;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
 use App\Models\User;
@@ -87,22 +87,22 @@ class LamarPerusahaanController extends Controller
         $lamar->load(['lulusan.user', 'loker.perusahaan']);
         $lulusan = Lulusan::all();
 
-        $lulusan->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $profileUser->ringkasan);
+        $lulusan->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $lulusan->ringkasan);
         $tanggalLahir = Carbon::parse($lulusan->tgl_lahir)->format('j F Y');
 
         $relasiLamar = $lamar->load(['lulusan.user', 'lulusan.user.profileKeahlians.keahlian', 'loker.perusahaan']);
 
         $namaPengguna = $relasiLamar->lulusan->user->name;
         $email = $relasiLamar->lulusan->user->email;
-        $resume = $relasiLamar->lulusan->user->resume;
+        $resume = $relasiLamar->lulusan->resume;
         $pendidikan = $relasiLamar->lulusan->user->pendidikan()->orderBy('created_at', 'desc')->get();
         $pengalaman = $relasiLamar->lulusan->user->pengalaman()->orderBy('created_at', 'desc')->get();
         $tanggal_mulai = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_mulai ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_mulai)->format('j F Y') : '';
         $tanggal_berakhir = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_berakhir ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_berakhir)->format('j F Y') : '';
 
         $pelatihan = $relasiLamar->lulusan->user->pelatihan()->orderBy('created_at', 'desc')->get();
-        $judulPekerjaan = $relasiLamar->loker->judul;
-        $namaPerusahaan = $relasiLamar->loker->perusahaan->nama;
+        $judulPekerjaan = $relasiLamar->loker->nama_loker;
+        $namaPerusahaan = $relasiLamar->loker->perusahaan->nama_perusahaan;
 
         return view('lamar-perusahaan.detail', [
             'tanggal_mulai' => $tanggal_mulai,
@@ -146,7 +146,7 @@ class LamarPerusahaanController extends Controller
             ->where('id', $lamar->loker_id)
             ->first();
         // dd($getPerusahaanId);
-        $userIdFromProfile = Lulusan::select('lulusan.user_id')->where('id', $lamar->user_id)->first();
+        $userIdFromProfile = Lulusan::select('lulusans.user_id')->where('id', $lamar->user_id)->first();
         $getUserId = User::select('users.name', 'users.email')->where('id', $userIdFromProfile->user_id)->first();
         $getPerusahaan = Perusahaan::select('perusahaan.nama_perusahaan')
             ->where('id', $getPerusahaanId->perusahaan_id)
