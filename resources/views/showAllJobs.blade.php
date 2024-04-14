@@ -38,14 +38,14 @@
                                         src="{{ asset('assets/img/landing-page/list.svg') }}"> Dibutuhkan
                                     {{ $loker->kuota }} Pekerja
                                 </p>
-                                {{-- <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/information.jpg') }}"> Mendaftar
                                     {{ $getLamarPending }}
                                 </p>
                                 <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/active-user.jpg') }}"> Diterima
                                     {{ $getLamarDiterima }}
-                                </p> --}}
+                                </p>
                             </ul>
                             <ul class="list-unstyled d-flex justify-content-between">
                                 @if (Auth::user()->lulusan)
@@ -55,17 +55,17 @@
                                             data-target="#lamarModal">Lamar</a>
                                     @else
                                         @switch($lamaranStatus)
-                                            @case('Pending')
+                                            @case('pending')
                                                 <button class="btn btn-danger px-5 py-2"
                                                     style="border-radius: 25px; color: #ffffff;" disabled>Proses</button>
                                             @break
 
-                                            @case('Diterima')
+                                            @case('diterima')
                                                 <button class="btn btn-success px-5 py-2"
                                                     style="border-radius: 25px; color: #ffffff;" disabled>Diterima</button>
                                             @break
 
-                                            @case('Ditolak')
+                                            @case('ditolak')
                                                 <button class="btn btn-danger px-5 py-2"
                                                     style="border-radius: 25px; color: #ffffff;" disabled>Ditolak</button>
                                             @break

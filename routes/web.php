@@ -4,11 +4,9 @@ use App\Http\Controllers\AlljobsController;
 use App\Http\Controllers\AllPostinganController;
 use App\Http\Controllers\BannedController;
 use App\Http\Controllers\DetailPerusahaan;
-use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\KeahlianController;
 use App\Http\Controllers\KotaController;
-// use App\Http\Controllers\KategoriPekerjaanController;
 use App\Http\Controllers\LokerPerusahaanController;
 use App\Http\Controllers\LowonganPekerjaanController;
 use App\Http\Controllers\Menu\MenuGroupController;
@@ -33,7 +31,6 @@ use App\Http\Controllers\RoleAndPermission\RoleController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PerusahaanListController;
-use App\Http\Controllers\ProfileKeahlianController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -170,6 +167,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('kota/import', [KotaController::class, 'import'])->name('kota.import');
     });
 
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.index');
+    Route::post('/bookmark/toggle', [BookmarkController::class, 'toggleBookmark'])->name('bookmark.toggle');
+    Route::post('/bookmark/remove', [BookmarkController::class, 'removeBookmark'])->name('bookmark.remove'); // Add this line
+    Route::post('/bookmark/add', [BookmarkController::class, 'addBookmark'])->name('bookmark.add'); // Add this line
+
     Route::get('/profile-admin', [ProfileSuperadminController::class, 'index'])->name('profile.admin');
     Route::put('/profile-admin/update', [ProfileSuperadminController::class, 'update'])->name('profile.admin.update');
 
@@ -188,10 +190,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::group(['middleware' => ['auth', 'verified', 'role:lulusan|perusahaan']], function () {
     Route::get('/welcome', [WelcomeController::class, 'index']);
 
-    Route::get('/bookmark', [BookmarkController::class, 'index'])->name('bookmark.index');
-    Route::post('/bookmark/toggle', [BookmarkController::class, 'toggleBookmark'])->name('bookmark.toggle');
-    Route::post('/bookmark/remove', [BookmarkController::class, 'removeBookmark'])->name('bookmark.remove'); // Add this line
-    Route::post('/bookmark/add', [BookmarkController::class, 'addBookmark'])->name('bookmark.add'); // Add this line
     Route::post('/melamar', [MelamarController::class, 'store'])->name('melamar.store');
 
     Route::resource('lamarperusahaan', LamarPerusahaanController::class);

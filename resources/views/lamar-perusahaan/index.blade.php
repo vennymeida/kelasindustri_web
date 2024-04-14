@@ -85,7 +85,7 @@
                                         </div>
                                         <div class="col-md-7">
                                             <h4 class="name-pelamar"><strong>{{ $lamar->name }}</strong></h4>
-                                            <h5 class="mb-4">{{ $lamar->judul }}</h5>
+                                            <h5 class="mb-4">{{ $lamar->nama_loker }}</h5>
                                             <div class="d-flex align-items-center justify-content-start mb-2 data-pelamar">
                                                 <div class="d-flex align-items-center col-6 mb-2">
                                                     <img class="img-fluid img-icon mr-2"
@@ -115,15 +115,6 @@
                                             </small>
                                         </div>
                                         <div class="col-md-2 text-right btn-pelamar">
-                                            <!-- Button to open Chatify modal -->
-                                            @if ($lamar->status === 'Diterima')
-                                                <a id="chat-pelamar" class="btn btn-icon btn-primary btn-icon mb-2"
-                                                    style="border-radius: 25px;"
-                                                    href="{{ url('chatify/' . $lamar->user_id) }}">
-                                                    <i class="fas fa-comment-dots"></i> Chat
-                                                </a>
-                                                <br>
-                                            @endif
                                             <a href="{{ route('lamarperusahaan.show', $lamar->id) }}"
                                                 class="btn btn-sm btn-primary btn-icon py-2 px-3 mb-3"
                                                 style="border-radius: 25px";>

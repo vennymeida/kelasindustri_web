@@ -1,3 +1,99 @@
+<!-- Modal Jadwalkan Interview oleh Perusahaan -->
+<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header m-4">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah
+                    Jadwal Interview / Tes Lanjutan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="" class="needs-validation"
+                    novalidate="" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label for="subject">Subject</label>
+                            <input name="subject" type="text"
+                                class="form-control custom-input @error('subject') is-invalid @enderror"
+                                value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
+                            @error('subject')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label>Tempat Interview</label>
+                            <input name="tempat_interview" type="text"
+                                class="form-control custom-input @error('tempat_interview') is-invalid @enderror"
+                                value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
+                            @error('tempat_interview')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label>Alamat</label>
+                            <textarea name="alamat" class="form-control custom-input @error('alamat') is-invalid @enderror" rows="4"
+                                placeholder="Masukkan alamat perusahaan tempat anda bekerja">{{ old('alamat') }}</textarea>
+                            @error('alamat')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-6 col-12">
+                            <label>Tanggal Interview</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text custom-input">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                                <input name="tgl_interview" type="date"
+                                    class="form-control custom-input @error('tgl_interview') is-invalid @enderror"
+                                    value="{{ old('tgl_interview') }}">
+                                @error('tgl_interview')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12 col-12">
+                            <label>Catatan (Opsional)</label>
+                            <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4"
+                                placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
+                            @error('catatan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-whitesmoke m-4">
+                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
+                    style="border-radius: 15px; font-size: 14px">Tambah</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    style="border-radius: 15px; font-size: 14px">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @extends('landing-page.app')
 @section('title', 'JobKelasIndustri - Lamaran Pencari Kerja')
 @section('main')
@@ -8,8 +104,8 @@
                     <div class="col-md-12 d-flex align-items-start justify-content-start">
                         <div class="row">
                             <div class="col-md-3 div-lamaran">
-                                @if ($profileUser->foto)
-                                    <img src="{{ asset('storage/' . $profileUser->foto) }}" alt="Foto"
+                                @if ($lamar && $lamar->foto)
+                                    <img src="{{ asset('storage/' . $lamar->foto) }}" alt="Foto"
                                         class="rounded-circle ml-4 img-lamaran" style="width: 200px; height: 200px;">
                                 @else
                                     <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
@@ -20,44 +116,44 @@
                                 <ul class="list-unstyled">
                                     <ul class="list-unstyled d-flex justify-content-between align-items-end">
                                         <p class="mb-2 text-primary font-weight-bold" style="font-size: 28px;">
-                                            {{ $namaPengguna }}
+                                            {{ $lamar->lulusan->user->name }}
                                         </p>
+                                        <a href="#" class="btn btn-primary px-4 text-right"
+                                            style="background-color:#6777EF; border-radius:15px; border-color:#6777EF; float: left; margin-left: 200px;"
+                                            data-toggle="modal" data-target="#modal-rekrut-karyawan">
+                                            Jadwalkan Interview/Tes Lanjutan
+                                        </a>
                                         <a class="btn btn-secondary px-4 text-right"
                                             href="{{ route('lamarperusahaan.index') }}" style="border-radius: 15px;">
                                             Kembali
                                         </a>
                                     </ul>
                                     <h5 class="font-weight-bolder">Ringkasan </h5>
-                                    <p class="mb-2 text-justify" style="font-size: 14px;">{!! $profileUser->ringkasan !!}</p>
+                                    <p class="mb-2 text-justify" style="font-size: 14px;">{!! $lamar->lulusan->ringkasan !!}</p>
                                     <h5 class="font-weight-bolder">Personal Info </h5>
                                     <dl class="row">
                                         <dt class="col-sm-4 mt-2">Email</dt>
-                                        <dd class="col-sm-8 mt-2">{{ $email }}</dd>
+                                        <dd class="col-sm-8 mt-2">{{ $lamar->lulusan->user->email }}</dd>
 
                                         <dt class="col-sm-4 mt-2">No Telepon</dt>
-                                        <dd class="col-sm-8 mt-2">{{ $profileUser->no_hp }}</dd>
+                                        <dd class="col-sm-8 mt-2">{{ $lamar->lulusan->no_hp }}</dd>
 
                                         <dt class="col-sm-4 mt-2">Alamat</dt>
-                                        <dd class="col-sm-8 mt-2">{{ $profileUser->alamat }}</dd>
+                                        <dd class="col-sm-8 mt-2">{{ $lamar->lulusan->alamat }}</dd>
 
                                         <dt class="col-sm-4 mt-2">Tanggal Lahir</dt>
-                                        <dd class="col-sm-8 mt-2">{{ $tglLahir }}</dd>
+                                        <dd class="col-sm-8 mt-2">{{ $lamar->lulusan->tgl_lahir }}</dd>
 
                                         <dt class="col-sm-4 mt-2">Jenis Kelamin</dt>
                                         <dd class="col-sm-8 mt-2">
-                                            @if ($profileUser->jenis_kelamin === 'P')
+                                            @if ($lamar->lulusan->jenis_kelamin === 'P')
                                                 Perempuan
-                                            @elseif ($profileUser->jenis_kelamin === 'L')
+                                            @elseif ($lamar->lulusan->jenis_kelamin === 'L')
                                                 Laki-laki
                                             @else
                                                 Tidak Diketahui
                                             @endif
                                         </dd>
-
-                                        <dt class="col-sm-4 mt-2">Harapan Gaji</dt>
-                                        <dd class="col-sm-8 mt-2">{{ $profileUser->harapan_gaji }}
-                                        </dd>
-
                                         <dt class="col-sm-4 mt-2">Resume</dt>
                                         <dd class="col-sm-8 mt-2">
                                             @if ($lamar && $lamar->resume)
@@ -79,29 +175,22 @@
                                         <dl class="row">
                                             <dt class="col-sm-4 mt-2">Nama Institusi</dt>
                                             <dd class="col-sm-8 mt-2">
-                                                {{ optional($pendidikan->first())->institusi ?: '-' }}
+                                                {{ optional($pendidikan->first())->nama_institusi ?: '-' }}
                                             </dd>
 
                                             <dt class="col-sm-4 mt-2">Gelar</dt>
-                                            <dd class="col-sm-8 mt-2">{{ optional($pendidikan->first())->gelar ?: '-' }}
+                                            <dd class="col-sm-8 mt-2">
+                                                {{ optional($pendidikan->first())->tingkatan ?: '-' }}
                                             </dd>
 
                                             <dt class="col-sm-4 mt-2">Jurusan</dt>
                                             <dd class="col-sm-8 mt-2">{{ optional($pendidikan->first())->jurusan ?: '-' }}
                                             </dd>
-
-                                            <dt class="col-sm-4 mt-2">Prestasi</dt>
-                                            <dd class="col-sm-8 mt-2">{{ optional($pendidikan->first())->prestasi ?: '-' }}
-                                            </dd>
-
-                                            <dt class="col-sm-4 mt-2">IPK</dt>
-                                            <dd class="col-sm-8 mt-2">{{ optional($pendidikan->first())->ipk ?: '-' }}</dd>
-
                                             <dt class="col-sm-4 mt-2">Periode</dt>
                                             <dd class="col-sm-8 mt-2">
                                                 {{ optional($pendidikan->first())->tahun_mulai ?: '' }}<span> -
                                                 </span>
-                                                {{ optional($pendidikan->first())->tahun_berakhir ?: '' }}</dd>
+                                                {{ optional($pendidikan->first())->tahun_selesai ?: '' }}</dd>
                                         </dl>
                                         {{-- Tampilkan tombol "Muat Lebih Banyak" jika ada lebih dari satu pendidikan --}}
                                         @if ($pendidikan->count() > 1)
@@ -130,30 +219,22 @@
                                                             <dl class="row">
                                                                 <dt class="col-sm-4 mt-2">Nama Institusi</dt>
                                                                 <dd class="col-sm-8 mt-2">
-                                                                    {{ optional($pendidikanItem)->institusi ?: '-' }}</dd>
+                                                                    {{ optional($pendidikanItem)->nama_institusi ?: '-' }}
+                                                                </dd>
 
                                                                 <dt class="col-sm-4 mt-2">Gelar</dt>
                                                                 <dd class="col-sm-8 mt-2">
-                                                                    {{ optional($pendidikanItem)->gelar ?: '-' }}</dd>
+                                                                    {{ optional($pendidikanItem)->tingkatan ?: '-' }}</dd>
 
                                                                 <dt class="col-sm-4 mt-2">Jurusan</dt>
                                                                 <dd class="col-sm-8 mt-2">
                                                                     {{ optional($pendidikanItem)->jurusan ?: '-' }}</dd>
-
-                                                                <dt class="col-sm-4 mt-2">Prestasi</dt>
-                                                                <dd class="col-sm-8 mt-2">
-                                                                    {{ optional($pendidikanItem)->prestasi ?: '-' }}</dd>
-
-                                                                <dt class="col-sm-4 mt-2">IPK</dt>
-                                                                <dd class="col-sm-8 mt-2">
-                                                                    {{ optional($pendidikanItem)->ipk ?: '-' }}</dd>
-
                                                                 <dt class="col-sm-4 mt-2">Periode</dt>
                                                                 <dd class="col-sm-8 mt-2">
                                                                     {{ optional($pendidikanItem)->tahun_mulai ?: '' }}<span>
                                                                         -
                                                                     </span>
-                                                                    {{ optional($pendidikanItem)->tahun_berakhir ?: '' }}
+                                                                    {{ optional($pendidikanItem)->tahun_selesai ?: '' }}
                                                                 </dd>
                                                             </dl>
                                                             <hr class="my-4">
@@ -176,7 +257,7 @@
 
                                     <hr class="my-4">
                                     <h5 class="font-weight-bolder">Keahlian</h5>
-                                    @if ($keahlian)
+                                    {{-- @if ($keahlian)
                                         <dl class="row">
                                             <dt class="col-sm-3 mt-1">
                                                 @if ($keahlian && $keahlian->count() > 0)
@@ -195,7 +276,7 @@
                                             <img src="{{ asset('assets/img/landing-page/folder.png') }}">
                                             <p class="mt-1 text-not">Tidak Ada Keahlian yang Di Unggah</p>
                                         </div>
-                                    @endif
+                                    @endif --}}
 
                                     <hr class="my-4">
                                     <h5 class="font-weight-bolder">Pengalaman Kerja </h5>
@@ -203,12 +284,12 @@
                                         <dl class="row">
                                             <dt class="col-sm-4 mt-2">Nama Pekerjaan</dt>
                                             <dd class="col-sm-8 mt-2">
-                                                {{ optional($pengalaman->first())->nama_pekerjaan ?: '-' }}
+                                                {{ optional($pengalaman->first())->nama_pengalaman ?: '-' }}
                                             </dd>
 
                                             <dt class="col-sm-4 mt-2">Nama Perusahaan</dt>
                                             <dd class="col-sm-8 mt-2">
-                                                {{ optional($pengalaman->first())->nama_perusahaan ?: '-' }}
+                                                {{ optional($pengalaman->first())->nama_instansi ?: '-' }}
                                             </dd>
 
                                             <dt class="col-sm-4 mt-2">Alamat</dt>
@@ -218,14 +299,9 @@
                                             <dt class="col-sm-4 mt-2">Tipe Pekerjaan</dt>
                                             <dd class="col-sm-8 mt-2">{{ optional($pengalaman->first())->tipe ?: '-' }}
                                             </dd>
-
-                                            <dt class="col-sm-4 mt-2">Gaji</dt>
-                                            <dd class="col-sm-8 mt-2">
-                                                {{ 'Rp ' . number_format(optional($pengalaman->first())->gaji, 0, ',', '.') ?: '-' }}
-                                            </dd>
                                             <dt class="col-sm-4 mt-2">Periode</dt>
                                             <dd class="col-sm-8 mt-2">
-                                                {{ $tanggal_mulai ?: '' }} - {{ $tanggal_berakhir ?: '' }}
+                                                {{ $tgl_mulai ?: '' }} - {{ $tgl_selesai ?: '' }}
                                             </dd>
                                         </dl>
                                         {{-- Tampilkan tombol "Muat Lebih Banyak" jika ada lebih dari satu pengalaman --}}
@@ -255,12 +331,12 @@
                                                             <dl class="row">
                                                                 <dt class="col-sm-4 mt-2">Nama Pekerjaan</dt>
                                                                 <dd class="col-sm-8 mt-2">
-                                                                    {{ optional($pengalamanItem)->nama_pekerjaan ?: '-' }}
+                                                                    {{ optional($pengalamanItem)->nama_pengalaman ?: '-' }}
                                                                 </dd>
 
                                                                 <dt class="col-sm-4 mt-2">Nama Perusahaan</dt>
                                                                 <dd class="col-sm-8 mt-2">
-                                                                    {{ optional($pengalamanItem)->nama_perusahaan ?: '-' }}
+                                                                    {{ optional($pengalamanItem)->nama_instansi ?: '-' }}
                                                                 </dd>
 
                                                                 <dt class="col-sm-4 mt-2">Alamat</dt>
@@ -277,8 +353,8 @@
                                                                 </dd>
                                                                 <dt class="col-sm-4 mt-2">Periode</dt>
                                                                 <dd class="col-sm-8 mt-2">
-                                                                    {{ $tanggal_mulai ?: '' }} -
-                                                                    {{ $tanggal_berakhir ?: '' }}
+                                                                    {{ $tgl_mulai ?: '' }} -
+                                                                    {{ $tgl_selesai ?: '' }}
                                                                 </dd>
                                                             </dl>
                                                             <hr class="my-4">
@@ -317,7 +393,7 @@
 
                                             <dt class="col-sm-4 mt-2">Tanggal Dikeluarkan</dt>
                                             <dd class="col-sm-8 mt-2">
-                                                {{ optional($pelatihan->first())->tanggal_dikeluarkan ?: '-' }}
+                                                {{ optional($pelatihan->first())->tgl_dikeluarkan ?: '-' }}
                                             </dd>
 
                                             <dt class="col-sm-4 mt-2">Sertifikat</dt>

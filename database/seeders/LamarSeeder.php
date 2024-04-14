@@ -15,14 +15,6 @@ class LamarSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('lamars')->insert([
-            [
-                'loker_id' => '1',
-                'user_id' => '3',
-                'resume' => '',
-                'status' => 'pending',
-            ],
-
-        ]);
+        
     }
 }

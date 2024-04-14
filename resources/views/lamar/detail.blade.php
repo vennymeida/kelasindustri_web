@@ -21,8 +21,8 @@
                                 </p>
                                 <div class="row">
                                     <div class="col-md-4 d-flex align-items-start justify-content-center">
-                                        @if ($profileUser->foto)
-                                            <img src="{{ asset('storage/' . $profileUser->foto) }}" alt="Foto"
+                                        @if ($lulusan->foto)
+                                            <img src="{{ asset('storage/' . $lulusan->foto) }}" alt="Foto"
                                                 class="rounded-circle mr-1 mb-5" style="width: 200px; height: 200px;">
                                         @else
                                             <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
@@ -46,25 +46,25 @@
                                             <br>
                                             <h5 class="font-weight-bolder">Ringkasan </h5>
                                             <p class="mb-2 text-justify" style="font-size: 14px;">
-                                                {{ $profileUser->ringkasan }}</p>
+                                                {{ $lulusan->ringkasan }}</p>
                                             <dl class="row">
                                                 <dt class="col-sm-4 mt-2">Email</dt>
                                                 <dd class="col-sm-8 mt-2">{{ $email }}</dd>
 
                                                 <dt class="col-sm-4 mt-2">No Telepon</dt>
-                                                <dd class="col-sm-8 mt-2">{{ $profileUser->no_hp }}</dd>
+                                                <dd class="col-sm-8 mt-2">{{ $lulusan->no_hp }}</dd>
 
                                                 <dt class="col-sm-4 mt-2">Alamat</dt>
-                                                <dd class="col-sm-8 mt-2">{{ $profileUser->alamat }}</dd>
+                                                <dd class="col-sm-8 mt-2">{{ $lulusan->alamat }}</dd>
 
                                                 <dt class="col-sm-4 mt-2">Tanggal Lahir</dt>
                                                 <dd class="col-sm-8 mt-2">{{ $tglLahir }}</dd>
 
                                                 <dt class="col-sm-4 mt-2">Jenis Kelamin</dt>
                                                 <dd class="col-sm-8 mt-2">
-                                                    @if ($profileUser->jenis_kelamin === 'P')
+                                                    @if ($lulusan->jenis_kelamin === 'P')
                                                         Perempuan
-                                                    @elseif ($profileUser->jenis_kelamin === 'L')
+                                                    @elseif ($lulusan->jenis_kelamin === 'L')
                                                         Laki-laki
                                                     @else
                                                         Tidak Diketahui
@@ -72,7 +72,7 @@
                                                 </dd>
 
                                                 <dt class="col-sm-4 mt-2">Harapan Gaji</dt>
-                                                <dd class="col-sm-8 mt-2">{{ $profileUser->harapan_gaji }}
+                                                <dd class="col-sm-8 mt-2">{{ $lulusan->harapan_gaji }}
                                                 </dd>
 
                                                 <dt class="col-sm-4 mt-2">Resume</dt>
@@ -96,29 +96,21 @@
                                                 <dl class="row">
                                                     <dt class="col-sm-4 mt-2">Nama Institusi</dt>
                                                     <dd class="col-sm-8 mt-2">
-                                                        {{ optional($pendidikan->first())->institusi ?: '-' }}</dd>
+                                                        {{ optional($pendidikan->first())->nama_institusi ?: '-' }}</dd>
 
-                                                    <dt class="col-sm-4 mt-2">Gelar</dt>
+                                                    <dt class="col-sm-4 mt-2">Tingkatan</dt>
                                                     <dd class="col-sm-8 mt-2">
-                                                        {{ optional($pendidikan->first())->gelar ?: '-' }}</dd>
+                                                        {{ optional($pendidikan->first())->tingkatan ?: '-' }}</dd>
 
                                                     <dt class="col-sm-4 mt-2">Jurusan</dt>
                                                     <dd class="col-sm-8 mt-2">
                                                         {{ optional($pendidikan->first())->jurusan ?: '-' }}</dd>
 
-                                                    <dt class="col-sm-4 mt-2">Prestasi</dt>
-                                                    <dd class="col-sm-8 mt-2">
-                                                        {{ optional($pendidikan->first())->prestasi ?: '-' }}</dd>
-
-                                                    <dt class="col-sm-4 mt-2">IPK</dt>
-                                                    <dd class="col-sm-8 mt-2">
-                                                        {{ optional($pendidikan->first())->ipk ?: '-' }}</dd>
-
                                                     <dt class="col-sm-4 mt-2">Periode</dt>
                                                     <dd class="col-sm-8 mt-2">
                                                         {{ optional($pendidikan->first())->tahun_mulai ?: '' }}<span> -
                                                         </span>
-                                                        {{ optional($pendidikan->first())->tahun_berakhir ?: '' }}</dd>
+                                                        {{ optional($pendidikan->first())->tahun_selesai ?: '' }}</dd>
                                                 </dl>
                                                 {{-- Tampilkan tombol "Muat Lebih Banyak" jika ada lebih dari satu pendidikan --}}
                                                 @if ($pendidikan->count() > 1)
@@ -134,7 +126,7 @@
                                                 </div>
                                             @endif
 
-                                            <hr class="my-4">
+                                            {{-- <hr class="my-4">
                                             <h5 class="font-weight-bolder">Keahlian</h5>
                                             <dl class="row">
                                                 <dt class="col-sm-3 mt-3">
@@ -148,7 +140,7 @@
                                                         -
                                                     @endif
                                                 </dt>
-                                            </dl>
+                                            </dl> --}}
 
                                             <hr class="my-4">
                                             <h5 class="font-weight-bolder">Pengalaman Kerja </h5>
@@ -156,12 +148,12 @@
                                                 <dl class="row">
                                                     <dt class="col-sm-4 mt-2">Nama Pekerjaan</dt>
                                                     <dd class="col-sm-8 mt-2">
-                                                        {{ optional($pengalaman->first())->nama_pekerjaan ?: '-' }}
+                                                        {{ optional($pengalaman->first())->nama_pengalaman ?: '-' }}
                                                     </dd>
 
                                                     <dt class="col-sm-4 mt-2">Nama Perusahaan</dt>
                                                     <dd class="col-sm-8 mt-2">
-                                                        {{ optional($pengalaman->first())->nama_perusahaan ?: '-' }}
+                                                        {{ optional($pengalaman->first())->nama_instansi ?: '-' }}
                                                     </dd>
 
                                                     <dt class="col-sm-4 mt-2">Alamat</dt>
@@ -172,13 +164,9 @@
                                                     <dd class="col-sm-8 mt-2">
                                                         {{ optional($pengalaman->first())->tipe ?: '-' }}</dd>
 
-                                                    <dt class="col-sm-4 mt-2">Gaji</dt>
-                                                    <dd class="col-sm-8 mt-2">
-                                                        {{ 'Rp ' . number_format(optional($pengalaman->first())->gaji, 0, ',', '.') ?: '-' }}
-                                                    </dd>
                                                     <dt class="col-sm-4 mt-2">Periode</dt>
                                                     <dd class="col-sm-8 mt-2">
-                                                        {{ $tanggal_mulai ?: '' }} - {{ $tanggal_berakhir ?: '' }}
+                                                        {{ $tgl_mulai ?: '' }} - {{ $tgl_selesai ?: '' }}
                                                     </dd>
                                                 </dl>
                                                 {{-- Tampilkan tombol "Muat Lebih Banyak" jika ada lebih dari satu pengalaman --}}
@@ -215,7 +203,7 @@
 
                                                     <dt class="col-sm-4 mt-2">Tanggal Dikeluarkan</dt>
                                                     <dd class="col-sm-8 mt-2">
-                                                        {{ optional($pelatihan->first())->tanggal_dikeluarkan ?: '-' }}
+                                                        {{ optional($pelatihan->first())->tgl_dikeluarkan ?: '-' }}
                                                     </dd>
 
                                                     <dt class="col-sm-4 mt-2">Sertifikat</dt>
@@ -277,12 +265,12 @@
                         <dl class="row">
                             <dt class="col-sm-4 mt-2">Nama Institusi</dt>
                             <dd class="col-sm-8 mt-2">
-                                {{ optional($pendidikanItem)->institusi ?: '-' }}
+                                {{ optional($pendidikanItem)->nama_institusi ?: '-' }}
                             </dd>
 
-                            <dt class="col-sm-4 mt-2">Gelar</dt>
+                            <dt class="col-sm-4 mt-2">Tingkatan</dt>
                             <dd class="col-sm-8 mt-2">
-                                {{ optional($pendidikanItem)->gelar ?: '-' }}
+                                {{ optional($pendidikanItem)->tingkatan?: '-' }}
                             </dd>
 
                             <dt class="col-sm-4 mt-2">Jurusan</dt>
@@ -290,22 +278,12 @@
                                 {{ optional($pendidikanItem)->jurusan ?: '-' }}
                             </dd>
 
-                            <dt class="col-sm-4 mt-2">Prestasi</dt>
-                            <dd class="col-sm-8 mt-2">
-                                {{ optional($pendidikanItem)->prestasi ?: '-' }}
-                            </dd>
-
-                            <dt class="col-sm-4 mt-2">IPK</dt>
-                            <dd class="col-sm-8 mt-2">
-                                {{ optional($pendidikanItem)->ipk ?: '-' }}
-                            </dd>
-
                             <dt class="col-sm-4 mt-2">Periode</dt>
                             <dd class="col-sm-8 mt-2">
                                 {{ optional($pendidikanItem)->tahun_mulai ?: '' }}<span>
                                     -
                                 </span>
-                                {{ optional($pendidikanItem)->tahun_berakhir ?: '' }}
+                                {{ optional($pendidikanItem)->tahun_selesai ?: '' }}
                             </dd>
                         </dl>
                         <hr class="my-4">
@@ -337,12 +315,12 @@
                         <dl class="row">
                             <dt class="col-sm-4 mt-2">Nama Pekerjaan</dt>
                             <dd class="col-sm-8 mt-2">
-                                {{ optional($pengalamanItem)->nama_pekerjaan ?: '-' }}
+                                {{ optional($pengalamanItem)->nama_pengalaman?: '-' }}
                             </dd>
 
                             <dt class="col-sm-4 mt-2">Nama Perusahaan</dt>
                             <dd class="col-sm-8 mt-2">
-                                {{ optional($pengalamanItem)->nama_perusahaan ?: '-' }}
+                                {{ optional($pengalamanItem)->nama_instansi ?: '-' }}
                             </dd>
 
                             <dt class="col-sm-4 mt-2">Alamat</dt>
@@ -354,15 +332,10 @@
                             <dd class="col-sm-8 mt-2">
                                 {{ optional($pengalamanItem)->tipe ?: '-' }}
                             </dd>
-
-                            <dt class="col-sm-4 mt-2">Gaji</dt>
-                            <dd class="col-sm-8 mt-2">
-                                {{ 'Rp ' . number_format(optional($pengalamanItem)->gaji, 0, ',', '.') ?: '-' }}
-                            </dd>
                             <dt class="col-sm-4 mt-2">Periode</dt>
                             <dd class="col-sm-8 mt-2">
-                                {{ $tanggal_mulai ?: '' }} -
-                                {{ $tanggal_berakhir ?: '' }}
+                                {{ $tgl_mulai ?: '' }} -
+                                {{ $tgl_selesai ?: '' }}
                             </dd>
                         </dl>
                         <hr class="my-4">
@@ -408,7 +381,7 @@
 
                             <dt class="col-sm-4 mt-2">Tanggal Dikeluarkan</dt>
                             <dd class="col-sm-8 mt-2">
-                                {{ optional($pelatihanItem)->tanggal_dikeluarkan ?: '-' }}
+                                {{ optional($pelatihanItem)->tgl_dikeluarkan ?: '-' }}
                             </dd>
 
                             <dt class="col-sm-4 mt-2">Sertifikat</dt>

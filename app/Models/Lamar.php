@@ -24,7 +24,6 @@ class Lamar extends Model
     {
         return $this->belongsTo(Lulusan::class, 'user_id');
     }
-
     public function loker()
     {
         return $this->belongsTo(LowonganPekerjaan::class, 'loker_id');

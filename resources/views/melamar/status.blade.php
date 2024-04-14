@@ -97,14 +97,14 @@
                         <div class="card-body d-flex flex-column">
                             <div class="row">
                                 <div class="col-md-1 mx-auto mr-5 align-self-start img-pelamar">
-                                    {{-- @if ($lamar && $lamar->loker->perusahaan && $lamar->loker->perusahaan->logo)
+                                    @if ($lamar->loker->perusahaan && $lamar->loker->perusahaan->logo)
                                         <img src="{{ asset('storage/' . $lamar->loker->perusahaan->logo) }}"
                                             alt="Logo Perusahaan" class="rounded-circle"
                                             style="width: 100px; height: 100px;">
-                                    @else --}}
+                                    @else
                                         <img alt="image" src="{{ asset('assets/img/company/default-company-logo.png') }}"
                                             class="rounded-circle" style="width: 100px; height: 100px;">
-                                    {{-- @endif --}}
+                                    @endif
                                 </div>
                                 <div class="col-md-7">
                                     <h5 class="media-title">
@@ -141,15 +141,6 @@
                                     </small>
                                 </div>
                                 <div class="col-md-2 text-right btn-pelamar">
-                                    <!-- Button to open Chatify modal -->
-                                    @if ($lamar->status === 'Diterima')
-                                        <a id="chat-perusahaan" class="btn btn-icon btn-primary btn-icon py-2 px-3 mb-2"
-                                            style="border-radius: 25px;"
-                                            href="{{ url('chatify/' . $lamar->loker->perusahaan->user_id) }}">
-                                            <i class="fas fa-comment-dots"></i> Chat
-                                        </a>
-                                        <br>
-                                    @endif
                                     <a id="detail-button" class="btn btn-sm btn-primary btn-icon py-2 px-3 mb-3"
                                         style="border-radius: 25px;"
                                         href="{{ route('all-jobs.show', $lamar->loker->id) }}">
@@ -178,19 +169,6 @@
                     {{ $lamaran->withQueryString()->links() }}
                 </div>
             </div>
-            <!-- Button to open Chatify modal -->
-            {{-- @if ($lamar->status === 'Diterima')
-                <div class="text-center mb-3">
-                    <div class="chat-icon-container">
-                        <a href="{{ url('chatify/' . $lamar->loker->perusahaan->user_id) }}" class="fas fa-comment-dots"
-                            style="font-size: 37px; color:#6777ef;"></a>
-                    </div>
-                </div>
-            @endif --}}
-            {{-- <div class="chat-icon-container">
-                <a href="{{ url('chatify/' . $loker->perusahaan->user_id) }}" class="fas fa-comment-dots"
-                    style="font-size: 37px; color:#6777ef;"></a>
-            </div> --}}
         </section>
     </main>
 
@@ -241,18 +219,6 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        function openChatifyChat(user_id) {
-            // Check if Chatify is defined (the Chatify JavaScript library is loaded)
-            if (typeof Chatify === 'object') {
-                // Open a chat with the specified user ID
-                Chatify.openChat(user_id);
-            } else {
-                // Handle the case where Chatify is not defined (library not loaded)
-                console.error('Chatify is not loaded.');
-            }
-        }
-    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const formIcon = document.querySelector(".icon-form");

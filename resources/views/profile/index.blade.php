@@ -443,7 +443,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('pengalaman.store') }}" class="needs-validation"
+                <form method="POST" action="" class="needs-validation"
                     novalidate="" enctype="multipart/form-data">
                     @csrf
                     <div class="row ml-4 mr-4">

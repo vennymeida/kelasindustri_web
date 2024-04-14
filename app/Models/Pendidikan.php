@@ -22,6 +22,12 @@ class Pendidikan extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function lulusan()
+    {
+        return $this->hasOne(Lulusan::class);
+    }
+
     public function pendidikan()
     {
         return $this->hasOne(Pendidikan::class);

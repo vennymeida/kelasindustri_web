@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bookmark;
-use App\Models\KategoriPekerjaan;
 use App\Models\Kota;
 use App\Models\LowonganPekerjaan;
 use App\Models\User;
@@ -23,15 +22,11 @@ class BookmarkController extends Controller
     {
         $user = Auth::user();
 
-        $query = $user->bookmark()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.kategori', 'lowonganPekerjaan.perusahaan.kota']);
-
-        $kategoris = KategoriPekerjaan::all();
-
+        $query = $user->bookmark()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.perusahaan.kota']);
 
         // Apply search filters if provided
         $posisi = $request->input('posisi');
         $lokasi = $request->input('lokasi');
-        $kategori = $request->input('kategori', []);
 
         // Apply search filters if provided
         if ($posisi) {
@@ -48,20 +43,11 @@ class BookmarkController extends Controller
             });
         }
 
-        if (!empty($kategori)) {
-            $query->whereHas('lowonganPekerjaan.kategori', function ($q) use ($kategori) {
-                $q->whereIn('kategori', $kategori);
-            });
-        }
-
         $bookmarks = $query->orderByDesc('created_at')->paginate(3);
 
         return view('bookmark.index', [
             'bookmarks' => $bookmarks,
-
-            'kategoris' => $kategoris,
             'selectedLokasi' => $lokasi,
-            'selectedKategori' => $kategori,
         ]);
     }
 
@@ -73,12 +59,12 @@ class BookmarkController extends Controller
         $bookmarked = false;
 
         // Check if the user has already bookmarked the job
-        if ($user->bookmarks()->where('lowongan_pekerjaan_id', $lokerId)->exists()) {
+        if ($user->bookmarks()->where('loker_id', $lokerId)->exists()) {
             // Remove the bookmark
-            $user->bookmarks()->where('lowongan_pekerjaan_id', $lokerId)->delete();
+            $user->bookmarks()->where('loker_id', $lokerId)->delete();
         } else {
             // Add the bookmark
-            $user->bookmarks()->create(['lowongan_pekerjaan_id' => $lokerId]);
+            $user->bookmarks()->create(['loker_id' => $lokerId]);
             $bookmarked = true;
         }
 

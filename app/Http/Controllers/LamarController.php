@@ -62,6 +62,8 @@ class LamarController extends Controller
 
         $loggedInUserId = Auth::id();
         $user = auth()->user();
+
+        $lulusan = Lulusan::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
         $loker = LowonganPekerjaan::where('perusahaan_id', $user->id)->first();
 
@@ -93,8 +95,8 @@ class LamarController extends Controller
             ->paginate(10);
 
         if (Auth::user()->hasRole('perusahaan')) {
-            if ($user == null && $perusahaan == null) {
-                return redirect()->route('profile.edit');
+            if ($lulusan == null && $perusahaan == null) {
+                return redirect()->route('profile-perusahaan.edit');
             } else {
                 return view('lamar.index', ['allResults' => $allResults, 'loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'loker' => $loker]);
             }
@@ -120,7 +122,7 @@ class LamarController extends Controller
 
         $lulusan = $lamar->lulusan;
         $lulusan->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $lulusan->ringkasan);
-        $tanggalLahir = Carbon::parse($lulusan->tgl_lahir)->format('j F Y');
+        $tglLahir = Carbon::parse($lulusan->tgl_lahir)->format('j F Y');
 
         // Loading the necessary relationships for display on the details page
         $relasiLamar = $lamar->load([
@@ -130,8 +132,8 @@ class LamarController extends Controller
 
         // If these relations do not exist or are named differently in your models, you'll need to adjust them accordingly
 
-        $tanggal_mulai = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_mulai ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_mulai)->format('j F Y') : '';
-        $tanggal_berakhir = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_berakhir ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_berakhir)->format('j F Y') : '';
+        $tgl_mulai = optional($relasiLamar->lulusan->user->pengalaman)->tgl_mulai ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tgl_mulai)->format('j F Y') : '';
+        $tgl_selesai = optional($relasiLamar->lulusan->user->pengalaman)->tgl_selesai ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tgl_selesai)->format('j F Y') : '';
 
         // Extracting the necessary information from the relations
         $namaPengguna = $relasiLamar->lulusan->user->name;
@@ -140,12 +142,12 @@ class LamarController extends Controller
         $pendidikan = $relasiLamar->lulusan->user->pendidikan()->orderBy('created_at', 'desc')->get();
         $pengalaman = $relasiLamar->lulusan->user->pengalaman()->orderBy('created_at', 'desc')->get();
         $pelatihan = $relasiLamar->lulusan->user->pelatihan()->orderBy('created_at', 'desc')->get();
-        $judulPekerjaan = $relasiLamar->loker->judul;
+        $judulPekerjaan = $relasiLamar->loker->nama_loker;
         $namaPerusahaan = $relasiLamar->loker->perusahaan->nama_perusahaan;
 
         return view('lamar.detail', [
-            'tanggal_mulai' => $tanggal_mulai,
-            'tanggal_berakhir' => $tanggal_berakhir,
+            'tgl_mulai' => $tgl_mulai,
+            'tgl_selesai' => $tgl_selesai,
             'namaPengguna' => $namaPengguna,
             'email' => $email,
             'resume' => $resume,
@@ -156,7 +158,7 @@ class LamarController extends Controller
             'pendidikan' => $pendidikan,
             'pengalaman' => $pengalaman,
             'pelatihan' => $pelatihan,
-            'tglLahir' => $tanggalLahir,
+            'tglLahir' => $tglLahir,
         ]);
     }
 

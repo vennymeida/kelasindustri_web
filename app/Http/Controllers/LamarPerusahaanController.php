@@ -6,6 +6,7 @@ use App\Models\Lamar;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
 use App\Models\User;
+use App\Models\Lulusan;
 use App\Http\Requests\StorelamarRequest;
 use App\Http\Requests\UpdatelamarRequest;
 use App\Mail\SendEmailPelamar;
@@ -35,7 +36,7 @@ class LamarPerusahaanController extends Controller
         $user = auth()->user();
 
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
-        $loker = LowonganPekerjaan::where('user_id', $user->id)->first();
+        $loker = LowonganPekerjaan::where('perusahaan_id', $user->id)->first();
 
         $loggedInUserResults = DB::table('lamars as l')
             ->join('lokers as lp', 'l.loker_id', '=', 'lp.id')
@@ -44,10 +45,13 @@ class LamarPerusahaanController extends Controller
             ->join('users as u', 'lu.user_id', '=', 'u.id')
             ->select(
                 'l.id',
+                'u.name',
                 'l.user_id',
                 'p.user_id',
                 'u.name',
                 'lu.no_hp',
+                'lu.tgl_lahir',
+                'lu.alamat',
                 'lu.foto',
                 'l.resume',
                 'u.email',
@@ -69,44 +73,44 @@ class LamarPerusahaanController extends Controller
 
         if (Auth::user()->hasRole('perusahaan')) {
             if ($perusahaan == null) {
-                return redirect()->route('profile.edit')->with('message-data', 'Lengkapi data profil dan data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
+                return redirect()->route('profile-perusahaan.edit')->with('message-data', 'Lengkapi data profil dan data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
             } elseif ($perusahaan == null) {
-                return redirect()->route('profile.edit')->with('message-data', 'Lengkapi data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
+                return redirect()->route('profile-perusahaan.edit')->with('message-data', 'Lengkapi data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
             } else {
-                return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus,'perusahaan' => $perusahaan, 'loker' => $loker]);
+                return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'loker' => $loker]);
             }
         } else {
-            return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus,'perusahaan' => $perusahaan, 'loker' => $loker]);
+            return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'loker' => $loker]);
         }
     }
 
     public function show($id)
     {
         $lamar = Lamar::findOrFail($id);
+        $lamaran = $lamar->lulusan;
 
         $lamar->load(['lulusan.user', 'loker.perusahaan']);
-        $lulusan = Lulusan::all();
 
-        $lulusan->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $lulusan->ringkasan);
-        $tanggalLahir = Carbon::parse($lulusan->tgl_lahir)->format('j F Y');
+        $lamaran->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $lamaran->ringkasan);
+        $tglLahir = Carbon::parse($lamaran->tgl_lahir)->format('j F Y');
 
-        $relasiLamar = $lamar->load(['lulusan.user', 'lulusan.user.profileKeahlians.keahlian', 'loker.perusahaan']);
+        $relasiLamar = $lamar->load(['lulusan.user', 'loker.perusahaan']);
 
         $namaPengguna = $relasiLamar->lulusan->user->name;
         $email = $relasiLamar->lulusan->user->email;
         $resume = $relasiLamar->lulusan->resume;
         $pendidikan = $relasiLamar->lulusan->user->pendidikan()->orderBy('created_at', 'desc')->get();
         $pengalaman = $relasiLamar->lulusan->user->pengalaman()->orderBy('created_at', 'desc')->get();
-        $tanggal_mulai = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_mulai ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_mulai)->format('j F Y') : '';
-        $tanggal_berakhir = optional($relasiLamar->lulusan->user->pengalaman)->tanggal_berakhir ? Carbon::parse($relasiLamar->lulusan->user->pengalaman->tanggal_berakhir)->format('j F Y') : '';
+        $tgl_mulai = optional($relasiLamar->lulusan->user->pengalaman)->tgl_mulai ? Carbon::parse($lamar->lulusan->user->pengalaman->tgl_mulai)->format('j F Y') : '';
+        $tgl_selesai = optional($relasiLamar->lulusan->user->pengalaman)->tgl_selesai ? Carbon::parse($lamar->lulusan->user->pengalaman->tgl_selesai)->format('j F Y') : '';
 
         $pelatihan = $relasiLamar->lulusan->user->pelatihan()->orderBy('created_at', 'desc')->get();
         $judulPekerjaan = $relasiLamar->loker->nama_loker;
         $namaPerusahaan = $relasiLamar->loker->perusahaan->nama_perusahaan;
 
         return view('lamar-perusahaan.detail', [
-            'tanggal_mulai' => $tanggal_mulai,
-            'tanggal_berakhir' => $tanggal_berakhir,
+            'tgl_mulai' => $tgl_mulai,
+            'tgl_selesai' => $tgl_selesai,
             'namaPengguna' => $namaPengguna,
             'email' => $email,
             'resume' => $resume,
@@ -116,7 +120,7 @@ class LamarPerusahaanController extends Controller
             'pendidikan' => $pendidikan,
             'pengalaman' => $pengalaman,
             'pelatihan' => $pelatihan,
-            'tglLahir' => $tanggalLahir,
+            'tglLahir' => $tglLahir,
         ]);
     }
 
@@ -135,11 +139,7 @@ class LamarPerusahaanController extends Controller
         $lamar->status = $status;
         $lamar->save();
 
-        // $authId = auth()->user()->profile->id;
-        // $lamarId = $lamar->id;
-
         $getPerusahaanId = LowonganPekerjaan::select(
-            'lokers.user_id',
             'lokers.perusahaan_id',
             'lokers.nama_loker'
         )

@@ -24,6 +24,6 @@ class Bookmark extends Model
 
     public function lowonganPekerjaan()
     {
-        return $this->belongsTo(LowonganPekerjaan::class, 'lowongan_pekerjaan_id');
+        return $this->belongsTo(LowonganPekerjaan::class, 'loker_id');
     }
 }

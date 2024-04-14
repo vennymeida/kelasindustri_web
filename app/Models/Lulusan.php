@@ -26,14 +26,9 @@ class Lulusan extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function postingan()
-    {
-        return $this->hasOne(Postingan::class);
-    }
-
     public function lamars()
     {
-        return $this->hasMany(Lamar::class, 'id_lulusan');
+        return $this->hasMany(Lamar::class, 'user_id');
     }
     public function isComplete()
     {

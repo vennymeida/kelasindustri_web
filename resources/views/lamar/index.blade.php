@@ -67,8 +67,8 @@
                                                         {{ ($allResults->currentPage() - 1) * $allResults->perPage() + $key + 1 }}
                                                     </td>
                                                     <td class="text-center">{{ $lamar->name }}</td>
-                                                    <td class="text-center">{{ $lamar->nama }}</td>
-                                                    <td class="text-center">{{ $lamar->judul }}</td>
+                                                    <td class="text-center">{{ $lamar->nama_perusahaan }}</td>
+                                                    <td class="text-center">{{ $lamar->nama_loker }}</td>
                                                     <td class="text-center">{{ $lamar->status }}</td>
                                                     <td class="text-center">
                                                         <div class="d-flex justify-content-center">

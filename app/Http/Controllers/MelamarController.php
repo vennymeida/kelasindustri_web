@@ -40,7 +40,7 @@ class MelamarController extends Controller
 
         // Menyertakan id_loker dan id_lulusan
         $data['id_loker'] = $request->input('loker_id');
-        $data['user_id'] = auth()->user()->id; // mengambil ID dari lulusan
+        $data['user_id'] = auth()->user()->lulusan->id; // mengambil ID dari lulusan
         // Simpan ke database
         $lamar = Lamar::create($data);
         $authId = auth()->user()->lulusan->id;

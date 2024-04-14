@@ -162,7 +162,7 @@
                                                                 <p class="mb-2">{{ $loker->tipe_pekerjaan }}</p>
                                                             </li>
                                                             <li class="mb-2">
-                                                                @if (auth()->check() && auth()->user()->hasRole('Pencari Kerja'))
+                                                                @if (auth()->check() && auth()->user()->hasRole('lulusan'))
                                                                     <a href="javascript:void(0);"
                                                                         class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
                                                                         <i class="far fa-bookmark"
@@ -246,7 +246,7 @@
                                                                 <p class="mb-2">{{ $loker->tipe_pekerjaan }}</p>
                                                             </li>
                                                             <li class="mb-2">
-                                                                @if (auth()->check() && auth()->user()->hasRole('Pencari Kerja'))
+                                                                @if (auth()->check() && auth()->user()->hasRole('lulusan'))
                                                                     <a href="javascript:void(0);"
                                                                         class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
                                                                         <i class="far fa-bookmark"
@@ -477,48 +477,47 @@
                 }
 
                 icon.click(function() {
-                    // Make an AJAX request to update bookmark status
-                    // $.ajax({
-                    //     type: 'POST',
-                    //     url: '',
-                    //     data: {
-                    //         loker_id: lokerId
-                    //     },
-                    //     success: function(response) {
-                    //         if (response.bookmarked) {
-                    //             icon.find('i').removeClass('far fa-bookmark').addClass(
-                    //                 'fas fa-bookmark');
-                    //             Swal.fire({
-                    //                 icon: 'success',
-                    //                 title: 'Lowongan Pekerjaan Disimpan',
-                    //                 showConfirmButton: false,
-                    //                 timer: 1500
-                    //             });
-                    //         } else {
-                    //             icon.find('i').removeClass('fas fa-bookmark').addClass(
-                    //                 'far fa-bookmark');
-                    //             Swal.fire({
-                    //                 icon: 'success',
-                    //                 title: 'Lowongan Pekerjaan Dihapus',
-                    //                 showConfirmButton: false,
-                    //                 timer: 1500
-                    //             });
-                    //         }
+                    $.ajax({
+                        type: 'POST',
+                        url: '',
+                        data: {
+                            loker_id: lokerId
+                        },
+                        success: function(response) {
+                            if (response.bookmarked) {
+                                icon.find('i').removeClass('far fa-bookmark').addClass(
+                                    'fas fa-bookmark');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Lowongan Pekerjaan Disimpan',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            } else {
+                                icon.find('i').removeClass('fas fa-bookmark').addClass(
+                                    'far fa-bookmark');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Lowongan Pekerjaan Dihapus',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
 
-                    //         // Update bookmark status in local storage
-                    //         localStorage.setItem(storageKey, response.bookmarked);
+                            // Update bookmark status in local storage
+                            localStorage.setItem(storageKey, response.bookmarked);
 
-                    //         // Optionally, you can display a toast or notification to indicate success
-                    //         if (response.bookmarked) {
-                    //             // Example using Bootstrap Toast component
-                    //             $('.toast').toast('show');
-                    //         }
-                    //     },
-                    //     error: function(xhr, status, error) {
-                    //         // Handle errors here if necessary
-                    //         console.error(error);
-                    //     }
-                    // });
+                            // Optionally, you can display a toast or notification to indicate success
+                            if (response.bookmarked) {
+                                // Example using Bootstrap Toast component
+                                $('.toast').toast('show');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors here if necessary
+                            console.error(error);
+                        }
+                    });
                 });
             });
         });

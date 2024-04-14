@@ -413,19 +413,16 @@ class AlljobsController extends Controller
         // } else {
         //     $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
         // }
-
-        $hasApplied = $loker->hasApplied;
         // Mengecek apakah user sudah melamar untuk loker ini
-        $lamaran = null;
+        $hasApplied = false;
+        $lamaranStatus = null;
 
-        if (Auth::check()) {
-            // Check if user has a profile before attempting to access the profile's id.
-            if (Auth::user()->lulusan) {
-                $lamaran = Lamar::where('loker_id', $loker->id)
-                    ->where('user_id', Auth::user()->lulusan->id)
-                    ->first();
+        if (Auth::check() && Auth::user()->lulusan) {
+            $lamaran = Lamar::where('loker_id', $loker->id)->where('user_id', Auth::user()->lulusan->id)->first();
+            if ($lamaran) {
+                $hasApplied = true;
+                $lamaranStatus = $lamaran->status;
             }
-            // If the user doesn't have a profile or isn't authenticated, $lamaran will remain null.
         }
 
         $lamaranStatus = $lamaran ? $lamaran->status : null;

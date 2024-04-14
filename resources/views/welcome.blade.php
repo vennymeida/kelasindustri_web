@@ -77,8 +77,8 @@
                                     style="font-size: 25px;"></i>
                                 Bergabunglah dengan kami dan temukan bakat-bakat terbaik untuk mendorong kesuksesan bisnis Anda!
                             </p>
-                            <a id="register-button" class="btn btn-primary px-4"
-                                href="{{ route('loker-perusahaan.index') }}" style="border-radius: 25px;">Mulai Merekrut</a>
+                            <a id="register-button" class="btn btn-primary px-4" href="{{ route('loker-perusahaan.index') }}"
+                                style="border-radius: 25px;">Mulai Merekrut</a>
                         </div>
                     @endrole
                     @role('lulusan')
@@ -158,7 +158,8 @@
                             <div class="card border-primary mb-2 card-waktusaku-view-mobile card-body h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-percent text-primary fa-3x mb-4"></i>
-                                    <h5 class="card-title font-weight-bold d-block mx-2">Terhubung dengan berbagai Perusahaan Mitra</h5>
+                                    <h5 class="card-title font-weight-bold d-block mx-2">Terhubung dengan berbagai
+                                        Perusahaan Mitra</h5>
                                     <p class="card-text text-center">
                                         Anda akan mendapatkan pengalaman untuk terhubung langsung dengan perusahaan
                                         yang bermitra dengan PT Hummatech Digital Indonesia
@@ -176,7 +177,8 @@
                 <h2 class="text-center font-weight-bold">Lowongan Kerja Terbaru di <span
                         class="text-primary font-weight-bold">Kelas</span><span
                         class="text-warning font-weight-bold">Industri Jobs</span></h2>
-                <div class="row flex-nowrap overflow-auto mt-5 horizontal-scroll equal-height-cards group-card-view-mobile">
+                <div
+                    class="row flex-nowrap overflow-auto mt-5 horizontal-scroll equal-height-cards group-card-view-mobile">
                     <div class="scroll-arrow left bg-transparent text-secondary">
                         <i class="fas fa-angle-left"></i>
                     </div>
@@ -202,8 +204,7 @@
                                         <ul class="list-unstyled ml-2">
                                             <ul class="list-unstyled d-flex justify-content-between">
                                                 <li class="mb-2">
-                                                    @if (auth()->check() &&
-    auth()->user()->hasRole('lulusan'))
+                                                    @if (auth()->check() && auth()->user()->hasRole('lulusan'))
                                                         <a href="javascript:void(0);" class="bookmark-icon"
                                                             data-loker-id="{{ $loker->id }}">
                                                             <i class="far fa-bookmark" style="font-size: 20px;"></i>
@@ -299,7 +300,7 @@
                     // Make an AJAX request to update bookmark status
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('bookmark.toggle') }}', // Update this route
+                        url: '{{ route('bookmark.toggle') }}',
                         data: {
                             loker_id: lokerId
                         },

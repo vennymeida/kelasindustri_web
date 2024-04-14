@@ -18,9 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('loker_id');
             $table->unsignedBigInteger('user_id');
             $table->string('resume')->nullable();
-            $table->enum('status', ['diterima', 'tolak', 'pending'])->default('pending');
+            $table->enum('status', ['diterima', 'ditolak', 'pending'])->default('pending');
             $table->foreign('loker_id')->references('id')->on('lokers')->restrictOnDelete();
-            $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
+            $table->foreign('user_id')->references('id')->on('lulusans')->restrictOnDelete();
             $table->timestamps();
         });
     }
