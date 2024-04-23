@@ -34,7 +34,6 @@ class MelamarController extends Controller
             $data['resume'] = $resumePath;
         } else {
             // Jika tidak ada file yang di-upload, kita tetap menyertakan resume saat ini
-            // dari profile_user ke tabel lamars tanpa mengubahnya di lulusan
             $data['resume'] = auth()->user()->lulusan->resume;
         }
 

@@ -39,8 +39,7 @@
                                 <div class="media mb-4">
                                     @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
                                         <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
-                                            src="{{Storage::url(Auth::user()->lulusan->foto)}}"
-                                            alt="Profile Image">
+                                            src="{{ Storage::url(Auth::user()->lulusan->foto) }}" alt="Profile Image">
                                     @else
                                         <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
                                             src="{{ asset('assets/img/avatar/avatar-1.png') }}">
@@ -237,8 +236,7 @@
                             <label>Nama Instansi</label>
                             <input name="nama_instansi" type="text"
                                 class="form-control custom-input @error('nama_instansi') is-invalid @enderror"
-                                value="{{ old('nama_instansi') }}"
-                                placeholder="Masukkan nama instansi">
+                                value="{{ old('nama_instansi') }}" placeholder="Masukkan nama instansi">
                             @error('nama_instansi')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -443,8 +441,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="" class="needs-validation"
-                    novalidate="" enctype="multipart/form-data">
+                <form method="POST" action="" class="needs-validation" novalidate=""
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
@@ -569,32 +567,26 @@
                             </div>
                         </div>
                         <div class="col-md-11 ml-2 card-profile2">
-                            @if (Auth::user()->lulusan && Auth::user()->lulusan->alamat != '')
-                                <div class="lulusan-widget-description mb-3" style="display: flex; align-items: center;">
-                                    <img class="img-fluid" style="width: 25px; height: 25px;"
-                                        src="{{ asset('assets/img/landing-page/location pin.svg') }}">&nbsp&nbsp<a>{{ Auth::user()->lulusan->alamat }}</a>
-                                </div>
-                            @endif
-                            @if (Auth::user()->lulusan && Auth::user()->lulusan->resume != '')
-                                <div class="profile-widget-description lihat-resume" style=" ">
-                                    {{-- <a href="#" class="btn btn-primary" id="skill-button" data-toggle="modal"
-                                            data-target="#resumePreviewModal"
-                                            data-pdf="{{ Auth::user()->profile ? Storage::url(Auth::user()->profile->resume) : '' }}"
-                                            style="background-color:#eb9481; font-size:13px; border-radius:15px;">
-                                            <i class="fas fa-eye"></i> Lihat Resume
-                                        </a> --}}
-                                    <a href="{{ Storage::url(Auth::user()->lulusan->resume) }}"
-                                        onclick="return openResume();" target="_blank" class="btn btn-primary"
-                                        style="background-color:#eb9481; font-size:13px; border-radius:15px; border-color:#eb9481; margin-right: 10px;">
-                                        Lihat Resume
-                                    </a>
-                                    <a href="#" class="btn btn-primary"
-                                        style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;"
-                                        data-toggle="modal" data-target="#modal-rekrut-karyawan">
-                                        Rekrut Karyawan
-                                    </a>
-                                </div>
-                            @endif
+                            <div style="display: flex; flex-direction: column;">
+                                @if (Auth::user()->lulusan)
+                                    @if (Auth::user()->lulusan->alamat != '')
+                                        <div class="lulusan-widget-description mb-3"
+                                            style="display: flex; align-items: center; margin-bottom: 10px;">
+                                            <img class="img-fluid" style="width: 25px; height: 25px;"
+                                                src="{{ asset('assets/img/landing-page/location pin.svg') }}">&nbsp&nbsp<a>{{ Auth::user()->lulusan->alamat }}</a>
+                                        </div>
+                                    @endif
+                                    @if (Auth::user()->lulusan->resume != '')
+                                        <div class="profile-widget-description lihat-resume" style="margin-bottom: 10px;">
+                                            <a href="{{ Storage::url(Auth::user()->lulusan->resume) }}"
+                                                onclick="return openResume();" target="_blank" class="btn btn-primary"
+                                                style="background-color:#eb9481; font-size:13px; border-radius:15px; border-color:#eb9481;">
+                                                Lihat Resume
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -905,7 +897,7 @@
                                     <div class="flex-grow-1">
                                         <div class="profile-widget-name"
                                             style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $pl->nama_pengalaman}}
+                                            {{ $pl->nama_pengalaman }}
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
@@ -1073,7 +1065,8 @@
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
                                     <label for="tingkatan">Tingkatan</label>
-                                    <select class="form-control select2 custom-input @error('tingkatan') is-invalid @enderror"
+                                    <select
+                                        class="form-control select2 custom-input @error('tingkatan') is-invalid @enderror"
                                         name="tingkatan" id="tingkatan">
                                         <option value="">Pilih Tingkatan</option>
                                         <option value="SMK">SMK</option>
@@ -1094,7 +1087,8 @@
                                     <label>Nama Institusi</label>
                                     <input name="nama_institusi" type="text"
                                         class="form-control custom-input @error('nama_institusi') is-invalid @enderror"
-                                        value="{{ old('nama_institusi') }}" placeholder="Masukkan nama nama_institusi anda">
+                                        value="{{ old('nama_institusi') }}"
+                                        placeholder="Masukkan nama nama_institusi anda">
                                     @error('nama_institusi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -1201,8 +1195,7 @@
                                     <label>Nama Instansi</label>
                                     <input name="nama_instansi" type="text"
                                         class="form-control custom-input @error('nama_instansi') is-invalid @enderror"
-                                        value="{{ old('nama_instansi') }}"
-                                        placeholder="Masukkan nama instansi">
+                                        value="{{ old('nama_instansi') }}" placeholder="Masukkan nama instansi">
                                     @error('nama_instansi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -1328,8 +1321,8 @@
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
                                     <label>Deskripsi</label>
-                                    <textarea name="deskripsi" class="form-control custom-input @error('deskripsi') is-invalid @enderror"
-                                        rows="4" placeholder="Tuliskan deskripsi mengenai pelatihan/sertifikat anda">{{ old('deskripsi') }}</textarea>
+                                    <textarea name="deskripsi" class="form-control custom-input @error('deskripsi') is-invalid @enderror" rows="4"
+                                        placeholder="Tuliskan deskripsi mengenai pelatihan/sertifikat anda">{{ old('deskripsi') }}</textarea>
                                     @error('deskripsi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -1419,7 +1412,7 @@
                                     <div class="media mb-4">
                                         @if (Auth::user()->lulusan && Auth::user()->lulusan->foto != '')
                                             <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
-                                                src="{{Storage::url(Auth::user()->lulusan->foto)}}"
+                                                src="{{ Storage::url(Auth::user()->lulusan->foto) }}"
                                                 alt="Profile Image">
                                         @else
                                             <img class="mr-3 rounded-circle" style="width: 50px; height: 50px;"
@@ -1726,8 +1719,10 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        $('#modal-edit-pendidikan select[name="tingkatan"]').val(data.tingkatan).change();
-                        $('#modal-edit-pendidikan input[name="nama_institusi"]').val(data.nama_institusi);
+                        $('#modal-edit-pendidikan select[name="tingkatan"]').val(data.tingkatan)
+                            .change();
+                        $('#modal-edit-pendidikan input[name="nama_institusi"]').val(data
+                            .nama_institusi);
                         $('#modal-edit-pendidikan input[name="jurusan"]').val(data.jurusan);
                         $('#modal-edit-pendidikan select[name="tahun_mulai"]').val(data.tahun_mulai)
                             .change();

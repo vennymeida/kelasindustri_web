@@ -1,54 +1,30 @@
-<!-- Modal Jadwalkan Interview oleh Perusahaan -->
-<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header m-4">
-                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah
-                    Jadwal Interview / Tes Lanjutan</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah Jadwal Interview / Tes Lanjutan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="" class="needs-validation"
-                    novalidate="" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('lamar.store', $lamar->id) }}" class="needs-validation" novalidate enctype="multipart/form-data">
                     @csrf
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label for="subject">Subject</label>
-                            <input name="subject" type="text"
-                                class="form-control custom-input @error('subject') is-invalid @enderror"
-                                value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
+                            <input name="subject" type="text" class="form-control custom-input @error('subject') is-invalid @enderror" value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
                             @error('subject')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label>Tempat Interview</label>
-                            <input name="tempat_interview" type="text"
-                                class="form-control custom-input @error('tempat_interview') is-invalid @enderror"
-                                value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
+                            <input name="tempat_interview" type="text" class="form-control custom-input @error('tempat_interview') is-invalid @enderror" value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
                             @error('tempat_interview')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label>Alamat</label>
-                            <textarea name="alamat" class="form-control custom-input @error('alamat') is-invalid @enderror" rows="4"
-                                placeholder="Masukkan alamat perusahaan tempat anda bekerja">{{ old('alamat') }}</textarea>
-                            @error('alamat')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
@@ -61,34 +37,26 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
-                                <input name="tgl_interview" type="date"
-                                    class="form-control custom-input @error('tgl_interview') is-invalid @enderror"
-                                    value="{{ old('tgl_interview') }}">
-                                @error('tgl_interview')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                <input name="tanggal_interview" type="date" class="form-control custom-input @error('tanggal_interview') is-invalid @enderror" value="{{ old('tanggal_interview') }}">
+                                @error('tanggal_interview')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                         <div class="form-group col-md-12 col-12">
                             <label>Catatan (Opsional)</label>
-                            <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4"
-                                placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
+                            <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4" placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
                             @error('catatan')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
+                    <button type="submit" class="d-none"></button>
                 </form>
             </div>
             <div class="modal-footer bg-whitesmoke m-4">
-                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
-                    style="border-radius: 15px; font-size: 14px">Tambah</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                    style="border-radius: 15px; font-size: 14px">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();" style="border-radius: 15px; font-size: 14px">Tambah</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px; font-size: 14px">Batal</button>
             </div>
         </div>
     </div>
@@ -194,8 +162,8 @@
                                         </dl>
                                         {{-- Tampilkan tombol "Muat Lebih Banyak" jika ada lebih dari satu pendidikan --}}
                                         @if ($pendidikan->count() > 1)
-                                            <button id="muatLebihBanyak" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#pendidikanModal">
+                                            <button id="muatLebihBanyak" class="btn btn-primary btn-sm"
+                                                data-toggle="modal" data-target="#pendidikanModal">
                                                 Muat Lebih Banyak
                                             </button>
                                         @endif
@@ -518,4 +486,27 @@
 
         textarea.style.height = (textarea.scrollHeight) + 'px';
     </script>
+    @push('customScript')
+        <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Fungsi untuk menangani pengiriman formulir saat tombol Tambah diklik
+                $('.btn-primary').on('click', function() {
+                    // Validasi formulir sebelum pengiriman
+                    var form = $(this).closest('form');
+                    if (form[0].checkValidity()) {
+                        form.submit(); // Kirim formulir jika valid
+                    } else {
+                        form.addClass('was-validated'); // Tampilkan pesan kesalahan jika formulir tidak valid
+                    }
+                });
+
+                // Fungsi untuk menutup modal saat tombol Batal diklik
+                $('.btn-secondary').on('click', function() {
+                    $('#modal-rekrut-karyawan').modal('hide');
+                });
+            });
+        </script>
+    @endpush
 @endsection

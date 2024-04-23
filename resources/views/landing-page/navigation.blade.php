@@ -17,11 +17,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <div class="search">
-                        <span class="fa fa-search"></span>
-                        <input type="text" class="searchinput" placeholder="cari" aria-label="cari"
-                            aria-describedby="basic-addon1">
-                    </div>
+                    <li>
+                        <form action="{{ route('user.search') }}" method="GET">
+                            <div class="search">
+                                <input type="text" name="nama" id="nama" class="searchinput"
+                                    placeholder="cari user lulusan" aria-label="cari">
+                                <button class="btn btn-primary py-1 px-3" type="submit" style="border-radius: 25px;">
+                                    Cari
+                                </button>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto navbar-atas">
                     <li class="nav-item active mr-4">

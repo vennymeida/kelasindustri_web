@@ -112,6 +112,8 @@ class PerusahaanListController extends Controller
 
     public function show(Perusahaan $perusahaan)
     {
+        $lowonganPekerjaan = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)->pluck('id');
+
         // Menghilangkan tag <p> dan tag lainnya dari deskripsi
         if ($perusahaan && $perusahaan->deskripsi) {
             $perusahaan->deskripsi = Str::replace(
@@ -121,15 +123,115 @@ class PerusahaanListController extends Controller
             );
             $perusahaan->deskripsi = rtrim($perusahaan->deskripsi, ', ');
         }
+        $jumlahPelamar = DB::table('lamars as l')
+            ->leftJoin('lokers as lp', 'l.loker_id', '=', 'lp.id')
+            ->leftJoin('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
+            ->leftJoin('lulusans as lu', 'l.user_id', '=', 'lu.id')
+            ->leftJoin('users as u', 'lu.user_id', '=', 'u.id')
+            ->whereIn('l.loker_id', $lowonganPekerjaan)
+            ->count();
 
-        return view('perusahaan.view', compact('perusahaan'));
+        $jumlahDiterima = DB::table('lamars as l')
+            ->leftJoin('lokers as lp', 'l.loker_id', '=', 'lp.id')
+            ->leftJoin('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
+            ->leftJoin('lulusans as lu', 'l.user_id', '=', 'lu.id')
+            ->leftJoin('users as u', 'lu.user_id', '=', 'u.id')
+            ->whereIn('l.loker_id', $lowonganPekerjaan)
+            ->where('l.status', 'diterima')
+            ->count();
+
+        $jumlahLowongan = DB::table('lokers')
+            ->leftJoin('perusahaan', 'lokers.perusahaan_id', '=', 'perusahaan.id')
+            ->count();
+
+        return view('perusahaan.view', compact('perusahaan', 'jumlahPelamar', 'jumlahDiterima', 'jumlahLowongan'));
     }
 
-    public function showTotalLowonganPekerjaan()
+    public function showLoker(Perusahaan $perusahaan, Request $request)
     {
-        $userId = Auth::id();
-        $totalLowongan = LowonganPekerjaan::where('user_id', $userId)->where('status', 'dibuka')->count();
+        // Gunakan perusahaan_id untuk mengambil data
+        LowonganPekerjaan::where('perusahaan_id', $perusahaan->id);
 
-        return view('perusahaan.view', ['totalLowongan' => $totalLowongan]);
+        $paginatedLowongan = DB::table('lokers')
+            ->leftJoin('perusahaan', 'lokers.perusahaan_id', '=', 'perusahaan.id')
+            ->select(
+                'perusahaan.nama_perusahaan',
+                'lokers.id',
+                'lokers.tipe_pekerjaan',
+                'lokers.gaji_atas',
+                'lokers.gaji_bawah',
+                'lokers.status',
+            )
+            ->paginate(10);
+
+        return view('perusahaan.totalLoker', [
+            'lowonganPekerjaan' => $paginatedLowongan,
+            'perusahaan' => $perusahaan,
+        ]);
+    }
+
+    public function showPelamar(Perusahaan $perusahaan)
+    {
+        // Mengambil lowongan pekerjaan yang terkait dengan perusahaan
+        $lowonganPekerjaan = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)->pluck('id');
+
+        // Mengambil pelamar berdasarkan lowongan yang terkait dengan perusahaan
+        $totalPelamar = DB::table('lamars as l')
+            ->join('lokers as lp', 'l.loker_id', '=', 'lp.id') // Menghubungkan dengan Lokers
+            ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id') // Menghubungkan dengan Perusahaan
+            ->join('lulusans as lu', 'l.user_id', '=', 'lu.id') // Menghubungkan dengan Lulusan
+            ->join('users as u', 'lu.user_id', '=', 'u.id') // Menghubungkan dengan Users
+            ->select(
+                'l.id',
+                'u.name',
+                'lu.no_hp',
+                'lu.foto',
+                'lu.resume',
+                'u.email',
+                'p.nama_perusahaan',
+                'lp.nama_loker',
+                'l.status',
+                'l.created_at'
+            )
+            ->whereIn('l.loker_id', $lowonganPekerjaan)
+            ->paginate(10);
+
+        return view('perusahaan.totalPelamar', [
+            'totalPelamar' => $totalPelamar,
+            'perusahaan' => $perusahaan,
+        ]);
+    }
+
+    public function showPelamarDiterima(Perusahaan $perusahaan)
+    {
+        // Mengambil lowongan pekerjaan yang terkait dengan perusahaan
+        $lowonganPekerjaan = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)->pluck('id');
+
+        // Mengambil pelamar berdasarkan lowongan yang terkait dengan perusahaan
+        $totalDiterima = DB::table('lamars as l')
+            ->join('lokers as lp', 'l.loker_id', '=', 'lp.id') // Menghubungkan dengan Lokers
+            ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id') // Menghubungkan dengan Perusahaan
+            ->join('lulusans as lu', 'l.user_id', '=', 'lu.id') // Menghubungkan dengan Lulusan
+            ->join('users as u', 'lu.user_id', '=', 'u.id') // Menghubungkan dengan Users
+            ->select(
+                'l.id',
+                'u.name',
+                'lu.no_hp',
+                'lu.foto',
+                'lu.resume',
+                'u.email',
+                'p.nama_perusahaan',
+                'lp.nama_loker',
+                'l.status',
+                'l.created_at'
+            )
+            ->whereIn('l.loker_id', $lowonganPekerjaan)
+            ->where('l.status', 'diterima') // Filter berdasarkan loker yang sesuai dengan perusahaan
+            ->paginate(10); // Pagination untuk mengelola data besar
+
+        return view('perusahaan.totalPelamarDiterima', [
+            'totalDiterima' => $totalDiterima,
+            'perusahaan' => $perusahaan,
+        ]);
     }
 }

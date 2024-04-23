@@ -16,6 +16,10 @@ class Lamar extends Model
         'loker_id',
         'user_id',
         'resume',
+        'subject',
+        'tempat_interview',
+        'tanggal_interview',
+        'catatan',
         'status',
     ];
 

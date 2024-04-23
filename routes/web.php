@@ -47,7 +47,9 @@ use App\Http\Controllers\StatusLamarController;
 use App\Http\Controllers\RekomendasiLokerController;
 use App\Http\Controllers\RekomendasiLulusanController;
 use App\Http\Controllers\RekomendasiRangkingController;
+use App\Http\Controllers\RekrutController;
 use App\Http\Controllers\StopWordController;
+use App\Http\Controllers\NavigationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +77,9 @@ Route::get('/all-jobs/{loker}', [AlljobsController::class, 'show'])->name('all-j
 // Route::get('/all-jobs/{loker}', [AlljobsController::class, 'detail_rekomendasi'])->name('all-jobs.detail_rekomendasi');
 Route::get('/all-postingan', [AllPostinganController::class, 'index'])->name('all-postingan.index');
 Route::get('/detail-perusahaan/{detail}', [DetailPerusahaan::class, 'show'])->name('detail-perusahaan.show');
+Route::get('/search', [NavigationController::class, 'search'])->name('user.search');
+Route::get('/detail-search/{user}', [NavigationController::class, 'recruit'])->name('search.recruit');
+Route::post('/rekrut/{user}', [RekrutController::class, 'rekrut'])->name('create.rekrut');
 
 Route::get('/login', function () {
     if (auth()->check()) {
@@ -112,6 +117,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/perusahaan', 'App\Http\Controllers\PerusahaanListController@index')->name('perusahaan.index');
         Route::put('/perusahaan/banned/{perusahaan}', [PerusahaanListController::class, 'banned'])->name('perusahaan.banned');
         Route::get('/banned', [BannedController::class, 'index'])->name('perusahaan.unbanned');
+        Route::get('/perusahaan/{perusahaan}/showLoker', [PerusahaanListController::class, 'showLoker'])->name('showLoker');
+        Route::get('/perusahaan/{perusahaan}/showPelamar', [PerusahaanListController::class, 'showPelamar'])->name('showPelamar');
+        Route::get('/perusahaan/{perusahaan}/showPelamarDiterima', [PerusahaanListController::class, 'showPelamarDiterima'])->name('showPelamarDiterima');
         Route::put('/banned/unbanned/{perusahaan}', [BannedController::class, 'unbanned'])->name('perusahaan-status.update');
 
         Route::resource('postinganadmin', PostinganAdminController::class);
@@ -192,6 +200,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role:lulusan|perusahaan']], 
 
     Route::post('/melamar', [MelamarController::class, 'store'])->name('melamar.store');
 
+    Route::post('/lamarperusahaan/store/{lamar}', [LamarPerusahaanController::class, 'store'])->name('lamar.store');
     Route::resource('lamarperusahaan', LamarPerusahaanController::class);
     //loker-perusahaan
     Route::resource('loker-perusahaan', LokerPerusahaanController::class);

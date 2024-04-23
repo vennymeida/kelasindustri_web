@@ -18,6 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('loker_id');
             $table->unsignedBigInteger('user_id');
             $table->string('resume')->nullable();
+            $table->string('subject')->nullable();
+            $table->string('tempat_interview')->nullable();
+            $table->date('tanggal_interview')->nullable();
+            $table->string('catatan')->nullable();
             $table->enum('status', ['diterima', 'ditolak', 'pending'])->default('pending');
             $table->foreign('loker_id')->references('id')->on('lokers')->restrictOnDelete();
             $table->foreign('user_id')->references('id')->on('lulusans')->restrictOnDelete();

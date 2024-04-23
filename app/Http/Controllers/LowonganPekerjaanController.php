@@ -56,7 +56,7 @@ class LowonganPekerjaanController extends Controller
             ->when($selectedStatus, function ($query, $selectedStatus) {
                 return $query->where('lp.status', $selectedStatus);
             })
-            ->groupBy('lp.id','lp.perusahaan_id', 'p.nama_perusahaan', 'lp.nama_loker', 'lp.deskripsi', 'lp.persyaratan', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.kuota', 'lp.status', 'lp.tgl_tutup', 'lp.lokasi', 'p.nama_pemilik')
+            ->groupBy('lp.id','lp.perusahaan_id', 'p.nama_perusahaan', 'lp.nama_loker', 'lp.deskripsi', 'lp.persyaratan', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.kuota', 'lp.status', 'lp.tgl_tutup', 'lp.lokasi', 'p.nama_pemilik', 'lp.keahlian')
             ->paginate(10);
 
         foreach ($allResults as $persyaratan) {

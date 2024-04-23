@@ -75,13 +75,13 @@
                                     </div>
                                     <div class="card-wrap">
                                         <div class="card-body" style="font-size: 22px; margin-top: 20px;">
-                                            {{ App\Models\LowonganPekerjaan::where('status', 'dibuka')->count() }}
+                                            {{ $jumlahLowongan }}
                                         </div>
                                         <div class="card-header" style="font-size: 18px; margin-bottom: 30px;">
                                             <h4><strong> Total Lowongan Kerja</strong></h4>
                                         </div>
                                         <div class="text-right my-4 mr-5">
-                                            <a href="" class="" style="font-size: 12px;">
+                                            <a href="{{ route('showLoker', $perusahaan->id ) }}" class="" style="font-size: 12px;">
                                                 Lihat Detail . . .
                                             </a>
                                         </div>
@@ -95,13 +95,13 @@
                                     </div>
                                     <div class="card-wrap">
                                         <div class="card-body" style=" font-size: 22px; margin-top: 20px;">
-                                            {{ App\Models\Lamar::count() }}
+                                            {{ $jumlahPelamar }}
                                         </div>
                                         <div class="card-header" style="font-size: 18px; margin-bottom: 30px;">
                                             <h4><strong>Total Pelamar</strong></h4>
                                         </div>
                                         <div class="text-right my-4 mr-5">
-                                            <a href="" class="" style="font-size: 12px;">
+                                            <a href="{{ route('showPelamar', $perusahaan->id ) }}" class="" style="font-size: 12px;">
                                                 Lihat Detail . . .
                                             </a>
                                         </div>
@@ -117,13 +117,13 @@
                                     </div>
                                     <div class="card-wrap">
                                         <div class="card-body" style=" font-size: 22px; margin-top: 20px;  margin-bottom: 10px;">
-                                            {{ App\Models\Lamar::where('status', 'diterima')->count() }}
+                                            {{ $jumlahDiterima }}
                                         </div>
                                         <div class="card-header">
                                             <h4><strong>Total Lulusan Yang Diterima</strong></h4>
                                         </div>
                                         <div class="text-right my-4 mr-5">
-                                            <a href="" class="" style="font-size: 12px;">
+                                            <a href="{{ route('showPelamarDiterima', $perusahaan->id ) }}" class="" style="font-size: 12px;">
                                                 Lihat Detail . . .
                                             </a>
                                         </div>
