@@ -24,10 +24,10 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total Pencari Kerja</h4>
+                                    <h4>Total Lulusan</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\ProfileUser::whereNotNull('resume')->count() }}
+                                    {{ App\Models\Lulusan::count() }}
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                     <h4>Total Lamaran</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\lamar::count() }}
+                                    {{ App\Models\Lamar::count() }}
                                 </div>
                             </div>
                         </div>
@@ -88,6 +88,18 @@
                             </div>
                             <div class="card-body">
                                 <canvas id="myChart" height="158"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-header">
+                                <h4>Capaian Lulusan</h4>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChartLine" height="158"></canvas>
                             </div>
                         </div>
                     </div>
@@ -110,8 +122,8 @@
                                             class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
                                     @endif
                                     <div class="media-body">
-                                        <div class="media-title">{{ $lamar->name }}</div>
-                                        <span class="text-small text-muted">{{ $lamar->perusahaan }}</span>
+                                        <div class="media-title">{{ $lamar->nama_loker }}</div>
+                                        <span class="text-small text-muted">{{ $lamar->nama_perusahaan }}</span>
                                     </div>
                                 </li>
                             @endforeach
@@ -136,10 +148,10 @@
 
         const perusahaanData = {};
         grafikData.forEach(item => {
-            if (!perusahaanData[item.nama]) {
-                perusahaanData[item.nama] = Array(12).fill(0);
+            if (!perusahaanData[item.nama_perusahaan]) {
+                perusahaanData[item.nama_perusahaan] = Array(12).fill(0);
             }
-            perusahaanData[item.nama][parseInt(item.month) - 1] = item.jumlah_lamars;
+            perusahaanData[item.nama_perusahaan][parseInt(item.month) - 1] = item.jumlah_lamars;
         });
 
         const colors = [
@@ -177,6 +189,74 @@
                                 return value.toLocaleString("id-ID"); // Format angka dalam format Indonesia
                             },
                         },
+                    },
+                },
+            },
+        });
+    </script>
+@endpush
+
+@push('customScript')
+    <script src="{{ asset('assets/js/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ asset('assets/js/chart.min.js') }}"></script>
+
+    <script>
+        var ctx = document.getElementById("myChartLine").getContext('2d');
+        const lamarData = @json($lamar); // Pastikan data pelamar diterima/ditolak dikirim dari backend
+
+        const monthNames = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+            "Oktober", "November", "Desember"
+        ];
+
+        const acceptedData = Array(12).fill(0);
+        const rejectedData = Array(12).fill(0);
+
+        lamarData.forEach(item => {
+            const month = parseInt(item.created_at.split("-")[1]) - 1; // Mengambil bulan dari created_at
+            if (item.status === "diterima") {
+                acceptedData[month] += 1;
+            } else if (item.status === "ditolak") {
+                rejectedData[month] += 1;
+            }
+        });
+
+        const myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: monthNames.slice(1),
+                datasets: [
+                    {
+                        label: "Diterima",
+                        data: acceptedData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Ditolak",
+                        data: rejectedData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                    }
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString("id-ID");
+                            },
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
                     },
                 },
             },

@@ -51,6 +51,22 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="user_type">Assign Roles</label>
+                            <select class="select2 form-control @error('user_type') is-invalid @enderror" id="user_type"
+                                name="user_type">
+                                <option value="">Pilih Role</option>
+                                <option value="lulusan" {{ old('user_type') === 'lulusan' ? 'selected' : '' }}>
+                                    Lulusan</option>
+                                <option value="perusahaan" {{ old('user_type') === 'perusahaan' ? 'selected' : '' }}>
+                                    Perusahaan</option>
+                            </select>
+                            @error('user_type')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                 </div>
                 <div class="card-footer text-right">
                     <button class="btn btn-primary">Submit</button>

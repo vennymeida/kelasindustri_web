@@ -72,20 +72,12 @@
                                         @endswitch
                                     @endif
                                 @endif
-                                {{-- <p class="font-italic mt-2 time" style="font-size: 14px;"><img class="img-fluid img-icon"
+                                <p class="font-italic mt-2 time" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/Time.svg') }}"> Tayang {{ $updatedAgo }}
-                                </p> --}}
+                                </p>
                             </ul>
                         </div>
                     </div>
-
-                    {{-- <!-- Button to open Chatify modal -->
-                    @if ($lamaranStatus === 'Diterima')
-                        <div class="chat-icon-container">
-                            <a href="{{ url('chatify/' . $loker->perusahaan->user_id) }}" class="fas fa-comment-dots"
-                                style="font-size: 37px; color:#6777ef;"></a>
-                        </div>
-                    @endif --}}
                     <hr class="my-4">
                     {{-- <div class="col-md-11 mx-auto my-5 cardKeahlian">
                         <h5 class="font-weight-bolder cardKeahlian2">Keahlian : </h5>

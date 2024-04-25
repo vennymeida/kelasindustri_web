@@ -161,68 +161,6 @@
                             </div>
                         </div>
                     </div>
-                        {{-- <div class="col-md-6">
-                            <div class="card border-primary mb-2">
-                                <div class="card-body">
-                                    <div class="text-left mb-4 mt-2 ml-2">
-                                        <h5 class="card-title font-weight-bold d-block mx-2" style="color:#6777EF;">
-                                            Ubah Data Diri</h5>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <form method="POST" action="{{ route('profile.perusahaan.update') }}"
-                                            class="needs-validation" novalidate="" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="form-group col-md-12 col-12">
-                                                <label>Nomor Telepon</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text custom-input">
-                                                            <i class="fas fa-phone"></i>
-                                                        </div>
-                                                    </div>
-                                                    <input name="no_hp" type="number"
-                                                        class="form-control phone-number custom-input @error('no_hp') is-invalid @enderror"
-                                                        value="{{ Auth::user()->perusahaan->no_hp }}"
-                                                        placeholder="Contoh: 08...">
-                                                    @error('no_hp')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-12 col-12">
-                                                <label for="alamat">Alamat</label>
-                                                <textarea name="alamat" id="alamat" class="text-loker form-control @error('alamat') is-invalid @enderror"
-                                                    type="text" style="height: 100px;" placeholder="Masukkan alamat anda">{{ Auth::user()->perusahaan->alamat_perusahaan }}</textarea>
-                                                @error('alamat')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group col-md-12 col-12">
-                                                <label>Unggah Foto</label>
-                                                <input id="foto" name="foto" type="file"
-                                                    class="form-control custom-input @error('foto') is-invalid @enderror">
-                                                @error('foto')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                                <div class="text-warning small"
-                                                    style="font-size: 13px; font-weight:bolder;">
-                                                    (Tipe berkas : jpeg,jpg,png | Max size : 2MB)</div>
-                                            </div>
-                                            <div class="form-group col-md-12 text-right my-4">
-                                                <button class="btn btn-primary mr-1 px-3"
-                                                    style="border-radius: 15px; font-size: 14px; font-weight: lighter;"
-                                                    type="submit">Simpan</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                         <div class="col-md-6">
                             <div class="card border-primary mb-2">
                                 <div class="card-body">

@@ -95,10 +95,14 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-    Route::get('/dashboard', function () {
-        return view('home', ['users' => User::get(),]);
-    });
+    // Route::get('/dashboard', function () {
+    //     return view('home', ['users' => User::get(),]);
+    // });
     //user list
+
+    Route::group(['middleware' => ['auth', 'verified', 'role:super-admin']], function () {
+        Route::get('/dashboard', [DashboardController::class, 'index']);
+    });
 
     Route::prefix('user-management')->group(function () {
         Route::resource('user', UserController::class);

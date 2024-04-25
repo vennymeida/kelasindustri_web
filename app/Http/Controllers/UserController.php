@@ -95,7 +95,7 @@ class UserController extends Controller
         ]);
 
         // Assign roles based on the selected user_type
-        $roleName = ($validatedData['user_type'] === 'perusahaan') ? 'Perusahaan' : 'Pencari Kerja';
+        $roleName = ($validatedData['user_type'] === 'perusahaan') ? 'perusahaan' : 'lulusan';
         $role = Role::where('name', $roleName)->first();
         $user->assignRole($role);
 
