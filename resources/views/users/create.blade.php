@@ -19,7 +19,7 @@
                     <h4>Validasi Tambah Data</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('user.store') }}" method="post">
+                    <form action="{{ route('user.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="name">Your Name</label>
@@ -67,6 +67,15 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="form-group" id="upload-doc" style="display: none;">
+                            <label for="document">Unggah Dokumen</label>
+                            <input type="file" class="form-control-file @error('document') is-invalid @enderror" id="document" name="document">
+                            @error('document')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                 </div>
                 <div class="card-footer text-right">
                     <button class="btn btn-primary">Submit</button>
@@ -77,3 +86,27 @@
         </div>
     </section>
 @endsection
+
+@push('customScript')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userTypeSelect = document.getElementById('user_type');  // Dropdown role
+        const uploadDoc = document.getElementById('upload-doc');  // Kolom unggah dokumen
+
+        // Fungsi untuk menampilkan atau menyembunyikan kolom unggah dokumen
+        function toggleUploadDoc() {
+            if (userTypeSelect.value === 'lulusan') {
+                uploadDoc.style.display = 'block';  // Tampilkan kolom jika "Lulusan"
+            } else {
+                uploadDoc.style.display = 'none';  // Sembunyikan kolom jika bukan "Lulusan"
+            }
+        }
+
+        // Jalankan fungsi untuk memastikan kondisi awal yang benar
+        toggleUploadDoc();
+
+        // Tambahkan event listener untuk memantau perubahan pada dropdown role
+        userTypeSelect.addEventListener('change', toggleUploadDoc);
+    });
+</script>
+@endpush

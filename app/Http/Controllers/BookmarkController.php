@@ -7,6 +7,7 @@ use App\Models\Bookmark;
 use App\Models\Kota;
 use App\Models\LowonganPekerjaan;
 use App\Models\User;
+use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -22,32 +23,40 @@ class BookmarkController extends Controller
     {
         $user = Auth::user();
 
-        $query = $user->bookmark()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.perusahaan.kota']);
+        // $query = $user->bookmark()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.perusahaan.kota']);
+        $querys = DB::table('bookmarks as bk')
+            ->leftJoin('lokers as lk', 'bk.loker_id', '=', 'lk.id')
+            ->leftJoin('users as usr', 'bk.user_id', '=', 'usr.id')
+            ->leftJoin('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
+            ->select(
+                'usr.id',
+                'lk.id as loker_id',
+                'lk.nama_loker',
+                'lk.persyaratan',
+                'lk.deskripsi',
+                'lk.gaji_atas',
+                'lk.gaji_bawah',
+                'lk.keahlian',
+                'lk.tipe_pekerjaan',
+                'lk.tgl_tutup',
+                'lk.lokasi',
+                'lk.status',
+                'ps.nama_pemilik',
+                'ps.nama_perusahaan',
+                'ps.logo_perusahaan',
+                'ps.email_perusahaan',
+                'ps.alamat_perusahaan',
+                'ps.deskripsi',
+            )
+            ->where('bk.user_id', '=', $user->id)
+            ->orderByDesc('bk.created_at')
+            ->paginate(4);
 
-        // Apply search filters if provided
-        $posisi = $request->input('posisi');
-        $lokasi = $request->input('lokasi');
-
-        // Apply search filters if provided
-        if ($posisi) {
-            $query->whereHas('lowonganPekerjaan', function ($q) use ($posisi) {
-                $q->where('judul', 'like', '%' . $posisi . '%');
-            });
-        }
-
-        if ($lokasi) {
-            $query->whereHas('lowonganPekerjaan.perusahaan', function ($q) use ($lokasi) {
-                $q->whereHas('kota', function ($q) use ($lokasi) {
-                    $q->where('kota', 'like', '%' . $lokasi . '%');
-                });
-            });
-        }
-
-        $bookmarks = $query->orderByDesc('created_at')->paginate(3);
+        // dd($querys);
 
         return view('bookmark.index', [
-            'bookmarks' => $bookmarks,
-            'selectedLokasi' => $lokasi,
+            'querys' => $querys,
+
         ]);
     }
 
@@ -69,5 +78,23 @@ class BookmarkController extends Controller
         }
 
         return response()->json(['bookmarked' => $bookmarked]);
+    }
+
+    public function addBookmark(Request $request)
+    {
+        $userId = auth()->id();
+        $lokerId = $request->loker_id;
+        $bookmark = Bookmark::where('user_id', $userId)->where('loker_id', $lokerId)->first();
+
+        if ($bookmark) {
+            $bookmark->delete();
+            return response()->json(['bookmarked' => false]);
+        } else {
+            Bookmark::create([
+                'user_id' => $userId,
+                'loker_id' => $lokerId
+            ]);
+            return response()->json(['bookmarked' => true]);
+        }
     }
 }

@@ -50,6 +50,8 @@ use App\Http\Controllers\RekomendasiRangkingController;
 use App\Http\Controllers\RekrutController;
 use App\Http\Controllers\StopWordController;
 use App\Http\Controllers\NavigationController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -101,7 +103,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     //user list
 
     Route::group(['middleware' => ['auth', 'verified', 'role:super-admin']], function () {
-        Route::get('/dashboard', [DashboardController::class, 'index']);
+        // Route::get('/dashboard', [DashboardController::class, 'index']);
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 
     Route::prefix('user-management')->group(function () {

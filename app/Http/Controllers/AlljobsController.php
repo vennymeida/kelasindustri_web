@@ -261,13 +261,18 @@ class AlljobsController extends Controller
                 ->when($request->input('persyaratan'), function ($query, $name) {
                     return $query->where('lk.persyaratan', 'like', '%' . $name . '%');
                 })
-                ->where('lk.status', 'dibuka')
-                ->paginate(10);
+                ->where('lk.status', 'dibuka');
+                if ($request->has('posisi') && !empty($request->posisi)) {
+                    $tableloker->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
+                }
+                $tableloker = $tableloker->paginate(10);
 
             return view('all-jobs', ['perusahaan' => $perusahaan, 'allResults' => $allResults, 'lokers' => $lokerData, 'lulusan' => $lulusanData, 'tableloker' => $tableloker]);
         } else {
             // Jika pengguna belum login, tampilkan semua data loker
-            $tableloker = LowonganPekerjaan::paginate(10);
+            $tableloker = LowonganPekerjaan::where('nama_loker', 'like', '%' . $request->input('posisi') . '%')
+                                           ->where('status', 'dibuka')
+                                           ->paginate(10);
             return view('all-jobs', ['tableloker' => $tableloker]);
         }
     }

@@ -25,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'document',
     ];
 
     /**
@@ -50,6 +51,22 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new CustomVerifyEmail()); // Menggunakan notifikasi kustom Anda
     }
+
+    public function getDocumentUrl()
+    {
+        if ($this->document) {
+            return Storage::url($this->document);  // Mendapatkan URL untuk dokumen yang diunggah
+        }
+        return null;
+    }
+
+    public function deleteDocument()
+    {
+        if ($this->document) {
+            Storage::disk('public')->delete($this->document);  // Hapus dokumen
+        }
+    }
+
     public function lulusan()
     {
         return $this->hasOne(Lulusan::class);

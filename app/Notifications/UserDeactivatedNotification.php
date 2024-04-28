@@ -6,10 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Carbon;
 
-class CustomVerifyEmail extends Notification
+class UserDeactivatedNotification extends Notification
 {
     use Queueable;
 
@@ -43,9 +41,11 @@ class CustomVerifyEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Registrasi Akun JobsKelasIndustri') // Mengatur subject email
-            ->line('Terimakasih Telah Mendaftar di JobsKelasIndustri')
-            ->line('Saat ini akun Anda sedang dalam proses verifikasi oleh admin. Anda akan segera Mendapatkan notifikasi email ketika akun berhasil di verifikasi');
+            ->subject('Akun Anda Telah Dinonaktifkan')
+            ->greeting('Halo!')
+            ->line('Akun Anda telah dinonaktifkan oleh Admin.')
+            ->line('Jika Anda merasa ini adalah kesalahan, silakan hubungi Admin terkait.')
+            ->line('Terima kasih.');
     }
 
     /**
@@ -59,20 +59,5 @@ class CustomVerifyEmail extends Notification
         return [
             //
         ];
-    }
-
-    /**
-     * Get the verification URL for the given notifiable.
-     *
-     * @param  mixed  $notifiable
-     * @return string
-     */
-    protected function verificationUrl($notifiable)
-    {
-        return URL::temporarySignedRoute(
-            'verification.verify',
-            Carbon::now()->addMinutes(60),
-            ['id' => $notifiable->getKey(), 'hash' => sha1($notifiable->getEmailForVerification())]
-        );
     }
 }

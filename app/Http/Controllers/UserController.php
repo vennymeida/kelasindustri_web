@@ -6,6 +6,8 @@ use App\Exports\UsersExport;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Notifications\UserVerifiedNotification;
+use App\Notifications\UserDeactivatedNotification;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UsersImport;
@@ -86,12 +88,19 @@ class UserController extends Controller
     {
         $validatedData = $request->validated();
 
+        // Jika tipe pengguna "Lulusan", simpan dokumen yang diunggah
+        $documentPath = null;
+        if ($validatedData['user_type'] === 'lulusan' && $request->hasFile('document')) {
+            $documentPath = $request->file('document')->store('documents', 'public');  // Simpan dokumen di folder 'documents'
+        }
+
         // Create the user
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'email_verified_at' => now(),
+            'document' => $documentPath,  // Simpan path dokumen
         ]);
 
         // Assign roles based on the selected user_type
@@ -137,6 +146,17 @@ class UserController extends Controller
         //mengupdate data user ke database
         $validate = $request->validated();
 
+        if ($request->hasFile('document')) {
+            // Hapus dokumen lama jika ada
+            if ($user->document) {
+                Storage::disk('public')->delete($user->document);  // Hapus dokumen lama
+            }
+
+            // Simpan dokumen baru
+            $documentPath = $request->file('document')->store('documents', 'public');
+            $validatedData['document'] = $documentPath;
+        }
+
         $user->update($validate);
         return redirect()->route('user.index')->with('success', 'User Berhasil Diupdate');
     }
@@ -150,6 +170,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         try {
+            // Hapus dokumen jika ada
+            if ($user->document) {
+                Storage::disk('public')->delete($user->document);  // Hapus dokumen
+            }
+
             $user->delete();
             return redirect()->route('user.index')
                 ->with('success', 'Hapus Data User Sukses');
@@ -169,20 +194,27 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        // Memastikan hash cocok
         if (sha1($user->email) !== $hash) {
             abort(404);
         }
 
         if (is_null($user->email_verified_at)) {
-            $user->email_verified_at = now();
+            $user->email_verified_at = now();  // Verifikasi email
             $user->save();
+
+            // Kirim notifikasi email
+            $user->notify(new UserVerifiedNotification());
 
             return redirect()->route('user.index')->with('success', 'Email verified successfully');
         } else {
-            $user->email_verified_at = null;
+            $user->email_verified_at = null;  // Hapus verifikasi dan nonaktifkan akun
             $user->save();
 
-            return redirect()->route('user.index')->with('success', 'Email verification deleted successfully');
+            // Kirim notifikasi email saat akun dinonaktifkan
+            $user->notify(new UserDeactivatedNotification());
+
+            return redirect()->route('user.index')->with('success', 'Email verification deleted successfully. Akun telah dinonaktifkan.');
         }
     }
 }

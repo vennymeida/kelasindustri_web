@@ -41,7 +41,7 @@
                                         {{ session('status') }}
                                     </div>
                                 @endif
-                                <form action="{{ route('register') }}" method="POST">
+                                <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <label for="first_name" class="font-weight-bold">Nama Lengkap</label>
@@ -107,28 +107,25 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-bold mb-2">Daftar sebagai:</label>
-                                        <div class="role-regis d-flex align-items-left mt-2 div-role">
-                                            <div class="custom-radio-image mr-2">
-                                                <input type="radio" id="lulusan" name="user_type"
-                                                    value="lulusan"
-                                                    @if (old('user_type') === 'lulusan') checked @endif>
-                                                <label class="label-role" for="lulusan">
-                                                    <img src="{{ asset('assets/img/registerrole/pencarikerjanobg.png') }}"
-                                                        alt="Lulusan">
-                                                </label>
-                                            </div>
-                                            <div class="custom-radio-image">
-                                                <input type="radio" id="perusahaan" name="user_type"
-                                                    value="perusahaan"
-                                                    @if (old('user_type') === 'perusahaan') checked @endif>
-                                                <label class="label-role" class="input-role" for="perusahaan">
-                                                    <img src="{{ asset('assets/img/registerrole/perusahaannobg.png') }}"
-                                                        alt="Perusahaan">
-                                                </label>
-                                            </div>
+                                        <label for="user_type">Daftar sebagai:</label><br>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="user_type" id="lulusan" value="lulusan" @if(old('user_type') === 'lulusan') checked @endif>
+                                            <label class="form-check-label" for="lulusan">Lulusan</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="user_type" id="perusahaan" value="perusahaan" @if(old('user_type') === 'perusahaan') checked @endif>
+                                            <label class="form-check-label" for="perusahaan">Perusahaan</label>
                                         </div>
                                         @error('user_type')
+                                            <div class="invalid-feedback d-block">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group" id="upload-doc" style="display: none;">
+                                        <label for="document">Unggah dokumen sebagai bukti lulusan kelas industri (PDF atau gambar):</label>
+                                        <input type="file" class="form-control-file" id="document" name="document" accept=".pdf, .jpg, .jpeg, .png">
+                                        @error('document')
                                             <div class="invalid-feedback d-block">
                                                 {{ $message }}
                                             </div>
@@ -143,7 +140,7 @@
                                 </form>
                             </div>
                             <div class="mt-2 text-muted text-center">
-                                Sudah punya Akun? <a href="/login">Login kuy</a>
+                                Sudah punya Akun? <a href="/login">Login</a>
                                 <p class="mt-2">Copyright &copy; 2024 Design By <a href="">JobKelasIndustri</a>
                                 </p>
                             </div>
@@ -183,6 +180,29 @@
     <!-- Template JS File -->
     <script src="../assets/js/scripts.js"></script>
     <script src="../assets/js/custom.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lulusanRadio = document.getElementById('lulusan');
+            const perusahaanRadio = document.getElementById('perusahaan');
+            const uploadDoc = document.getElementById('upload-doc');
+
+            function toggleDocumentField() {
+                if (lulusanRadio.checked) {
+                    uploadDoc.style.display = 'block'; // Tampilkan kolom dokumen jika "Lulusan" dipilih
+                } else {
+                    uploadDoc.style.display = 'none'; // Sembunyikan kolom dokumen jika "Perusahaan" dipilih
+                }
+            }
+
+            // Tambahkan event listener ke radio button
+            lulusanRadio.addEventListener('change', toggleDocumentField);
+            perusahaanRadio.addEventListener('change', toggleDocumentField);
+
+            // Jalankan fungsi untuk memastikan kondisi awal yang benar
+            toggleDocumentField();
+        });
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
