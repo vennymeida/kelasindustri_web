@@ -283,7 +283,8 @@
     <!-- Your existing script includes -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script>
+
+        <script>
         $(document).ready(function() {
             $('.bookmark-icon').each(function() {
                 var icon = $(this);
@@ -294,15 +295,17 @@
                 var isBookmarked = localStorage.getItem(storageKey);
                 if (isBookmarked === 'true') {
                     icon.find('i').removeClass('far fa-bookmark').addClass('fas fa-bookmark');
+                } else {
+                    icon.find('i').removeClass('fas fa-bookmark').addClass('far fa-bookmark');
                 }
 
                 icon.click(function() {
-                    // Make an AJAX request to update bookmark status
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('bookmark.toggle') }}',
+                        url: '/bookmark/add',
                         data: {
-                            loker_id: lokerId
+                            loker_id: lokerId,
+                            _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
                             if (response.bookmarked) {
@@ -333,8 +336,6 @@
                                 // Example using Bootstrap Toast component
                                 $('.toast').toast('show');
                             }
-                            // Refresh the page
-                            location.reload();
                         },
                         error: function(xhr, status, error) {
                             // Handle errors here if necessary
@@ -344,6 +345,7 @@
                 });
             });
         });
+
     </script>
 @endsection
 

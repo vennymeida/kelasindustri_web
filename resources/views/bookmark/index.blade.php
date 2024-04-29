@@ -1,5 +1,5 @@
 @extends('landing-page.app')
-@section('title', 'JobKelasIndustri - querys')
+@section('title', 'JobKelasIndustri - Lowongan Pekerjaan Tersimpan')
 @section('main')
     <main class="bg-light">
         <section>
@@ -71,48 +71,57 @@
                         <p class="mt-1 text-not">Belum ada pekerjaan yang di-bookmark ditemukan.</p>
                     </div>
                 @else
-                @foreach ($querys as $bookmark)
-                <div class="card col-md-3 mb-4 mx-4">
-                    <div class="card-body d-flex flex-column">
-                        <div class="position-relative">
-                            <div class="gradient-overlay"></div>
-                            <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                src="{{ asset('storage/' . $bookmark->logo_perusahaan) }}"
-                                alt="Company Logo">
-                            <p class="text-white card-title font-weight-bold mb-0 ml-2 overlap-text"
-                                style="font-size: 20px;">
-                                {{ $bookmark->nama_loker }}
-                            </p>
-                            <p class="text-white mb-4 ml-2 overlap-text-2" style="font-size: 14px;">
-                                {{ $bookmark->nama_perusahaan }}
-                            </p>
+                    @foreach ($querys as $bookmark)
+                        <div class="card col-md-3 mb-4 mx-4">
+                            <div class="card-body d-flex flex-column">
+                                <div class="position-relative">
+                                    <div class="gradient-overlay"></div>
+                                    <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
+                                        src="{{ asset('storage/' . $bookmark->logo_perusahaan) }}" alt="Company Logo">
+                                    <p class="text-white card-title font-weight-bold mb-0 ml-2 overlap-text"
+                                        style="font-size: 20px;">
+                                        {{ $bookmark->nama_loker }}
+                                    </p>
+                                    <p class="text-white mb-4 ml-2 overlap-text-2" style="font-size: 14px;">
+                                        {{ $bookmark->nama_perusahaan }}
+                                    </p>
+                                </div>
+                                <div class="card-text">
+                                    <ul class="list-unstyled ml-2">
+                                        <ul class="list-unstyled d-flex justify-content-between">
+                                            <li class="mb-2">
+                                                @if (auth()->check() && auth()->user()->hasRole('lulusan'))
+                                                    <a href="javascript:void(0);" class="bookmark-icon"
+                                                        data-loker-id="{{ $bookmark->loker_id }}">
+                                                        <i class="far fa-bookmark" style="font-size: 20px;"></i>
+                                                    </a>
+                                                @endif
+                                            </li>
+                                        </ul>
+                                        <li class="d-flex justify-content-start mb-2">
+                                            <img class="img-fluid img-icon mr-2"
+                                                src="{{ asset('assets/img/landing-page/money.svg') }}">
+                                            {{ 'IDR ' . $bookmark->gaji_bawah }} - {{ $bookmark->gaji_atas }}
+                                        </li>
+                                        <li class="d-flex justify-content-start mb-2">
+                                            <img class="img-fluid img-icon mr-2"
+                                                src="{{ asset('assets/img/landing-page/location pin.svg') }}">
+                                            {{ $bookmark->lokasi }}
+                                        </li>
+                                        <li class="d-flex justify-content-start mb-2">
+                                            <img class="img-fluid img-icon mr-2"
+                                                src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
+                                            {{ $bookmark->alamat_perusahaan }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <a id="detail-button" class="btn btn-primary px-4 py-2" style="border-radius: 25px;"
+                                        href="{{ route('all-jobs.show', $bookmark->loker_id) }}">Lihat Detail</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-text">
-                            <ul class="list-unstyled ml-2">
-                                <li class="d-flex justify-content-start mb-2">
-                                    <img class="img-fluid img-icon mr-2"
-                                        src="{{ asset('assets/img/landing-page/money.svg') }}">
-                                    {{ 'IDR ' . $bookmark->gaji_bawah }} - {{ $bookmark->gaji_atas }}
-                                </li>
-                                <li class="d-flex justify-content-start mb-2">
-                                    <img class="img-fluid img-icon mr-2"
-                                        src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                                    {{ $bookmark->lokasi }}
-                                </li>
-                                <li class="d-flex justify-content-start mb-2">
-                                    <img class="img-fluid img-icon mr-2"
-                                        src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
-                                    {{ $bookmark->alamat_perusahaan }}
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="text-center mb-3">
-                            <a id="detail-button" class="btn btn-primary px-4 py-2" style="border-radius: 25px;"
-                                href="{{ route('all-jobs.show', $bookmark->loker_id) }}">Lihat Detail</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+                    @endforeach
 
                 @endif
             </div>
@@ -197,66 +206,67 @@
 
 
 
-    <script>
-        $(document).ready(function() {
-            $('.bookmark-icon').each(function() {
-                var icon = $(this);
-                var lokerId = icon.data('loker-id');
-                var storageKey = 'bookmark_' + lokerId;
+<script>
+    $(document).ready(function() {
+        $('.bookmark-icon').each(function() {
+            var icon = $(this);
+            var lokerId = icon.data('loker-id');
+            var storageKey = 'bookmark_' + lokerId;
 
-                // Retrieve bookmark status from local storage
-                var isBookmarked = localStorage.getItem(storageKey);
-                if (isBookmarked === 'true') {
-                    icon.find('i').removeClass('far fa-bookmark').addClass('fas fa-bookmark');
-                } else {
-                    icon.find('i').removeClass('fas fa-bookmark').addClass('far fa-bookmark');
-                }
+            // Retrieve bookmark status from local storage
+            var isBookmarked = localStorage.getItem(storageKey);
+            if (isBookmarked === 'true') {
+                icon.find('i').removeClass('far fa-bookmark').addClass('fas fa-bookmark');
+            } else {
+                icon.find('i').removeClass('fas fa-bookmark').addClass('far fa-bookmark');
+            }
 
-                icon.click(function() {
-                    // Make an AJAX request to update bookmark status
-                    $.ajax({
-                        type: 'POST',
-                        url: '{{ route('bookmark.toggle') }}',
-                        data: {
-                            loker_id: lokerId
-                        },
-                        success: function(response) {
-                            if (response.bookmarked) {
-                                icon.find('i').removeClass('far fa-bookmark').addClass(
-                                    'fas fa-bookmark');
-                            } else {
-                                icon.find('i').removeClass('fas fa-bookmark').addClass(
-                                    'far fa-bookmark');
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Lowongan Pekerjaan Dihapus',
-                                    showConfirmButton: true,
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Refresh the page
-                                        location.reload();
-                                    }
-                                });
-                            }
-
-                            // Update bookmark status in local storage
-                            localStorage.setItem(storageKey, response.bookmarked);
-
-                            // Optionally, you can display a toast or notification to indicate success
-                            if (response.bookmarked) {
-                                // Example using Bootstrap Toast component
-                                $('.toast').toast('show');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle errors here if necessary
-                            console.error(error);
+            icon.click(function() {
+                // Make an AJAX request to update bookmark status
+                $.ajax({
+                    type: 'POST',
+                    url: '/bookmark/add',
+                    data: {
+                        loker_id: lokerId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.bookmarked) {
+                            icon.find('i').removeClass('far fa-bookmark').addClass(
+                                'fas fa-bookmark');
+                        } else {
+                            icon.find('i').removeClass('fas fa-bookmark').addClass(
+                                'far fa-bookmark');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Lowongan Pekerjaan Dihapus',
+                                showConfirmButton: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Refresh the page
+                                    location.reload();
+                                }
+                            });
                         }
-                    });
+
+                        // Update bookmark status in local storage
+                        localStorage.setItem(storageKey, response.bookmarked);
+
+                        // Optionally, you can display a toast or notification to indicate success
+                        if (response.bookmarked) {
+                            // Example using Bootstrap Toast component
+                            $('.toast').toast('show');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors here if necessary
+                        console.error(error);
+                    }
                 });
             });
         });
-    </script>
+    });
+</script>
 
 @endsection
 
