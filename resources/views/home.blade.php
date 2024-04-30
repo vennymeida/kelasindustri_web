@@ -96,17 +96,14 @@
                             <div class="card-header">
                                 <div class="col-12 d-flex justify-content-between">
                                     <h4>Capaian Lulusan</h4>
-                                    <select id="yearFilter">
-                                        @for ($year = 2024; $year <= date('Y'); $year++)
-                                            <option value="{{ $year }}"
-                                                {{ $year == request('year') ? 'selected' : '' }}>{{ $year }}
-                                            </option>
-                                        @endfor
+                                    <select id="yearFilter" onchange="updateYear(this.value)">
+                                        @foreach(range(date('Y'), date('Y') - 10) as $year)
+                                            <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>{{ $year }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="card-body">
-
                                 <canvas id="lineChart" height="100"></canvas>
                             </div>
                         </div>

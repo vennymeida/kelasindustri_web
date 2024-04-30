@@ -40,7 +40,6 @@ class ProfileLulusanController extends Controller
 
     public function index()
     {
-        // Logika untuk menampilkan profil perusahaan
         $lulusan = auth()->user()->lulusan;
         $userId = Auth::id();
         $postingans = Postingan::select('postingans.*')
@@ -67,6 +66,12 @@ class ProfileLulusanController extends Controller
             'pengalamans' => $pengalamans,
             'pelatihans' => $pelatihans,
         ]);
+    }
+
+    public function create(){
+        $userid = Auth::id();
+        $user = DB::table('users')->select('users.id','users.email','users.name')->where('id', $userid)->first();
+        return view('profile.create-lulusan', ['user' => $user]);
     }
 
     public function edit(Lulusan $profile_lulusan)
@@ -99,23 +104,28 @@ class ProfileLulusanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tingkatan' => 'required',
-            'nama_institusi' => 'required',
-            'jurusan' => 'required',
-            'tahun_mulai' => 'required|integer|min:2017|max:2030',
-            'tahun_selesai' => 'nullable|integer|min:2017|max:2030',
+            'user_id' => 'required',
+            'status' => 'required',
+            'alamat' => 'required',
+            'ringkasan' => 'nullable',
+            'no_hp' => 'nullable',
+            // 'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'resume' => 'nullable|mimes:pdf|max:2048',
+            'tgl_lahir' => 'nullable|date',
         ]);
 
         $userId = Auth::id();
 
-        $pendidikan = new Pendidikan();
-        $pendidikan->user_id = $userId;
-        $pendidikan->tingkatan = $request->tingkatan;
-        $pendidikan->nama_institusi = $request->nama_institusi;
-        $pendidikan->jurusan = $request->jurusan;
-        $pendidikan->tahun_mulai = $request->tahun_mulai;
-        $pendidikan->tahun_selesai = $request->tahun_selesai ?? null;
-        $pendidikan->save();
+        $lulusan = new Lulusan();
+        $lulusan->user_id = $userId;
+        $lulusan->status = $request->status;
+        $lulusan->alamat = $request->alamat;
+        $lulusan->no_hp = $request->no_hp;
+        $lulusan->ringkasan = $request->ringkasan ?? null;
+        // $lulusan->foto = $request->foto ?? null;
+        // $lulusan->resume = $request->resume ?? null;
+        $lulusan->tgl_lahir = $request->tgl_lahir ?? null;
+        $lulusan->save();
 
         return redirect()->route('profile-lulusan.index')->with('success', 'Pendidikan berhasil ditambahkan');
     }

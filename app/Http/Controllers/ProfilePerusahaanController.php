@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kota;
 use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use Illuminate\Support\Facades\Storage;
@@ -13,14 +14,16 @@ class ProfilePerusahaanController extends Controller
     {
         // Logika untuk menampilkan profil perusahaan
         $perusahaan = auth()->user()->perusahaan;
-        return view('profile.perusahaan', compact('perusahaan'));
+        $kotas = Kota::all();
+        return view('profile.perusahaan', compact('perusahaan', 'kotas'));
     }
 
     public function edit()
     {
         // Logika untuk halaman pengeditan profil perusahaan
         $perusahaan = auth()->user()->perusahaan;
-        return view('profile.edit-perusahaan', compact('perusahaan'));
+        $kotas = Kota::all();
+        return view('profile.edit-perusahaan', compact('perusahaan', 'kotas'));
     }
 
         public function update(Request $request)
@@ -30,14 +33,15 @@ class ProfilePerusahaanController extends Controller
 
         // Validasi data dari request
         $validatedData = $request->validate([
-            'nama_perusahaan' => 'required',
-            'email_perusahaan' => 'required|email',
-            'alamat_perusahaan' => '',
-            'website' => '',
-            'no_telp' => '',
-            'deskripsi' => '',
-            'logo_perusahaan' => '',
-            'surat_mou' => '',
+            'kota_id' => 'nullable',
+            'nama_perusahaan' => 'nullable|string|max:255',
+            'email_perusahaan' => 'nullable|string|max:255',
+            'alamat_perusahaan' => 'nullable|string|max:255',
+            'website' => 'nullable|string|max:255',
+            'no_telp' => 'nullable|regex:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,8}$/',
+            'deskripsi' => 'nullable',
+            'logo_perusahaan' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'surat_mou' => 'nullable|file|mimes:pdf|max:2048',
         ]);
 
         // Cek jika ada file logo perusahaan yang diunggah
@@ -77,6 +81,10 @@ class ProfilePerusahaanController extends Controller
         // Update data perusahaan
         $perusahaan->update($validatedData);
 
-        return redirect()->route('profile.perusahaan')->with('success', 'Profil perusahaan berhasil diperbarui.');
+        $kotas = Kota::all();
+
+        return redirect()->route('profile.perusahaan')
+            ->with('success', 'Profil perusahaan berhasil diperbarui.')
+            ->with('kotas', $kotas);
     }
 }

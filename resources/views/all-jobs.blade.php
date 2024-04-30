@@ -35,11 +35,11 @@
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        {{-- @foreach ($kecamatan as $key)
-                                            <option value="{{ $key->kecamatan }}"
-                                                @if ($key->kecamatan == $lokasi) selected @endif>{{ $key->kecamatan }}
+                                        @foreach ($lokasikota as $key)
+                                            <option value="{{ $key->kota }}"
+                                                @if (request('lokasi') == $key->kota) selected @endif>{{ $key->kota }}
                                             </option>
-                                        @endforeach --}}
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -62,32 +62,13 @@
                                 <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}">
                                     <p>Tipe Pekerjaan</p>
                                     <label>
-                                        <input class="mr-2" type="checkbox" name="tipe[]" id="less-1jt"
-                                            value="less-1jt">
-                                        Harian
+                                        <input class="mr-2" type="checkbox" name="tipe[]" id="Remote" value="Remote">
+                                        Remote
                                     </label>
                                     <br>
                                     <label>
-                                        <input class="mr-2" type="checkbox" name="tipe[]" id="1jt-5jt" value="1jt-5jt">
-                                        Magang
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input class="mr-2" type="checkbox" name="tipe[]" id="5jt-10jt"
-                                            value="5jt-10jt">
-                                        Full Time
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input class="mr-2" type="checkbox" name="tipe[]" id="more-10jt"
-                                            value="more-10jt">
-                                        Part Time
-                                    </label>
-                                    <br>
-                                    <label>
-                                        <input class="mr-2" type="checkbox" name="tipe[]" id="more-10jt"
-                                            value="more-10jt">
-                                        Kontrak
+                                        <input class="mr-2" type="checkbox" name="tipe[]" id="Onsite" value="Onsite">
+                                        Onsite
                                     </label>
                                 </form>
                             </div>

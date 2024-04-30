@@ -55,17 +55,18 @@ class DashboardController extends Controller
             ->leftJoin('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
             ->select(
                 DB::raw('COUNT(*) as jumlah_lamars'),
-                DB::raw('MONTH(l.created_at) as month'),
+                DB::raw('MONTH(l.updated_at) as month'),
                 'l.status'
             )
-            ->whereYear('l.created_at', $year)
-            ->groupBy(DB::raw('MONTH(l.created_at)'), 'l.status')
+            ->whereYear('l.updated_at', $year) // Filter berdasarkan tahun
+            ->groupBy(DB::raw('MONTH(l.updated_at)'), 'l.status')
             ->get();
 
         return view('home', [
             'dashboard' => $dashboard,
             'grafik' => $grafik,
             'grafikline' => $grafikline,
+            'selectedYear' => $year
         ]);
     }
 }

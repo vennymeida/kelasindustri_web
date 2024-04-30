@@ -568,13 +568,21 @@
                                 <hr style="background-color:#ebebeb; height: 1px; border: none; width: 90%; float: left;">
                             </div>
                             <div class="d-flex justify-content-end" style="font-size: 2.00em;">
-                                <button class="btn btn-primary"
-                                    style="background-color:#4ED373; font-size:13px; border-radius:15px;
-                                    border-color:#4ED373;margin-right: 10px;">{!! Auth::user()->lulusan->status !!}</button>
-                                <a href="{{ route('profile-lulusan.edit', $lulusan) }}">
-                                    <img class="img-fluid" style="width: 35px; height: 35px;"
-                                        src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                </a>
+                                @if (Auth::user()->lulusan)
+                                    <button class="btn btn-primary"
+                                            style="background-color:#4ED373; font-size:13px; border-radius:15px; border-color:#4ED373;margin-right: 10px;">
+                                        {!! Auth::user()->lulusan->status !!}
+                                    </button>
+                                    <a href="{{ route('profile-lulusan.edit', ['profile_lulusan' => Auth::user()->lulusan->id]) }}">
+                                        <img class="img-fluid" style="width: 35px; height: 35px;"
+                                             src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                    </a>
+                                @else
+                                    <a href="{{ route('profile-lulusan.create') }}" class="btn btn-primary"
+                                       style="background-color:#4e81d3; font-size:13px; border-radius:15px; border-color:#4ED373;margin-right: 10px;">
+                                        Lengkapi Profile
+                                    </a>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-11 ml-2 card-profile2">

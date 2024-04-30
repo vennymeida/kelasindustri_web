@@ -520,17 +520,17 @@ class AlljobsController extends Controller
             ->count();
         // dd($getLamarDiterima);
 
-        // $updatedDiff = $loker->updated_at->diffInSeconds(now());
+        $updatedDiff = $loker->updated_at->diffInSeconds(now());
 
-        // if ($updatedDiff < 60) {
-        //     $updatedAgo = $updatedDiff . ' detik yang lalu';
-        // } elseif ($updatedDiff < 3600) {
-        //     $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
-        // } elseif ($updatedDiff < 86400) {
-        //     $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
-        // } else {
-        //     $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
-        // }
+        if ($updatedDiff < 60) {
+            $updatedAgo = $updatedDiff . ' detik yang lalu';
+        } elseif ($updatedDiff < 3600) {
+            $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
+        } elseif ($updatedDiff < 86400) {
+            $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
+        } else {
+            $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
+        }
         // Mengecek apakah user sudah melamar untuk loker ini
         $hasApplied = false;
         $lamaranStatus = null;
@@ -551,7 +551,7 @@ class AlljobsController extends Controller
                 'perusahaan' => $perusahaan,
                 'hasApplied' => $hasApplied,
                 'lamaranStatus' => $lamaranStatus,
-                // 'updatedAgo' => $updatedAgo,
+                'updatedAgo' => $updatedAgo,
                 'getLamarPending' => $getLamarPending,
                 'getLamarDiterima' => $getLamarDiterima,
             ]);
