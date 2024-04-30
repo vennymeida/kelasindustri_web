@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Lamar;
 use App\Models\LowonganPekerjaan;
 use App\Models\Perusahaan;
-use App\Models\User;
-use App\Models\RekomendasiLoker;
-use App\Models\RekomendasiLowongan;
 use Sastrawi\Stemmer\StemmerFactory;
 use Sastrawi\StopWordRemover\StopWordRemoverFactory;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 
 class AlljobsController extends Controller
@@ -47,6 +42,12 @@ class AlljobsController extends Controller
                 ->select('id', 'ringkasan')
                 ->where('user_id', $user->id)
                 ->get();
+
+            $keahliansData = DB::table('keahlians')
+                ->select('id', 'keahlian')
+                ->where('user_id', $user->id)
+                ->get();
+
             $lokerData = DB::table('lokers')
                 ->select('id', 'persyaratan', 'deskripsi', 'keahlian')
                 ->where('status', 'dibuka')
@@ -84,128 +85,155 @@ class AlljobsController extends Controller
                 $lulusan->tf = $processTextAndCalculateTF($lulusan->ringkasan);
             }
 
+
+            foreach ($keahliansData as $keahlian) {
+                $keahlian->tf = $processTextAndCalculateTF($keahlian->keahlian);
+            }
+
             foreach ($lokerData as $loker) {
                 $loker->tf = $processTextAndCalculateTF($loker->persyaratan . ' ' . $loker->deskripsi . ' ' . $loker->keahlian);
             }
 
-
             // Mengumpulkan semua dokumen untuk menghitung IDF
-            $allDocuments = $lulusanData->merge($lokerData);
-            $idf = $this->calculateIDF($allDocuments->pluck('tf')->toArray());
+            $allDocuments1 = $lulusanData->merge($lokerData);
+            $allDocuments2 = $keahliansData->merge($lokerData);
+            $idfLulusan  = $this->calculateIDF($allDocuments1->pluck('tf')->toArray());
+            $idfKeahlian = $this->calculateIDF($allDocuments2->pluck('tf')->toArray());
 
             // Menghitung TF-IDF
             foreach ($lulusanData as $lulusan) {
-                $lulusan->tfidf = $this->calculateTFIDF($lulusan->tf, $idf);
+                $lulusan->tfidf = $this->calculateTFIDF($lulusan->tf, $idfLulusan);
+                // dump($lulusan);
+            }
+            foreach ($keahliansData as $keahlian) {
+                $keahlian->tfidf = $this->calculateTFIDF($keahlian->tf, $idfKeahlian);
                 // dump($lulusan);
             }
             foreach ($lokerData as $loker) {
-                $loker->tfidf = $this->calculateTFIDF($loker->tf, $idf);
+                $loker->tfidf = $this->calculateTFIDF($loker->tf, $idfLulusan);
+                $loker->tfidf = $this->calculateTFIDF($loker->tf, $idfKeahlian);
                 // dump($loker);
             }
             // die();
 
             // Menghitung cosine similarity
+            // Menghitung cosine similarity
             $rekomendasi = [];
+
             foreach ($lulusanData as $lulusan) {
-                foreach ($lokerData as $loker) {
-                    $similarity = $this->calculateCosineSimilarity($lulusan->tfidf, $loker->tfidf);
-                    $rekomendasi[] = [
-                        'lulusan_id' => $lulusan->id,
-                        'loker_id' => $loker->id,
-                        'score_similarity' => $similarity,
-                    ];
+                foreach ($keahliansData as $keahlian) {
+                    foreach ($lokerData as $loker) {
+                        if (isset($lulusan->tfidf) && isset($keahlian->tfidf) && isset($loker->tfidf)) {
+                            // Menghitung similarity antara lulusan dan loker
+                            $similarityLulusanLoker = $this->calculateCosineSimilarity($lulusan->tfidf, $loker->tfidf);
+                            // Menghitung similarity antara keahlian dan loker
+                            $similarityKeahlianLoker = $this->calculateCosineSimilarity($keahlian->tfidf, $loker->tfidf);
+
+                            // Menyimpan hasil dalam array rekomendasi
+                            $rekomendasi[] = [
+                                'lulusan_id' => $lulusan->id,
+                                'keahlian_id' => $keahlian->id,
+                                'loker_id' => $loker->id,
+                                'score_similarity_lulusan' => $similarityLulusanLoker,
+                                'score_similarity_keahlian' => $similarityKeahlianLoker,
+                            ];
+                        }
+                    }
                 }
             }
 
-            // dd($lulusan);
+
+
+
+            // dd($rekomendasi);
             // dd($loker);
-            // dd($lokerData);
+            // dd($lulusanData);
             // dd($similarity);
             // dd($lulusan->tfidf = $this->calculateTFIDF($lulusan->tf, $idf));
             // dd($loker->tfidf = $this->calculateTFIDF($loker->tf, $idf));
-            foreach ($lulusanData as $lulusan) {
-                foreach ($lulusan->tf as $word => $tfValue) {
-                    $existingRecord = DB::table('rekomendasis_lulusan')->where([
-                        'document_id' => $lulusan->id,
-                        'word' => $word,
-                        'document_type' => 'lulusan'
-                    ])->first();
-
-                    if ($existingRecord) {
-                        DB::table('rekomendasis_lulusan')->where('id', $existingRecord->id)->update([
-                            'tf_value' => $tfValue,
-                            'tfidf_value' => $lulusan->tfidf[$word] ?? 0
-                        ]);
-                    } else {
+            DB::transaction(function () use ($lulusanData, $lokerData, $keahliansData) {
+                // Menghapus dan memasukkan data baru untuk lulusan
+                foreach ($lulusanData as $lulusan) {
+                    DB::table('rekomendasis_lulusan')->where('document_id', $lulusan->id)->delete();
+                    foreach ($lulusan->tf as $word => $tfValue) {
                         DB::table('rekomendasis_lulusan')->insert([
                             'document_id' => $lulusan->id,
                             'word' => $word,
                             'document_type' => 'lulusan',
                             'tf_value' => $tfValue,
-                            'tfidf_value' => $lulusan->tfidf[$word] ?? 0
+                            'tfidf_value' => $lulusan->tfidf[$word] ?? 0,
+                            'created_at' => now(),
+                            'updated_at' => now()
                         ]);
                     }
                 }
-            }
 
-
-            foreach ($lokerData as $loker) {
-                foreach ($loker->tf as $word => $tfValue) {
-                    $existingRecord = DB::table('rekomendasis_loker')->where([
-                        'document_id' => $loker->id,
-                        'word' => $word,
-                        'document_type' => 'loker'
-                    ])->first();
-
-                    if ($existingRecord) {
-                        DB::table('rekomendasis_loker')->where('id', $existingRecord->id)->update([
-                            'tf_value' => $tfValue,
-                            'tfidf_value' => $loker->tfidf[$word] ?? 0
-                        ]);
-                    } else {
+                // Menghapus dan memasukkan data baru untuk loker
+                foreach ($lokerData as $loker) {
+                    DB::table('rekomendasis_loker')->where('document_id', $loker->id)->delete();
+                    foreach ($loker->tf as $word => $tfValue) {
                         DB::table('rekomendasis_loker')->insert([
                             'document_id' => $loker->id,
                             'word' => $word,
                             'document_type' => 'loker',
                             'tf_value' => $tfValue,
-                            'tfidf_value' => $loker->tfidf[$word] ?? 0
+                            'tfidf_value' => $loker->tfidf[$word] ?? 0,
+                            'created_at' => now(),
+                            'updated_at' => now()
                         ]);
                     }
                 }
-            }
 
-
-            foreach ($rekomendasi as $item) {
-                $exists = DB::table('rekomendasilowongans')
-                    ->where('lulusan_id', $item['lulusan_id'])
-                    ->where('loker_id', $item['loker_id'])
-                    ->first();
-
-                if ($exists) {
-                    DB::table('rekomendasilowongans')
-                        ->where('lulusan_id', $item['lulusan_id'])
-                        ->where('loker_id', $item['loker_id'])
-                        ->update([
-                            'score_similarity' => $item['score_similarity'],
+                // Menghapus dan memasukkan data baru untuk keahlian
+                foreach ($keahliansData as $keahlian) {
+                    DB::table('rekomendasis_keahlians')->where('document_id', $keahlian->id)->delete();
+                    foreach ($keahlian->tf as $word => $tfValue) {
+                        DB::table('rekomendasis_keahlians')->insert([
+                            'document_id' => $keahlian->id,
+                            'word' => $word,
+                            'document_type' => 'keahlian',
+                            'tf_value' => $tfValue,
+                            'tfidf_value' => $keahlian->tfidf[$word] ?? 0,
+                            'created_at' => now(),
                             'updated_at' => now()
                         ]);
-                } else {
-                    // Jika record tidak ditemukan, lakukan insert
+                    }
+                }
+            });
+
+
+
+            DB::transaction(function () use ($rekomendasi) {
+                // Mengumpulkan semua lulusan_id dari rekomendasi
+                $lulusanIds = collect($rekomendasi)->pluck('lulusan_id')->unique();
+
+                // Menghapus semua entri yang terkait dengan setiap lulusan_id
+                foreach ($lulusanIds as $lulusanId) {
+                    DB::table('rekomendasilowongans')->where('lulusan_id', $lulusanId)->delete();
+                }
+
+                // Memasukkan entri baru
+                foreach ($rekomendasi as $item) {
                     DB::table('rekomendasilowongans')->insert([
                         'lulusan_id' => $item['lulusan_id'],
+                        'keahlian_id' => $item['keahlian_id'],
                         'loker_id' => $item['loker_id'],
-                        'score_similarity' => $item['score_similarity'],
+                        'score_similarity_lulusan' => $item['score_similarity_lulusan'],
+                        'score_similarity_keahlian' => $item['score_similarity_keahlian'],
                         'created_at' => now(),
                         'updated_at' => now()
                     ]);
                 }
-            }
+            });
+
+
             $userId = Auth::id();
             $allResults = DB::table('rekomendasilowongans as rks')
                 ->leftJoin('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
+                ->leftJoin('keahlians as ks', 'rks.keahlian_id', '=', 'ks.id')
                 ->leftJoin('lokers as lk', 'rks.loker_id', '=', 'lk.id')
-                ->leftJoin('users as u', 'ls.user_id', '=', 'u.id')
                 ->leftJoin('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
+                ->leftJoin('users as u', 'ls.user_id', '=', 'u.id')
                 ->select(
                     'lk.id',
                     'lk.nama_loker',
@@ -217,24 +245,69 @@ class AlljobsController extends Controller
                     'lk.tgl_tutup',
                     'lk.kuota',
                     'lk.status',
-                    'ls.ringkasan',
-                    'ls.user_id',
-                    'u.email',
-                    'u.name',
                     'ps.nama_pemilik',
                     'ps.nama_perusahaan',
                     'ps.logo_perusahaan',
                     'ps.email_perusahaan',
                     'ps.alamat_perusahaan',
                     'ps.deskripsi',
-                    'rks.score_similarity',
-                    DB::raw('rks.score_similarity * 100 as score_similarity_persen')
-                )
-                ->where('lk.status', 'dibuka')
-                ->where('rks.score_similarity', '>', 0)
-                ->where('ls.user_id', $userId)
-                ->get();
+                    'ls.user_id',
+                    'ks.keahlian',
+                    'rks.score_similarity_lulusan',
+                    'rks.score_similarity_keahlian',
+                    DB::raw('rks.score_similarity_keahlian * 100 as score_similarity_keahlian'),
+                    DB::raw('rks.score_similarity_lulusan * 100 as score_similarity_lulusan')
 
+                )->when($request->input('nama_loker'), function ($query, $nama_loker) {
+                    return $query->where('lk.nama_loker', 'like', '%' . $nama_loker . '%');
+                })
+                ->when($request->input('persyaratan'), function ($query, $name) {
+                    return $query->where('lk.persyaratan', 'like', '%' . $name . '%');
+                })
+                ->when($request->input('lokasi'), function ($query, $lokasi) {
+                    return $query->where('lk.lokasi', $lokasi);
+                })
+                ->where('lk.status', 'dibuka')
+                ->where('ls.user_id', '=', $userId)
+                ->where('rks.score_similarity_lulusan', '>', 0)
+                ->where('rks.score_similarity_keahlian', '>', 0);
+
+                if ($request->has('posisi') && !empty($request->posisi)) {
+                    $allResults->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
+                }
+
+                if ($request->has('tipe')) {
+                    $allResults->whereIn('lk.tipe_pekerjaan', $request->input('tipe'));
+
+                }
+
+                // Filter by salary range
+                if ($request->has('gaji')) {
+                    $allResults->where(function ($query) use ($request) {
+                        foreach ($request->input('gaji') as $gaji) {
+                            switch ($gaji) {
+                                case 'less-1jt':
+                                    $query->orWhere('lk.gaji_atas', '<', 1000000);
+                                    break;
+                                case '1jt-5jt':
+                                    $query->orWhereBetween('lk.gaji_atas', [1000000, 5000000]);
+                                    break;
+                                case '5jt-10jt':
+                                    $query->orWhereBetween('lk.gaji_atas', [5000001, 10000000]);
+                                    break;
+                                case 'more-10jt':
+                                    $query->orWhere('lk.gaji_atas', '>', 10000000);
+                                    break;
+                            }
+                        }
+                    });
+                }
+
+                $allResults = $allResults->get();
+
+
+
+            // dd($allResults);
             $tableloker = DB::table('lokers as lk')
                 ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
                 ->select(
@@ -261,18 +334,52 @@ class AlljobsController extends Controller
                 ->when($request->input('persyaratan'), function ($query, $name) {
                     return $query->where('lk.persyaratan', 'like', '%' . $name . '%');
                 })
+                ->when($request->input('lokasi'), function ($query, $lokasi) {
+                    return $query->where('lk.lokasi', $lokasi);
+                })
                 ->where('lk.status', 'dibuka');
-                if ($request->has('posisi') && !empty($request->posisi)) {
-                    $tableloker->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
-                }
-                $tableloker = $tableloker->paginate(10);
+            if ($request->has('posisi') && !empty($request->posisi)) {
+                $tableloker->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
+            }
 
-            return view('all-jobs', ['perusahaan' => $perusahaan, 'allResults' => $allResults, 'lokers' => $lokerData, 'lulusan' => $lulusanData, 'tableloker' => $tableloker]);
+            if ($request->has('tipe')) {
+                $tableloker->whereIn('lk.tipe_pekerjaan', $request->input('tipe'));
+            }
+
+            // Filter by salary range
+            if ($request->has('gaji')) {
+                $tableloker->where(function ($query) use ($request) {
+                    foreach ($request->input('gaji') as $gaji) {
+                        switch ($gaji) {
+                            case 'less-1jt':
+                                $query->orWhere('lk.gaji_atas', '<', 1000000);
+                                break;
+                            case '1jt-5jt':
+                                $query->orWhereBetween('lk.gaji_atas', [1000000, 5000000]);
+                                break;
+                            case '5jt-10jt':
+                                $query->orWhereBetween('lk.gaji_atas', [5000001, 10000000]);
+                                break;
+                            case 'more-10jt':
+                                $query->orWhere('lk.gaji_atas', '>', 10000000);
+                                break;
+                        }
+                    }
+                });
+            }
+
+
+            $tableloker = $tableloker->paginate(10);
+
+            $lokasikota = DB::table('kotas')->select('id', 'kota')->get();
+
+
+            return view('all-jobs', ['perusahaan' => $perusahaan, 'allResults' => $allResults, 'lokers' => $lokerData, 'lulusan' => $lulusanData, 'tableloker' => $tableloker, 'lokasikota' => $lokasikota]);
         } else {
             // Jika pengguna belum login, tampilkan semua data loker
             $tableloker = LowonganPekerjaan::where('nama_loker', 'like', '%' . $request->input('posisi') . '%')
-                                           ->where('status', 'dibuka')
-                                           ->paginate(10);
+                ->where('status', 'dibuka')
+                ->paginate(10);
             return view('all-jobs', ['tableloker' => $tableloker]);
         }
     }
@@ -320,14 +427,20 @@ class AlljobsController extends Controller
     }
 
     // rumus
-    protected function calculateTFIDF($tf, $idf)
+    protected function calculateTFIDF($tfArray, $idfArray)
     {
-        $tfidf = [];
-        foreach ($tf as $word => $tfScore) {
-            $tfidf[$word] = $tfScore * (isset($idf[$word]) ? $idf[$word] : 0);
+        $tfidfArray = [];
+        foreach ($tfArray as $index => $tf) {
+            if (isset($idfArray[$index])) {
+                $tfidfArray[$index] = $tf * $idfArray[$index];
+            } else {
+                $tfidfArray[$index] = 0; // or handle this case appropriately
+            }
         }
-        return $tfidf;
+        return $tfidfArray;
     }
+
+
 
     // rumus
     protected function calculateCosineSimilarity($vec1, $vec2)
@@ -407,17 +520,17 @@ class AlljobsController extends Controller
             ->count();
         // dd($getLamarDiterima);
 
-        $updatedDiff = $loker->updated_at->diffInSeconds(now());
+        // $updatedDiff = $loker->updated_at->diffInSeconds(now());
 
-        if ($updatedDiff < 60) {
-            $updatedAgo = $updatedDiff . ' detik yang lalu';
-        } elseif ($updatedDiff < 3600) {
-            $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
-        } elseif ($updatedDiff < 86400) {
-            $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
-        } else {
-            $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
-        }
+        // if ($updatedDiff < 60) {
+        //     $updatedAgo = $updatedDiff . ' detik yang lalu';
+        // } elseif ($updatedDiff < 3600) {
+        //     $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
+        // } elseif ($updatedDiff < 86400) {
+        //     $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
+        // } else {
+        //     $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
+        // }
         // Mengecek apakah user sudah melamar untuk loker ini
         $hasApplied = false;
         $lamaranStatus = null;
@@ -430,7 +543,7 @@ class AlljobsController extends Controller
             }
         }
 
-        // $lamaranStatus = $lamaran ? $lamaran->status : null;
+        $lamaranStatus = $lamaran ? $lamaran->status : null;
 
         if (Auth::check()) {
             return view('showAllJobs', [
@@ -438,7 +551,7 @@ class AlljobsController extends Controller
                 'perusahaan' => $perusahaan,
                 'hasApplied' => $hasApplied,
                 'lamaranStatus' => $lamaranStatus,
-                'updatedAgo' => $updatedAgo,
+                // 'updatedAgo' => $updatedAgo,
                 'getLamarPending' => $getLamarPending,
                 'getLamarDiterima' => $getLamarDiterima,
             ]);

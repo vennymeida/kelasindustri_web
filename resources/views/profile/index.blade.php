@@ -444,6 +444,17 @@
                 <form method="POST" action="" class="needs-validation" novalidate=""
                     enctype="multipart/form-data">
                     @csrf
+                    {{-- <div class="row ml-4 mr-4" style="display: none">
+                        <div class="form-group col-md-12 col-12">
+                            <label for="email">email</label>
+                            <input name="email" type="hidden"
+                                class="form-control custom-input @error('email') is-invalid @enderror"
+                                value="{{ $lamar->lulusan->user->email }}" placeholder="Email tujuan">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div> --}}
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label for="subject">Subject</label>
@@ -1604,6 +1615,39 @@
             });
         @endif
     </script>
+    <script>
+        const textarea = document.getElementById('autoSizeTextarea');
+
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    </script>
+    @push('customScript')
+        <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Fungsi untuk menangani pengiriman formulir saat tombol Tambah diklik
+                $('.btn-primary').on('click', function() {
+                    // Validasi formulir sebelum pengiriman
+                    var form = $(this).closest('form');
+                    if (form[0].checkValidity()) {
+                        form.submit(); // Kirim formulir jika valid
+                    } else {
+                        form.addClass('was-validated'); // Tampilkan pesan kesalahan jika formulir tidak valid
+                    }
+                });
+
+                // Fungsi untuk menutup modal saat tombol Batal diklik
+                $('.btn-secondary').on('click', function() {
+                    $('#modal-rekrut-karyawan').modal('hide');
+                });
+            });
+        </script>
+    @endpush
 @endsection
 
 @push('customScript')
