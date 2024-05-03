@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-md-10 mx-auto mt-3">
                             <div class="form-group">
-                                <label for="no_hp">Nomer HP</label>
+                                <label for="no_hp">Nomor Telepon</label>
                                 <input type="text" class="form-control" id="no_hp" name="no_hp" required>
                                 @error('no_hp')
                                     <div class="invalid-feedback">{{ $message }}</div>

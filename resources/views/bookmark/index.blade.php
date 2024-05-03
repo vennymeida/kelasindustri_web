@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <form id="search-form" class="form-row cardDatalowongan2" method="GET"
                             action="{{ route('bookmark.index') }}" onsubmit="handleFormSubmit()">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text icon-form">
@@ -28,26 +28,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        {{-- @foreach ($kota as $item)
-                                            <option value="{{ $item->kota }}"
-                                                @if ($item->kota == $selectedLokasi) selected @endif>{{ $item->kota }}
-                                            </option>
-                                        @endforeach --}}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <div class="input-group">
-                                    <select name="kategori" id="kategori" class="form-control form-jobs select2 kategori"
-                                        multiple>
-                                        {{-- @foreach ($kategoris as $item)
-                                            <option value="{{ $item->kategori }}"
-                                                @if (in_array($item->kategori, $selectedKategori)) selected @endif>
-                                                {{ $item->kategori }}
+                                        {{-- @foreach ($kotas as $kota)
+                                            <option value="{{ $kota->kota }}"
+                                                @if ($kota->kota == $selectedLokasi) selected @endif>{{ $kota->kota }}
                                             </option>
                                         @endforeach --}}
                                     </select>

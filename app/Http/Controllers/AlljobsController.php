@@ -380,7 +380,10 @@ class AlljobsController extends Controller
             $tableloker = LowonganPekerjaan::where('nama_loker', 'like', '%' . $request->input('posisi') . '%')
                 ->where('status', 'dibuka')
                 ->paginate(10);
-            return view('all-jobs', ['tableloker' => $tableloker]);
+
+                $lokasikota = DB::table('kotas')->select('id', 'kota')->get();
+
+            return view('all-jobs', ['tableloker' => $tableloker, 'lokasikota' => $lokasikota]);
         }
     }
 
@@ -520,20 +523,25 @@ class AlljobsController extends Controller
             ->count();
         // dd($getLamarDiterima);
 
-        $updatedDiff = $loker->updated_at->diffInSeconds(now());
+        if ($loker->updated_at) {
+            $updatedDiff = $loker->updated_at->diffInSeconds(now());
 
-        if ($updatedDiff < 60) {
-            $updatedAgo = $updatedDiff . ' detik yang lalu';
-        } elseif ($updatedDiff < 3600) {
-            $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
-        } elseif ($updatedDiff < 86400) {
-            $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
+            if ($updatedDiff < 60) {
+                $updatedAgo = $updatedDiff . ' detik yang lalu';
+            } elseif ($updatedDiff < 3600) {
+                $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
+            } elseif ($updatedDiff < 86400) {
+                $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
+            } else {
+                $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
+            }
         } else {
-            $updatedAgo = $loker->updated_at->diffInDays(now()) . ' hari yang lalu';
+            $updatedAgo = 'No update information';
         }
         // Mengecek apakah user sudah melamar untuk loker ini
         $hasApplied = false;
         $lamaranStatus = null;
+        $lamaran = null;
 
         if (Auth::check() && Auth::user()->lulusan) {
             $lamaran = Lamar::where('loker_id', $loker->id)->where('user_id', Auth::user()->lulusan->id)->first();

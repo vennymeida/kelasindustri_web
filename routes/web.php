@@ -162,7 +162,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::put('assign-user/{user}', [AssignUserToRoleController::class, 'update'])->name('assign.user.update');
     });
     Route::prefix('menu-pekerjaan')->group(function () {
-        Route::resource('keahlian', KeahlianController::class);
+
         // Route::resource('kategori', KategoriPekerjaanController::class);
         Route::resource('loker', LowonganPekerjaanController::class);
         Route::resource('pelamarkerja', LamarController::class);
@@ -200,6 +200,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('pengalaman', PengalamanController::class);
     Route::resource('pelatihan', PelatihanController::class);
     Route::resource('postingan', PostinganController::class);
+    Route::resource('keahlian', KeahlianController::class);
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'role:lulusan|perusahaan']], function () {

@@ -16,27 +16,29 @@ class NavigationController extends Controller
 {
     public function search(Request $request)
     {
-        $searchs = DB::table('users')
-            ->join('lulusans', 'users.id', '=', 'lulusans.user_id')
-            ->join('pendidikans', 'users.id', '=', 'pendidikans.user_id')
-            ->when($request->input('nama'), function ($query, $nama) {
-                return $query->where('users.name', 'like', '%' . $nama . '%');
-            })
+        $searchs = DB::table('lulusans as lp')
+            ->leftJoin('users as us', 'lp.user_id', '=', 'us.id')
+            ->leftJoin('pendidikans as pe', 'us.id', '=', 'pe.user_id')
             ->select(
-                'users.id',
-                'users.name',
-                'lulusans.foto',
-                'lulusans.alamat',
-                'pendidikans.nama_institusi'
-            )->paginate(10);
-        return view('search-result', compact('searchs'));
+                'us.id',
+                'us.name',
+                'lp.foto',
+                'lp.alamat',
+                'pe.nama_institusi')
+             ->when($request->input('nama'), function ($query, $nama) {
+                return $query->where('us.name', 'like', '%' . $nama . '%');
+            })
+            ->paginate(10);
+            return view('search-result', compact('searchs'));
     }
 
     public function recruit(User $user)
     {
         $idPerusahaan = auth()->user();
         $perusahaan = Perusahaan::where('user_id', $idPerusahaan->id)->first();
-        $lowonganPekerjaans = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)->get();
+        $lowonganPekerjaans = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)
+        ->where('status', 'dibuka')
+        ->get();
         // dd($lowonganPekerjaans);
         $lulusan = DB::table('users')
             ->leftJoin('lulusans', 'users.id', '=', 'lulusans.user_id')
@@ -47,6 +49,7 @@ class NavigationController extends Controller
             ->select(
                 'lulusans.id',
                 'users.name',
+                'users.id as usernomer',
                 'users.email',
                 'lulusans.foto',
                 'lulusans.alamat',

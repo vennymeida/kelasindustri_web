@@ -168,18 +168,11 @@ class LokerPerusahaanController extends Controller
 
     public function update(UpdateLokerPerusahaanRequest $request, LowonganPekerjaan $loker_perusahaan)
     {
-        // Ambil perusahaan yang terkait dengan lowongan pekerjaan
         $perusahaan = Perusahaan::where('user_id', auth()->id())->first();
-        // Pastikan perusahaan_id tidak berubah
         $request->merge(['perusahaan_id' => $perusahaan->id]);
         $loker_perusahaan->update($request->all());
 
         return redirect()->route('loker-perusahaan.index')
             ->with('success', 'success-edit');
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }

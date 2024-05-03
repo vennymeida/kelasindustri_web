@@ -33,6 +33,32 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row ml-4 mr-4" style="display: none">
+                        <div class="form-group col-md-12 col-12">
+                            <label for="email">Email</label>
+                            <input name="email" type="hidden"
+                                class="form-control custom-input @error('email') is-invalid @enderror"
+                                value="{{$lulusan->email}}" placeholder="Email">
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4" style="display: none">
+                        <div class="form-group col-md-12 col-12">
+                            <label for="user_id">User_id</label>
+                            <input name="user_id" type="hidden"
+                                class="form-control custom-input @error('user_id') is-invalid @enderror"
+                                value="{{$lulusan->usernomer}}" placeholder="user_id">
+                            @error('user_id')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label for="subject">Subject</label>

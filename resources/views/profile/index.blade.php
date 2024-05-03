@@ -17,6 +17,41 @@
     </div>
 </div>
 
+<!-- Modal Tambah Keahlian -->
+<div class="modal fade" id="modal-create-keahlian" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header m-4">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah Keahlian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('keahlian.store') }}" class="needs-validation" novalidate enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label for="keahlian">Keahlian</label>
+                            <input name="keahlian" type="text" class="form-control custom-input @error('keahlian') is-invalid @enderror" value="{{ old('keahlian') }}" placeholder="Masukkan nama keahlian">
+                            @error('keahlian')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke m-4">
+                    <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();" style="border-radius: 15px; font-size: 14px">Tambah</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px; font-size: 14px">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <!-- Modal Tambah Postingan -->
 <div class="modal fade" id="modal-create-postingan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -812,6 +847,47 @@
                     <div class="col-md-12 text-center my-4"><br><br>
                         <img src="{{ asset('assets/img/landing-page/folder.png') }}">
                         <p class="mt-1 text-not">Belum Ada Postingan Anda</p>
+                    </div>
+                @endif
+            </div>
+        </section>
+        <section class="centered-section my-4">
+            <div class="bg-primary-section card col-md-10 py-1 card-profile5">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="flex-grow-1">
+                        <div class="profile-widget-name" style="color:#6777ef;">Keahlian</div>
+                    </div>
+                    <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
+                        <a href="#" data-toggle="modal" data-target="#modal-create-keahlian">
+                            <img class="img-fluid" style="width: 35px; height: 35px;"
+                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                        </a>
+                    </div>
+                </div>
+                @if (count(auth()->user()->keahlians) > 0)
+                <div class="col-md-12 mb-4">
+                    <div class="flex-grow-1 mb-2">
+                        <div class="card-header-action keahlianPelamar">
+                            @foreach (auth()->user()->keahlians as $keahlian)
+                                <div class="d-flex align-items-center mb-2">
+                                    <button class="btn btn-skill keahlianPelamar1" style="font-size: 14px">{{ $keahlian->keahlian }}</button>
+                                    <form action="{{ route('keahlian.destroy', $keahlian->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger ml-2" style="font-size: 14px;">
+                                            <i class="fas fa-trash"></i> <!-- Ganti dengan kelas ikon yang sesuai -->
+                                        </button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @else
+                    <div class="col-md-12 text-center my-4"><br><br>
+                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
+                        <p class="mt-1 text-not">Data Keahlian Masih Kosong</p>
                     </div>
                 @endif
             </div>

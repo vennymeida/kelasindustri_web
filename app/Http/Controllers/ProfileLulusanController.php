@@ -10,6 +10,7 @@ use App\Models\Pengalaman;
 use App\Models\Pelatihan;
 use App\Models\Perusahaan;
 use App\Models\Postingan;
+use App\Models\Keahlian;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,7 @@ class ProfileLulusanController extends Controller
     {
         $lulusan = auth()->user()->lulusan;
         $userId = Auth::id();
+        $keahlians = Keahlian::all();
         $postingans = Postingan::select('postingans.*')
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
@@ -65,6 +67,7 @@ class ProfileLulusanController extends Controller
             'pendidikans' => $pendidikans,
             'pengalamans' => $pengalamans,
             'pelatihans' => $pelatihans,
+            'keahlians' => $keahlians,
         ]);
     }
 

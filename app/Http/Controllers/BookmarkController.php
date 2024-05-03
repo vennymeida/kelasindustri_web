@@ -22,7 +22,7 @@ class BookmarkController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-
+        $kotas = Kota::all();
         // $query = $user->bookmark()->with(['lowonganPekerjaan.perusahaan', 'lowonganPekerjaan.perusahaan.kota']);
         $querys = DB::table('bookmarks as bk')
             ->leftJoin('lokers as lk', 'bk.loker_id', '=', 'lk.id')
@@ -56,6 +56,7 @@ class BookmarkController extends Controller
 
         return view('bookmark.index', [
             'querys' => $querys,
+            'kotas' => $kotas,
 
         ]);
     }
