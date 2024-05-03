@@ -10,6 +10,7 @@ use Sastrawi\StopWordRemover\StopWordRemoverFactory;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class AlljobsController extends Controller
@@ -226,7 +227,7 @@ class AlljobsController extends Controller
                 }
             });
 
-
+            $currentDate = Carbon::now();
             $userId = Auth::id();
             $allResults = DB::table('rekomendasilowongans as rks')
                 ->leftJoin('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
@@ -245,6 +246,7 @@ class AlljobsController extends Controller
                     'lk.tgl_tutup',
                     'lk.kuota',
                     'lk.status',
+                    'lk.created_at',
                     'ps.nama_pemilik',
                     'ps.nama_perusahaan',
                     'ps.logo_perusahaan',
@@ -268,7 +270,9 @@ class AlljobsController extends Controller
                     return $query->where('lk.lokasi', $lokasi);
                 })
                 ->where('lk.status', 'dibuka')
+                ->where('lk.tgl_tutup', '>=', $currentDate)
                 ->where('ls.user_id', '=', $userId)
+                ->orderBy('lk.created_at', 'desc')
                 ->where('rks.score_similarity_lulusan', '>', 0)
                 ->where('rks.score_similarity_keahlian', '>', 0);
 
@@ -322,6 +326,7 @@ class AlljobsController extends Controller
                     'lk.tgl_tutup',
                     'lk.lokasi',
                     'lk.status',
+                    'lk.created_at',
                     'ps.nama_pemilik',
                     'ps.nama_perusahaan',
                     'ps.logo_perusahaan',
@@ -337,7 +342,9 @@ class AlljobsController extends Controller
                 ->when($request->input('lokasi'), function ($query, $lokasi) {
                     return $query->where('lk.lokasi', $lokasi);
                 })
-                ->where('lk.status', 'dibuka');
+                ->where('lk.status', 'dibuka')
+                ->where('lk.tgl_tutup', '>=', $currentDate)
+                ->orderBy('lk.created_at', 'desc');
             if ($request->has('posisi') && !empty($request->posisi)) {
                 $tableloker->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
             }
