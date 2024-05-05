@@ -23,9 +23,6 @@
                             <div class="card-header-action">
                                 <a class="btn btn-icon icon-left btn-primary" href="{{ route('kota.create') }}">Tambah
                                     Kota Baru</a>
-                                <a class="btn btn-info btn-primary active import">
-                                    <i class="fa fa-download" aria-hidden="true"></i>
-                                    Import Kota</a>
                                 <a class="btn btn-info btn-primary active search">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                     Cari Kota</a>
@@ -38,8 +35,7 @@
                                 <p class="text-warning mx-0 my-0 font-weight-bold">type:xlsx, csv,
                                     xls|max:10mb</p>
                                 <div class="custom-file">
-                                    <form action="{{ route('kota.import') }}" method="POST"
-                                        enctype="multipart/form-data">
+                                    <form action="{{ route('kota.import') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('POST')
                                         <label
@@ -108,13 +104,16 @@
                                                                     class="fas fa-edit"></i>
                                                                 Edit</a>
                                                             <form action="{{ route('kota.destroy', $kota->id) }}"
-                                                                method="POST" class="ml-2">
+                                                                method="POST" class="ml-2" id="del-<?= $kota->id ?>">
                                                                 <input type="hidden" name="_method" value="DELETE">
                                                                 <input type="hidden" name="_token"
                                                                     value="{{ csrf_token() }}">
-                                                                <button
-                                                                    class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                    <i class="fas fa-times"></i> Delete </button>
+                                                                <button type="submit" id="#submit"
+                                                                    class="btn btn-sm btn-danger btn-icon "
+                                                                    data-confirm="Hapus Stop Word ?|Apakah Kamu Yakin?"
+                                                                    data-confirm-yes="submitDel(<?= $kota->id ?>)"
+                                                                    data-id="del-{{ $kota->id }}">
+                                                                    <i class="fas fa-times"> </i> Hapus </button>
                                                             </form>
                                                         </div>
                                                     </td>
@@ -154,6 +153,9 @@
                 $(this).prev('label').text(file);
             });
         });
+        function submitDel(id) {
+            $('#del-' + id).submit()
+        }
     </script>
     <script>
         const inputElement = document.getElementById('kota');

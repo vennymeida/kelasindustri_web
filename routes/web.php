@@ -17,6 +17,7 @@ use App\Http\Controllers\PendidikanController;
 use App\Http\Controllers\PengalamanController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PostinganController;
+use App\Http\Controllers\PortofolioController;
 use App\Http\Controllers\PostinganAdminController;
 use App\Http\Controllers\LamarController;
 use App\Http\Controllers\LamarPerusahaanController;
@@ -199,6 +200,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('pendidikan', PendidikanController::class);
     Route::resource('pengalaman', PengalamanController::class);
     Route::resource('pelatihan', PelatihanController::class);
+    Route::resource('portofolio', PortofolioController::class);
     Route::resource('postingan', PostinganController::class);
     Route::resource('keahlian', KeahlianController::class);
 });

@@ -46,18 +46,31 @@ class BookmarkController extends Controller
                 'ps.logo_perusahaan',
                 'ps.email_perusahaan',
                 'ps.alamat_perusahaan',
-                'ps.deskripsi',
+                'ps.deskripsi'
             )
+            ->when($request->input('nama_loker'), function ($query, $nama_loker) {
+                return $query->where('lk.nama_loker', 'like', '%' . $nama_loker . '%');
+            })
+            ->when($request->input('lokasi'), function ($query, $lokasi) {
+                return $query->where('lk.lokasi', $lokasi);
+            })
             ->where('bk.user_id', '=', $user->id)
-            ->orderByDesc('bk.created_at')
-            ->paginate(4);
+            ->orderByDesc('bk.created_at');
 
+        if ($request->has('posisi') && !empty($request->posisi)) {
+            $querys->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
+        }
+
+        $querys = $querys->paginate(4);
+
+
+        $lokasikota = DB::table('kotas')->select('id', 'kota')->get();
         // dd($querys);
 
         return view('bookmark.index', [
             'querys' => $querys,
             'kotas' => $kotas,
-
+            'lokasikota' => $lokasikota
         ]);
     }
 

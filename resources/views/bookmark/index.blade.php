@@ -32,11 +32,11 @@
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        {{-- @foreach ($kotas as $kota)
-                                            <option value="{{ $kota->kota }}"
-                                                @if ($kota->kota == $selectedLokasi) selected @endif>{{ $kota->kota }}
+                                        @foreach ($lokasikota as $key)
+                                            <option value="{{ $key->kota }}"
+                                                @if (request('lokasi') == $key->kota) selected @endif>{{ $key->kota }}
                                             </option>
-                                        @endforeach --}}
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

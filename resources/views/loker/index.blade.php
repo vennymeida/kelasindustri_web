@@ -80,13 +80,16 @@
                                                                     class="fas fa-edit"></i>
                                                                 Edit</a>
                                                             <form action="{{ route('loker.destroy', $loker->id) }}"
-                                                                method="POST" class="ml-2">
+                                                                method="POST" class="ml-2" id="del-<?= $loker->id ?>">
                                                                 <input type="hidden" name="_method" value="DELETE">
                                                                 <input type="hidden" name="_token"
                                                                     value="{{ csrf_token() }}">
-                                                                <button
-                                                                    class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                    <i class="fas fa-times"></i> Hapus </button>
+                                                                <button type="submit" id="#submit"
+                                                                    class="btn btn-sm btn-danger btn-icon "
+                                                                    data-confirm="Hapus Stop Word ?|Apakah Kamu Yakin?"
+                                                                    data-confirm-yes="submitDel(<?= $loker->id ?>)"
+                                                                    data-id="del-{{ $loker->id }}">
+                                                                    <i class="fas fa-times"> </i> Hapus </button>
                                                             </form>
                                                         </div>
                                                     </td>

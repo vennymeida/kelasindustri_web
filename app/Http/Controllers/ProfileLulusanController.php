@@ -11,6 +11,7 @@ use App\Models\Pelatihan;
 use App\Models\Perusahaan;
 use App\Models\Postingan;
 use App\Models\Keahlian;
+use App\Models\Portofolio;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +61,10 @@ class ProfileLulusanController extends Controller
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->paginate(2);
+        $portofolios = Portofolio::select('portofolios.*')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(2);
 
         return view('profile.index')->with([
             'lulusan' => $lulusan,
@@ -67,6 +72,7 @@ class ProfileLulusanController extends Controller
             'pendidikans' => $pendidikans,
             'pengalamans' => $pengalamans,
             'pelatihans' => $pelatihans,
+            'portofolios' => $portofolios,
             'keahlians' => $keahlians,
         ]);
     }
@@ -93,6 +99,9 @@ class ProfileLulusanController extends Controller
         $pelatihans = Pelatihan::select('pelatihans.*')
             ->where('user_id', $userId)
             ->get();
+        $portofolios = Portofolio::select('portofolios.*')
+            ->where('user_id', $userId)
+            ->get();
 
         return view('profile.edit')->with([
             'lulusan' => $profile_lulusan,
@@ -101,6 +110,7 @@ class ProfileLulusanController extends Controller
             'pendidikans' => $pendidikans,
             'pengalamans' => $pengalamans,
             'pelatihans' => $pelatihans,
+            'portofolios' => $portofolios,
         ]);
     }
 
