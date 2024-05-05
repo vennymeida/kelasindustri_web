@@ -19,8 +19,9 @@
                                             <i class="fas fa-search ml-2"></i>
                                         </div>
                                     </div>
-                                    <input type="text" name="posisi" class="form-control form-jobs" id="posisi"
-                                        placeholder="Cari posisi pekerjaan" value="{{ app('request')->input('posisi') }}">
+                                    <input type="text" name="nama_loker" class="form-control form-jobs" id="nama_loker"
+                                        placeholder="Cari posisi pekerjaan"
+                                        value="{{ app('request')->input('nama_loker') }}">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text x-form"
                                             style="border-left: none; border-radius: 0px 15px 15px 0px;">
