@@ -34,14 +34,17 @@
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        @foreach ($lokasikota as $key)
-                                            <option value="{{ $key->kota }}"
-                                                @if (request('lokasi') == $key->kota) selected @endif>{{ $key->kota }}
-                                            </option>
-                                        @endforeach
+                                        @if(isset($lokasikota))
+                                            @foreach ($lokasikota as $key)
+                                                <option value="{{ $key->kota }}"
+                                                    @if (request('lokasi') == $key->kota) selected @endif>{{ $key->kota }}
+                                                </option>
+                                            @endforeach
+                                        @endif
                                     </select>
+                                    
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="form-group col-md-1">
                                 <button id="search-button" class="btn btn-primary mr-1 px-4 py-2" type="submit"
                                     style="border-radius: 15px;">Cari</button>
@@ -69,8 +72,8 @@
                                 <input class="mr-2" type="checkbox" name="tipe[]" id="Remote" value="Remote">
                                 Remote
                             </label>
-
-
+                           
+                            
                     </div>
                     </div>
                     <br>

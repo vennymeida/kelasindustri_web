@@ -24,11 +24,11 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total Lulusan</h4>
+                                    <h4>Total Pencari Kerja</h4>
                                 </div>
-                                <div class="card-body">
-                                    {{ App\Models\Lulusan::count() }}
-                                </div>
+                                {{-- <div class="card-body">
+                                    {{ App\Models\ProfileUser::whereNotNull('resume')->count() }}
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                     <h4>Total Lamaran</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\Lamar::count() }}
+                                    {{ App\Models\lamar::count() }}
                                 </div>
                             </div>
                         </div>
@@ -104,6 +104,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                               
                                 <canvas id="lineChart" height="100"></canvas>
                             </div>
                         </div>
@@ -117,7 +118,7 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled list-unstyled-border">
-                            @foreach ($dashboard as $lamar)
+                            @foreach ($dashboards as $lamar)
                                 <li class="media">
                                     @if ($lamar->foto)
                                         <img src="{{ asset('storage/' . $lamar->foto) }}" alt="Foto"
@@ -127,8 +128,8 @@
                                             class="mr-3 rounded-circle" style="width: 50px; height: 50px;">
                                     @endif
                                     <div class="media-body">
-                                        <div class="media-title">{{ $lamar->nama_loker }}</div>
-                                        <span class="text-small text-muted">{{ $lamar->nama_perusahaan }}</span>
+                                        <div class="media-title">{{ $lamar->name }}</div>
+                                        <span class="text-small text-muted">{{ $lamar->perusahaan }}</span>
                                     </div>
                                 </li>
                             @endforeach
@@ -153,10 +154,10 @@
 
         const perusahaanData = {};
         grafikData.forEach(item => {
-            if (!perusahaanData[item.nama_perusahaan]) {
-                perusahaanData[item.nama_perusahaan] = Array(12).fill(0);
+            if (!perusahaanData[item.nama]) {
+                perusahaanData[item.nama] = Array(12).fill(0);
             }
-            perusahaanData[item.nama_perusahaan][parseInt(item.month) - 1] = item.jumlah_lamars;
+            perusahaanData[item.nama][parseInt(item.month) - 1] = item.jumlah_lamars;
         });
 
         const colors = [
@@ -191,7 +192,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return value.toLocaleString("id-ID"); // Format angka dalam format Indonesia
+                                return value.toLocaleString("id-ID"); 
                             },
                         },
                     },
@@ -199,63 +200,55 @@
             },
         });
     </script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const ctxLine = document.getElementById('lineChart').getContext('2d');
-            const grafikLineData = @json($grafikline);
-            // console.log(grafikLineData); // Debug data
+       document.addEventListener("DOMContentLoaded", function() {
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    const grafikLineData = @json($grafikline);
+    console.log(grafikLineData); // Debug data
 
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            const dataSets = {
-                'diterima': {
-                    label: 'Diterima',
-                    data: Array(12).fill(0),
-                    borderColor: 'green'
-                },
-                'ditolak': {
-                    label: 'Ditolak',
-                    data: Array(12).fill(0),
-                    borderColor: 'red'
-                },
-                'pending': {
-                    label: 'Pending',
-                    data: Array(12).fill(0),
-                    borderColor: 'yellow'
+    const months = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+            "Oktober", "November", "Desember"
+        ];
+    const dataSets = {
+        'diterima': { label: 'Diterima', data: Array(12).fill(0), borderColor: 'green' },
+        'ditolak': { label: 'Ditolak', data: Array(12).fill(0), borderColor: 'red' },
+        'pending': { label: 'Pending', data: Array(12).fill(0), borderColor: 'yellow' }
+    };
+
+    grafikLineData.forEach(item => {
+        const monthIndex = parseInt(item.month) - 1;
+        if (item.status === 'diterima') {
+            dataSets['diterima'].data[monthIndex] = item.jumlah_lamars;
+        } else if (item.status === 'ditolak') {
+            dataSets['ditolak'].data[monthIndex] = item.jumlah_lamars;
+        } else if (item.status === 'pending') {
+            dataSets['pending'].data[monthIndex] = item.jumlah_lamars;
+        }
+    });
+
+    console.log(dataSets); 
+
+    const lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: Object.values(dataSets)
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
-            };
+            }
+        }
+    });
+});
 
-            grafikLineData.forEach(item => {
-                const monthIndex = parseInt(item.month) - 1;
-                if (item.status === 'diterima') {
-                    dataSets['diterima'].data[monthIndex] = item.jumlah_lamars;
-                } else if (item.status === 'ditolak') {
-                    dataSets['ditolak'].data[monthIndex] = item.jumlah_lamars;
-                } else if (item.status === 'pending') {
-                    dataSets['pending'].data[monthIndex] = item.jumlah_lamars;
-                }
-            });
-
-            // console.log(dataSets);
-
-            const lineChart = new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: months,
-                    datasets: Object.values(dataSets)
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        });
     </script>
-    <script>
-        document.getElementById('yearFilter').addEventListener('change', function() {
-            window.location.href = `?year=${this.value}`;
-        });
+  <script>
+    function updateYear(year) {
+        window.location.href = `{{ url('dashboard') }}?year=${year}`;
+    }
     </script>
 @endpush

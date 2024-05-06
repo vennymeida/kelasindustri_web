@@ -78,7 +78,7 @@
                                                                     class="btn btn-sm btn-warning btn-icon"
                                                                     data-confirm="Verifikasi Biodata | Apakah data biodata belum bisa diverifikasi dan kirim pesan kesalahan ?"
                                                                     data-confirm-yes="sumbitRej(<?= $perusahaan->id ?>)"
-                                                                    data-id="rej-{{ $perusahaan->id }}"><i class="fas fa-ban"></i>
+                                                                    data-id="rej-{{ $perusahaan->id }}">
                                                                     Unbanned
                                                                 </button>
                                                             </form>

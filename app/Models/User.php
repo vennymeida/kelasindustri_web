@@ -107,17 +107,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Pelatihan::class);
     }
 
-    public function portofolio()
-    {
-        return $this->hasOne(Portofolio::class);
-    }
     public function postingan()
     {
         return $this->hasOne(Postingan::class);
-    }
-    public function keahlians()
-    {
-        return $this->hasMany(Keahlian::class);
     }
     public function isComplete()
     {

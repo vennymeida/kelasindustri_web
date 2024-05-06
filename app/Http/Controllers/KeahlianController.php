@@ -10,56 +10,64 @@ use Illuminate\Support\Facades\DB;
 
 class KeahlianController extends Controller
 {
-    // Menampilkan semua keahlian
-    public function index()
+    public function __construct()
     {
-        $keahlians = Keahlian::where('user_id', auth()->id())->get();
-        return view('profile.index', compact('keahlians'));
+        $this->middleware('auth');
+        $this->middleware('permission:keahlian.index')->only('index');
+        $this->middleware('permission:keahlian.create')->only('create', 'store');
+        $this->middleware('permission:keahlian.edit')->only('edit', 'update');
+        $this->middleware('permission:keahlian.destroy')->only('destroy');
+    }
+    public function index(Request $request)
+    {
+        $keahlians = DB::table('keahlians')
+            ->when($request->input('keahlian'), function ($query, $keahlian) {
+                return $query->where('keahlian', 'like', '%' . $keahlian . '%');
+            })
+            ->select('id', 'keahlian')
+            ->paginate(10);
+
+        return view('keahlian.index', compact('keahlians'));
     }
 
-    // Menyimpan keahlian baru
-    public function store(Request $request)
+    public function create()
     {
-        $request->validate([
-            'keahlian' => 'required|string|max:255',
-        ]);
+        return view('keahlian.create');
+    }
 
+    public function store(StoreKeahlianRequest $request)
+    {
         Keahlian::create([
-            'user_id' => auth()->id(),
-            'keahlian' => $request->keahlian,
+            'keahlian' => $request['keahlian'],
         ]);
-
-        return redirect()->back()->with('success', 'Keahlian berhasil disimpan.');
+        return redirect(route('keahlian.index'))->with('success', 'Data Berhasil Ditambahkan');
     }
 
-    // Menampilkan form edit keahlian
-    public function edit($id)
+    public function show(Keahlian $keahlian)
     {
-        $keahlian = Keahlian::findOrFail($id);
-        return view('keahlians.edit', compact('keahlian'));
+        //
     }
 
-    // Memperbarui keahlian
-    public function update(Request $request, $id)
+    public function edit(Keahlian $keahlian)
+    {
+        return view('keahlian.edit', compact('keahlian'));
+    }
+
+    public function update(UpdateKeahlianRequest $request, Keahlian $keahlian)
     {
         $request->validate([
-            'keahlian' => 'required|string|max:255',
+            'keahlian' => 'required|unique:keahlians,keahlian,' . $keahlian->id,
         ]);
 
-        $keahlian = Keahlian::findOrFail($id);
-        $keahlian->update([
-            'keahlian' => $request->keahlian,
-        ]);
+        $keahlian->update($request->all());
 
-        return redirect()->back()->with('success', 'Keahlian berhasil diperbarui.');
+        return redirect()->route('keahlian.index')
+            ->with('success', 'Data Keahlian berhasil diperbarui.');
     }
 
-    // Menghapus keahlian
-    public function destroy($id)
+    public function destroy(Keahlian $keahlian)
     {
-        $keahlian = Keahlian::findOrFail($id);
         $keahlian->delete();
-
-        return redirect()->back()->with('success', 'Keahlian berhasil dihapus.');
+        return redirect()->route('keahlian.index')->with('success', 'Data Berhasil Di Hapus');
     }
 }

@@ -4,30 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Lamar;
+use App\Models\lamar;
 
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-
         $year = $request->input('year', date('Y'));
 
-        $dashboard = DB::table('lamars as l')
-            ->join('lokers as lp', 'l.loker_id', '=', 'lp.id')
-            ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
-            ->join('lulusans as pu', 'l.user_id', '=', 'pu.id')
-            ->join('users as u', 'pu.user_id', '=', 'u.id')
+        $dashboards = DB::table('lamars as l')
+            ->leftJoin('lokers as lp', 'l.loker_id', '=', 'lp.id')
+            ->leftJoin('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
+            ->leftJoin('lulusans as pu', 'l.user_id', '=', 'pu.id')
+            ->leftJoin('users as u', 'pu.user_id', '=', 'u.id')
             ->select(
                 'l.id',
-                'l.user_id',
                 'u.name',
                 'pu.no_hp',
                 'pu.foto',
                 'pu.resume',
                 'u.email',
-                'p.nama_perusahaan',
+                'p.nama_pemilik as perusahaan',
                 'lp.nama_loker',
                 'l.status',
                 'l.created_at'
@@ -38,15 +36,15 @@ class DashboardController extends Controller
 
 
         $grafik = DB::table('lamars as l')
-            ->join('lokers as lp', 'l.loker_id', '=', 'lp.id')
-            ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
+            ->leftJoin('lokers as lp', 'l.loker_id', '=', 'lp.id')
+            ->leftJoin('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
             ->select(
                 DB::raw('COUNT(*) as jumlah_lamars'),
                 DB::raw('MONTH(l.created_at) as month'),
                 DB::raw('COUNT(*) as count'),
-                'p.nama_perusahaan'
+                'p.nama_pemilik'
             )
-            ->groupBy(DB::raw('MONTH(l.created_at)'), 'p.nama_perusahaan')
+            ->groupBy(DB::raw('MONTH(l.created_at)'), 'p.nama_pemilik')
             ->take(5)
             ->get();
 
@@ -62,8 +60,11 @@ class DashboardController extends Controller
             ->groupBy(DB::raw('MONTH(l.updated_at)'), 'l.status')
             ->get();
 
+        // dd($dashboards);
+
+        // dd( $year);
         return view('home', [
-            'dashboard' => $dashboard,
+            'dashboards' => $dashboards,
             'grafik' => $grafik,
             'grafikline' => $grafikline,
             'selectedYear' => $year

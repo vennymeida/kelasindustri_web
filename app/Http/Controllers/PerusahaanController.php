@@ -22,7 +22,8 @@ class PerusahaanController extends Controller
                     'pemilik' => 'nullable|string|max:255',
                     'nama' => 'nullable|string|max:255',
                     'alamat_perusahaan' => 'nullable|string|max:255',
-                    'kota_id' => 'nullable',
+                    'kecamatan_id' => 'nullable',
+                    'kelurahan_id' => 'nullable',
                     'email' => 'nullable|string|max:255',
                     'website' => 'nullable|string|max:255',
                     'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -34,7 +35,8 @@ class PerusahaanController extends Controller
                     'pemilik.max' => 'Nama Pemilik Melebihi Batas Maksimal',
                     'nama.max' => 'Nama Perusahaan Melebihi Batas Maksimal',
                     'alamat_perusahaan.max' => 'Alamat Melebihi Batas Maksimal',
-                    'kota_id.exists' => 'Kota tidak valid.',
+                    'kecamatan_id.exists' => 'Kecamatan tidak valid.',
+                    'kelurahan_id.exists' => 'Kelurahan tidak valid.',
                     'email.max' => 'Email Melebihi Batas Maksimal',
                     'website.max' => 'Website Melebihi Batas Maksimal',
                     'logo.image' => 'Logo Tidak Sesuai Format',
@@ -74,7 +76,8 @@ class PerusahaanController extends Controller
                 $perusahaanUserBaru->website = $request->input('website');
                 $perusahaanUserBaru->no_hp_perusahaan = $request->input('no_hp_perusahaan');
                 $perusahaanUserBaru->deskripsi = $request->input('deskripsi');
-                $perusahaanUserBaru->kota_id = $request->input('kota_id');
+                $perusahaanUserBaru->kecamatan_id = $request->input('kecamatan_id');
+                $perusahaanUserBaru->kelurahan_id = $request->input('kelurahan_id');
                 $perusahaanUserBaru->save();
             }
 
@@ -102,37 +105,37 @@ class PerusahaanController extends Controller
                     $user->perusahaan->logo = $user->perusahaan->logo;
                 } else {
                     if ($user->perusahaan === null) {
-                        $user->logo = asset('assets/img/avatar/avatar-1.png');
+                        $user->perusahaan->logo = asset('assets/img/avatar/avatar-1.png');
                     }
                 }
                 $user->perusahaan->save();
             }
 
-            if ($request->hasFile('surat_mou')) {
-                $surat_mou = $request->file('surat_mou');
-                $oriName = $surat_mou->getClientOriginalExtension();
+            if ($request->hasFile('siu')) {
+                $siu = $request->file('siu');
+                $oriName = $siu->getClientOriginalExtension();
 
                 $namaSiu = uniqid() . '.' . $oriName;
-                // Storage::putFileAs('public/database/surat_mou/', $surat_mou, $namaSiu);
-                Storage::putFileAs('public/surat_mou/', $surat_mou, $namaSiu);
+                // Storage::putFileAs('public/database/siu/', $siu, $namaSiu);
+                Storage::putFileAs('public/siu/', $siu, $namaSiu);
 
                 if ($user->perusahaan === null) {
                     $user->perusahaan = new \App\Models\Perusahaan();
                 }
 
-                if ($user->perusahaan->surat_mou) {
-                    Storage::delete('public/' . $user->perusahaan->surat_mou);
+                if ($user->perusahaan->siu) {
+                    Storage::delete('public/' . $user->perusahaan->siu);
                 }
 
-                // $user->perusahaan->surat_mou = 'database/surat_mou/' . $namaSiu;
-                $user->perusahaan->surat_mou = 'surat_mou/' . $namaSiu;
+                // $user->perusahaan->siu = 'database/siu/' . $namaSiu;
+                $user->perusahaan->siu = 'siu/' . $namaSiu;
                 $user->perusahaan->save();
             } else {
-                if ($user->perusahaan && $user->perusahaan->surat_mou !== null) {
-                    $user->perusahaan->surat_mou = $user->perusahaan->surat_mou;
+                if ($user->perusahaan && $user->perusahaan->siu !== null) {
+                    $user->perusahaan->siu = $user->perusahaan->siu;
                 } else {
                     if ($user->perusahaan === null) {
-                        $user->surat_mou = asset('assets/img/avatar/avatar-1.png');
+                        $user->perusahaan->surat_mou = asset('assets/img/avatar/avatar-1.png');
                     }
                 }
                 $user->perusahaan->save();

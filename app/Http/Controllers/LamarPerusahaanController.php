@@ -9,8 +9,8 @@ use App\Models\User;
 use App\Models\Lulusan;
 use App\Http\Requests\StorelamarRequest;
 use App\Http\Requests\UpdatelamarRequest;
-use App\Mail\SendEmailPelamar;
 use App\Mail\InterviewInvitation;
+use App\Mail\SendEmailPelamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +85,7 @@ class LamarPerusahaanController extends Controller
         }
     }
 
-
+   
     public function show($id)
     {
         $lamar = Lamar::findOrFail($id);
@@ -132,94 +132,42 @@ class LamarPerusahaanController extends Controller
         return view('lamar.detail', compact('lamar'));
     }
 
-    // public function store(Request $request, Lamar $lamar)
-    // {
-    //     // // Validasi permintaan
-    //     // $request->validate([
-    //     //     'lamar_id' => 'required|exists:lamars,id', // Pastikan lamar_id tersedia dalam tabel lamars
-    //     //     'subject' => 'nullable|string',
-    //     //     'tempat_interview' => 'nullable|string',
-    //     //     'alamat' => 'nullable|string',
-    //     //     'tanggal_interview' => 'nullable|date',
-    //     //     'catatan' => 'nullable|string',
-    //     // ]);
-
-    //     // // Ambil data Lamar berdasarkan lamar_id
-    //     // $lamar = Lamar::findOrFail($request->input('lamar_id'));
-
-    //     // // Buat entri baru di Lamar
-    //     // $lamarPerusahaan = new Lamar();
-    //     // $lamarPerusahaan->lamar_id = $lamar->id; // Set lamar_id
-    //     // $lamarPerusahaan->subject = $request->input('subject');
-    //     // $lamarPerusahaan->tempat_interview = $request->input('tempat_interview');
-    //     // $lamarPerusahaan->alamat = $request->input('alamat');
-    //     // $lamarPerusahaan->tanggal_interview = $request->input('tanggal_interview');
-    //     // $lamarPerusahaan->catatan = $request->input('catatan');
-    //     // // Simpan entri LamarPerusahaan
-    //     // $lamarPerusahaan->save();
-
-    //     // Validasi request
-    //     // $request->validate([
-    //     //     'subject' => 'nullable|string',
-    //     //     'tempat_interview' => 'nullable|string',
-    //     //     'tanggal_interview' => 'nullable|date',
-    //     //     'catatan' => 'nullable|string',
-    //     // ]);
-
-    //     // // Cari data Lamar berdasarkan ID
-    //     // $lamar = Lamar::findOrFail($id);
-
-    //     // // Simpan data yang diterima dari request ke dalam model Lamar
-    //     // $lamar->update($request->only(['subject', 'tempat_interview', 'tanggal_interview', 'catatan']));
-
-    //     // Redirect atau tampilkan respons sesuai kebutuhan
-
-    //     $lamarId = Lamar::where('id', $lamar->id)->first();
-
-    //     $lamarId->update([
-    //         'subject' => $request->subject,
-    //         'tempat_interview' => $request->tempat_interview,
-    //         'tanggal_interview' => $request->tanggal_interview,
-    //         'catatan' => $request->catatan,
-    //     ]);
-    //     return redirect()->route('lamarperusahaan.index')->with('success', 'Interview berhasil ditambahkan.');
-    // }
-
     public function store(Request $request, Lamar $lamar)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'subject' => 'required|string',
-            'tempat_interview' => 'required|string',
-            'tanggal_interview' => 'required|date',
-            'catatan' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'subject' => 'required|string',
+        'tempat_interview' => 'required|string',
+        'tanggal_interview' => 'required|date',
+        'catatan' => 'nullable|string',
+    ]);
 
-        $lamarId = Lamar::where('id', $lamar->id)->first();
+    $lamarId = Lamar::where('id', $lamar->id)->first();
 
-        $lamarId->update([
-            'email' => $request->email,
-            'subject' => $request->subject,
-            'tempat_interview' => $request->tempat_interview,
-            'tanggal_interview' => $request->tanggal_interview,
-            'catatan' => $request->catatan,
-        ]);
+    $lamarId->update([
+        'email' => $request->email,
+        'subject' => $request->subject,
+        'tempat_interview' => $request->tempat_interview,
+        'tanggal_interview' => $request->tanggal_interview,
+        'catatan' => $request->catatan,
+    ]);
 
-        $details = [
-            'name' => $lamar->lulusan->user->name,
-            'date' => $request->tanggal_interview,
-            'location' => $request->tempat_interview,
-            'catatan' => $request->catatan,
-        ];
+    $details = [
+        'name' => $lamar->lulusan->user->name,
+        'date' => $request->tanggal_interview,
+        'location' => $request->tempat_interview,
+        'catatan' => $request->catatan,
+    ];
 
-        if (!empty($request->email)) {
-            Mail::to($request->email)->send(new InterviewInvitation($details));
-        } else {
-            \Log::warning('Attempted to send email without a recipient address.');
-        }
-
-        return redirect()->route('lamarperusahaan.index')->with('success', 'Interview berhasil ditambahkan.');
+    if (!empty($request->email)) {
+        Mail::to($request->email)->send(new InterviewInvitation($details));
+    } else {
+        \Log::warning('Attempted to send email without a recipient address.');
     }
+
+    return redirect()->route('lamarperusahaan.index')->with('success', 'Interview berhasil ditambahkan.');
+}
+
 
     public function update(Request $request, $id)
     {
@@ -269,4 +217,6 @@ class LamarPerusahaanController extends Controller
             ->route('lamarperusahaan.index')
             ->with('success', 'success-status');
     }
+
+
 }

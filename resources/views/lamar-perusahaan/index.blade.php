@@ -15,6 +15,8 @@
                                 <div class="form-group col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
+                                            {{-- <div class="input-group-text icon-form">
+                                            </div> --}}
                                         </div>
                                         <select name="status" class="form-control form-jobs select2" id="statusSelect">
                                             <option value="" selected>Pilih Status</option>
@@ -24,6 +26,12 @@
                                                     {{ $status }}</option>
                                             @endforeach
                                         </select>
+                                        {{-- <div class="input-group-prepend">
+                                            <div class="input-group-text"
+                                                style="border-left: none; border-radius: 0px 15px 15px 0px;">
+                                                <i class="fas fa-times-circle" id="clear-status" style="display: none;"></i>
+                                            </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                                 <div class="form-group col-md-7">
@@ -115,9 +123,9 @@
                                             <br>
                                             <span
                                                 class="py-2 px-4
-                                                    @if ($lamar->status === 'pending') lamar-warning
-                                                    @elseif ($lamar->status === 'diterima') lamar-success
-                                                    @elseif ($lamar->status === 'ditolak') lamar-danger @endif
+                                                    @if ($lamar->status === 'Pending') lamar-warning
+                                                    @elseif ($lamar->status === 'Diterima') lamar-success
+                                                    @elseif ($lamar->status === 'Ditolak') lamar-danger @endif
                                                     "style="border-radius: 25px; font-size: 16px;">
                                                 {{ $lamar->status }}
                                             </span>

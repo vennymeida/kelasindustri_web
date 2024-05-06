@@ -26,6 +26,8 @@ class LowonganPekerjaan extends Model
         'status',
     ];
 
+    public $timestamps = true;
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
