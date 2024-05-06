@@ -17,12 +17,11 @@
                             <div class="form-row">
                                 <div class="form-group col-lg-10 col-md-5 col-sm-5">
                                     <input type="text" name="posisi" class="form-control pencarian" id="posisi"
-                                        placeholder="Ketik posisi pekerjaan..."
-                                        value="{{ app('request')->input('posisi') }}" style="border-radius: 25px;">
+                                           placeholder="Ketik posisi pekerjaan..." value="{{ request('posisi') }}" style="border-radius: 25px;">
                                 </div>
                                 <div class="form-group col-lg-2 col-md-2 col-md-2">
                                     <button id="search-button" class="btn btn-primary mr-1 px-4" type="submit"
-                                        style="border-radius: 25px;">Cari</button>
+                                            style="border-radius: 25px;">Cari</button>
                                 </div>
                             </div>
                         </form>
@@ -283,7 +282,7 @@
     <!-- Your existing script includes -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
+    
         <script>
         $(document).ready(function() {
             $('.bookmark-icon').each(function() {
@@ -345,7 +344,7 @@
                 });
             });
         });
-
+    
     </script>
 @endsection
 

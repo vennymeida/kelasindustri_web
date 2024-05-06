@@ -8,7 +8,7 @@
                     <div class="flex-grow-1">
                         <div class="row">
                             <div>
-                                <a href="{{ url('/profile-lulusan') }}">
+                                <a href="{{ url('/profile') }}">
                                     <img class="img-fluid mt-1" style="width: 30px; height: 30px;"
                                         src="{{ asset('assets/img/Vector.svg') }}">
                                 </a>

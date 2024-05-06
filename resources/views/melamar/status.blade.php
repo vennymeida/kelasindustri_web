@@ -56,14 +56,26 @@
                             </div>
                             <div class="form-group col-md-4 ">
                                 <div class="input-group">
-                                    <select name="kota" id="kota" class="form-control form-jobs select2">
+                                    {{-- <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                </div> --}}
+                                    {{-- <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        @foreach ($lokasikota as $kota)
-                                            <option value="{{ $kota->id }}"
-                                                {{ request('kota') == $kota->id ? 'selected' : '' }}>{{ $kota->kota }}
+                                        @foreach ($kota as $kec)
+                                            <option value="{{ $kec->kota }}"
+                                                @if (request('lokasi') === $kec->kota) selected @endif>
+                                                {{ $kec->kota }}
                                             </option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
+                                    {{-- <div class="input-group-prepend">
+                                    <div class="input-group-text"
+                                            style="border-left: none; border-radius: 0px 15px 15px 0px;">
+                                        <i class="fas fa-times clear-icon" id="clear-lokasi" style="cursor:pointer; display:none;"></i>
+                                    </div>
+                                </div> --}}
                                 </div>
                             </div>
                             <div class="form-group col-md-1">
@@ -85,12 +97,12 @@
                         <div class="card-body d-flex flex-column">
                             <div class="row">
                                 <div class="col-md-1 mx-auto mr-5 align-self-start img-pelamar">
-                                    @if ($lamar->loker->perusahaan && $lamar->loker->perusahaan->logo_perusahaan)
-                                        <img src="{{ asset('storage/' . $lamar->loker->perusahaan->logo_perusahaan) }}"
+                                    @if ($lamar->loker->perusahaan && $lamar->loker->perusahaan->logo)
+                                        <img src="{{ asset('storage/' . $lamar->loker->perusahaan->logo) }}"
                                             alt="Logo Perusahaan" class="rounded-circle"
                                             style="width: 100px; height: 100px;">
                                     @else
-                                        <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                                        <img alt="image" src="{{ asset('assets/img/company/default-company-logo.png') }}"
                                             class="rounded-circle" style="width: 100px; height: 100px;">
                                     @endif
                                 </div>
@@ -136,10 +148,10 @@
                                     </a>
                                     <br>
                                     <span
-                                        class="py-2 px-4
-                                            @if ($lamar->status === 'pending') lamar-warning
-                                            @elseif ($lamar->status === 'diterima') lamar-success
-                                            @elseif ($lamar->status === 'ditolak') lamar-danger @endif
+                                        class=" py-2 px-4
+                                            @if ($lamar->status === 'Pending') lamar-warning
+                                            @elseif ($lamar->status === 'Diterima') lamar-success
+                                            @elseif ($lamar->status === 'Ditolak') lamar-danger @endif
                                             "style="border-radius: 25px; font-size: 16px;">
                                         {{ $lamar->status }}
                                     </span>

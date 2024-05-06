@@ -4,8 +4,7 @@
 @section('content')
     <section class="section">
         <div class="section-header" style="border-radius: 15px;">
-            <h1>Tabel Perhitungan Rekomendasi</h1>
-
+            <h1>Tabel Perhitungan Rekomendasi</h1>  
         </div>
         <div class="section-body">
             <h2 class="section-title">Hasil Perhitungan Cosine Similarity</h2>
@@ -93,7 +92,7 @@
                                                 @endforeach
                                             @endif
                                         </tbody>
-
+                                        
                                     </table>
                                 </div>
                                 {{ $perangkingans->appends(request()->query())->links() }}
@@ -103,23 +102,20 @@
                 </div>
             </div>
     </section>
-
-
-
 @endsection
 
 @push('customScript')
 
 <script>
     let lastOpened = null;
-
+    
     function toggleDetails(key) {
         var detailsRow = document.getElementById('details' + key);
-
+    
         if (lastOpened && lastOpened !== detailsRow) {
             lastOpened.style.display = 'none';
         }
-
+    
         if (detailsRow.style.display === 'none') {
             detailsRow.style.display = '';
             lastOpened = detailsRow;
@@ -128,18 +124,18 @@
             lastOpened = null;
         }
     }
-
+    
     function printTable() {
         var content = document.querySelector('.card-body').innerHTML;
         var originalContent = document.body.innerHTML;
-
+    
         document.body.innerHTML = content;
         window.print();
         document.body.innerHTML = originalContent;
     }
     </script>
-
-
+    
+        
 @endpush
 
 @push('customStyle')
@@ -150,5 +146,5 @@
         }
     }
     </style>
-
+    
 @endpush

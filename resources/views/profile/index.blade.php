@@ -17,48 +17,6 @@
     </div>
 </div>
 
-<!-- Modal Tambah Keahlian -->
-<div class="modal fade" id="modal-create-keahlian" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header m-4">
-                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah
-                    Keahlian</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST" action="{{ route('keahlian.store') }}" class="needs-validation" novalidate
-                enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="keahlian">Keahlian</label>
-                            <input name="keahlian" type="text"
-                                class="form-control custom-input @error('keahlian') is-invalid @enderror"
-                                value="{{ old('keahlian') }}" placeholder="Masukkan nama keahlian">
-                            @error('keahlian')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer bg-whitesmoke m-4">
-                    <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
-                        style="border-radius: 15px; font-size: 14px">Tambah</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        style="border-radius: 15px; font-size: 14px">Batal</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
 <!-- Modal Tambah Postingan -->
 <div class="modal fade" id="modal-create-postingan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -107,13 +65,12 @@
                                             <!-- Gunakan label untuk mengaktifkan input file -->
                                             <label for="mediaUploadButton" class="imgUploadButton"
                                                 style="cursor: pointer;">
-                                                <img class="img-fluid"
-                                                    src="{{ asset('assets/img/Gallery Add.svg') }}">
+                                                <img class="img-fluid" src="{{ asset('assets/img/Gallery Add.svg') }}">
                                                 &nbsp;&nbsp;&nbsp; Media
                                             </label>
                                             <!-- Input file tersembunyi -->
-                                            <input type="file" id="mediaUploadButton" class="d-none"
-                                                accept="image/*" onchange="displayFileName(this)" name="media">
+                                            <input type="file" id="mediaUploadButton" class="d-none" accept="image/*"
+                                                onchange="displayFileName(this)" name="media">
                                             <!-- Elemen untuk menampilkan nama file yang dipilih -->
                                             <p id="selectedFileName"></p>
                                         </li>
@@ -470,61 +427,6 @@
         </div>
     </div>
 </div>
-<!-- Modal Create Portofolio -->
-<div class="modal fade" id="modal-create-portofolio" tabindex="-1" role="dialog"
-    aria-labelledby="createPortofolioLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header m-4">
-                <h5 class="modal-title" id="createPortofolioLabel" style="color: #6777ef; font-weight: bold;">Tambah
-                    Portofolio</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('portofolio.store') }}" class="needs-validation" novalidate>
-                    @csrf
-                    <!-- Nama Portofolio -->
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="nama_portofolio">Nama Portofolio</label>
-                            <input name="nama_portofolio" type="text"
-                                class="form-control custom-input @error('nama_portofolio') is-invalid @enderror"
-                                value="{{ old('nama_portofolio') }}" placeholder="Masukkan nama portofolio" required>
-                            @error('nama_portofolio')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <!-- Link Portofolio -->
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="link_portofolio">Link Portofolio</label>
-                            <input name="link_portofolio" type="url"
-                                class="form-control custom-input @error('link_portofolio') is-invalid @enderror"
-                                value="{{ old('link_portofolio') }}" placeholder="Masukkan link portofolio" required>
-                            @error('link_portofolio')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer bg-whitesmoke m-4">
-                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
-                    style="border-radius: 15px; font-size: 14px">Tambah</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                    style="border-radius: 15px; font-size: 14px">Batal</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- Modal Rekrut Karyawan oleh Perusahaan -->
 <div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog"
@@ -542,17 +444,6 @@
                 <form method="POST" action="" class="needs-validation" novalidate=""
                     enctype="multipart/form-data">
                     @csrf
-                    {{-- <div class="row ml-4 mr-4" style="display: none">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="email">email</label>
-                            <input name="email" type="hidden"
-                                class="form-control custom-input @error('email') is-invalid @enderror"
-                                value="{{ $lamar->lulusan->user->email }}" placeholder="Email tujuan">
-                            @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div> --}}
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label for="subject">Subject</label>
@@ -655,35 +546,38 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <div class="profile-widget-description ml-4 mr-4 mt-4"
-                            style="display: flex; align-items: center;">
+                        <div class="profile-widget-description ml-4 mr-4 mt-4" style="display: flex; align-items: center;">
                             <div class="flex-grow-1">
-                                <div class="profile-widget-name"
-                                    style="font-weight: bold; font-size: 22px; color: #000000">
-                                    {{ Auth::user()->name }}</div>
+                                <div class="profile-widget-name" style="font-weight: bold; font-size: 22px; color: #000000">
+                                    {{ Auth::user()->name }}
+                                </div>
                                 <div class="profile-widget-name" style="font-weight: light; font-size: 16px;">
-                                    {{ Auth::user()->email }}</div>
+                                    {{ Auth::user()->email }}
+                                </div>
                                 <hr style="background-color:#ebebeb; height: 1px; border: none; width: 90%; float: left;">
                             </div>
                             <div class="d-flex justify-content-end" style="font-size: 2.00em;">
                                 @if (Auth::user()->lulusan)
                                     <button class="btn btn-primary"
-                                        style="background-color:#4ED373; font-size:13px; border-radius:15px; border-color:#4ED373;margin-right: 10px;">
+                                            style="background-color:#4ED373; font-size:13px; border-radius:15px; border-color:#4ED373;margin-right: 10px;">
                                         {!! Auth::user()->lulusan->status !!}
                                     </button>
-                                    <a
-                                        href="{{ route('profile-lulusan.edit', ['profile_lulusan' => Auth::user()->lulusan->id]) }}">
+                                    <a href="{{ route('profile-lulusan.edit', ['profile_lulusan' => Auth::user()->lulusan->id]) }}">
                                         <img class="img-fluid" style="width: 35px; height: 35px;"
-                                            src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                             src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                     </a>
                                 @else
                                     <a href="{{ route('profile-lulusan.create') }}" class="btn btn-primary"
-                                        style="background-color:#4e81d3; font-size:13px; border-radius:15px; border-color:#4ED373;margin-right: 10px;">
-                                        Lengkapi Profile
+                                       style="background-color:#4ED373; font-size:13px; border-radius:15px; border-color:#4ED373;margin-right: 10px;">
+                                        Menambahkan Profile Baru
                                     </a>
                                 @endif
                             </div>
                         </div>
+                    </div>
+                    
+                    
+                    
                         <div class="col-md-11 ml-2 card-profile2">
                             <div style="display: flex; flex-direction: column;">
                                 @if (Auth::user()->lulusan)
@@ -911,49 +805,6 @@
                     <div class="col-md-12 text-center my-4"><br><br>
                         <img src="{{ asset('assets/img/landing-page/folder.png') }}">
                         <p class="mt-1 text-not">Belum Ada Postingan Anda</p>
-                    </div>
-                @endif
-            </div>
-        </section>
-        <section class="centered-section my-4">
-            <div class="bg-primary-section card col-md-10 py-1 card-profile5">
-                <div class="profile-widget-description m-3"
-                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                    <div class="flex-grow-1">
-                        <div class="profile-widget-name" style="color:#6777ef;">Keahlian</div>
-                    </div>
-                    <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                        <a href="#" data-toggle="modal" data-target="#modal-create-keahlian">
-                            <img class="img-fluid" style="width: 35px; height: 35px;"
-                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
-                        </a>
-                    </div>
-                </div>
-                @if (count(auth()->user()->keahlians) > 0)
-                    <div class="col-md-12 mb-4">
-                        <div class="flex-grow-1 mb-2">
-                            <div class="card-header-action keahlianPelamar">
-                                @foreach (auth()->user()->keahlians as $keahlian)
-                                    <div class="d-flex align-items-center mb-2">
-                                        <button class="btn btn-skill keahlianPelamar1"
-                                            style="font-size: 14px">{{ $keahlian->keahlian }}</button>
-                                        <form action="{{ route('keahlian.destroy', $keahlian->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger ml-2"
-                                                style="font-size: 14px;">
-                                                <i class="fas fa-trash"></i> <!-- Ganti dengan kelas ikon yang sesuai -->
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="col-md-12 text-center my-4"><br><br>
-                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                        <p class="mt-1 text-not">Data Keahlian Masih Kosong</p>
                     </div>
                 @endif
             </div>
@@ -1204,79 +1055,6 @@
                 @endif
             </div>
         </section>
-        <section class="centered-section my-4">
-            <div class="bg-primary-section card col-md-10 py-1 card-profile8">
-                <div class="profile-widget-description m-3"
-                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
-                    <div class="flex-grow-1">
-                        <div class="profile-widget-name" style="color:#6777ef;">Portofolio</div>
-                    </div>
-                    <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
-                        <a href="#" data-toggle="modal" data-target="#modal-create-portofolio">
-                            <img class="img-fluid" style="width: 35px; height: 35px;"
-                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
-                        </a>
-                    </div>
-                </div>
-                @if ($portofolios->count() > 0)
-                    <div id="portofolio-container" class="pendidikancardprofile">
-                        @foreach ($portofolios as $portofolio)
-                            <hr>
-                            <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
-                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                    <div class="flex-grow-1">
-                                        <div class="profile-widget-name"
-                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $portofolio->nama_portofolio }}
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
-                                        id="fluid">
-                                        <a href="#" data-id="{{ $portofolio->id }}"
-                                            data-edit-url="{{ route('portofolio.edit', ['portofolio' => $portofolio->id]) }}"
-                                            class="modal-edit-trigger-portofolio">
-                                            <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                        </a>
-                                        <form class="m-0"
-                                            action="{{ route('portofolio.destroy', ['portofolio' => $portofolio->id]) }}"
-                                            method="POST" id="delete-portofolio{{ $portofolio->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-edu"
-                                                onclick="confirmPortofolio({{ $portofolio->id }})">
-                                                <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                    alt="Hapus">
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="flex-grow-1 mb-2">
-                                        <div class="profile-widget-name"
-                                            style="font-size: 16px; display: flex; align-items: center;">
-                                            <a href="{{ $portofolio->link_portofolio }}" target="_blank">Lihat
-                                                Portofolio</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="text-right mt-4 mr-4">
-                        <button id="load-more-portofolio" class="btn btn-more mb-3"
-                            data-page="{{ $portofolios->currentPage() }}">Muat Lebih Banyak . . .</button>
-                    </div>
-                @else
-                    <div class="col-md-12 text-center my-4"><br><br>
-                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                        <p class="mt-1 text-not">Data Portofolio Masih Kosong</p>
-                    </div>
-                @endif
-            </div>
-        </section>
     </main>
 
     <!-- Modal Edit Pendidikan -->
@@ -1384,7 +1162,7 @@
                     </div>
                     <div class="modal-footer bg-whitesmoke m-4">
                         <button type="button" class="btn btn-primary" id="modal-save-button-pendidikan"
-                        style="border-radius: 15px; font-size: 14px">Simpan</button>
+                            style="border-radius: 15px; font-size: 14px">Simpan</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                             style="border-radius: 15px; font-size: 14px">Batal</button>
                     </div>
@@ -1555,8 +1333,8 @@
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
                                     <label>Deskripsi</label>
-                                    <textarea name="deskripsi" class="form-control custom-input @error('deskripsi') is-invalid @enderror"
-                                        rows="4" placeholder="Tuliskan deskripsi mengenai pelatihan/sertifikat anda">{{ old('deskripsi') }}</textarea>
+                                    <textarea name="deskripsi" class="form-control custom-input @error('deskripsi') is-invalid @enderror" rows="4"
+                                        placeholder="Tuliskan deskripsi mengenai pelatihan/sertifikat anda">{{ old('deskripsi') }}</textarea>
                                     @error('deskripsi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -1623,60 +1401,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal Edit Portofolio -->
-    <div id="modal-edit-portofolio" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg mx-auto" role="document">
-            <div class="modal-content">
-                <div class="modal-header m-4">
-                    <h5 class="modal-title" style="color: #6777ef; font-weight: bold;">Edit Portofolio</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" id="modal-edit-portofolio-form" class="needs-validation" novalidate>
-                        @csrf
-                        @method('PUT')
-                        <div class="row ml-4 mr-4">
-                            <div class="form-group col-md-12 col-12">
-                                <label for="nama_portofolio">Nama Portofolio</label>
-                                <input name="nama_portofolio" type="text"
-                                    class="form-control custom-input @error('nama_portofolio') is-invalid @enderror"
-                                    value="{{ old('nama_portofolio') }}" placeholder="Masukkan nama portofolio">
-                                @error('nama_portofolio')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row ml-4 mr-4">
-                            <div class="form-group col-md-12 col-12">
-                                <label for="link_portofolio">Link Portofolio</label>
-                                <input name="link_portofolio" type="url"
-                                    class="form-control custom-input @error('link_portofolio') is-invalid @enderror"
-                                    value="{{ old('link_portofolio') }}" placeholder="Masukkan link portofolio">
-                                @error('link_portofolio')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer bg-whitesmoke m-4">
-                    <button type="button" class="btn btn-primary" id="modal-save-button-portofolio"
-                        style="border-radius: 15px; font-size: 14px">Simpan</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        style="border-radius: 15px; font-size: 14px">Batal</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <!-- Modal Edit Postingan -->
     <div id="modal-edit-postingan" class="modal fade" tabindex="-1" role="dialog">
@@ -1855,30 +1579,6 @@
         }
     </script>
     <script>
-        function confirmPortofolio(itemId) {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Konfirmasi',
-                text: 'Apakah Anda yakin ingin menghapus data ini?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Batal',
-                customClass: {
-                    confirmButton: 'btn btn-confirm',
-                    cancelButton: 'btn btn-cancel',
-                },
-                buttonsStyling: false,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-portofolio' + itemId).submit();
-                }
-            });
-        }
-    </script>
-    <script>
         @if (session('success') === 'success-delete')
             Swal.fire({
                 icon: 'success',
@@ -1916,39 +1616,6 @@
             });
         @endif
     </script>
-    <script>
-        const textarea = document.getElementById('autoSizeTextarea');
-
-        textarea.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-
-        textarea.style.height = (textarea.scrollHeight) + 'px';
-    </script>
-    @push('customScript')
-        <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                // Fungsi untuk menangani pengiriman formulir saat tombol Tambah diklik
-                $('.btn-primary').on('click', function() {
-                    // Validasi formulir sebelum pengiriman
-                    var form = $(this).closest('form');
-                    if (form[0].checkValidity()) {
-                        form.submit(); // Kirim formulir jika valid
-                    } else {
-                        form.addClass('was-validated'); // Tampilkan pesan kesalahan jika formulir tidak valid
-                    }
-                });
-
-                // Fungsi untuk menutup modal saat tombol Batal diklik
-                $('.btn-secondary').on('click', function() {
-                    $('#modal-rekrut-karyawan').modal('hide');
-                });
-            });
-        </script>
-    @endpush
 @endsection
 
 @push('customScript')
@@ -2421,135 +2088,6 @@
             });
         });
     </script>
-
-    <script>
-        $(document).ready(function() {
-            var editModal = $('#modal-edit-portofolio');
-
-            // Fungsi untuk menampilkan pesan kesalahan pada field yang spesifik
-            function showError(field, message) {
-                var inputField = editModal.find('[name="' + field + '"]');
-                inputField.addClass('is-invalid');
-                inputField.closest('.form-group').find('.invalid-feedback').text(message);
-            }
-
-            // Validasi form dengan jQuery Validate
-            $("#modal-edit-portofolio-form").validate({
-                rules: {
-                    nama_portofolio: {
-                        required: true,
-                        maxlength: 255
-                    },
-                    link_portofolio: {
-                        required: true,
-                        url: true,
-                        maxlength: 255
-                    },
-                },
-                messages: {
-                    nama_portofolio: {
-                        required: "Nama Portofolio tidak boleh kosong",
-                        maxlength: "Nama Portofolio melebihi batas maksimal"
-                    },
-                    link_portofolio: {
-                        required: "Link Portofolio tidak boleh kosong",
-                        url: "Masukkan URL yang valid",
-                        maxlength: "Link Portofolio melebihi batas maksimal"
-                    },
-                },
-                highlight: function(element, errorClass) {
-                    $(element).addClass('is-invalid').next('.invalid-feedback').show();
-                },
-                unhighlight: function(element, errorClass) {
-                    $(element).removeClass('is-invalid').next('.invalid-feedback').hide();
-                },
-                submitHandler: function(form) {
-                    var formData = new FormData(form);
-
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
-                            } else {
-                                alert('Error! ' + response.message);
-                            }
-                        },
-                        error: function() {
-                            alert('Terjadi error ketika update data!');
-                        }
-                    });
-                }
-            });
-
-            // Fungsi untuk membuka modal edit
-            function openEditModal(portofolioId) {
-                var editUrl = "{{ route('portofolio.edit', ['portofolio' => '_id']) }}".replace('_id',
-                    portofolioId);
-                var updateUrl = "{{ route('portofolio.update', ['portofolio' => '_id']) }}".replace('_id',
-                    portofolioId);
-
-                $('#modal-edit-portofolio-form').attr('action', updateUrl);
-
-                $.ajax({
-                    url: editUrl,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#modal-edit-portofolio input[name="nama_portofolio"]').val(data
-                            .nama_portofolio);
-                        $('#modal-edit-portofolio input[name="link_portofolio"]').val(data
-                            .link_portofolio);
-
-                        editModal.modal('show');
-                    }
-                });
-            }
-
-            // Event handler untuk memicu modal edit
-            $('#portofolio-container').on('click', '.modal-edit-trigger-portofolio', function() {
-                var portofolioId = $(this).data('id');
-                openEditModal(portofolioId);
-            });
-
-            // Tombol untuk menyimpan perubahan pada portofolio
-            $('#modal-save-button-portofolio').on('click', function() {
-                var form = $('#modal-edit-portofolio-form');
-
-                if (form.valid()) {
-                    var formData = new FormData(form[0]);
-                    formData.append('_token', "{{ csrf_token() }}");
-
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: 'POST', // Gunakan POST karena formulir memiliki @method('PUT')
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
-                            } else {
-                                alert('Error! ' + response.message);
-                            }
-                        },
-                        error: function() {
-                            alert('Terjadi error ketika update data!');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
     <script>
         $(document).ready(function() {
             var editModal = $('#modal-edit-postingan');
@@ -2741,38 +2279,6 @@
                         } else {
                             $('#load-more-pelatihan').css('display', 'none');
                             hasMoreDataPelatihan = false;
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-    <script>
-        let isLoadingMorePortofolio = false;
-        let hasMoreDataPortofolio = true;
-
-        $(document).ready(function() {
-            $('#load-more-portofolio').on('click', function(e) {
-                e.preventDefault();
-
-                if (!isLoadingMorePortofolio && hasMoreDataPortofolio) {
-                    isLoadingMorePortofolio = true;
-                    let nextPage = parseInt($(this).data('page')) + 1;
-
-                    $.get('{{ route('profile-lulusan.index') }}?page=' + nextPage, function(data) {
-                        let content = $(data).find('#portofolio-container').html();
-                        if (content) {
-                            $('#portofolio-container').append(content);
-                            isLoadingMorePortofolio = false;
-                            $('#load-more-portofolio').data('page', nextPage);
-
-                            if ($.trim(content).length === 0) {
-                                $('#load-more-portofolio').css('display', 'none');
-                                hasMoreDataPortofolio = false;
-                            }
-                        } else {
-                            $('#load-more-portofolio').css('display', 'none');
-                            hasMoreDataPortofolio = false;
                         }
                     });
                 }

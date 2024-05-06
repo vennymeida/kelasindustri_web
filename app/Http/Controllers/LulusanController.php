@@ -114,6 +114,13 @@ class LulusanController extends Controller
         return response()->json(['kelurahans' => $kelurahans]);
     }
 
+    public function getKelurahans(Request $request)
+    {
+        $kelurahans = Kelurahan::all()->where('id_kecamatan', $request->kecamatan_id);
+
+        return response()->json(['kelurahans' => $kelurahans]);
+    }
+
     public function update(Request $request)
     {
         try {
@@ -127,6 +134,7 @@ class LulusanController extends Controller
                     'resume' => 'nullable|file|mimes:pdf|max:2048',
                     'tgl_lahir' => 'nullable|date:d/m/Y',
                     'ringkasan' => 'nullable',
+                    'harapan_gaji' => 'nullable|string',
                 ],
                 [
                     'alamat.max' => 'Alamat Melebihi Batas Maksimal',
@@ -142,7 +150,7 @@ class LulusanController extends Controller
                     'resume.max' => 'Ukuran Resume Terlalu Besar',
                     'tgl_lahir.date' => 'Tanggal Lahir Harus Sesuai Format',
                     // 'ringkasan.max' => 'Ringkasan Melebihi Batas Maksimal',
-
+                    'harapan_gaji.string' => 'Harapan Gaji Harus Angka',
                 ],
             );
 
@@ -154,15 +162,15 @@ class LulusanController extends Controller
                     ->with('error', 'Terdapat kesalahan dalam pengisian form.');
             }
 
-            $fotoLama = DB::table('lulusans')
+            $fotoLama = DB::table('profile_users')
                 ->where('user_id', Auth::user()->id)
                 ->first();
             $user = $request->user();
             $user->profile()->update($request->except('_token', '_method', 'foto', 'resume', 'show_resume', 'show_foto'));
-            $lulusan = DB::table('lulusans')
+            $lulusan = DB::table('profile_users')
                 ->where('user_id', Auth::user()->id)
                 ->first();
-            $lulusanBaru = new \App\Models\Lulusan();
+            $lulusanBaru = new \App\Models\lulusan();
             $lulusanBaru->user_id = Auth::user()->id;
             if ($lulusan === null) {
                 $lulusanBaru->alamat = $request->input('alamat');
@@ -170,6 +178,7 @@ class LulusanController extends Controller
                 $lulusanBaru->no_hp = $request->input('no_hp');
                 $lulusanBaru->tgl_lahir = $request->input('tgl_lahir');
                 $lulusanBaru->ringkasan = $request->input('ringkasan');
+                $lulusanBaru->harapan_gaji = $request->input('harapan_gaji');
                 $lulusanBaru->save();
             }
 
@@ -182,7 +191,7 @@ class LulusanController extends Controller
                 Storage::putFileAs('public/profile/', $photo, $namaGambar);
 
                 if ($user->profile === null) {
-                    $user->profile = new \App\Models\Lulusan();
+                    $user->profile = new \App\Models\lulusan();
                 }
 
                 if ($user->profile->foto) {

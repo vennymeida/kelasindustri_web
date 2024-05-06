@@ -36,14 +36,14 @@ class UpdateLokerPerusahaanRequest extends FormRequest
             'kuota' => 'required',
             'tgl_tutup' => [
                 'required',
-                // function ($attribute, $value, $fail) {
-                //     $today = Carbon::now();
-                //     $dateInput = Carbon::parse($value);
+                function ($attribute, $value, $fail) {
+                    $today = Carbon::now();
+                    $dateInput = Carbon::parse($value);
 
-                //     if ($dateInput->isBefore($today)) {
-                //         $fail(' tanggal tidak boleh kurang dari hari ini');
-                //     }
-                // },
+                    if ($dateInput->isBefore($today)) {
+                        $fail(' tanggal tidak boleh kurang dari hari ini');
+                    }
+                },
             ],
             'status' => 'required',
         ];

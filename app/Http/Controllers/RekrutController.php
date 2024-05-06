@@ -11,7 +11,7 @@ use App\Http\Requests\StorelamarRequest;
 use App\Http\Requests\UpdatelamarRequest;
 use App\Mail\InterviewInvitation;
 use App\Mail\SendEmailPelamar;
-use App\Mail\SendRecruit;
+use App\Mail\SendRecuit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -56,14 +56,14 @@ class RekrutController extends Controller
         ];
 
         if (!empty($request->email)) {
-            Mail::to($request->email)->send(new SendRecruit($details));
+            Mail::to($request->email)->send(new SendRecuit($details));
         } else {
             \Log::warning('Attempted to send email without a recipient address.');
         }
-
+       
         // dd($lamar);
 
-        return redirect()->route('search.recruit', ['user'=>$user->user_id])->with('success', 'Berhasil Merekrut Karyawan');
+        return redirect()->route('search.recruit', ['user'=>$user->user_id])->with('success', 'Recuit berhasil ditambahkan.');
     }
 
 }

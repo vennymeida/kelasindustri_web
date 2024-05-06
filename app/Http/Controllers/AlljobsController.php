@@ -44,6 +44,8 @@ class AlljobsController extends Controller
                 ->where('user_id', $user->id)
                 ->get();
 
+
+
             $keahliansData = DB::table('keahlians')
                 ->select('id', 'keahlian')
                 ->where('user_id', $user->id)
@@ -168,7 +170,7 @@ class AlljobsController extends Controller
                         ]);
                     }
                 }
-
+            
                 // Menghapus dan memasukkan data baru untuk loker
                 foreach ($lokerData as $loker) {
                     DB::table('rekomendasis_loker')->where('document_id', $loker->id)->delete();
@@ -184,12 +186,12 @@ class AlljobsController extends Controller
                         ]);
                     }
                 }
-
+            
                 // Menghapus dan memasukkan data baru untuk keahlian
                 foreach ($keahliansData as $keahlian) {
-                    DB::table('rekomendasis_keahlians')->where('document_id', $keahlian->id)->delete();
+                    DB::table('rekomendasis_keahlian')->where('document_id', $keahlian->id)->delete();
                     foreach ($keahlian->tf as $word => $tfValue) {
-                        DB::table('rekomendasis_keahlians')->insert([
+                        DB::table('rekomendasis_keahlian')->insert([
                             'document_id' => $keahlian->id,
                             'word' => $word,
                             'document_type' => 'keahlian',
@@ -201,18 +203,18 @@ class AlljobsController extends Controller
                     }
                 }
             });
-
-
+            
+            
 
             DB::transaction(function () use ($rekomendasi) {
                 // Mengumpulkan semua lulusan_id dari rekomendasi
                 $lulusanIds = collect($rekomendasi)->pluck('lulusan_id')->unique();
-
+            
                 // Menghapus semua entri yang terkait dengan setiap lulusan_id
                 foreach ($lulusanIds as $lulusanId) {
                     DB::table('rekomendasilowongans')->where('lulusan_id', $lulusanId)->delete();
                 }
-
+            
                 // Memasukkan entri baru
                 foreach ($rekomendasi as $item) {
                     DB::table('rekomendasilowongans')->insert([
@@ -226,8 +228,8 @@ class AlljobsController extends Controller
                     ]);
                 }
             });
-
-            $currentDate = Carbon::now();
+            
+            $today = Carbon::today();
             $userId = Auth::id();
             $allResults = DB::table('rekomendasilowongans as rks')
                 ->leftJoin('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
@@ -246,7 +248,6 @@ class AlljobsController extends Controller
                     'lk.tgl_tutup',
                     'lk.kuota',
                     'lk.status',
-                    'lk.created_at',
                     'ps.nama_pemilik',
                     'ps.nama_perusahaan',
                     'ps.logo_perusahaan',
@@ -270,9 +271,7 @@ class AlljobsController extends Controller
                     return $query->where('lk.lokasi', $lokasi);
                 })
                 ->where('lk.status', 'dibuka')
-                ->where('lk.tgl_tutup', '>=', $currentDate)
                 ->where('ls.user_id', '=', $userId)
-                ->orderBy('lk.created_at', 'desc')
                 ->where('rks.score_similarity_lulusan', '>', 0)
                 ->where('rks.score_similarity_keahlian', '>', 0);
 
@@ -282,9 +281,9 @@ class AlljobsController extends Controller
 
                 if ($request->has('tipe')) {
                     $allResults->whereIn('lk.tipe_pekerjaan', $request->input('tipe'));
-
+                  
                 }
-
+                
                 // Filter by salary range
                 if ($request->has('gaji')) {
                     $allResults->where(function ($query) use ($request) {
@@ -310,7 +309,7 @@ class AlljobsController extends Controller
                 $allResults = $allResults->get();
 
 
-
+                
             // dd($allResults);
             $tableloker = DB::table('lokers as lk')
                 ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
@@ -326,7 +325,6 @@ class AlljobsController extends Controller
                     'lk.tgl_tutup',
                     'lk.lokasi',
                     'lk.status',
-                    'lk.created_at',
                     'ps.nama_pemilik',
                     'ps.nama_perusahaan',
                     'ps.logo_perusahaan',
@@ -342,9 +340,7 @@ class AlljobsController extends Controller
                 ->when($request->input('lokasi'), function ($query, $lokasi) {
                     return $query->where('lk.lokasi', $lokasi);
                 })
-                ->where('lk.status', 'dibuka')
-                ->where('lk.tgl_tutup', '>=', $currentDate)
-                ->orderBy('lk.created_at', 'desc');
+                ->where('lk.status', 'dibuka');
             if ($request->has('posisi') && !empty($request->posisi)) {
                 $tableloker->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
             }
@@ -352,7 +348,7 @@ class AlljobsController extends Controller
             if ($request->has('tipe')) {
                 $tableloker->whereIn('lk.tipe_pekerjaan', $request->input('tipe'));
             }
-
+            
             // Filter by salary range
             if ($request->has('gaji')) {
                 $tableloker->where(function ($query) use ($request) {
@@ -385,11 +381,48 @@ class AlljobsController extends Controller
         } else {
             // Jika pengguna belum login, tampilkan semua data loker
             $tableloker = LowonganPekerjaan::where('nama_loker', 'like', '%' . $request->input('posisi') . '%')
-                ->where('status', 'dibuka')
-                ->paginate(10);
+            ->when($request->input('nama_loker'), function ($query, $nama_loker) {
+                return $query->where('nama_loker', 'like', '%' . $nama_loker . '%');
+            })
+            ->when($request->input('persyaratan'), function ($query, $name) {
+                return $query->where('persyaratan', 'like', '%' . $name . '%');
+            })
+            ->when($request->input('lokasi'), function ($query, $lokasi) {
+                return $query->where('lokasi', $lokasi);
+            })   
+            ->where('status', 'dibuka');
+                if ($request->has('tipe')) {
+                    $tableloker->whereIn('tipe_pekerjaan', $request->input('tipe'));
+                }
+                
+                // Filter by salary range
+                if ($request->has('gaji')) {
+                    $tableloker->where(function ($query) use ($request) {
+                        foreach ($request->input('gaji') as $gaji) {
+                            switch ($gaji) {
+                                case 'less-1jt':
+                                    $query->orWhere('gaji_atas', '<', 1000000);
+                                    break;
+                                case '1jt-5jt':
+                                    $query->orWhereBetween('gaji_atas', [1000000, 5000000]);
+                                    break;
+                                case '5jt-10jt':
+                                    $query->orWhereBetween('gaji_atas', [5000001, 10000000]);
+                                    break;
+                                case 'more-10jt':
+                                    $query->orWhere('gaji_atas', '>', 10000000);
+                                    break;
+                            }
+                        }
+                    });
+                }
+    
+    
+                $tableloker = $tableloker->paginate(10);
 
+
+                
                 $lokasikota = DB::table('kotas')->select('id', 'kota')->get();
-
             return view('all-jobs', ['tableloker' => $tableloker, 'lokasikota' => $lokasikota]);
         }
     }
@@ -532,7 +565,7 @@ class AlljobsController extends Controller
 
         if ($loker->updated_at) {
             $updatedDiff = $loker->updated_at->diffInSeconds(now());
-
+        
             if ($updatedDiff < 60) {
                 $updatedAgo = $updatedDiff . ' detik yang lalu';
             } elseif ($updatedDiff < 3600) {

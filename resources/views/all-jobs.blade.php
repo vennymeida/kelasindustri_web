@@ -19,8 +19,9 @@
                                             <i class="fas fa-search ml-2"></i>
                                         </div>
                                     </div>
-                                    <input type="text" name="posisi" class="form-control form-jobs" id="posisi"
-                                        placeholder="Cari posisi pekerjaan" value="{{ app('request')->input('posisi') }}">
+                                    <input type="text" name="nama_loker" class="form-control form-jobs" id="nama_loker"
+                                        placeholder="Cari posisi pekerjaan"
+                                        value="{{ app('request')->input('nama_loker') }}">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text x-form"
                                             style="border-left: none; border-radius: 0px 15px 15px 0px;">
@@ -33,14 +34,17 @@
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        @foreach ($lokasikota as $key)
-                                            <option value="{{ $key->kota }}"
-                                                @if (request('lokasi') == $key->kota) selected @endif>{{ $key->kota }}
-                                            </option>
-                                        @endforeach
+                                        @if(isset($lokasikota))
+                                            @foreach ($lokasikota as $key)
+                                                <option value="{{ $key->kota }}"
+                                                    @if (request('lokasi') == $key->kota) selected @endif>{{ $key->kota }}
+                                                </option>
+                                            @endforeach
+                                        @endif
                                     </select>
+                                    
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="form-group col-md-1">
                                 <button id="search-button" class="btn btn-primary mr-1 px-4 py-2" type="submit"
                                     style="border-radius: 15px;">Cari</button>
@@ -68,8 +72,8 @@
                                 <input class="mr-2" type="checkbox" name="tipe[]" id="Remote" value="Remote">
                                 Remote
                             </label>
-
-
+                           
+                            
                     </div>
                     </div>
                     <br>

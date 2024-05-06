@@ -178,7 +178,7 @@
                             <th>Bukti Lulusan</th>
                             <td>
                                 @if ($user->document)
-                                    <a href="{{ Storage::url($user->document) }}" target="_blank">Lihat Dokumen</a> <!-- Tautan ke dokumen -->
+                                   <a href="{{ $user->document }}" target="_blank">Lihat Dokumen</a><!-- Tautan ke dokumen -->
                                 @else
                                     Tidak ada dokumen
                                 @endif

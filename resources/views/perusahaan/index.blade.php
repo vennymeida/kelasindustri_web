@@ -72,6 +72,10 @@
                                                                 class="btn btn-sm btn-primary btn-icon">
                                                                 <i class="fas fa-eye"></i> Details
                                                             </a>
+                                                            {{-- <a href="{{ route('perusahaan.banned', $perusahaan) }}"
+                                                                class="btn btn-sm btn-warning btn-icon">
+                                                                <i class="fas fa-ban"></i> Banned
+                                                            </a> --}}
                                                             <form
                                                                 action="{{ route('perusahaan.banned', $perusahaan->id) }}"
                                                                 method="post" id="rej-<?= $perusahaan->id ?>"
@@ -82,7 +86,7 @@
                                                                     class="btn btn-sm btn-warning btn-icon"
                                                                     data-confirm="Verifikasi Biodata | Apakah data biodata belum bisa diverifikasi dan kirim pesan kesalahan ?"
                                                                     data-confirm-yes="sumbitRej(<?= $perusahaan->id ?>)"
-                                                                    data-id="rej-{{ $perusahaan->id }}"><i class="fas fa-ban"></i>
+                                                                    data-id="rej-{{ $perusahaan->id }}">
                                                                     Banned
                                                                 </button>
                                                             </form>

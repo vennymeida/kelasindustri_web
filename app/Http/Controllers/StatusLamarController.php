@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Kota;
 use Illuminate\Http\Request;
 use Auth;
-use DB;
 use App\Models\Lamar;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -22,7 +21,7 @@ class StatusLamarController extends Controller
     {
         $user = Auth::user();
 
-        // Cek apakah user memiliki profil lulusan
+        // Cek apakah user memiliki profile
         if (!$user->lulusan) {
             return redirect()->route('profile-lulusan.edit')->with('error', 'Silahkan lengkapi profil Anda terlebih dahulu.');
         }
@@ -42,23 +41,22 @@ class StatusLamarController extends Controller
             $query->where('status', $request->status);
         }
 
-        // Filter by kota
-        if ($request->has('kota') && $request->kota != '') {
+        // Filter by lokasi
+        if ($request->has('lokasi') && $request->lokasi != '') {
             $query->whereHas('loker.perusahaan.kota', function (Builder $q) use ($request) {
-                $q->where('kota_id', $request->kota); // Referensi yang benar
+                $q->where('kota', 'like', '%' . $request->lokasi . '%');
             });
         }
 
-
-        $lokasikota = DB::table('kotas')->select('id', 'kota')->get();
-
         // Fetch all kota for the select box
+
+
         $lamaran = $query->orderByDesc('created_at')->paginate(3);
 
         if ($lamaran->isEmpty()) {
-            return view('melamar.status', ['lamaran' => $lamaran, 'lokasikota' => $lokasikota, 'message' => 'Belum ada loker tersedia.']);
+            return view('melamar.status', ['lamaran' => $lamaran, 'message' => 'Belum ada loker tersedia.']);
         }
 
-        return view('melamar.status', ['lamaran' => $lamaran, 'lokasikota' => $lokasikota]);
+        return view('melamar.status', ['lamaran' => $lamaran]);
     }
 }

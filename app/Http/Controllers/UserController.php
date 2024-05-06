@@ -55,14 +55,15 @@ class UserController extends Controller
                     $query->whereIn('name', $roles);
                 });
             })
-            ->select('id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d %M %Y') as created_at"), 'document')
-            ->select('id', 'name', 'email', DB::raw("DATE_FORMAT(users.email_verified_at, '%d %M %Y') as email_verified_at"), 'document')
+            ->select('id', 'name', 'email', DB::raw("DATE_FORMAT(created_at, '%d %M %Y') as created_at") , "document")
+            ->select('id', 'name', 'email', DB::raw("DATE_FORMAT(users.email_verified_at, '%d %M %Y') as email_verified_at") , "document")
 
             ->paginate(10);
 
         // Get all roles for the filter dropdown
         $roles = Role::all();
 
+        // dd($users);
 
         return view('users.index', compact('users', 'roles'));
     }
@@ -88,10 +89,9 @@ class UserController extends Controller
     {
         $validatedData = $request->validated();
 
-        // Jika tipe pengguna "Lulusan", simpan dokumen yang diunggah
         $documentPath = null;
         if ($validatedData['user_type'] === 'lulusan' && $request->hasFile('document')) {
-            $documentPath = $request->file('document')->store('documents', 'public');  // Simpan dokumen di folder 'documents'
+            $documentPath = $request->file('document')->store('documents', 'public'); 
         }
 
         // Create the user
@@ -100,7 +100,7 @@ class UserController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'email_verified_at' => now(),
-            'document' => $documentPath,  // Simpan path dokumen
+            'document' => $documentPath,  
         ]);
 
         // Assign roles based on the selected user_type

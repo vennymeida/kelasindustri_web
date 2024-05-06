@@ -1,5 +1,6 @@
 <!-- Modal Rekrut Karyawan oleh Perusahaan -->
-<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+@role('perusahaan') 
+{{-- <div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -11,17 +12,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('create.rekrut', $lulusan->id) }}" class="needs-validation" novalidate=""
-                    enctype="multipart/form-data">
+                <form method="POST" action="{{ route('create.rekrut', $lulusan->id) }}" class="needs-validation"
+                    novalidate="" enctype="multipart/form-data">
                     @csrf
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label for="loker_id">Lowongan Pekerjaan Yang Tersedia</label>
-                            <select class="form-control select2 @error('loker_id') is-invalid @enderror" name="loker_id" id="loker_id">
+                            <select class="form-control select2 @error('loker_id') is-invalid @enderror" name="loker_id"
+                                id="loker_id">
                                 <option value="">Pilih Posisi Pekerjaan</option>
                                 @foreach ($lowonganPekerjaans as $loker)
-                                    <option value="{{$loker->id}}" @selected(old('loker_id') == $loker->id)>
-                                        {{$loker->nama_loker}}
+                                    <option value="{{ $loker->id }}" @selected(old('loker_id') == $loker->id)>
+                                        {{ $loker->nama_loker }}
                                     </option>
                                 @endforeach
                                 {{-- <p>{{$perusahaan}}</p> --}}
@@ -38,7 +40,7 @@
                             <label for="email">Email</label>
                             <input name="email" type="hidden"
                                 class="form-control custom-input @error('email') is-invalid @enderror"
-                                value="{{$lulusan->email}}" placeholder="Email">
+                                value="{{ $lulusan->email }}" placeholder="Email">
                             @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -46,12 +48,12 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row ml-4 mr-4" style="display: none">
+                    <div class="row ml-4 mr-4" style="">
                         <div class="form-group col-md-12 col-12">
                             <label for="user_id">User_id</label>
-                            <input name="user_id" type="hidden"
+                            <input name="user_id" type="text"
                                 class="form-control custom-input @error('user_id') is-invalid @enderror"
-                                value="{{$lulusan->usernomer}}" placeholder="user_id">
+                                value="{{ $lulusan->usernomer }}" placeholder="user_id">
                             @error('user_id')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -125,8 +127,8 @@
             </div>
         </div>
     </div>
-</div>
-
+</div> --}}
+@endrole
 @extends('landing-page.app')
 @section('title', 'JobsKelasIndustri - Profile')
 @section('main')
@@ -149,9 +151,11 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <div class="profile-widget-description ml-4 mr-4 mt-4" style="display: flex; align-items: center;">
+                        <div class="profile-widget-description ml-4 mr-4 mt-4"
+                            style="display: flex; align-items: center;">
                             <div class="flex-grow-1">
-                                <div class="profile-widget-name" style="font-weight: bold; font-size: 22px; color: #000000">
+                                <div class="profile-widget-name"
+                                    style="font-weight: bold; font-size: 22px; color: #000000">
                                     {{ $lulusan->name }}</div>
                                 <div class="profile-widget-name" style="font-weight: light; font-size: 16px;">
                                     {{ $lulusan->email }}</div>
@@ -183,15 +187,24 @@
                                         </div>
                                     @endif
                                 @endif
-                                @role('perusahaan')
-                                    <div>
-                                        <a href="#" class="btn btn-primary"
-                                            style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;"
-                                            data-toggle="modal" data-target="#modal-rekrut-karyawan">
-                                            Rekrut Karyawan
-                                        </a>
-                                    </div>
-                                @endrole
+                                @if (auth()->check())
+                                   
+                                    @hasrole('perusahaan')
+                                      
+                                        <div>
+                                            <a href="#" class="btn btn-primary"
+                                                style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;"
+                                                data-toggle="modal" data-target="#modal-rekrut-karyawan">
+                                                Rekrut Karyawan
+                                            </a>
+                                        </div>
+                                    @else
+                                       
+                                        <div>
+                                            <p>Informasi atau konten lain yang relevan untuk pengguna non-perusahaan.</p>
+                                        </div>
+                                    @endhasrole
+                                @endif
                             </div>
                         </div>
 
