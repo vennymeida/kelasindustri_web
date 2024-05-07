@@ -70,9 +70,9 @@
                     <hr class="my-4">
                     <div class="col-md-11 mx-auto my-5 cardKeahlian">
                         <h5 class="font-weight-bolder">Keahlian : </h5>
-                        {{-- @foreach ($loker_perusahaan->keahlian as $key => $keahlian)
-                            <button class="px-4 mt-2 mr-1 btn btn-skill">{{ $keahlian->keahlian }}</button>
-                        @endforeach --}}
+                        <p class="ml-5 mt-0 text-syarat">
+                            {!! $loker_perusahaan->keahlian !!}
+                        </p>
                     </div>
 
                     <hr class="my-4">

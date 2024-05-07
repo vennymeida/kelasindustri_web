@@ -26,7 +26,8 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"
                                                 style="border-left: none; border-radius: 0px 15px 15px 0px;">
-                                                <i class="fas fa-times-circle" id="clear-nama_loker" style="display: none;"></i>
+                                                <i class="fas fa-times clear-icon" id="clear-nama_loker"
+                                                style="cursor:pointer; display:none;"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -116,12 +117,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const inputsAndIcons = [{
-                inputId: "judul",
-                clearIconId: "clear-judul"
+                inputId: "nama_loker",
+                clearIconId: "clear-nama_loker"
             }, ];
 
             const inputValues = {
-                judul: ""
+                nama_loker: ""
             };
 
             inputsAndIcons.forEach(item => {

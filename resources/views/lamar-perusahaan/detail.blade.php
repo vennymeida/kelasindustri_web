@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form method="POST" action="{{ route('lamar.store', $lamar->id) }}" class="needs-validation" novalidate enctype="multipart/form-data">
                     @csrf
-                    <div class="row ml-4 mr-4" style="display: none"> 
+                    <div class="row ml-4 mr-4" style="display: none">
                         <div class="form-group col-md-12 col-12">
                             <label for="email">email</label>
                             <input name="email" type="hidden" class="form-control custom-input @error('email') is-invalid @enderror" value="{{ $lamar->lulusan->user->email }}" placeholder="Email tujuan">
@@ -234,7 +234,7 @@
 
                                     <hr class="my-4">
                                     <h5 class="font-weight-bolder">Keahlian</h5>
-                                    {{-- @if ($keahlian)
+                                    @if ($keahlian)
                                         <dl class="row">
                                             <dt class="col-sm-3 mt-1">
                                                 @if ($keahlian && $keahlian->count() > 0)
@@ -253,7 +253,7 @@
                                             <img src="{{ asset('assets/img/landing-page/folder.png') }}">
                                             <p class="mt-1 text-not">Tidak Ada Keahlian yang Di Unggah</p>
                                         </div>
-                                    @endif --}}
+                                    @endif
 
                                     <hr class="my-4">
                                     <h5 class="font-weight-bolder">Pengalaman Kerja </h5>

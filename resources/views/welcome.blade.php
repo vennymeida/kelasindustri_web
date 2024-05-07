@@ -17,11 +17,12 @@
                             <div class="form-row">
                                 <div class="form-group col-lg-10 col-md-5 col-sm-5">
                                     <input type="text" name="posisi" class="form-control pencarian" id="posisi"
-                                           placeholder="Ketik posisi pekerjaan..." value="{{ request('posisi') }}" style="border-radius: 25px;">
+                                        placeholder="Ketik posisi pekerjaan..." value="{{ request('posisi') }}"
+                                        style="border-radius: 25px;">
                                 </div>
                                 <div class="form-group col-lg-2 col-md-2 col-md-2">
                                     <button id="search-button" class="btn btn-primary mr-1 px-4" type="submit"
-                                            style="border-radius: 25px;">Cari</button>
+                                        style="border-radius: 25px;">Cari</button>
                                 </div>
                             </div>
                         </form>
@@ -199,14 +200,20 @@
                                             {{ $loker->nama_perusahaan }}
                                         </a>
                                     </div>
-                                    <div class="card-text mt-3">
+                                    <div class="card-text mt-4">
                                         <ul class="list-unstyled ml-2">
                                             <ul class="list-unstyled d-flex justify-content-between">
+                                                <li class="d-flex justify-content-start">
+                                                    <img class="img-fluid img-icon mr-2"
+                                                        src="{{ asset('assets/img/landing-page/list.svg') }}">
+                                                    <p class="mb-2">{{ $loker->tipe_pekerjaan }}</p>
+                                                </li>
                                                 <li class="mb-2">
                                                     @if (auth()->check() && auth()->user()->hasRole('lulusan'))
-                                                        <a href="javascript:void(0);" class="bookmark-icon"
-                                                            data-loker-id="{{ $loker->id }}">
-                                                            <i class="far fa-bookmark" style="font-size: 20px;"></i>
+                                                        <a href="javascript:void(0);"
+                                                            class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
+                                                            <i class="far fa-bookmark"
+                                                                style="font-size: 20px;"></i>
                                                         </a>
                                                     @endif
                                                 </li>
@@ -221,13 +228,14 @@
                                             </li>
                                             <li class="d-flex justify-content-start">
                                                 <img class="img-fluid img-icon mr-2"
-                                                    src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                                                <p class="mb-2">{{ $loker->lokasi }}</p>
+                                                    src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
+                                                <p class="mb-2">{!! $loker->keahlian !!}</p>
                                             </li>
                                             <li class="d-flex justify-content-start">
                                                 <img class="img-fluid img-icon mr-2"
                                                     src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
-                                                <p class="mb-2">{{ $loker->alamat_perusahaan }}
+                                                <p class="mb-2">{{ $loker->lokasi }}
+                                                </p>
                                             </li>
                                         </ul>
                                     </div>
@@ -282,8 +290,8 @@
     <!-- Your existing script includes -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    
-        <script>
+
+    <script>
         $(document).ready(function() {
             $('.bookmark-icon').each(function() {
                 var icon = $(this);
@@ -344,7 +352,6 @@
                 });
             });
         });
-    
     </script>
 @endsection
 

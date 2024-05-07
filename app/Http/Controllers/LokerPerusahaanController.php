@@ -87,9 +87,7 @@ class LokerPerusahaanController extends Controller
 
         if (Auth::user()->hasRole('perusahaan')) {
             if ($perusahaan == null) {
-                return redirect()->route('profile.edit')->with('message', 'Lengkapi data profil dan data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
-            } elseif ($perusahaan == null) {
-                return redirect()->route('profile.edit')->with('message', 'Lengkapi data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
+                return redirect()->route('profile.perusahaan.edit')->with('error', 'Lengkapi data profil dan data perusahaan terlebih dahulu untuk menambahkan lowongan kerja.');
             } else {
                 return view('loker-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults,'perusahaan' => $perusahaan]);
             }
@@ -139,16 +137,20 @@ class LokerPerusahaanController extends Controller
     public function show(LowonganPekerjaan $loker_perusahaan)
     {
         $perusahaan = Perusahaan::all();
-        $updatedDiff = $loker_perusahaan->updated_at->diffInSeconds(now());
+        if ($loker_perusahaan->updated_at) {
+            $updatedDiff = $loker_perusahaan->updated_at->diffInSeconds(now());
 
-        if ($updatedDiff < 60) {
-            $updatedAgo = $updatedDiff . ' detik yang lalu';
-        } elseif ($updatedDiff < 3600) {
-            $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
-        } elseif ($updatedDiff < 86400) {
-            $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
+            if ($updatedDiff < 60) {
+                $updatedAgo = $updatedDiff . ' detik yang lalu';
+            } elseif ($updatedDiff < 3600) {
+                $updatedAgo = floor($updatedDiff / 60) . ' menit yang lalu';
+            } elseif ($updatedDiff < 86400) {
+                $updatedAgo = floor($updatedDiff / 3600) . ' jam yang lalu';
+            } else {
+                $updatedAgo = $loker_perusahaan->updated_at->diffInDays(now()) . ' hari yang lalu';
+            }
         } else {
-            $updatedAgo = $loker_perusahaan->updated_at->diffInDays(now()) . ' hari yang lalu';
+            $updatedAgo = 'No update information';
         }
 
         return view('loker-perusahaan.show', ['loker_perusahaan' => $loker_perusahaan, 'perusahaan' => $perusahaan,'updatedAgo' => $updatedAgo]);

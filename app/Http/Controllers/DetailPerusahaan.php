@@ -30,13 +30,14 @@ class DetailPerusahaan extends Controller
                 'lp.status',
                 'lp.lokasi',
                 'lp.tgl_tutup',
+                'lp.keahlian',
                 'p.nama_pemilik',
                 'p.nama_perusahaan',
                 'p.logo_perusahaan',
             )
             ->where('lp.status', 'dibuka')
             ->orderBy('lp.created_at', 'desc')
-            ->groupBy('p.id','lp.perusahaan_id', 'p.nama_perusahaan', 'p.nama_pemilik', 'lp.nama_loker', 'lp.deskripsi', 'lp.persyaratan', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.kuota', 'lp.status', 'lp.tgl_tutup', 'lp.lokasi','p.nama_pemilik', 'p.logo_perusahaan')
+            ->groupBy('p.id','lp.perusahaan_id', 'p.nama_perusahaan', 'p.nama_pemilik', 'lp.nama_loker', 'lp.deskripsi', 'lp.persyaratan', 'lp.gaji_bawah', 'gaji_atas', 'lp.tipe_pekerjaan', 'lp.kuota', 'lp.status', 'lp.keahlian', 'lp.tgl_tutup', 'lp.lokasi','p.nama_pemilik', 'p.logo_perusahaan')
             ->paginate(10);
 
         return view('detailPerusahaan', ['allResults' => $allResults]);
@@ -64,17 +65,17 @@ class DetailPerusahaan extends Controller
     public function show(Perusahaan $detail)
     {
         $lowonganPekerjaan = DB::table('lokers as lp')
-            ->select('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at',)
+            ->select('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan','lp.keahlian', 'lp.status', 'lp.updated_at',)
             ->where('lp.perusahaan_id', $detail->id)
             ->where('lp.status', 'dibuka')
-            ->groupBy('lp.id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at')
+            ->groupBy('lp.id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan','lp.keahlian', 'lp.status', 'lp.updated_at')
             ->paginate(4);
 
         $lokers = DB::table('lokers as lp')
-            ->select('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at',)
+            ->select('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.keahlian', 'lp.updated_at',)
             ->where('lp.perusahaan_id', $detail->id)
             ->where('lp.status', 'dibuka')
-            ->groupBy('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status', 'lp.updated_at')
+            ->groupBy('lp.perusahaan_id', 'lp.nama_loker', 'lp.deskripsi','lp.gaji_atas', 'lp.gaji_bawah', 'lp.lokasi','lp.tipe_pekerjaan', 'lp.status','lp.keahlian', 'lp.updated_at')
             ->paginate(6);
 
 

@@ -86,15 +86,31 @@
                                                     <td>
                                                         <div class="d-flex justify-content-end">
                                                             @if (is_null($user->email_verified_at))
-                                                                <form action="{{ route('user.verify-email', ['id' => $user->id, 'hash' => sha1($user->email)]) }}" method="POST" class="d-inline-block" id="vel-<?= $user->id ?>">
+                                                                <form
+                                                                    action="{{ route('user.verify-email', ['id' => $user->id, 'hash' => sha1($user->email)]) }}"
+                                                                    method="POST" class="d-inline-block"
+                                                                    id="vel-<?= $user->id ?>">
                                                                     @csrf
-                                                                    <button type="submit" class="btn btn-sm btn-primary ml-2" data-confirm="Verifikasi Data User |Apakah Kamu Yakin Verifikasi ?" data-confirm-yes="submitVeri(<?= $user->id ?>)" data-id="vel-{{ $user->id }}">Verify Email</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-primary ml-2"
+                                                                        data-confirm="Verifikasi Data User |Apakah Kamu Yakin Verifikasi ?"
+                                                                        data-confirm-yes="submitVeri(<?= $user->id ?>)"
+                                                                        data-id="vel-{{ $user->id }}">Verify
+                                                                        Email</button>
                                                                 </form>
                                                             @else
-                                                                <form action="{{ route('user.verify-email', ['id' => $user->id, 'hash' => sha1($user->email)]) }}" method="POST" class="d-inline-block" id="vel-<?= $user->id ?>">
+                                                                <form
+                                                                    action="{{ route('user.verify-email', ['id' => $user->id, 'hash' => sha1($user->email)]) }}"
+                                                                    method="POST" class="d-inline-block"
+                                                                    id="vel-<?= $user->id ?>">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-sm btn-danger ml-2" data-confirm="Verifikasi Data User |Apakah Kamu Yakin Batalkan Verifikasi ?" data-confirm-yes="submitVeri(<?= $user->id ?>)" data-id="vel-{{ $user->id }}">Hapus Verify Email</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-danger ml-2"
+                                                                        data-confirm="Verifikasi Data User |Apakah Kamu Yakin Batalkan Verifikasi ?"
+                                                                        data-confirm-yes="submitVeri(<?= $user->id ?>)"
+                                                                        data-id="vel-{{ $user->id }}">Hapus Verify
+                                                                        Email</button>
                                                                 </form>
                                                             @endif
                                                         </div>
@@ -108,16 +124,6 @@
                                                                 data-target="#detailsModal{{ $user->id }}">
                                                                 <i class="fas fa-eye"></i> Show
                                                             </a>
-                                                            <!-- Move the delete button form here -->
-                                                            <form action="{{ route('user.destroy', $user->id) }}"
-                                                                method="POST" class="ml-2">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button
-                                                                    class="btn btn-sm btn-danger btn-icon confirm-delete">
-                                                                    <i class="fas fa-times"></i> Delete
-                                                                </button>
-                                                            </form>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -137,59 +143,61 @@
     </section>
 
     @foreach ($users as $user)
-    <div class="modal fade" id="detailsModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel{{ $user->id }}" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailsModalLabel{{ $user->id }}">Detail Pengguna</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table">
-                        <tr>
-                            <th>Name Pengguna</th>
-                            <td>{{ $user->name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Email</th>
-                            <td>{{ $user->email }}</td>
-                        </tr>
-                        <tr>
-                            <th>Bergabung Sejak</th>
-                            <td>
-                                @if ($user->email_verified_at)
-                                    {{ date('j F Y', strtotime($user->email_verified_at)) }}
-                                @else
-                                    Akses Ditolak
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Roles</th>
-                            <td>
-                                @foreach ($user->roles as $role)
-                                    {{ $role->name }}
-                                @endforeach
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Bukti Lulusan</th>
-                            <td>
-                                @if ($user->document)
-                                   <a href="{{ $user->document }}" target="_blank">Lihat Dokumen</a><!-- Tautan ke dokumen -->
-                                @else
-                                    Tidak ada dokumen
-                                @endif
-                            </td>
-                        </tr>
-                    </table>
+        <div class="modal fade" id="detailsModal{{ $user->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="detailsModalLabel{{ $user->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailsModalLabel{{ $user->id }}">Detail Pengguna</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tr>
+                                <th>Name Pengguna</th>
+                                <td>{{ $user->name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ $user->email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Bergabung Sejak</th>
+                                <td>
+                                    @if ($user->email_verified_at)
+                                        {{ date('j F Y', strtotime($user->email_verified_at)) }}
+                                    @else
+                                        Akses Ditolak
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Roles</th>
+                                <td>
+                                    @foreach ($user->roles as $role)
+                                        {{ $role->name }}
+                                    @endforeach
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Bukti Lulusan</th>
+                                <td>
+                                    @if ($user->document)
+                                        <a href="{{ Storage::url($user->document) }}" target="_blank">Lihat Dokumen</a>
+                                        <!-- Tautan ke dokumen -->
+                                    @else
+                                        Tidak ada dokumen
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endforeach
+    @endforeach
 
 @endsection
 
@@ -228,7 +236,6 @@
         function submitVeri(id) {
             $('#vel-' + id).submit()
         }
-
     </script>
 @endpush
 

@@ -35,7 +35,7 @@
                                         </li>
                                         <li class="mb-2"><img class="img-fluid img-icon"
                                                 src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                            Minimal {{ $loker->persyaratan }}
+                                            Minimal {{ $loker->keahlian }}
                                         </li>
                                     </ul>
                                 </div>

@@ -10,7 +10,6 @@
                 </a>
             </div>
         </div>
-
         <section>
             <div class="col-md-12 detail-header">
                 <div class="col-md-10 mx-auto">
@@ -45,7 +44,8 @@
                             style="margin-left: 45%;">
                             <img class="img-fluid img-icon mr-1"
                                 src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                            <p class="mb-5 detail-alamat-bottom" style="font-size: 15px;">{{ $detail->alamat_perusahaan }},</p>
+                            <p class="mb-5 detail-alamat-bottom" style="font-size: 15px;">{{ $detail->alamat_perusahaan }},
+                            </p>
                         </li>
                     </ul>
                 </div>
@@ -55,7 +55,8 @@
         <div class="col-md-10 mx-auto">
             <div class="col-md-3">
                 <div class="logo-container">
-                    <img class="img-fluid bg-white mt-4 img-detail" src="{{ asset('storage/' . $detail->logo_perusahaan) }}"
+                    <img class="img-fluid bg-white mt-4 img-detail"
+                        src="{{ asset('storage/' . $detail->logo_perusahaan) }}"
                         style="width: 75%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
                 </div>
             </div>
@@ -75,7 +76,7 @@
             </div>
         </section>
 
-        @if (Auth::guest() || (Auth::check() && Auth::user()->hasRole('Lulusan')))
+        @if (Auth::guest() || (Auth::check() && Auth::user()->hasRole('lulusan')))
             <section>
                 <div class="col-md-12 mt-4 mx-auto d-flex flex-wrap justify-content-center">
                     @foreach ($lokers as $loker)
@@ -83,27 +84,32 @@
                             <div class="card-body d-flex flex-column">
                                 <div class="position-relative">
                                     <div class="gradient-overlay"></div>
-                                    <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                        src="{{ asset('storage/' . $detail->logo_perusahaan) }}" alt="Company Logo">
+                                    @if ($detail->logo_perusahaan && $detail->logo_perusahaan != '')
+                                        <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
+                                            src="{{ asset('storage/' . $detail->logo_perusahaan) }}" alt="Company Logo">
+                                    @else
+                                        <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
+                                            src="{{ asset('assets/img/news/img01.jpg') }}"
+                                            alt="image">
+                                    @endif
                                     <p class="text-white card-title font-weight-bold mb-0 ml-2 overlap-text"
                                         style="font-size: 20px;">
                                         {{ $loker->nama_loker }}
                                     </p>
                                     <a class="text-white ml-2 overlap-text-2" style="font-size: 14px;">
-                                        {{ $detail->nama_loker }}
+                                        {{ $detail->nama_perusahaan }}
                                     </a>
                                 </div>
                                 <div class="card-text mt-4">
                                     <ul class="list-unstyled ml-2">
                                         <ul class="list-unstyled d-flex justify-content-between">
                                             <li class="mb-2">
-                                                {{-- @if (auth()->check() &&
-                                                        auth()->user()->hasRole('lulusan'))
+                                                @if (auth()->check() && auth()->user()->hasRole('lulusan'))
                                                     <a href="javascript:void(0);"
-                                                        class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
+                                                        class="bookmark-icon text-right"data-loker-id="{{ $loker->perusahaan_id }}">
                                                         <i class="far fa-bookmark" style="font-size: 20px;"></i>
                                                     </a>
-                                                @endif --}}
+                                                @endif
                                             </li>
                                         </ul>
                                         <li class="d-flex justify-content-start">
@@ -126,10 +132,10 @@
                                         </li>
                                     </ul>
                                 </div>
-                                @role('Pencari Kerja')
+                                @role('lulusan')
                                     <div class="text-center mb-3">
                                         <a id="detail-button" class="btn btn-primary px-4 py-2" style="border-radius: 25px;"
-                                            href="{{ route('all-jobs.show', $loker->id) }}">Lihat Detail</a>
+                                            href="{{ route('all-jobs.show', $loker->perusahaan_id) }}">Lihat Detail</a>
                                     </div>
                                 @endrole
                             </div>
@@ -163,8 +169,8 @@
                                         <li class="mb-2">
                                             Keahlian : {{ $loker->keahlian }}
                                         </li>
-                                        <a href="{{ route('all-jobs.show', $loker->id) }}" class="mb-2 font-italic"
-                                            style="font-size: 14px">
+                                        <a href="{{ route('all-jobs.show', $loker->perusahaan_id) }}"
+                                            class="mb-2 font-italic" style="font-size: 14px">
                                             Lihat Selengkapnya...
                                         </a>
                                         <ul class="list-unstyled d-flex justify-content-between align-items-center mt-2">

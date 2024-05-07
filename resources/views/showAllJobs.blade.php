@@ -151,17 +151,4 @@
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        function openChatifyChat(user_id) {
-            // Check if Chatify is defined (the Chatify JavaScript library is loaded)
-            if (typeof Chatify === 'object') {
-                // Open a chat with the specified user ID
-                Chatify.openChat(user_id);
-            } else {
-                // Handle the case where Chatify is not defined (library not loaded)
-                console.error('Chatify is not loaded.');
-            }
-        }
-    </script>
 @endsection

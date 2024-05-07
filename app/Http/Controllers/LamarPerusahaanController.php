@@ -74,9 +74,9 @@ class LamarPerusahaanController extends Controller
 
         if (Auth::user()->hasRole('perusahaan')) {
             if ($perusahaan == null) {
-                return redirect()->route('profile-perusahaan.edit')->with('message-data', 'Lengkapi data profil dan data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
+                return redirect()->route('profile.perusahaan.edit')->with('message-data', 'Lengkapi data profil dan data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
             } elseif ($perusahaan == null) {
-                return redirect()->route('profile-perusahaan.edit')->with('message-data', 'Lengkapi data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
+                return redirect()->route('profile.perusahaan.edit')->with('message-data', 'Lengkapi data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
             } else {
                 return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'loker' => $loker]);
             }
@@ -85,7 +85,7 @@ class LamarPerusahaanController extends Controller
         }
     }
 
-   
+
     public function show($id)
     {
         $lamar = Lamar::findOrFail($id);

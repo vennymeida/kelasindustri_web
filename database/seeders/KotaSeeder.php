@@ -31,5 +31,41 @@ class KotaSeeder extends Seeder
         Kota::create([
             'kota' => "Nganjuk",
         ]);
+        Kota::create([
+            'kota' => "Surabaya",
+        ]);
+        Kota::create([
+            'kota' => "Banyuwangi",
+        ]);
+        Kota::create([
+            'kota' => "Yogyakarta",
+        ]);
+        Kota::create([
+            'kota' => "Solo",
+        ]);
+        Kota::create([
+            'kota' => "Semarang",
+        ]);
+        Kota::create([
+            'kota' => "Mojokerto",
+        ]);
+        Kota::create([
+            'kota' => "Pamekasan",
+        ]);
+        Kota::create([
+            'kota' => "Pacitan",
+        ]);
+        Kota::create([
+            'kota' => "Lumajang",
+        ]);
+        Kota::create([
+            'kota' => "Trenggalek",
+        ]);
+        Kota::create([
+            'kota' => "Jakarta",
+        ]);
+        Kota::create([
+            'kota' => "Bandung",
+        ]);
     }
 }

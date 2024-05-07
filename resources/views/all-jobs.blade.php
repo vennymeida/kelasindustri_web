@@ -19,9 +19,8 @@
                                             <i class="fas fa-search ml-2"></i>
                                         </div>
                                     </div>
-                                    <input type="text" name="nama_loker" class="form-control form-jobs" id="nama_loker"
-                                        placeholder="Cari posisi pekerjaan"
-                                        value="{{ app('request')->input('nama_loker') }}">
+                                    <input type="text" name="posisi" class="form-control form-jobs" id="posisi"
+                                        placeholder="Cari posisi pekerjaan" value="{{ app('request')->input('posisi') }}">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text x-form"
                                             style="border-left: none; border-radius: 0px 15px 15px 0px;">
@@ -34,7 +33,7 @@
                                 <div class="input-group">
                                     <select name="lokasi" id="lokasi" class="form-control form-jobs select2">
                                         <option value="" selected>Lokasi</option>
-                                        @if(isset($lokasikota))
+                                        @if (isset($lokasikota))
                                             @foreach ($lokasikota as $key)
                                                 <option value="{{ $key->kota }}"
                                                     @if (request('lokasi') == $key->kota) selected @endif>{{ $key->kota }}
@@ -42,9 +41,9 @@
                                             @endforeach
                                         @endif
                                     </select>
-                                    
+
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="form-group col-md-1">
                                 <button id="search-button" class="btn btn-primary mr-1 px-4 py-2" type="submit"
                                     style="border-radius: 15px;">Cari</button>
@@ -59,102 +58,105 @@
             <div class="col-md-10 mx-auto mt-3">
                 <div class="row">
                     <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}">
-                    <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-loker px-4 py-3">
-                            <p>Tipe Pekerjaan</p>
-                            <label>
-                                <input class="mr-2" type="checkbox" name="tipe[]" id="Onsite" value="Onsite">
-                                Onsite
-                            </label>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-loker px-4 py-3">
+                                    <p>Tipe Pekerjaan</p>
+                                    <label>
+                                        <input class="mr-2" type="checkbox" name="tipe[]" id="Onsite" value="Onsite">
+                                        Onsite
+                                    </label>
+                                    <br>
+                                    <label>
+                                        <input class="mr-2" type="checkbox" name="tipe[]" id="Remote" value="Remote">
+                                        Remote
+                                    </label>
+
+
+                                </div>
+                            </div>
                             <br>
-                            <label>
-                                <input class="mr-2" type="checkbox" name="tipe[]" id="Remote" value="Remote">
-                                Remote
-                            </label>
-                           
-                            
-                    </div>
-                    </div>
-                    <br>
-                        <div class="card">
-                            <div class="card-loker px-4 py-3">
-                                <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}">
-                                <p>Gaji</p>
-                                <label>
-                                    <input class="mr-2" type="checkbox" name="gaji[]" id="less-1jt" value="less-1jt">
-                                    Kurang dari 1 Juta
-                                </label>
-                                <br>
-                                <label>
-                                    <input class="mr-2" type="checkbox" name="gaji[]" id="1jt-5jt" value="1jt-5jt">
-                                    1 - 5 Juta
-                                </label>
-                                <br>
-                                <label>
-                                    <input class="mr-2" type="checkbox" name="gaji[]" id="5jt-10jt" value="5jt-10jt">
-                                    5 - 10 Juta
-                                </label>
-                                <br>
-                                <label>
-                                    <input class="mr-2" type="checkbox" name="gaji[]" id="more-10jt" value="more-10jt">
-                                    Lebih dari 10 Juta
-                                </label>
-                                </form>
+                            <div class="card">
+                                <div class="card-loker px-4 py-3">
+                                    <form id="filterForm" method="GET" action="{{ route('all-jobs.index') }}">
+                                        <p>Gaji</p>
+                                        <label>
+                                            <input class="mr-2" type="checkbox" name="gaji[]" id="less-1jt"
+                                                value="less-1jt">
+                                            Kurang dari 1 Juta
+                                        </label>
+                                        <br>
+                                        <label>
+                                            <input class="mr-2" type="checkbox" name="gaji[]" id="1jt-5jt"
+                                                value="1jt-5jt">
+                                            1 - 5 Juta
+                                        </label>
+                                        <br>
+                                        <label>
+                                            <input class="mr-2" type="checkbox" name="gaji[]" id="5jt-10jt"
+                                                value="5jt-10jt">
+                                            5 - 10 Juta
+                                        </label>
+                                        <br>
+                                        <label>
+                                            <input class="mr-2" type="checkbox" name="gaji[]" id="more-10jt"
+                                                value="more-10jt">
+                                            Lebih dari 10 Juta
+                                        </label>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
                     <div class="col">
                         @role('lulusan')
-                        <div class="col-md-12" id="job-listings-container">
-                            <div class="col-md-9">
-                                <h2>Rekomendasi Pekerjaan Untukmu</h2>
-                            </div>
-                            <div class="col-md-12 mx-auto d-flex flex-wrap" style="gap: 20px">
-                                @if ($allResults->isEmpty())
-                                    <div class="col-md-12 text-center my-4">
-                                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
-                                        <p class="mt-1 text-not">Data tidak tersedia</p>
-                                    </div>
-                                @else
-                                    @foreach ($allResults as $key => $loker)
-                                        <div class="card col-md-5 mb-4">
-                                            <div class="card-body d-flex flex-column">
-                                                <div class="position-relative">
-                                                    <div class="gradient-overlay"></div>
-                                                    {{-- <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                                            src="{{ asset('storage/' . $loker->logo) }}" alt="Company Logo"> --}}
-                                                    <p class="text-black card-title font-weight-bold mb-0 ml-2 overlap-text"
-                                                        style="font-size: 20px;">
-                                                        {{ $loker->nama_loker }}
-                                                    </p>
-                                                    {{-- <p class="ml-2">{{ $loker->name }}</p>
-                                                    {{-- <a class="text-white ml-2 overlap-text-2"
-                                                            href="{{ route('detail-perusahaan.show', $loker->id_perusahaan) }}"
+                            <div class="col-md-12" id="job-listings-container">
+                                <div class="col-md-9">
+                                    <h2>Rekomendasi Pekerjaan Untukmu</h2>
+                                </div>
+                                <div class="col-md-12 mx-auto d-flex flex-wrap" style="gap: 20px">
+                                    @if ($allResults->isEmpty())
+                                        <div class="col-md-12 text-center my-4">
+                                            <img src="{{ asset('assets/img/landing-page/folder.png') }}">
+                                            <p class="mt-1 text-not">Data tidak tersedia</p>
+                                        </div>
+                                    @else
+                                        @foreach ($allResults as $key => $loker)
+                                            <div class="card col-md-5 mb-4">
+                                                <div class="card-body d-flex flex-column">
+                                                    <div class="position-relative">
+                                                        <div class="gradient-overlay"></div>
+                                                        <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
+                                                            src="{{ asset('storage/' . $loker->logo_perusahaan) }}" alt="Company Logo">
+                                                        <p class="text-black card-title font-weight-bold mb-0 ml-2 overlap-text"
+                                                            style="font-size: 20px;">
+                                                            {{ $loker->nama_loker }}
+                                                        </p>
+                                                        <a class="text-white ml-2 overlap-text-2"
+                                                            href="{{ route('detail-perusahaan.show', $loker->perusahaan_id) }}"
                                                             style="font-size: 14px;">
-                                                            {{ $loker->nama }}
-                                                        </a> --}}
-                                                </div>
-                                                <div class="card-text mt-4">
-                                                    <ul class="list-unstyled ml-2">
-                                                        <ul class="list-unstyled d-flex justify-content-between">
+                                                            {{ $loker->nama_perusahaan }}
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-text mt-4">
+                                                        <ul class="list-unstyled ml-2">
+                                                            <ul class="list-unstyled d-flex justify-content-between">
+                                                                <li class="d-flex justify-content-start">
+                                                                    <img class="img-fluid img-icon mr-2"
+                                                                        src="{{ asset('assets/img/landing-page/list.svg') }}">
+                                                                    <p class="mb-2">{{ $loker->tipe_pekerjaan }}</p>
+                                                                </li>
+                                                                <li class="mb-2">
+                                                                    @if (auth()->check() && auth()->user()->hasRole('lulusan'))
+                                                                        <a href="javascript:void(0);"
+                                                                            class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
+                                                                            <i class="far fa-bookmark"
+                                                                                style="font-size: 20px;"></i>
+                                                                        </a>
+                                                                    @endif
+                                                                </li>
+                                                            </ul>
                                                             <li class="d-flex justify-content-start">
-                                                                <img class="img-fluid img-icon mr-2"
-                                                                    src="{{ asset('assets/img/landing-page/list.svg') }}">
-                                                                <p class="mb-2">{{ $loker->tipe_pekerjaan }}</p>
-                                                            </li>
-                                                            <li class="mb-2">
-                                                                @if (auth()->check() && auth()->user()->hasRole('lulusan'))
-                                                                    <a href="javascript:void(0);"
-                                                                        class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
-                                                                        <i class="far fa-bookmark"
-                                                                            style="font-size: 20px;"></i>
-                                                                    </a>
-                                                                @endif
-                                                            </li>
-                                                        </ul>
-                                                        <li class="d-flex justify-content-start">
                                                                 <img class="img-fluid img-icon mr-2"
                                                                     src="{{ asset('assets/img/landing-page/money.svg') }}">
                                                                 <p class="mb-2">{{ 'IDR ' . $loker->gaji_bawah }}
@@ -162,34 +164,34 @@
                                                                     {{ $loker->gaji_atas }}
                                                                 </p>
                                                             </li>
-                                                        <li class="d-flex justify-content-start">
-                                                            <img class="img-fluid img-icon mr-2"
-                                                                src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                                            <p class="mb-2">Minimal {{ $loker->persyaratan }}</p>
-                                                        </li>
-                                                        <li class="d-flex justify-content-start">
-                                                            <img class="img-fluid img-icon mr-2"
-                                                                src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
-                                                            <p class="mb-2">{{ $loker->alamat_perusahaan }},
-                                                            </p>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="text-center">
-                                                    <a id="detail-button" class="btn btn-primary px-4 py-2"
-                                                        style="border-radius: 25px;"
-                                                        href="{{ route('all-jobs.show', $loker->id) }}">Lihat
-                                                        Detail</a>
+                                                            <li class="d-flex justify-content-start">
+                                                                <img class="img-fluid img-icon mr-2"
+                                                                    src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
+                                                                <p class="mb-2">Minimal {{ $loker->persyaratan }}</p>
+                                                            </li>
+                                                            <li class="d-flex justify-content-start">
+                                                                <img class="img-fluid img-icon mr-2"
+                                                                    src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
+                                                                <p class="mb-2">{{ $loker->alamat_perusahaan }},
+                                                                </p>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <a id="detail-button" class="btn btn-primary px-4 py-2"
+                                                            style="border-radius: 25px;"
+                                                            href="{{ route('all-jobs.show', $loker->id) }}">Lihat
+                                                            Detail</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    {{-- {{ $allResults->withQueryString()->links() }} --}}
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                {{-- {{ $allResults->withQueryString()->links() }} --}}
-                            </div>
-                        </div>
                         @endrole
                         {{-- data loker  --}}
                         <div class="col-md-12" id="job-listings-container">
@@ -208,17 +210,17 @@
                                             <div class="card-body d-flex flex-column">
                                                 <div class="position-relative">
                                                     <div class="gradient-overlay"></div>
-                                                    {{-- <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                                            src="{{ asset('storage/' . $loker->logo) }}" alt="Company Logo"> --}}
+                                                    <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
+                                                        src="{{ asset('storage/' . $loker->logo_perusahaan) }}" alt="Company Logo">
                                                     <p class="text-black card-title font-weight-bold mb-0 ml-2 overlap-text"
                                                         style="font-size: 20px;">
                                                         {{ $loker->nama_loker }}
                                                     </p>
-                                                    {{-- <a class="text-white ml-2 overlap-text-2"
-                                                            href="{{ route('detail-perusahaan.show', $loker->id_perusahaan) }}"
-                                                            style="font-size: 14px;">
-                                                            {{ $loker->nama }}
-                                                        </a> --}}
+                                                    <a class="text-white ml-2 overlap-text-2"
+                                                        href="{{ route('detail-perusahaan.show', $loker->perusahaan_id) }}"
+                                                        style="font-size: 14px;">
+                                                        {{ $loker->nama_perusahaan }}
+                                                    </a>
                                                 </div>
                                                 <div class="card-text mt-4">
                                                     <ul class="list-unstyled ml-2">
@@ -239,22 +241,22 @@
                                                             </li>
                                                         </ul>
                                                         <li class="d-flex justify-content-start">
-                                                                <img class="img-fluid img-icon mr-2"
-                                                                    src="{{ asset('assets/img/landing-page/money.svg') }}">
-                                                                <p class="mb-2">{{ 'IDR ' . $loker->gaji_bawah }}
-                                                                    <span>-</span>
-                                                                    {{ $loker->gaji_atas }}
-                                                                </p>
-                                                            </li>
+                                                            <img class="img-fluid img-icon mr-2"
+                                                                src="{{ asset('assets/img/landing-page/money.svg') }}">
+                                                            <p class="mb-2">{{ 'IDR ' . $loker->gaji_bawah }}
+                                                                <span>-</span>
+                                                                {{ $loker->gaji_atas }}
+                                                            </p>
+                                                        </li>
                                                         <li class="d-flex justify-content-start">
                                                             <img class="img-fluid img-icon mr-2"
                                                                 src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                                            <p class="mb-2">Minimal {{ $loker->persyaratan }}</p>
+                                                            <p class="mb-2">{!! $loker->keahlian !!}</p>
                                                         </li>
                                                         <li class="d-flex justify-content-start">
                                                             <img class="img-fluid img-icon mr-2"
                                                                 src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
-                                                            <p class="mb-2">{{ $loker->alamat_perusahaan }},
+                                                            <p class="mb-2">{{ $loker->lokasi }}
                                                             </p>
                                                         </li>
                                                     </ul>
@@ -272,9 +274,8 @@
                             </div>
 
                             <div class="d-flex justify-content-center">
-                                {{-- {{ $tableloker->withQueryString()->links() }} --}}
+                                {{ $tableloker->withQueryString()->links() }}
                             </div>
-
                         </div>
                     </div>
                 </div>

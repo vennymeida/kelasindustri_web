@@ -239,6 +239,7 @@ class AlljobsController extends Controller
                 ->leftJoin('users as u', 'ls.user_id', '=', 'u.id')
                 ->select(
                     'lk.id',
+                    'lk.perusahaan_id',
                     'lk.nama_loker',
                     'lk.persyaratan',
                     'lk.deskripsi',
@@ -315,6 +316,7 @@ class AlljobsController extends Controller
                 ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
                 ->select(
                     'lk.id',
+                    'lk.perusahaan_id',
                     'lk.nama_loker',
                     'lk.persyaratan',
                     'lk.deskripsi',

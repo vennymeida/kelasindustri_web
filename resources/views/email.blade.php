@@ -17,13 +17,10 @@
                             <p style="font-size: 16px; color: #555;">Lowongan Pekerjaan dengan posisi
                                 {{ $getLowonganPekerjaan->nama_loker }}</p>
                             <p style="font-size: 16px; color: #555;">Telah dilamar oleh {{ $getUserId->name }}</p>
-
-                            <!-- Formulir dengan metode GET -->
-                            <a href="http://127.0.0.1:8000/lamarperusahaan/{{ $lamarId }}" target="_blank"
+                            <a href="{{ url('lamarperusahaan/' . $lamarId) }}" target="_blank"
                                 style="background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 25px; margin-bottom: 20px; display: inline-block; cursor: pointer;">
                                 Detail Lamaran
                             </a>
-
                         </td>
                     </tr>
                 </table>

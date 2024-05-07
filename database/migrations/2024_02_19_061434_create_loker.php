@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('perusahaan_id');
             $table->string('nama_loker');
-            $table->string('persyaratan');
-            $table->string('deskripsi');
+            $table->text('persyaratan');
+            $table->text('deskripsi');
             $table->enum('tipe_pekerjaan', ['Remote', 'Onsite']);
             $table->string('keahlian');
             $table->string('lokasi');
