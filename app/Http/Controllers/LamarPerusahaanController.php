@@ -96,7 +96,7 @@ class LamarPerusahaanController extends Controller
         $lamaran->ringkasan = Str::replace(['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'], ['', '', '', "\n", '', '', ''], $lamaran->ringkasan);
         $tglLahir = Carbon::parse($lamaran->tgl_lahir)->format('j F Y');
 
-        $relasiLamar = $lamar->load(['lulusan.user', 'loker.perusahaan']);
+        $relasiLamar = $lamar->load(['lulusan.user', 'loker.perusahaan', 'lulusan.user.keahlians']);
 
         $namaPengguna = $relasiLamar->lulusan->user->name;
         $email = $relasiLamar->lulusan->user->email;
@@ -109,6 +109,7 @@ class LamarPerusahaanController extends Controller
         $pelatihan = $relasiLamar->lulusan->user->pelatihan()->orderBy('created_at', 'desc')->get();
         $judulPekerjaan = $relasiLamar->loker->nama_loker;
         $namaPerusahaan = $relasiLamar->loker->perusahaan->nama_perusahaan;
+        $keahlians = $relasiLamar->lulusan->user->keahlians;
 
         return view('lamar-perusahaan.detail', [
             'tgl_mulai' => $tgl_mulai,
@@ -118,6 +119,7 @@ class LamarPerusahaanController extends Controller
             'resume' => $resume,
             'judulPekerjaan' => $judulPekerjaan,
             'namaPerusahaan' => $namaPerusahaan,
+            'keahlians' => $keahlians,
             'lamar' => $lamar,
             'pendidikan' => $pendidikan,
             'pengalaman' => $pengalaman,

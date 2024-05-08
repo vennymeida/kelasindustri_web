@@ -123,9 +123,9 @@
                                             <br>
                                             <span
                                                 class="py-2 px-4
-                                                    @if ($lamar->status === 'Pending') lamar-warning
-                                                    @elseif ($lamar->status === 'Diterima') lamar-success
-                                                    @elseif ($lamar->status === 'Ditolak') lamar-danger @endif
+                                                    @if ($lamar->status === 'pending') lamar-warning
+                                                    @elseif ($lamar->status === 'diterima') lamar-success
+                                                    @elseif ($lamar->status === 'ditolak') lamar-danger @endif
                                                     "style="border-radius: 25px; font-size: 16px;">
                                                 {{ $lamar->status }}
                                             </span>

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Interview Invitation</title>
+    <title>Undangan Wawancara Kerja</title>
 </head>
 <body>
-    <h1>Hi, {{ $details['name'] }}</h1>
-    <p>You are invited for an interview on {{ $details['date'] }}.</p>
-    <p>Details:</p>
+    <h1>Halo, {{ $details['name'] }}</h1>
+    <p>Anda diundang untuk wawancara pada {{ $details['date'] }}.</p>
+    <p>Rincian:</p>
     <ul>
-        <li>Location: {{ $details['location'] }}</li>
-        <li>Note: {{ $details['catatan'] }}</li>
+        <li>Lokasi: {{ $details['location'] }}</li>
+        <li>Catatan: {{ $details['catatan'] }}</li>
     </ul>
-    <p>Thank you for applying and we look forward to meeting you.</p>
+    <p>Terima kasih atas perhatiannya dan kami menantikan pertemuan dengan Anda.</p>
 </body>
 </html>

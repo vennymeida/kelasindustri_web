@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Undangan Rekomendasi Jalur Dalam</title>
+    <title>Undangan Recruitmen Pekerjaan</title>
 </head>
 <body>
-    <h1>Hi, {{ $details['name'] }}</h1>
-    <p>You are invited for an Undangan Rekomendasi Jalur Dalam on {{ $details['date'] }}.</p>
-    <p>Details:</p>
+    <h1>Hai, {{ $details['name'] }}</h1>
+    <p>Anda diundang untuk mengikuti Test Pekerjaan di {{ $details['perusahaan'] }} pada tanggal {{ $details['date'] }}.</p>
+    <p>Rincian:</p>
     <ul>
-        <li>Lowongan : {{ $details['nama_loker'] }}</li>
-        <li>Location: {{ $details['location'] }}</li>
-        <li>Note: {{ $details['catatan'] }}</li>
+        <li>Lowongan: {{ $details['nama_loker'] }}</li>
+        <li>Lokasi: {{ $details['location'] }}</li>
+        <li>Catatan: {{ $details['catatan'] }}</li>
     </ul>
-    <p>Thank you for applying and we look forward to meeting you.</p>
-    <p>If you have any questions</p>
-    <p>Please contact us at {{ $details['perusahaan'] }}</p>
+    <p>Terima kasih telah mendaftar dan kami berharap dapat bertemu dengan Anda.</p>
 </body>
 </html>

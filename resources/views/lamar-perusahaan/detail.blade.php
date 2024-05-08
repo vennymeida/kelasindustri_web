@@ -1,19 +1,24 @@
-<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header m-4">
-                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah Jadwal Interview / Tes Lanjutan</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah Jadwal
+                    Interview / Tes Lanjutan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('lamar.store', $lamar->id) }}" class="needs-validation" novalidate enctype="multipart/form-data">
+                <form method="POST" action="{{ route('lamar.store', $lamar->id) }}" class="needs-validation" novalidate
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row ml-4 mr-4" style="display: none">
                         <div class="form-group col-md-12 col-12">
                             <label for="email">email</label>
-                            <input name="email" type="hidden" class="form-control custom-input @error('email') is-invalid @enderror" value="{{ $lamar->lulusan->user->email }}" placeholder="Email tujuan">
+                            <input name="email" type="hidden"
+                                class="form-control custom-input @error('email') is-invalid @enderror"
+                                value="{{ $lamar->lulusan->user->email }}" placeholder="Email tujuan">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -22,7 +27,9 @@
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label for="subject">Subject</label>
-                            <input name="subject" type="text" class="form-control custom-input @error('subject') is-invalid @enderror" value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
+                            <input name="subject" type="text"
+                                class="form-control custom-input @error('subject') is-invalid @enderror"
+                                value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
                             @error('subject')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -31,7 +38,9 @@
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
                             <label>Tempat Interview</label>
-                            <input name="tempat_interview" type="text" class="form-control custom-input @error('tempat_interview') is-invalid @enderror" value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
+                            <input name="tempat_interview" type="text"
+                                class="form-control custom-input @error('tempat_interview') is-invalid @enderror"
+                                value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
                             @error('tempat_interview')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -46,7 +55,9 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
-                                <input name="tanggal_interview" type="date" class="form-control custom-input @error('tanggal_interview') is-invalid @enderror" value="{{ old('tanggal_interview') }}">
+                                <input name="tanggal_interview" type="date"
+                                    class="form-control custom-input @error('tanggal_interview') is-invalid @enderror"
+                                    value="{{ old('tanggal_interview') }}">
                                 @error('tanggal_interview')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -54,7 +65,8 @@
                         </div>
                         <div class="form-group col-md-12 col-12">
                             <label>Catatan (Opsional)</label>
-                            <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4" placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
+                            <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4"
+                                placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
                             @error('catatan')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -64,8 +76,10 @@
                 </form>
             </div>
             <div class="modal-footer bg-whitesmoke m-4">
-                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();" style="border-radius: 15px; font-size: 14px">Tambah</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 15px; font-size: 14px">Batal</button>
+                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
+                    style="border-radius: 15px; font-size: 14px">Tambah</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    style="border-radius: 15px; font-size: 14px">Batal</button>
             </div>
         </div>
     </div>
@@ -230,22 +244,16 @@
                                             <p class="mt-1 text-not">Tidak Ada Pendidikan yang Di Unggah</p>
                                         </div>
                                     @endif
-
-
                                     <hr class="my-4">
                                     <h5 class="font-weight-bolder">Keahlian</h5>
-                                    @if ($keahlian)
+                                    @if ($keahlians && $keahlians->count() > 0)
                                         <dl class="row">
                                             <dt class="col-sm-3 mt-1">
-                                                @if ($keahlian && $keahlian->count() > 0)
-                                                    <ul>
-                                                        @foreach ($keahlian as $keahlian)
-                                                            <li>{{ $keahlian->keahlian }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                @else
-                                                    -
-                                                @endif
+                                                <ul>
+                                                    @foreach ($keahlians as $keahlian)
+                                                        <li>{{ $keahlian->keahlian }}</li>
+                                                    @endforeach
+                                                </ul>
                                             </dt>
                                         </dl>
                                     @else
@@ -254,6 +262,7 @@
                                             <p class="mt-1 text-not">Tidak Ada Keahlian yang Di Unggah</p>
                                         </div>
                                     @endif
+
 
                                     <hr class="my-4">
                                     <h5 class="font-weight-bolder">Pengalaman Kerja </h5>

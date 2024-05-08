@@ -30,7 +30,7 @@ class PortofolioController extends Controller
         // Validasi input
         $request->validate([
             'nama_portofolio' => 'required|string|max:255',
-            'link_portofolio' => 'required|url|max:255',
+            'link_portofolio' => 'nullable|url|max:255',
         ]);
 
         $portofolio = new Portofolio([
@@ -54,13 +54,24 @@ class PortofolioController extends Controller
 
     public function update(Request $request, Portofolio $portofolio)
     {
+
+        $rules = [
+            'nama_portofolio' => 'required|string|max:255',
+            'link_portofolio' => 'nullable|url|max:255',
+        ];
+
+
+        $validatedData = $request->validate($rules);
+
         try {
-            $portofolio->update($request->all());
+
+            $portofolio->update($validatedData);
             return response()->json(['success' => true, 'message' => 'Portofolio berhasil diperbarui.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
+
 
     public function destroy(Portofolio $portofolio)
     {

@@ -17,7 +17,7 @@
                         <ul class="list-unstyled d-flex justify-content-start title-detail">
                             <li class="col-md-4 d-flex justify-content-start mr-5 mt-3">
                                 <img class="img-fluid img-icon mr-2" src="{{ asset('assets/img/landing-page/phone.svg') }}">
-                                <p class="mb-3 detail-left" style="font-size: 15px;">{{ $detail->no_hp }} </p>
+                                <p class="mb-3 detail-left" style="font-size: 15px;">{{ $detail->no_telp }} </p>
                             </li>
                             <li class="col-md-8 mt-3 detail-right">
                                 <h5 class="font-weight-bolder">{{ $detail->nama_perusahaan }} </h5>
@@ -55,9 +55,15 @@
         <div class="col-md-10 mx-auto">
             <div class="col-md-3">
                 <div class="logo-container">
-                    <img class="img-fluid bg-white mt-4 img-detail"
-                        src="{{ asset('storage/' . $detail->logo_perusahaan) }}"
-                        style="width: 75%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
+                    @if (Auth::user()->perusahaan && Auth::user()->perusahaan->logo_perusahaan != '')
+                    <img class="img-fluid bg-white mt-4 img-detail-profile"
+                    src="{{ asset('storage/' . Auth::user()->perusahaan->logo_perusahaan) }}"
+                        style="width: 100%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
+                @else
+                    <img class="img-fluid bg-white mt-4 img-detail-profile"
+                        src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                        style="width: 80%; background: linear-gradient(to bottom, rgb(196, 204, 213, 0.2), rgb(196, 204, 213, 0.7)); border-radius: 30px;">
+                @endif
                 </div>
             </div>
         </div>
@@ -89,7 +95,7 @@
                                             src="{{ asset('storage/' . $detail->logo_perusahaan) }}" alt="Company Logo">
                                     @else
                                         <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                            src="{{ asset('assets/img/news/img01.jpg') }}"
+                                            src="{{ asset('assets/img/avatar/avatar-1.png') }}"
                                             alt="image">
                                     @endif
                                     <p class="text-white card-title font-weight-bold mb-0 ml-2 overlap-text"

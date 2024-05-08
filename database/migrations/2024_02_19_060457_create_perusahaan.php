@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('kota_id');
             $table->string('nama_pemilik');
-            $table->string('surat_mou');
+            $table->string('surat_mou')->nullable();
             $table->string('nama_perusahaan');
             $table->string('logo_perusahaan')->nullable();
             $table->string('email_perusahaan');

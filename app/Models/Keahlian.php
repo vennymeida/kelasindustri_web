@@ -13,4 +13,13 @@ class Keahlian extends Model
         'user_id',
         'keahlian',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function lulusan()
+    {
+        return $this->belongsTo(Lulusan::class, 'user_id');
+    }
 }

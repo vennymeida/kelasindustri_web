@@ -58,7 +58,7 @@
                                                     class="form-control custom-input @error('name', 'updateProfileInformation')
                                                 is-invalid
                                                 @enderror"
-                                                    value="{{ Auth::user()->name }}" placeholder="Masukkan nama anda">
+                                                    value="{{ $perusahaan->name }}" placeholder="Masukkan nama anda">
                                                 @error('name', 'updateProfileInformation')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -71,7 +71,7 @@
                                                     class="form-control custom-input @error('email', 'updateProfileInformation')
                                                 is-invalid
                                                 @enderror"
-                                                    value="{{ Auth::user()->email }}" placeholder="Masukkan email anda">
+                                                    value="{{ $perusahaan->email }}" placeholder="Masukkan email anda">
                                                 @error('email', 'updateProfileInformation')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -174,12 +174,23 @@
                                         @csrf
                                         @method('PUT')
                                         <div class="form-group col-md-12 col-12">
-                                            <label>Nama Pemilik Perusahaan</label>
-                                            <input name="pemilik" type="text"
-                                                class="form-control custom-input @error('pemilik') is-invalid @enderror"
-                                                value="{{ Auth::user()->perusahaan->nama_pemilik }}"
+                                            <input name="user_id" type="hidden" id="user_id"
+                                                class="form-control custom-input @error('user_id') is-invalid @enderror"
+                                                value="{{ $perusahaan->userId }}"
                                                 placeholder="Masukkan nama pemilik perusahaan">
-                                            @error('pemilik')
+                                            @error('user_id')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-12 col-12">
+                                            <label>Nama Pemilik Perusahaan</label>
+                                            <input name="nama_pemilik" type="text" id="nama_pemilik"
+                                                class="form-control custom-input @error('nama_pemilik') is-invalid @enderror"
+                                                value="{{ $perusahaan->nama_pemilik }}"
+                                                placeholder="Masukkan nama pemilik perusahaan">
+                                            @error('nama_pemilik')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -189,7 +200,7 @@
                                             <label>Nama Perusahaan</label>
                                             <input name="nama_perusahaan" type="text"
                                                 class="form-control custom-input @error('nama_perusahaan') is-invalid @enderror"
-                                                value="{{ Auth::user()->perusahaan->nama_perusahaan }}"
+                                                value="{{ $perusahaan->nama_perusahaan }}"
                                                 placeholder="Masukkan nama perusahaan">
                                             @error('nama_perusahaan')
                                                 <div class="invalid-feedback">
@@ -201,7 +212,7 @@
                                             <label for="alamat_perusahaan">Alamat Perusahaan</label>
                                             <textarea name="alamat_perusahaan" id="alamat_perusahaan"
                                                 class="text-loker form-control @error('alamat_perusahaan') is-invalid @enderror" rows="3" type="text"
-                                                style="height: 100px;" placeholder="Masukkan alamat perusahaan">{{ Auth::user()->perusahaan->alamat_perusahaan }}</textarea>
+                                                style="height: 100px;" placeholder="Masukkan alamat perusahaan">{{ $perusahaan->alamat_perusahaan }}</textarea>
                                             @error('alamat_perusahaan')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -236,7 +247,7 @@
                                                 </div>
                                                 <input name="email_perusahaan" type="text"
                                                     class="form-control custom-input email @error('email_perusahaan') is-invalid @enderror"
-                                                    value="{{ Auth::user()->perusahaan->email_perusahaan }}"
+                                                    value="{{ $perusahaan->email_perusahaan }}"
                                                     placeholder="Masukkan email perusahaan">
                                                 @error('email_perusahaan')
                                                     <div class="invalid-feedback">
@@ -255,7 +266,7 @@
                                                 </div>
                                                 <input name="website" type="text"
                                                     class="form-control custom-input website @error('website') is-invalid @enderror"
-                                                    value="{{ Auth::user()->perusahaan->website }}"
+                                                    value="{{ $perusahaan->website }}"
                                                     placeholder="Masukkan website perusahaan">
                                                 @error('website')
                                                     <div class="invalid-feedback">
@@ -274,7 +285,7 @@
                                                 </div>
                                                 <input name="no_telp" type="number"
                                                     class="form-control phone-number custom-input @error('no_telp') is-invalid @enderror"
-                                                    value="{{ Auth::user()->perusahaan->no_telp }}"
+                                                    value="{{ $perusahaan->no_telp }}"
                                                     placeholder="Contoh: 08...">
                                                 @error('no_telp')
                                                     <div class="invalid-feedback">
@@ -324,11 +335,11 @@
                                         </div>
                                         <div class="row col-12 mb-4">
                                             <div class="form-group col-md-6">
-                                                @if (Auth::user()->perusahaan->logo_perusahaan != '')
+                                                @if ($perusahaan->logo_perusahaan != '')
                                                     <div>
                                                         <a href="#" class="btn btn-sm btn-warning btn-icon"
                                                             data-toggle="modal" data-target="#logoPreviewModal"
-                                                            data-pdf="{{ Storage::url(Auth::user()->perusahaan->logo_perusahaan) }}"
+                                                            data-pdf="{{ Storage::url($perusahaan->logo_perusahaan) }}"
                                                             style="border-radius: 15px;">
                                                             <i class="fas fa-eye mt-6"></i> Lihat Logo
                                                         </a>
@@ -336,9 +347,9 @@
                                                 @endif
                                             </div>
                                             <div class="form-group col-md-6">
-                                                @if (Auth::user()->perusahaan && Auth::user()->perusahaan->surat_mou != '')
+                                                @if ($perusahaan && $perusahaan->surat_mou != '')
                                                     <div>
-                                                        <a href="{{ Storage::url(Auth::user()->perusahaan->surat_mou) }}"
+                                                        <a href="{{ Storage::url($perusahaan->surat_mou) }}"
                                                             onclick="return openResume();" target="_blank"
                                                             class="btn btn-sm btn-warning btn-icon"
                                                             style="border-radius:15px;"><i class="fas fa-eye mt-6"></i>

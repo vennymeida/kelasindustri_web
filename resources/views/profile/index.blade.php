@@ -928,7 +928,7 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger ml-2"
                                                 style="font-size: 14px;">
-                                                <i class="fas fa-trash"></i> <!-- Ganti dengan kelas ikon yang sesuai -->
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                     </div>
@@ -2404,7 +2404,7 @@
                     },
                     link_portofolio: {
                         required: "Link Portofolio tidak boleh kosong",
-                        url: "Masukkan URL yang valid",
+                        // url: "Masukkan URL yang valid",
                         maxlength: "Link Portofolio melebihi batas maksimal"
                     },
                 },
@@ -2439,37 +2439,44 @@
                 }
             });
 
-            // Fungsi untuk membuka modal edit
-            function openEditModal(portofolioId) {
-                var editUrl = "{{ route('portofolio.edit', ['portofolio' => '_id']) }}".replace('_id',
-                    portofolioId);
-                var updateUrl = "{{ route('portofolio.update', ['portofolio' => '_id']) }}".replace('_id',
-                    portofolioId);
+           // Assuming you have a modal with the ID 'modal-edit-portofolio'
+var editModal = $('#modal-edit-portofolio');
 
-                $('#modal-edit-portofolio-form').attr('action', updateUrl);
+// Function to open the edit modal
+function openEditModal(portofolioId) {
+    var editUrl = "{{ route('portofolio.edit', ['portofolio' => '_id']) }}".replace('_id', portofolioId);
+    var updateUrl = "{{ route('portofolio.update', ['portofolio' => '_id']) }}".replace('_id', portofolioId);
 
-                $.ajax({
-                    url: editUrl,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#modal-edit-portofolio input[name="nama_portofolio"]').val(data
-                            .nama_portofolio);
-                        $('#modal-edit-portofolio input[name="link_portofolio"]').val(data
-                            .link_portofolio);
+    // Set the form action to the update URL
+    $('#modal-edit-portofolio-form').attr('action', updateUrl);
 
-                        editModal.modal('show');
-                    }
-                });
-            }
 
-            // Event handler untuk memicu modal edit
+    $.ajax({
+        url: editUrl,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+
+            $('#modal-edit-portofolio input[name="nama_portofolio"]').val(data.nama_portofolio);
+            $('#modal-edit-portofolio input[name="link_portofolio"]').val(data.link_portofolio);
+
+
+            editModal.modal('show');
+        },
+        error: function(xhr, status, error) {
+
+            console.error("Error: " + status + " " + error);
+        }
+    });
+}
+
+
             $('#portofolio-container').on('click', '.modal-edit-trigger-portofolio', function() {
                 var portofolioId = $(this).data('id');
                 openEditModal(portofolioId);
             });
 
-            // Tombol untuk menyimpan perubahan pada portofolio
+
             $('#modal-save-button-portofolio').on('click', function() {
                 var form = $('#modal-edit-portofolio-form');
 
@@ -2479,7 +2486,7 @@
 
                     $.ajax({
                         url: form.attr('action'),
-                        type: 'POST', // Gunakan POST karena formulir memiliki @method('PUT')
+                        type: 'POST',
                         data: formData,
                         contentType: false,
                         processData: false,

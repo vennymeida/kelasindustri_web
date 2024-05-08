@@ -19,7 +19,7 @@ class Perusahaan extends Model
         'email_perusahaan',
         'alamat_perusahaan',
         'deskripsi',
-        'no_hp',
+        'no_telp',
         'website',
         'status',
     ];
