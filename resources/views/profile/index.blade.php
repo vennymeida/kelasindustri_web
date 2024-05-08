@@ -1078,7 +1078,7 @@
                                     </div>
                                     <ul class="list-unstyled ml-2">
                                         <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Hourglass.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tipe }}
+                                                src="{{ asset('assets/img/landing-page/hourglass.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tipe }}
                                         </li>
                                         <li class="mb-2"><img class="img-fluid"
                                                 src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tgl_mulai }}
