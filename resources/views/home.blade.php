@@ -24,11 +24,11 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total Pencari Kerja</h4>
+                                    <h4>Total Lulusan</h4>
                                 </div>
-                                {{-- <div class="card-body">
-                                    {{ App\Models\ProfileUser::whereNotNull('resume')->count() }}
-                                </div> --}}
+                                <div class="card-body">
+                                    {{ App\Models\Lulusan::count() }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                     <h4>Total Lamaran</h4>
                                 </div>
                                 <div class="card-body">
-                                    {{ App\Models\lamar::count() }}
+                                    {{ App\Models\Lamar::count() }}
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                               
+
                                 <canvas id="lineChart" height="100"></canvas>
                             </div>
                         </div>
@@ -192,7 +192,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return value.toLocaleString("id-ID"); 
+                                return value.toLocaleString("id-ID");
                             },
                         },
                     },
@@ -227,7 +227,7 @@
         }
     });
 
-    console.log(dataSets); 
+    console.log(dataSets);
 
     const lineChart = new Chart(ctxLine, {
         type: 'line',

@@ -229,7 +229,7 @@ class AlljobsController extends Controller
                 }
             });
 
-            $today = Carbon::today();
+            $currentDate = Carbon::now();
             $userId = Auth::id();
             $allResults = DB::table('rekomendasilowongans as rks')
                 ->leftJoin('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
@@ -273,6 +273,7 @@ class AlljobsController extends Controller
                 })
                 ->where('lk.status', 'dibuka')
                 ->where('ls.user_id', '=', $userId)
+                ->where('lk.tgl_tutup', '>=', $currentDate)
                 ->where('rks.score_similarity_lulusan', '>', 0)
                 ->where('rks.score_similarity_keahlian', '>', 0);
 
@@ -342,6 +343,7 @@ class AlljobsController extends Controller
                 ->when($request->input('lokasi'), function ($query, $lokasi) {
                     return $query->where('lk.lokasi', $lokasi);
                 })
+                ->where('lk.tgl_tutup', '>=', $currentDate)
                 ->where('lk.status', 'dibuka');
             if ($request->has('posisi') && !empty($request->posisi)) {
                 $tableloker->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');

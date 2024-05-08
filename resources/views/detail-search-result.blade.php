@@ -1,6 +1,5 @@
 <!-- Modal Rekrut Karyawan oleh Perusahaan -->
-@role('perusahaan') 
-{{-- <div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -48,10 +47,10 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row ml-4 mr-4" style="">
+                    <div class="row ml-4 mr-4" style="display:none">
                         <div class="form-group col-md-12 col-12">
                             <label for="user_id">User_id</label>
-                            <input name="user_id" type="text"
+                            <input name="user_id" type="hidden"
                                 class="form-control custom-input @error('user_id') is-invalid @enderror"
                                 value="{{ $lulusan->usernomer }}" placeholder="user_id">
                             @error('user_id')
@@ -127,8 +126,8 @@
             </div>
         </div>
     </div>
-</div> --}}
-@endrole
+</div>
+
 @extends('landing-page.app')
 @section('title', 'JobsKelasIndustri - Profile')
 @section('main')
@@ -188,9 +187,9 @@
                                     @endif
                                 @endif
                                 @if (auth()->check())
-                                   
+
                                     @hasrole('perusahaan')
-                                      
+
                                         <div>
                                             <a href="#" class="btn btn-primary"
                                                 style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;"
@@ -199,7 +198,7 @@
                                             </a>
                                         </div>
                                     @else
-                                       
+
                                         <div>
                                             <p>Informasi atau konten lain yang relevan untuk pengguna non-perusahaan.</p>
                                         </div>

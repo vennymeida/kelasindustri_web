@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'JobKelasIndustri'),
 
     /*
     |--------------------------------------------------------------------------
@@ -180,7 +180,7 @@ return [
         App\Providers\FortifyServiceProvider::class,
         //spatie
         Spatie\Permission\PermissionServiceProvider::class,
-        
+
 
     ],
 

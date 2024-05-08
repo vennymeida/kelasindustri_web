@@ -173,7 +173,8 @@
                                         class="needs-validation" novalidate="" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
-                                        <div class="form-group col-md-12 col-12">
+                                        <div class="form-group col-md-12 col-12" style="display: none">
+                                            <label>User ID</label>
                                             <input name="user_id" type="hidden" id="user_id"
                                                 class="form-control custom-input @error('user_id') is-invalid @enderror"
                                                 value="{{ $perusahaan->userId }}"
@@ -285,8 +286,7 @@
                                                 </div>
                                                 <input name="no_telp" type="number"
                                                     class="form-control phone-number custom-input @error('no_telp') is-invalid @enderror"
-                                                    value="{{ $perusahaan->no_telp }}"
-                                                    placeholder="Contoh: 08...">
+                                                    value="{{ $perusahaan->no_telp }}" placeholder="Contoh: 08...">
                                                 @error('no_telp')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
