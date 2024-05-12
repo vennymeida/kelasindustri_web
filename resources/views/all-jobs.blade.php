@@ -127,16 +127,21 @@
                                                     <div class="position-relative">
                                                         <div class="gradient-overlay"></div>
                                                         <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                                            src="{{ asset('storage/' . $loker->logo_perusahaan) }}" alt="Company Logo">
+                                                            src="{{ asset('storage/' . $loker->logo_perusahaan) }}"
+                                                            alt="Company Logo">
                                                         <p class="text-black card-title font-weight-bold mb-0 ml-2 overlap-text"
                                                             style="font-size: 20px;">
                                                             {{ $loker->nama_loker }}
                                                         </p>
                                                         <a class="text-white ml-2 overlap-text-2"
-                                                            href="{{ route('detail-perusahaan.show', $loker->perusahaan_id) }}"
+                                                            @if (auth()->check()) href="{{ route('detail-perusahaan.show', $loker->perusahaan_id) }}"
+                                                            @else
+                                                            href="#"
+                                                            onclick="alert('Anda harus login untuk melihat detail perusahaan.')" @endif
                                                             style="font-size: 14px;">
                                                             {{ $loker->nama_perusahaan }}
                                                         </a>
+
                                                     </div>
                                                     <div class="card-text mt-4">
                                                         <ul class="list-unstyled ml-2">
@@ -172,7 +177,7 @@
                                                             <li class="d-flex justify-content-start">
                                                                 <img class="img-fluid img-icon mr-2"
                                                                     src="{{ asset('assets/img/landing-page/Office Building.svg') }}">
-                                                                <p class="mb-2">{{ $loker->alamat_perusahaan }},
+                                                                <p class="mb-2">{{ $loker->lokasi }}
                                                                 </p>
                                                             </li>
                                                         </ul>
@@ -211,7 +216,8 @@
                                                 <div class="position-relative">
                                                     <div class="gradient-overlay"></div>
                                                     <img class="img-fluid mb-3 fixed-height-image position-absolute top-0 start-50 translate-middle-x"
-                                                        src="{{ asset('storage/' . $loker->logo_perusahaan) }}" alt="Company Logo">
+                                                        src="{{ asset('storage/' . $loker->logo_perusahaan) }}"
+                                                        alt="Company Logo">
                                                     <p class="text-black card-title font-weight-bold mb-0 ml-2 overlap-text"
                                                         style="font-size: 20px;">
                                                         {{ $loker->nama_loker }}

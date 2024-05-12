@@ -46,10 +46,9 @@ class NavigationController extends Controller
 
             $perusahaan = Perusahaan::where('user_id', $idPerusahaan->id)->first();
             $lokers = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)
-            ->where('status', 'dibuka')
-            ->get();
+                ->where('status', 'dibuka')
+                ->get();
 
-           
             $lulusan = DB::table('users')
                 ->leftJoin('lulusans', 'users.id', '=', 'lulusans.user_id')
                 ->leftJoin('pendidikans', 'users.id', '=', 'pendidikans.user_id')
@@ -91,20 +90,14 @@ class NavigationController extends Controller
                 ->where('users.id', '=', $user->id)
                 ->first();
 
-
             $userPosts = Postingan::where('user_id', $user->id)->paginate(3);
-
-
             $pendidikan = Pendidikan::where('user_id', $user->id)->paginate(3);
-
-
             $pengalaman = Pengalaman::where('user_id', $user->id)->paginate(3);
-
-
             $pelatihan = Pelatihan::where('user_id', $user->id)->paginate(3);
 
-            return view('detail-search-result',(['lulusan' => $lulusan, 'userPosts' => $userPosts, 'pendidikan' => $pendidikan, 'pengalaman' => $pengalaman, 'pelatihan' => $pelatihan, 'lokers'=> $lokers]));
+            return view('detail-search-result', compact('lulusan', 'userPosts', 'pendidikan', 'pengalaman', 'pelatihan', 'lokers'));
         } else {
+            // code for non-perusahaan role
             $lulusan = DB::table('users')
                 ->leftJoin('lulusans', 'users.id', '=', 'lulusans.user_id')
                 ->leftJoin('pendidikans', 'users.id', '=', 'pendidikans.user_id')
@@ -145,21 +138,14 @@ class NavigationController extends Controller
                 )
                 ->where('users.id', '=', $user->id)
                 ->first();
+
             $userPosts = Postingan::where('user_id', $user->id)->paginate(3);
-
             $pendidikan = Pendidikan::where('user_id', $user->id)->paginate(3);
-            $idPerusahaan = auth()->user();
-            $perusahaan = Perusahaan::where('user_id', $idPerusahaan->id)->first();
-            $lokers = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)
-            ->where('status', 'dibuka')
-            ->get();
-
             $pengalaman = Pengalaman::where('user_id', $user->id)->paginate(3);
-
-
             $pelatihan = Pelatihan::where('user_id', $user->id)->paginate(3);
+            $lokers = LowonganPekerjaan::where('status', 'dibuka')->get();
 
-            return view('detail-search-result', compact('lulusan', 'userPosts', 'pendidikan', 'pengalaman', 'pelatihan', 'lokers', 'perusahaan'));
+            return view('detail-search-result', compact('lulusan', 'userPosts', 'pendidikan', 'pengalaman', 'pelatihan', 'lokers'));
         }
     }
 }

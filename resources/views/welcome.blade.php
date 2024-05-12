@@ -195,10 +195,13 @@
                                             {{ $loker->nama_loker }}
                                         </p>
                                         <a class="text-white ml-2 overlap-text-2"
-                                            href="{{ route('detail-perusahaan.show', $loker->perusahaan_id) }}"
+                                            @if (auth()->check()) href="{{ route('detail-perusahaan.show', $loker->perusahaan_id) }}"
+                                            @else
+                                            href="#" onclick="alert('Anda harus login untuk melihat detail perusahaan.')" @endif
                                             style="font-size: 14px;">
                                             {{ $loker->nama_perusahaan }}
                                         </a>
+
                                     </div>
                                     <div class="card-text mt-4">
                                         <ul class="list-unstyled ml-2">
@@ -212,8 +215,7 @@
                                                     @if (auth()->check() && auth()->user()->hasRole('lulusan'))
                                                         <a href="javascript:void(0);"
                                                             class="bookmark-icon text-right"data-loker-id="{{ $loker->id }}">
-                                                            <i class="far fa-bookmark"
-                                                                style="font-size: 20px;"></i>
+                                                            <i class="far fa-bookmark" style="font-size: 20px;"></i>
                                                         </a>
                                                     @endif
                                                 </li>

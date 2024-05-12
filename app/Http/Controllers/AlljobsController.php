@@ -248,6 +248,7 @@ class AlljobsController extends Controller
                     'lk.tipe_pekerjaan',
                     'lk.tgl_tutup',
                     'lk.kuota',
+                    'lk.lokasi',
                     'lk.status',
                     'lk.keahlian as keahlian_loker',
                     'ps.nama_pemilik',
