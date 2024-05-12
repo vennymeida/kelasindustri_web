@@ -32,7 +32,7 @@ class CreateNewUser implements CreatesNewUsers
                 'unique:users',
             ],
             'password' => $this->passwordRules(),
-            'user_type' => ['required', Rule::in(['lulusan', 'perusahaan'])],
+            // 'user_type' => ['required', Rule::in(['lulusan', 'perusahaan'])],
             'document' => [
                 'nullable',  // Bisa kosong jika bukan lulusan
                 'file',  // Harus berupa file

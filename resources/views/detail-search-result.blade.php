@@ -1,3 +1,4 @@
+@role('perusahaan')
 <!-- Modal Rekrut Karyawan oleh Perusahaan -->
 <div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -20,7 +21,7 @@
                             <select class="form-control select2 @error('loker_id') is-invalid @enderror" name="loker_id"
                                 id="loker_id">
                                 <option value="">Pilih Posisi Pekerjaan</option>
-                                @foreach ($lowonganPekerjaans as $loker)
+                                @foreach ($lokers as $loker)
                                     <option value="{{ $loker->id }}" @selected(old('loker_id') == $loker->id)>
                                         {{ $loker->nama_loker }}
                                     </option>
@@ -127,6 +128,7 @@
         </div>
     </div>
 </div>
+@endrole
 
 @extends('landing-page.app')
 @section('title', 'JobsKelasIndustri - Profile')
@@ -200,7 +202,7 @@
                                     @else
 
                                         <div>
-                                            <p>Informasi atau konten lain yang relevan untuk pengguna non-perusahaan.</p>
+                                            <p></p>
                                         </div>
                                     @endhasrole
                                 @endif

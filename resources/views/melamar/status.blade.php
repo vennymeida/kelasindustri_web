@@ -98,29 +98,30 @@
                                     <h5 class="media-title">
                                         <strong>{{ $lamar->loker->nama_loker }}</strong>
                                     </h5>
-                                    <h5 class="mb-4">{{ $lamar->loker->perusahaan->nama_pemilik }}</h5>
+                                    <h5 class="mb-4">{{ $lamar->loker->perusahaan->nama_perusahaan }}</h5>
                                     <div class="d-flex align-items-center justify-content-start mb-2 data-pelamar">
                                         <div class="d-flex align-items-center col-6 mb-2">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/job.svg') }}">
-                                            <span>{{ $lamar->loker->persyaratan }}</span>
+                                            <span>{{ $lamar->loker->keahlian }}</span>
                                         </div>
                                         <div class="d-flex align-items-center col-6">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/money.svg') }}">
-                                            <span>IDR {{ $lamar->loker->gaji }}</span>
+                                                <span>IDR {{ $lamar->loker->gaji_bawah }} -
+                                                    {{ $lamar->loker->gaji_atas }}</span>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-start mb-2 data-pelamar">
                                         <div class="d-flex align-items-left col-6 mb-2">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/Graduation Cap.svg') }}">
-                                            <span>{{ $lamar->loker->min_persyaratan }}</span>
+                                            <span>{{ $lamar->loker->tipe_pekerjaan }}</span>
                                         </div>
                                         <div class="d-flex align-items-center col-6">
                                             <img class="img-fluid img-icon mr-2"
                                                 src="{{ asset('assets/img/landing-page/location pin.svg') }}">
-                                            <span>{{ $lamar->loker->perusahaan->alamat_perusahaan }}</span>
+                                            <span>{{ $lamar->loker->perusahaan->kota->kota }}</span>
                                         </div>
                                     </div>
                                     <small class="text-muted">

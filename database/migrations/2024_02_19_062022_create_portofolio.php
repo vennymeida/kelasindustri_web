@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('link_portofolio')->nullable();
             $table->string('nama_portofolio');
+            $table->string('dokumen_portofolio')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->timestamps();
         });

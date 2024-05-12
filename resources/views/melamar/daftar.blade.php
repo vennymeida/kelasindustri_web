@@ -50,12 +50,12 @@
                                 @csrf
                                 <h6 class="mb-3">CV / Resume *</h6>
                                 <div class="d-flex flex-column align-items-center">
-                                    @if (auth()->user() && auth()->user()->resume)
+                                    @if (auth()->user()->lulusan && auth()->user()->lulusan->resume)
                                         <img id="fileIcon" src="{{ asset('assets/img/lamar/file2.svg') }}"
                                             alt="Upload Icon" class="img-fluid img-icon"
                                             style="width: 50px; height: 50px;">
                                         <span class="mb-2" id="current-resume-name"
-                                            data-url="{{ Storage::url(auth()->user()->resume ?? '') }}">{{ basename(auth()->user()->resume) }}</span>
+                                            data-url="{{ Storage::url(auth()->user()->lulusan->resume ?? '') }}">{{ basename(auth()->user()->resume) }}</span>
                                         <a href="#" id="viewResumeLink" onclick="return openResume();"
                                             class="btn btn-link mb-2">View Current Resume</a>
                                         <small class="text-muted mb-2">Unggah berkas dalam format PDF (maksimal

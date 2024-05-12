@@ -98,14 +98,10 @@ class ProfilePerusahaanController extends Controller
         }
 
 
-        $perusahaan = Perusahaan::first();
-        if ($perusahaan) {
-            $perusahaan->update($validatedData);
-        } else {
-            $perusahaan = Perusahaan::create($validatedData);
-        }
-
-
-        return redirect()->route('profile.perusahaan')->with('success', 'Profil perusahaan berhasil diperbarui.');
+        $perusahaan = Perusahaan::updateOrCreate(
+            ['user_id' => $validatedData['user_id']],
+            $validatedData
+        );
+        return redirect()->route('profile.perusahaan')->with('success', 'Profil perusahaan berhasil diperbarui.')->with('perusahaan', $perusahaan);
     }
 }

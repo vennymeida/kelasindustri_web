@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('postingans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('media');
-            $table->string('konteks');
+            $table->string('media')->nullable();
+            $table->text('konteks');
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->timestamps();
         });

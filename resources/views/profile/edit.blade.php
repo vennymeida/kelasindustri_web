@@ -281,11 +281,11 @@
                                                 class="form-control select2 custom-input @error('jenis_kelamin') is-invalid @enderror"
                                                 name="jenis_kelamin" id="jenis_kelamin">
                                                 <option value="">Pilih Jenis Kelamin</option>
-                                                <option value="L"
-                                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin === 'L' ? 'selected' : '' }}>
+                                                <option value="laki-laki"
+                                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin === 'laki-laki' ? 'selected' : '' }}>
                                                     Laki-Laki</option>
-                                                <option value="P"
-                                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin === 'P' ? 'selected' : '' }}>
+                                                <option value="perempuan"
+                                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin === 'perempuan' ? 'selected' : '' }}>
                                                     Perempuan</option>
                                                 @error('jenis_kelamin')
                                                     <div class="invalid-feedback">

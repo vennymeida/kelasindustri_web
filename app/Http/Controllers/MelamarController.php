@@ -30,7 +30,7 @@ class MelamarController extends Controller
         // Proses file resume jika ada yang di-upload
         if ($request->hasFile('resume')) {
             $resumeFile = $request->file('resume');
-            $resumePath = $resumeFile->store('resumes', 'public');
+            $resumePath = $resumeFile->store('resume', 'public');
             $data['resume'] = $resumePath;
         } else {
             // Jika tidak ada file yang di-upload, kita tetap menyertakan resume saat ini

@@ -25,8 +25,9 @@ class DashboardController extends Controller
                 'pu.foto',
                 'pu.resume',
                 'u.email',
-                'p.nama_pemilik as perusahaan',
                 'lp.nama_loker',
+                'p.nama_pemilik as perusahaan',
+                'p.nama_perusahaan',
                 'l.status',
                 'l.created_at'
             )

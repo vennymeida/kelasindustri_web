@@ -129,7 +129,7 @@
                                     @endif
                                     <div class="media-body">
                                         <div class="media-title">{{ $lamar->name }}</div>
-                                        <span class="text-small text-muted">{{ $lamar->perusahaan }}</span>
+                                        <span class="text-small text-muted">{{ $lamar->nama_perusahaan }}</span>
                                     </div>
                                 </li>
                             @endforeach

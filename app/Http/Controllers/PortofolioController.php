@@ -30,14 +30,26 @@ class PortofolioController extends Controller
         // Validasi input
         $request->validate([
             'nama_portofolio' => 'required|string|max:255',
+            'dokumen_portofolio' => 'nullable|mimes:pdf|max:2048',
             'link_portofolio' => 'nullable|url|max:255',
         ]);
 
         $portofolio = new Portofolio([
             'user_id' => $userId,
             'nama_portofolio' => $request->input('nama_portofolio'),
+            'dokumen_portofolio' => $request->input('dokumen_portofolio'),
             'link_portofolio' => $request->input('link_portofolio'),
         ]);
+
+        // Cek apakah file PDF diunggah
+        if ($request->hasFile('dokumen_portofolio')) {
+            // Simpan file PDF
+            $file = $request->file('dokumen_portofolio');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('portofolio', $fileName, 'public');
+
+            $portofolio->dokumen_portofolio = $filePath;
+        }
 
         $portofolio->save();
 
@@ -54,16 +66,26 @@ class PortofolioController extends Controller
 
     public function update(Request $request, Portofolio $portofolio)
     {
-
         $rules = [
             'nama_portofolio' => 'required|string|max:255',
+            'dokumen_portofolio' => 'nullable|mimes:pdf|max:2048',
             'link_portofolio' => 'nullable|url|max:255',
         ];
-
 
         $validatedData = $request->validate($rules);
 
         try {
+            if ($request->hasFile('dokumen_portofolio')) {
+                // Hapus dokumen lama
+                Storage::disk('public')->delete($portofolio->dokumen_portofolio);
+
+                // Simpan dokumen baru
+                $file = $request->file('dokumen_portofolio');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('portofolio', $fileName, 'public');
+
+                $validatedData['dokumen_portofolio'] = $filePath;
+            }
 
             $portofolio->update($validatedData);
             return response()->json(['success' => true, 'message' => 'Portofolio berhasil diperbarui.']);
@@ -72,9 +94,13 @@ class PortofolioController extends Controller
         }
     }
 
-
     public function destroy(Portofolio $portofolio)
     {
+        // Hapus dokumen dari storage
+        if ($portofolio->dokumen_portofolio) {
+            Storage::disk('public')->delete($portofolio->dokumen_portofolio);
+        }
+
         $portofolio->delete();
         return redirect()
             ->route('profile-lulusan.index')

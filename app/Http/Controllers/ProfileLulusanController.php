@@ -78,9 +78,10 @@ class ProfileLulusanController extends Controller
         ]);
     }
 
-    public function create(){
+    public function create()
+    {
         $userid = Auth::id();
-        $user = DB::table('users')->select('users.id','users.email','users.name')->where('id', $userid)->first();
+        $user = DB::table('users')->select('users.id', 'users.email', 'users.name')->where('id', $userid)->first();
         return view('profile.create-lulusan', ['user' => $user]);
     }
 
@@ -120,6 +121,7 @@ class ProfileLulusanController extends Controller
         $request->validate([
             'user_id' => 'required',
             'status' => 'required',
+            'jenis_kelamin' => 'nullable|in:laki-laki,perempuan, kosong',
             'alamat' => 'required',
             'ringkasan' => 'nullable',
             'no_hp' => 'nullable',
@@ -134,6 +136,7 @@ class ProfileLulusanController extends Controller
         $lulusan->user_id = $userId;
         $lulusan->status = $request->status;
         $lulusan->alamat = $request->alamat;
+        $lulusan->jenis_kelamin = $request->jenis_kelamin;
         $lulusan->no_hp = $request->no_hp;
         $lulusan->ringkasan = $request->ringkasan ?? null;
         $lulusan->foto = $request->foto ?? null;
@@ -151,7 +154,7 @@ class ProfileLulusanController extends Controller
                 $request->all(),
                 [
                     'alamat' => 'nullable|string|max:255',
-                    'jenis_kelamin' => 'nullable|in:L,P',
+                    'jenis_kelamin' => 'nullable|in:laki-laki,perempuan, kosong',
                     'status' => [
                         'nullable',
                         Rule::in(['Aktif Mencari Kerja', 'Sudah Bekerja', 'Melanjutkan Kuliah']),
@@ -193,6 +196,11 @@ class ProfileLulusanController extends Controller
 
             // Update status
             $profile->status = $request->status;
+            $profile->jenis_kelamin = $request->jenis_kelamin; // Pastikan ini ada
+            $profile->ringkasan = $request->ringkasan;
+            $profile->alamat = $request->alamat;
+            $profile->no_hp = $request->no_hp;
+            $profile->tgl_lahir = $request->tgl_lahir;
 
             // Simpan perubahan ke dalam database
             $profile->save();

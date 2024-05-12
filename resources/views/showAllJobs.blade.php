@@ -79,12 +79,12 @@
                         </div>
                     </div>
                     <hr class="my-4">
-                    {{-- <div class="col-md-11 mx-auto my-5 cardKeahlian">
-                        <h5 class="font-weight-bolder cardKeahlian2">Keahlian : </h5>
-                        @foreach ($rekomendasi as $key => $keahlian)
-                            <button class="px-4 mt-2 mr-1 btn btn-skill ">{{ $keahlian }}</button>
-                        @endforeach
-                    </div> --}}
+                    <div class="col-md-11 mx-auto my-5 cardKeahlian">
+                        <h5 class="font-weight-bolder">Keahlian : </h5>
+                        <p class="ml-5 mt-0 text-syarat">
+                            {!! $loker->keahlian !!}
+                        </p>
+                    </div>
 
                     <hr class="my-4">
                     <div class="col-md-11 mx-auto my-5">

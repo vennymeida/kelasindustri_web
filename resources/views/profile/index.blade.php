@@ -105,12 +105,13 @@
                                             <!-- Gunakan label untuk mengaktifkan input file -->
                                             <label for="mediaUploadButton" class="imgUploadButton"
                                                 style="cursor: pointer;">
-                                                <img class="img-fluid" src="{{ asset('assets/img/Gallery Add.svg') }}">
+                                                <img class="img-fluid"
+                                                    src="{{ asset('assets/img/Gallery Add.svg') }}">
                                                 &nbsp;&nbsp;&nbsp; Media
                                             </label>
                                             <!-- Input file tersembunyi -->
-                                            <input type="file" id="mediaUploadButton" class="d-none" accept="image/*"
-                                                onchange="displayFileName(this)" name="media">
+                                            <input type="file" id="mediaUploadButton" class="d-none"
+                                                accept="image/*" onchange="displayFileName(this)" name="media">
                                             <!-- Elemen untuk menampilkan nama file yang dipilih -->
                                             <p id="selectedFileName"></p>
                                         </li>
@@ -495,6 +496,20 @@
                                     {{ $message }}
                                 </div>
                             @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
+                            <label>Unggah Portofolio</label>
+                            <input id="dokumen_portofolio" name="dokumen_portofolio" type="file"
+                                class="form-control custom-input @error('dokumen_portofolio') is-invalid @enderror">
+                            @error('dokumen_portofolio')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <div class="text-warning small" style="font-size: 13px; font-weight:medium;">
+                                (Tipe berkas : pdf | Max size : 2MB)</div>
                         </div>
                     </div>
                     <!-- Link Portofolio -->
@@ -1243,6 +1258,15 @@
                                     <div class="flex-grow-1 mb-2">
                                         <div class="profile-widget-name"
                                             style="font-size: 16px; display: flex; align-items: center;">
+                                            <a href="{{ $portofolio->dokumen_portofolio }}" target="_blank">Lihat
+                                                Portofolio</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="flex-grow-1 mb-2">
+                                        <div class="profile-widget-name"
+                                            style="font-size: 16px; display: flex; align-items: center;">
                                             <a href="{{ $portofolio->link_portofolio }}" target="_blank">Lihat
                                                 Portofolio</a>
                                         </div>
@@ -1541,8 +1565,8 @@
                             <div class="row ml-4 mr-4">
                                 <div class="form-group col-md-12 col-12">
                                     <label>Deskripsi</label>
-                                    <textarea name="deskripsi" class="form-control custom-input @error('deskripsi') is-invalid @enderror" rows="4"
-                                        placeholder="Tuliskan deskripsi mengenai pelatihan/sertifikat anda">{{ old('deskripsi') }}</textarea>
+                                    <textarea name="deskripsi" class="form-control custom-input @error('deskripsi') is-invalid @enderror"
+                                        rows="4" placeholder="Tuliskan deskripsi mengenai pelatihan/sertifikat anda">{{ old('deskripsi') }}</textarea>
                                     @error('deskripsi')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -1635,6 +1659,22 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row ml-4 mr-4">
+                            <div class="form-group col-md-12 col-12">
+                                <label>Unggah Portofolio</label>
+                                <input id="dokumen_portofolio" name="dokumen_portofolio" type="file"
+                                    class="form-control custom-input @error('dokumen_portofolio') is-invalid @enderror"
+                                    value="{{ old('dokumen_portofolio') }}">
+                                @error('dokumen_portofolio')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <div class="text-warning small" style="font-size: 13px; font-weight:bolder;">
+                                    (Tipe berkas : pdf | Max size : 2MB)</div>
                             </div>
                         </div>
 
@@ -2396,6 +2436,9 @@
                         url: true,
                         maxlength: 255
                     },
+                    sertifikat: {
+                        required: true
+                    },
                 },
                 messages: {
                     nama_portofolio: {
@@ -2406,6 +2449,9 @@
                         required: "Link Portofolio tidak boleh kosong",
                         // url: "Masukkan URL yang valid",
                         maxlength: "Link Portofolio melebihi batas maksimal"
+                    },
+                    sertifikat: {
+                        required: "Dokumen portofolio melebihi batas maksimal"
                     },
                 },
                 highlight: function(element, errorClass) {
@@ -2439,36 +2485,40 @@
                 }
             });
 
-           // Assuming you have a modal with the ID 'modal-edit-portofolio'
-var editModal = $('#modal-edit-portofolio');
+            // Assuming you have a modal with the ID 'modal-edit-portofolio'
+            var editModal = $('#modal-edit-portofolio');
 
-// Function to open the edit modal
-function openEditModal(portofolioId) {
-    var editUrl = "{{ route('portofolio.edit', ['portofolio' => '_id']) }}".replace('_id', portofolioId);
-    var updateUrl = "{{ route('portofolio.update', ['portofolio' => '_id']) }}".replace('_id', portofolioId);
+            // Function to open the edit modal
+            function openEditModal(portofolioId) {
+                var editUrl = "{{ route('portofolio.edit', ['portofolio' => '_id']) }}".replace('_id',
+                    portofolioId);
+                var updateUrl = "{{ route('portofolio.update', ['portofolio' => '_id']) }}".replace('_id',
+                    portofolioId);
 
-    // Set the form action to the update URL
-    $('#modal-edit-portofolio-form').attr('action', updateUrl);
-
-
-    $.ajax({
-        url: editUrl,
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-
-            $('#modal-edit-portofolio input[name="nama_portofolio"]').val(data.nama_portofolio);
-            $('#modal-edit-portofolio input[name="link_portofolio"]').val(data.link_portofolio);
+                // Set the form action to the update URL
+                $('#modal-edit-portofolio-form').attr('action', updateUrl);
 
 
-            editModal.modal('show');
-        },
-        error: function(xhr, status, error) {
+                $.ajax({
+                    url: editUrl,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
 
-            console.error("Error: " + status + " " + error);
-        }
-    });
-}
+                        $('#modal-edit-portofolio input[name="nama_portofolio"]').val(data
+                            .nama_portofolio);
+                        $('#modal-edit-portofolio input[name="link_portofolio"]').val(data
+                            .link_portofolio);
+
+
+                        editModal.modal('show');
+                    },
+                    error: function(xhr, status, error) {
+
+                        console.error("Error: " + status + " " + error);
+                    }
+                });
+            }
 
 
             $('#portofolio-container').on('click', '.modal-edit-trigger-portofolio', function() {

@@ -12,7 +12,8 @@ class Portofolio extends Model
     protected $fillable = [
         'user_id',
         'link_portofolio',
-        'nama_portofolio'
+        'nama_portofolio',
+        'dokumen_portofolio'
     ];
 
     public function user()

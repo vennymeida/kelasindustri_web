@@ -38,6 +38,25 @@
                             </div>
                         </div>
                         <div class="col-md-10 mx-auto mt-3">
+                            <label for="jenis_kelamin">Jenis Kelamin</label>
+                            <select
+                                class="form-control select2 custom-input @error('jenis_kelamin') is-invalid @enderror"
+                                name="jenis_kelamin" id="jenis_kelamin">
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="laki-laki"
+                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin === 'laki-laki' ? 'selected' : '' }}>
+                                    Laki-Laki</option>
+                                <option value="perempuan"
+                                    {{ Auth::user()->lulusan && Auth::user()->lulusan->jenis_kelamin === 'perempuan' ? 'selected' : '' }}>
+                                    Perempuan</option>
+                                @error('jenis_kelamin')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </select>
+                        </div>
+                        <div class="col-md-10 mx-auto mt-3">
                             <div class="form-group">
                                 <label for="alamat">Alamat</label>
                                 <input type="text" class="form-control" id="alamat" name="alamat" required>

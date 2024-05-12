@@ -36,13 +36,14 @@ class LamarPerusahaanController extends Controller
         $loggedInUserId = Auth::id();
         $user = auth()->user();
 
+        $lulusan = Lulusan::where('user_id', $user->id)->first();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
         $loker = LowonganPekerjaan::where('perusahaan_id', $user->id)->first();
 
         $loggedInUserResults = DB::table('lamars as l')
             ->join('lokers as lp', 'l.loker_id', '=', 'lp.id')
             ->join('perusahaan as p', 'lp.perusahaan_id', '=', 'p.id')
-            ->join('lulusans as lu', 'p.user_id', '=', 'lu.id')
+            ->join('lulusans as lu', 'l.user_id', '=', 'lu.id')
             ->join('users as u', 'lu.user_id', '=', 'u.id')
             ->select(
                 'l.id',
@@ -78,10 +79,10 @@ class LamarPerusahaanController extends Controller
             } elseif ($perusahaan == null) {
                 return redirect()->route('profile.perusahaan.edit')->with('message-data', 'Lengkapi data perusahaan terlebih dahulu sebelum menambahkan lowongan kerja dan mendapat pelamar kerja.');
             } else {
-                return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'loker' => $loker]);
+                return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'lulusan' => $lulusan, 'loker' => $loker]);
             }
         } else {
-            return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'loker' => $loker]);
+            return view('lamar-perusahaan.index', ['loggedInUserResults' => $loggedInUserResults, 'statuses' => $statuses, 'selectedStatus' => $selectedStatus, 'perusahaan' => $perusahaan, 'lulusan' => $lulusan, 'loker' => $loker]);
         }
     }
 

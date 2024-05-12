@@ -21,7 +21,7 @@
                         <form action="{{ route('user.search') }}" method="GET">
                             <div class="search">
                                 <input type="text" name="nama" id="nama" class="searchinput"
-                                    placeholder="cari user lulusan" aria-label="cari">
+                                    placeholder="cari user lulusan" value="{{ app('request')->input('nama') }}" aria-label="cari">
                                 <button class="btn btn-primary py-1 px-3" type="submit" style="border-radius: 25px;">
                                     Cari
                                 </button>
