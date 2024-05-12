@@ -41,7 +41,7 @@
                                         {{ session('status') }}
                                     </div>
                                 @endif
-                                <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data" id="registrationForm">
                                     @csrf
                                     <div class="form-group">
                                         <label for="first_name" class="font-weight-bold">Nama Lengkap</label>
@@ -121,6 +121,10 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
+                                        <div id="userTypeError" class="invalid-feedback" style="display: none;">
+                                            Please select a role.
+                                        </div>
+                                        
                                     </div>
                                     <div class="form-group" id="upload-doc" style="display: none;">
                                         <label for="document">Unggah dokumen sebagai bukti lulusan kelas industri (PDF atau gambar):</label>
@@ -203,6 +207,26 @@
             toggleDocumentField();
         });
     </script>
+<script>
+    function validateForm() {
+        const userTypeInputs = document.querySelectorAll('input[name="user_type"]');
+        const errorDiv = document.getElementById('userTypeError');
+        let isSelected = false;
+        userTypeInputs.forEach((input) => {
+            if (input.checked) {
+                isSelected = true;
+            }
+        });
+
+        if (!isSelected) {
+            errorDiv.style.display = 'block'; // Show the error message
+            return false; // Prevent form submission
+        }
+
+        errorDiv.style.display = 'none'; // Hide the error message
+        return true; // Allow form submission
+    }
+</script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

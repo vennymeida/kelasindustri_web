@@ -22,25 +22,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:users',
-            ],
-            'password' => $this->passwordRules(),
-            // 'user_type' => ['required', Rule::in(['lulusan', 'perusahaan'])],
-            'document' => [
-                'nullable',  // Bisa kosong jika bukan lulusan
-                'file',  // Harus berupa file
-                'mimes:pdf,jpg,jpeg,png',  // Jenis file yang diizinkan
-                'max:10240',  // Ukuran maksimal 10 MB
-                Rule::requiredIf($input['user_type'] === 'lulusan'),  // Wajib jika pengguna lulusan
-            ],
-        ], $messages = [
+        $message = [
             'name.required' => 'Kolom nama lengkap harus diisi.',
             'name.string' => 'Kolom nama lengkap harus berupa teks.',
             'name.max' => 'Kolom nama lengkap tidak boleh lebih dari :max karakter.',
@@ -60,15 +42,34 @@ class CreateNewUser implements CreatesNewUsers
             'document.required_if' => 'Dokumen harus diunggah jika mendaftar sebagai Lulusan.',
             'document.mimes' => 'Dokumen harus berupa PDF atau gambar (jpg, jpeg, png).',
             'document.max' => 'Dokumen tidak boleh melebihi 10 MB.',
-        ],$messages)->validate();
-
+        ];
+        Validator::make($input, [
+            'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users',
+            ],
+            'password' => $this->passwordRules(),
+            'user_type' => ['required', Rule::in(['lulusan', 'perusahaan'])],
+            'document' => [
+                'nullable',
+                'file',
+                'mimes:pdf,jpg,jpeg,png',
+                'max:10240',
+                Rule::requiredIf(function () use ($input) {
+                    return isset($input['user_type']) && $input['user_type'] === 'lulusan';
+                }),
+            ],
+        ], $message)->validate();
+    
         $documentPath = null;
-        if ($input['user_type'] === 'lulusan' && isset($input['document'])) {
-            // Simpan dokumen jika diunggah
+        if (isset($input['user_type']) && $input['user_type'] === 'lulusan' && isset($input['document'])) {
             $documentPath = $input['document']->store('documents', 'public');
         }
-
-        // Create the user
+    
         $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
@@ -76,11 +77,12 @@ class CreateNewUser implements CreatesNewUsers
             'email_verified_at' => now(),
             'document' => $documentPath,
         ]);
-        // Assign role based on the selected user_type
+    
         $roleName = ($input['user_type'] === 'perusahaan') ? 'Perusahaan' : 'Lulusan';
         $role = Role::where('name', $roleName)->first();
         $user->assignRole($role);
-
+    
         return $user;
     }
+    
 }

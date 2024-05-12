@@ -30,7 +30,7 @@ class PortofolioController extends Controller
         // Validasi input
         $request->validate([
             'nama_portofolio' => 'required|string|max:255',
-            'dokumen_portofolio' => 'nullable|mimes:pdf|max:2048',
+            'dokumen_portofolio' => 'nullable|file|mimetypes:application/pdf|max:2048',
             'link_portofolio' => 'nullable|url|max:255',
         ]);
 

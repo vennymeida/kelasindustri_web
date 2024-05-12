@@ -45,8 +45,11 @@ class NavigationController extends Controller
             $idPerusahaan = auth()->user();
 
             $perusahaan = Perusahaan::where('user_id', $idPerusahaan->id)->first();
-            $lokers = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)->where('status', 'dibuka')->get();
-            // dd($lowonganPekerjaans);
+            $lokers = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)
+            ->where('status', 'dibuka')
+            ->get();
+
+           
             $lulusan = DB::table('users')
                 ->leftJoin('lulusans', 'users.id', '=', 'lulusans.user_id')
                 ->leftJoin('pendidikans', 'users.id', '=', 'pendidikans.user_id')
@@ -100,7 +103,7 @@ class NavigationController extends Controller
 
             $pelatihan = Pelatihan::where('user_id', $user->id)->paginate(3);
 
-            return view('detail-search-result', compact('lulusan', 'userPosts', 'pendidikan', 'pengalaman', 'pelatihan', 'lokers'));
+            return view('detail-search-result',(['lulusan' => $lulusan, 'userPosts' => $userPosts, 'pendidikan' => $pendidikan, 'pengalaman' => $pengalaman, 'pelatihan' => $pelatihan, 'lokers'=> $lokers]));
         } else {
             $lulusan = DB::table('users')
                 ->leftJoin('lulusans', 'users.id', '=', 'lulusans.user_id')
@@ -145,14 +148,18 @@ class NavigationController extends Controller
             $userPosts = Postingan::where('user_id', $user->id)->paginate(3);
 
             $pendidikan = Pendidikan::where('user_id', $user->id)->paginate(3);
-
+            $idPerusahaan = auth()->user();
+            $perusahaan = Perusahaan::where('user_id', $idPerusahaan->id)->first();
+            $lokers = LowonganPekerjaan::where('perusahaan_id', $perusahaan->id)
+            ->where('status', 'dibuka')
+            ->get();
 
             $pengalaman = Pengalaman::where('user_id', $user->id)->paginate(3);
 
 
             $pelatihan = Pelatihan::where('user_id', $user->id)->paginate(3);
 
-            return view('detail-search-result', compact('lulusan', 'userPosts', 'pendidikan', 'pengalaman', 'pelatihan'));
+            return view('detail-search-result', compact('lulusan', 'userPosts', 'pendidikan', 'pengalaman', 'pelatihan', 'lokers', 'perusahaan'));
         }
     }
 }

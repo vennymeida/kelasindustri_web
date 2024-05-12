@@ -21,6 +21,7 @@
                             <select class="form-control select2 @error('loker_id') is-invalid @enderror" name="loker_id"
                                 id="loker_id">
                                 <option value="">Pilih Posisi Pekerjaan</option>
+                               
                                 @foreach ($lokers as $loker)
                                     <option value="{{ $loker->id }}" @selected(old('loker_id') == $loker->id)>
                                         {{ $loker->nama_loker }}

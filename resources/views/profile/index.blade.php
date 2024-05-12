@@ -482,7 +482,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('portofolio.store') }}" class="needs-validation" novalidate>
+                <form method="POST" action="{{ route('portofolio.store') }}" enctype="multipart/form-data" class="needs-validation" novalidate>
                     @csrf
                     <!-- Nama Portofolio -->
                     <div class="row ml-4 mr-4">
@@ -1258,7 +1258,7 @@
                                     <div class="flex-grow-1 mb-2">
                                         <div class="profile-widget-name"
                                             style="font-size: 16px; display: flex; align-items: center;">
-                                            <a href="{{ $portofolio->dokumen_portofolio }}" target="_blank">Lihat
+                                            <a href="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}" target="_blank">Lihat dokumen
                                                 Portofolio</a>
                                         </div>
                                     </div>
@@ -1267,8 +1267,12 @@
                                     <div class="flex-grow-1 mb-2">
                                         <div class="profile-widget-name"
                                             style="font-size: 16px; display: flex; align-items: center;">
+                                            @if($portofolio->link_portofolio)
                                             <a href="{{ $portofolio->link_portofolio }}" target="_blank">Lihat
                                                 Portofolio</a>
+                                            @else
+                                            <p>tidak ada link </p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -2446,7 +2450,7 @@
                         maxlength: "Nama Portofolio melebihi batas maksimal"
                     },
                     link_portofolio: {
-                        required: "Link Portofolio tidak boleh kosong",
+                        // required: "Link Portofolio tidak boleh kosong",
                         // url: "Masukkan URL yang valid",
                         maxlength: "Link Portofolio melebihi batas maksimal"
                     },

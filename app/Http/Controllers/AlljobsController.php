@@ -242,7 +242,7 @@ class AlljobsController extends Controller
                     'lk.perusahaan_id',
                     'lk.nama_loker',
                     'lk.persyaratan',
-                    'lk.deskripsi',
+                    'lk.deskripsi as loker_deskripsi',
                     'lk.gaji_atas',
                     'lk.gaji_bawah',
                     'lk.tipe_pekerjaan',
@@ -255,11 +255,9 @@ class AlljobsController extends Controller
                     'ps.logo_perusahaan',
                     'ps.email_perusahaan',
                     'ps.alamat_perusahaan',
-                    'ps.deskripsi',
+                    'ps.deskripsi as perusahaan_deskripsi',
                     'ls.user_id',
                     'ks.keahlian',
-                    'rks.score_similarity_lulusan',
-                    'rks.score_similarity_keahlian',
                     DB::raw('rks.score_similarity_keahlian * 100 as score_similarity_keahlian'),
                     DB::raw('rks.score_similarity_lulusan * 100 as score_similarity_lulusan')
 
@@ -276,7 +274,8 @@ class AlljobsController extends Controller
                 ->where('ls.user_id', '=', $userId)
                 ->where('lk.tgl_tutup', '>=', $currentDate)
                 ->where('rks.score_similarity_lulusan', '>', 0)
-                ->where('rks.score_similarity_keahlian', '>', 0);
+                ->where('rks.score_similarity_keahlian', '>', 0)
+                ->groupBy("lk.nama_loker", );
 
                 if ($request->has('posisi') && !empty($request->posisi)) {
                     $allResults->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
@@ -309,7 +308,7 @@ class AlljobsController extends Controller
                     });
                 }
 
-                $allResults = $allResults->get();
+                $allResults = $allResults->paginate(4);
 
 
 
