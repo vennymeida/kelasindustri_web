@@ -18,5 +18,4 @@ jobs:
             cd /var/www/kelas-industri/
             sudo git pull
             sudo composer install --no-interaction --prefer-dist --optimize-autoloader
-            sudo php artisan migrate:fresh --seed
             sudo php artisan optimize
