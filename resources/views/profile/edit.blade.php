@@ -227,7 +227,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card border-primary mb-2">
                             <div class="card-body">
                                 <div class="text-left mb-4 mt-2 ml-2">

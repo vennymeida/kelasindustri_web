@@ -2436,7 +2436,6 @@
                         maxlength: 255
                     },
                     link_portofolio: {
-                        required: true,
                         url: true,
                         maxlength: 255
                     },
