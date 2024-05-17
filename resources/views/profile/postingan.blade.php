@@ -84,15 +84,18 @@
                                         </a>
                                     </div>
                                     <div class="d-flex justify-content-end" style="font-size: 2.00em;">
-                                        <form action="{{ route('postingan.destroy', ['postingan' => $post->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-link">
-                                                <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
-                                            </button>
-                                        </form>
+                                        <form class="m-0"
+                                                action="{{ route('postingan.destroy', ['postingan' => $post->id]) }}"
+                                                method="POST" id="delete-post{{ $post->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-edu"
+                                                    onclick="confirmPost({{ $post->id }})">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                        src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                        alt="Hapus">
+                                                </button>
+                                            </form>
                                     </div>
                                 </div>
                             @endif

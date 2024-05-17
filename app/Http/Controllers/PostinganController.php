@@ -135,6 +135,6 @@ class PostinganController extends Controller
 
         $postingan->delete();
 
-        return redirect()->route('postingan.index')->with('success', 'success-delete');
+        return redirect()->route('profile-lulusan.index')->with('success', 'success-delete');
     }
 }

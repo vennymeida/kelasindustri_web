@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('rekomendasilowongans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lulusan_id');
+            $table->unsignedBigInteger('lulusan_id')->nullable();
             $table->foreign('lulusan_id')->references('id')->on('lulusans')->restrictOnDelete();
             $table->unsignedBigInteger('keahlian_id')->nullable();
             $table->foreign('keahlian_id')->references('id')->on('keahlians')->onDelete('set null');

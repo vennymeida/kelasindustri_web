@@ -115,7 +115,7 @@
                                     <h2>Rekomendasi Pekerjaan Untukmu</h2>
                                 </div>
                                 <div class="col-md-12 mx-auto d-flex flex-wrap" style="gap: 20px">
-                                    @if ($allResults->isEmpty())
+                                    @if ($allResults == null || $allResults->isEmpty())
                                         <div class="col-md-12 text-center my-4">
                                             <img src="{{ asset('assets/img/landing-page/folder.png') }}">
                                             <p class="mt-1 text-not">Data tidak tersedia</p>

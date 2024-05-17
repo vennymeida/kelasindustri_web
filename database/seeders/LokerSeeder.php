@@ -28,7 +28,7 @@ class LokerSeeder extends Seeder
                 'gaji_bawah' => '500000',
                 'gaji_atas' => '100000',
                 'kuota' => 5,
-                'tgl_tutup' => Carbon::create('2018', '01', '01'),
+                'tgl_tutup' => Carbon::create('2025', '01', '01'),
                 'status' => 'Dibuka'
             ],
             [
@@ -42,8 +42,8 @@ class LokerSeeder extends Seeder
                 'gaji_bawah' => '500000',
                 'gaji_atas' => '100000',
                 'kuota' => 5,
-                'tgl_tutup' => Carbon::create('2018', '01', '01'),
-                'status' => 'Pending'
+                'tgl_tutup' => Carbon::create('2025', '01', '01'),
+                'status' => 'Dibuka'
             ],
             [
                 'perusahaan_id' => 1,
@@ -56,8 +56,8 @@ class LokerSeeder extends Seeder
                 'gaji_bawah' => '1000000',
                 'gaji_atas' => '5000000',
                 'kuota' => 7,
-                'tgl_tutup' => Carbon::create('2018', '01', '01'),
-                'status' => 'Pending'
+                'tgl_tutup' => Carbon::create('2025', '01', '01'),
+                'status' => 'Dibuka'
             ],
 
 

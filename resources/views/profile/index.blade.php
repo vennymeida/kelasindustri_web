@@ -886,7 +886,7 @@
                                                     src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                             </a>
                                             <form class="m-0"
-                                                action="{{ route('profile-lulusan.destroy', ['profile_lulusan' => $post->id]) }}"
+                                                action="{{ route('postingan.destroy', ['postingan' => $post->id]) }}"
                                                 method="POST" id="delete-post{{ $post->id }}">
                                                 @csrf
                                                 @method('DELETE')
