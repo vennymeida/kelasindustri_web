@@ -22,21 +22,6 @@
                                 <h4>Data Lowongan Pekerjaan</h4>
                             </div>
                             <div class="card-body">
-                                <form id="search-form" method="GET" action="">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-10">
-                                            <input type="text" name="name" class="form-control" id="name"
-                                                placeholder="Search...." value="{{ app('request')->input('name') }}"
-                                                style="border-radius: 15px;">
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            <button id="search-button" class="btn btn-primary mr-1"
-                                                type="submit">Search</button>
-                                            <a id="reset-button" class="btn btn-secondary"
-                                                href="">Reset</a>
-                                        </div>
-                                    </div>
-                                </form>
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>

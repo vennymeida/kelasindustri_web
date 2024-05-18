@@ -27,33 +27,33 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>ID Lulusan</th>
+                                                <th>ID Keahlian</th>
                                                 <th>Term</th>
                                                 <th>Nilai TF</th>
                                                 <th>Nilai TF-IDF</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($rekomendasiLulusans->isEmpty())
+                                            @if ($rekomendasiKeahlians->isEmpty())
                                                 <tr>
                                                     <td colspan="7" class="text-center">Data tidak tersedia</td>
                                                 </tr>
                                             @else
-                                                @foreach ($rekomendasiLulusans as $key => $rekomendasiLulusan)
+                                                @foreach ($rekomendasiKeahlians as $key => $rekomendasiKeahlian)
                                                     <tr>
-                                                        <td>{{ ($rekomendasiLulusans->currentPage() - 1) * $rekomendasiLulusans->perPage() + $key + 1 }}
+                                                        <td>{{ ($rekomendasiKeahlians->currentPage() - 1) * $rekomendasiKeahlians->perPage() + $key + 1 }}
                                                         </td>
-                                                        <td>{{ $rekomendasiLulusan->document_id }}</td>
-                                                        <td>{{ $rekomendasiLulusan->word }}</td>
-                                                        <td>{{ $rekomendasiLulusan->tf_value }}</td>
-                                                        <td>{{ $rekomendasiLulusan->tfidf_value }}</td>
+                                                        <td>{{ $rekomendasiKeahlian->document_id }}</td>
+                                                        <td>{{ $rekomendasiKeahlian->word }}</td>
+                                                        <td>{{ $rekomendasiKeahlian->tf_value }}</td>
+                                                        <td>{{ $rekomendasiKeahlian->tfidf_value }}</td>
                                                     </tr>
                                                 @endforeach
                                             @endif
                                         </tbody>
                                     </table>
                                 </div>
-                                {{ $rekomendasiLulusans->appends(request()->query())->links() }}
+                                {{ $rekomendasiKeahlians->appends(request()->query())->links() }}
                             </div>
                         </div>
                     </div>

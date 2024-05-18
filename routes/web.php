@@ -47,6 +47,7 @@ use App\Http\Controllers\ProfilePerusahaanController;
 use App\Http\Controllers\StatusLamarController;
 use App\Http\Controllers\RekomendasiLokerController;
 use App\Http\Controllers\RekomendasiLulusanController;
+use App\Http\Controllers\RekomendasiKeahlianController;
 use App\Http\Controllers\RekomendasiRangkingController;
 use App\Http\Controllers\RekrutController;
 use App\Http\Controllers\StopWordController;
@@ -172,6 +173,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::prefix('rekomendasi-management/perhitungan')->group(function () {
         Route::get('/rekomendasi-loker', [RekomendasiLokerController::class, 'index']);
         Route::get('/rekomendasi-lulusan', [RekomendasiLulusanController::class, 'index']);
+        Route::get('/rekomendasi-keahlian', [RekomendasiKeahlianController::class, 'index']);
         Route::get('/perangkingan', [RekomendasiRangkingController::class, 'index']);
         Route::resource('stop-word', StopWordController::class);
     });
