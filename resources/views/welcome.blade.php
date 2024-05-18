@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="row my-5">
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-2">
                             <div class="card border-primary mb-2 card-waktusaku-view-mobile card-body h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-user-check text-primary fa-3x mb-4"></i>
@@ -129,7 +129,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-2">
                             <div class="card border-primary mb-2 card-waktusaku-view-mobile card-body h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-file-alt text-primary fa-3x mb-4"></i>
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-2">
                             <div class="card border-primary mb-2 card-waktusaku-view-mobile card-body h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-history text-primary fa-3x mb-4"></i>
@@ -154,7 +154,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-2">
                             <div class="card border-primary mb-2 card-waktusaku-view-mobile card-body h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-percent text-primary fa-3x mb-4"></i>

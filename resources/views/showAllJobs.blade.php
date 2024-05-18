@@ -42,10 +42,6 @@
                                         src="{{ asset('assets/img/landing-page/information.jpg') }}"> Mendaftar
                                     {{ $getLamarPending }}
                                 </p>
-                                <p class="mb-2" style="font-size: 14px;"><img class="img-fluid img-icon"
-                                        src="{{ asset('assets/img/landing-page/active-user.jpg') }}"> Diterima
-                                    {{ $getLamarDiterima }}
-                                </p>
                             </ul>
                             <ul class="list-unstyled d-flex justify-content-between">
                                 @if (Auth::user()->lulusan)

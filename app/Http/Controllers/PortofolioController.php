@@ -55,7 +55,7 @@ class PortofolioController extends Controller
 
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-create');
+            ->with('success', 'Portofolio berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -89,9 +89,9 @@ class PortofolioController extends Controller
 
             $portofolio->update($validatedData);
             return response()->json(['success' => true, 'message' => 'Portofolio berhasil diperbarui.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
-        }
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
+    }
     }
 
     public function destroy(Portofolio $portofolio)

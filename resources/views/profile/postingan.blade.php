@@ -84,18 +84,15 @@
                                         </a>
                                     </div>
                                     <div class="d-flex justify-content-end" style="font-size: 2.00em;">
-                                        <form class="m-0"
-                                                action="{{ route('postingan.destroy', ['postingan' => $post->id]) }}"
-                                                method="POST" id="delete-post{{ $post->id }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-edu"
-                                                    onclick="confirmPost({{ $post->id }})">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                        src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                        alt="Hapus">
-                                                </button>
-                                            </form>
+                                        <form action="{{ route('postingan.destroy', ['postingan' => $post->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link">
+                                                <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             @endif
@@ -255,6 +252,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('#konteks').summernote({
+                height: 200,
+                placeholder: 'Masukkan konten Anda di sini',
+                lang: 'id-ID',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture']]
+                ]
+            });
+        });
+        $(document).ready(function() {
             var editModal = $('#modal-edit-postingan');
             var originalKonteks = ''; // Menyimpan konteks asli
 
@@ -337,9 +349,9 @@
                     }
                 });
             });
-            $('#konteks').summernote({
-                disableLinkTarget: true
-            });
+            // $('#konteks').summernote({
+            //     disableLinkTarget: true
+            // });
         });
     </script>
 @endpush

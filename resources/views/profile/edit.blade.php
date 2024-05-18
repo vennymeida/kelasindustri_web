@@ -265,7 +265,7 @@
                                         <div class="form-group col-md-12 col-12">
                                             <label>Tanggal Lahir</label>
                                             <div class="input-group">
-                                                <input name="tgl_lahir" type="date"
+                                                <input name="tgl_lahir" type="date" id="tgl_lahir"
                                                     class="form-control phone-number custom-input @error('tgl_lahir') is-invalid @enderror"
                                                     value="{{ Auth::user()->lulusan->tgl_lahir }}">
                                                 @error('tgl_lahir')
@@ -275,6 +275,7 @@
                                                 @enderror
                                             </div>
                                         </div>
+
                                         <div class="form-group col-md-12 col-12">
                                             <label for="jenis_kelamin">Jenis Kelamin</label>
                                             <select
@@ -405,6 +406,20 @@
     <script src="{{ asset('assets/js/summernote-bs4.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const tglLahirInput = document.getElementById('tgl_lahir');
+
+            if (tglLahirInput) {
+                const today = new Date();
+                const minDate = new Date(today.getFullYear() - 17, today.getMonth(), today.getDate());
+
+                const minDateString = minDate.toISOString().split('T')[0];
+
+                tglLahirInput.setAttribute('max', minDateString);
+            }
+        });
+    </script>
 
     <script>
         function formatRupiah(angka) {

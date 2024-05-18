@@ -63,16 +63,14 @@
                                 <div class="card-loker px-4 py-3">
                                     <p>Tipe Pekerjaan</p>
                                     <label>
-                                        <input class="mr-2" type="checkbox" name="tipe[]" id="Onsite" value="Onsite">
+                                        <input class="mr-2 tipe-pekerjaan" type="checkbox" name="tipe[]" id="Onsite" value="Onsite">
                                         Onsite
                                     </label>
                                     <br>
                                     <label>
-                                        <input class="mr-2" type="checkbox" name="tipe[]" id="Remote" value="Remote">
+                                        <input class="mr-2 tipe-pekerjaan" type="checkbox" name="tipe[]" id="Remote" value="Remote">
                                         Remote
                                     </label>
-
-
                                 </div>
                             </div>
                             <br>
@@ -288,6 +286,20 @@
             </div>
         </section>
     </main>
+    <script>
+        document.querySelectorAll('.tipe-pekerjaan').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    document.querySelectorAll('.tipe-pekerjaan').forEach(otherCheckbox => {
+                        if (otherCheckbox !== this) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
     <script>
         const scrollableContent = document.querySelector('.horizontal-scroll');
         const scrollLeftArrow = document.querySelector('.scroll-arrow.left');

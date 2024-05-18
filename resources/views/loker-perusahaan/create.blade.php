@@ -176,6 +176,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('#persyaratan').summernote({
+                height: 195,
+                placeholder: 'Masukkan persyaratan pekerjaan',
+                lang: 'id-ID',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture']]
+                ]
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
             $('.kategori').select2({
                 placeholder: 'Pilih Kategori',
             });
@@ -186,15 +204,6 @@
         $(document).ready(function() {
             $('.keahlian').select2({
                 placeholder: 'Pilih Keahlian',
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#requirement').summernote({
-                placeholder: 'Masukkan persyaratan pekerjaan',
-                height: 195,
             });
         });
     </script>

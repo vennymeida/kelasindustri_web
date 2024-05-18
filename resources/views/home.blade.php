@@ -154,10 +154,10 @@
 
         const perusahaanData = {};
         grafikData.forEach(item => {
-            if (!perusahaanData[item.nama]) {
-                perusahaanData[item.nama] = Array(12).fill(0);
+            if (!perusahaanData[item.nama_perusahaan]) {
+                perusahaanData[item.nama_perusahaan] = Array(12).fill(0);
             }
-            perusahaanData[item.nama][parseInt(item.month) - 1] = item.jumlah_lamars;
+            perusahaanData[item.nama_perusahaan][parseInt(item.month) - 1] = item.jumlah_lamars;
         });
 
         const colors = [

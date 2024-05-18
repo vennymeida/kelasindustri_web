@@ -120,7 +120,7 @@ class PostinganController extends Controller
 
             $postingan->save();
 
-            return response()->json(['success' => true, 'message' => 'Postingan berhasil diperbarui.']);
+            return response()->json(['success' => true, 'message' => 'Data postingan berhasil diperbarui.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
         }
@@ -135,6 +135,6 @@ class PostinganController extends Controller
 
         $postingan->delete();
 
-        return redirect()->route('profile-lulusan.index')->with('success', 'success-delete');
+        return redirect()->route('postingan.index')->with('success', 'success-delete');
     }
 }

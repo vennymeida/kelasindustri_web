@@ -1722,6 +1722,31 @@ select.custom-select option:disabled {
         margin-left: 0px !important;
         margin-bottom: 30px;
     }
+
+    .time {
+        margin-left: 10px !important;
+    }
+}
+
+/* detail lamar perusahaan */
+@media screen and (max-width: 767px) {
+    .lamaran-header {
+        max-width: 100% !important;
+    }
+
+    .ul-lamar-perusahaan {
+        display: block !important;
+    }
+
+    .s-lamar-perusahaan {
+        margin-left: 0px !important;
+        text-align: center !important;
+        margin-bottom: 12px !important;
+    }
+
+    .img-lamar-perusahaan {
+        max-width: 100% !important;
+    }
 }
 
 /* contact us */

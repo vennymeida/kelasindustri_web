@@ -43,9 +43,9 @@ class DashboardController extends Controller
                 DB::raw('COUNT(*) as jumlah_lamars'),
                 DB::raw('MONTH(l.created_at) as month'),
                 DB::raw('COUNT(*) as count'),
-                'p.nama_pemilik'
+                'p.nama_perusahaan'
             )
-            ->groupBy(DB::raw('MONTH(l.created_at)'), 'p.nama_pemilik')
+            ->groupBy(DB::raw('MONTH(l.created_at)'), 'p.nama_perusahaan')
             ->take(5)
             ->get();
 

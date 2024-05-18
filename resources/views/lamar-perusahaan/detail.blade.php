@@ -94,7 +94,7 @@
                 <div class="lamaran-header col-md-10 bg-white mx-auto py-5" style="border-radius: 15px;">
                     <div class="col-md-12 d-flex align-items-start justify-content-start">
                         <div class="row">
-                            <div class="col-md-3 div-lamaran">
+                            <div class="col-md-3 img-lamar-perusahaan">
                                 @if ($lamar && $lamar->foto)
                                     <img src="{{ asset('storage/' . $lamar->foto) }}" alt="Foto"
                                         class="rounded-circle ml-4 img-lamaran" style="width: 200px; height: 200px;">
@@ -105,16 +105,17 @@
                             </div>
                             <div class="col-md-8">
                                 <ul class="list-unstyled">
-                                    <ul class="list-unstyled d-flex justify-content-between align-items-end">
+                                    <ul
+                                        class="list-unstyled d-flex justify-content-between align-items-end ul-lamar-perusahaan">
                                         <p class="mb-2 text-primary font-weight-bold" style="font-size: 28px;">
                                             {{ $lamar->lulusan->user->name }}
                                         </p>
-                                        <a href="#" class="btn btn-primary px-4 text-right"
+                                        <a href="#" class="btn btn-primary px-4 text-right s-lamar-perusahaan"
                                             style="background-color:#6777EF; border-radius:15px; border-color:#6777EF; float: left; margin-left: 200px;"
                                             data-toggle="modal" data-target="#modal-rekrut-karyawan">
                                             Jadwalkan Interview/Tes Lanjutan
                                         </a>
-                                        <a class="btn btn-secondary px-4 text-right"
+                                        <a class="btn btn-secondary px-4 text-right s-lamar-perusahaan"
                                             href="{{ route('lamarperusahaan.index') }}" style="border-radius: 15px;">
                                             Kembali
                                         </a>

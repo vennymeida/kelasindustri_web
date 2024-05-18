@@ -482,7 +482,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('portofolio.store') }}" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form method="POST" action="{{ route('portofolio.store') }}" enctype="multipart/form-data"
+                    class="needs-validation" novalidate>
                     @csrf
                     <!-- Nama Portofolio -->
                     <div class="row ml-4 mr-4">
@@ -640,6 +641,18 @@
     <main class="bg-light">
         <h4 class="text-center my-4" style="text-align: center; font-weight: bold;">Data Diri</h4>
         <section class="centered-section-1">
+            @if (session('success'))
+                <script>
+                    window.onload = function() {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: '{{ session('success') }}',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                    }
+                </script>
+            @endif
             <div class="bg-primary-section card col-lg-10 col-md-10 col-sm-6 py-1 card-profile1">
                 <div class="row">
                     <div class="col-md-3">
@@ -1258,7 +1271,8 @@
                                     <div class="flex-grow-1 mb-2">
                                         <div class="profile-widget-name"
                                             style="font-size: 16px; display: flex; align-items: center;">
-                                            <a href="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}" target="_blank">Lihat dokumen
+                                            <a href="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
+                                                target="_blank">Lihat dokumen
                                                 Portofolio</a>
                                         </div>
                                     </div>
@@ -1267,11 +1281,11 @@
                                     <div class="flex-grow-1 mb-2">
                                         <div class="profile-widget-name"
                                             style="font-size: 16px; display: flex; align-items: center;">
-                                            @if($portofolio->link_portofolio)
-                                            <a href="{{ $portofolio->link_portofolio }}" target="_blank">Lihat
-                                                Portofolio</a>
+                                            @if ($portofolio->link_portofolio)
+                                                <a href="{{ $portofolio->link_portofolio }}" target="_blank">Lihat
+                                                    Portofolio</a>
                                             @else
-                                            <p>tidak ada link </p>
+                                                <p>tidak ada link </p>
                                             @endif
                                         </div>
                                     </div>
@@ -1744,7 +1758,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="konteks">Konten Postingan</label>
-                                        <textarea name="konteks" id="konteks" class="form-control summernote @error('konteks') is-invalid @enderror"
+                                        <textarea name="konteks" id="konteks2" class="form-control summernote @error('konteks') is-invalid @enderror"
                                             required rows="5" cols="50">
                                             @isset($post)
 {!! $post->konteks !!}
@@ -1958,6 +1972,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#konteks').summernote({
+                height: 200,
+                placeholder: 'Masukkan konten Anda di sini',
+                lang: 'id-ID',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['picture']]
+                ]
+            });
+        });
+
+        $('#konteks2').summernote({
+            height: 250,
+            disableLinkTarget: true,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['picture']]
+            ]
+        });
+
         $(document).ready(function() {
             var editModal = $('#modal-edit-pendidikan');
 
@@ -2633,21 +2676,32 @@
                         console.log(response); // For debugging
                         if (response.success) {
                             editModal.modal('hide');
-                            location.reload();
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then(function() {
+                                window.location.href =
+                                    "{{ route('profile-lulusan.index') }}";
+                            });
                         } else {
-                            alert('Error! ' + response.message);
+                            Swal.fire({
+                                title: 'Error!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            });
                         }
                     },
                     error: function(xhr, status, error) {
                         console.log(xhr.responseText); // For debugging
                         var err = JSON.parse(xhr.responseText);
-                        alert('Error! ' + err.message);
+                        alert('Error! ' + (err.message || error));
                     }
                 });
             });
-            $('#konteks').summernote({
-                disableLinkTarget: true
-            });
+
         });
     </script>
     <script>
@@ -2795,15 +2849,10 @@
         let hasMoreDataPostingan = true;
 
         function resetView() {
+            console.log('Resetting view...');
             $('#reset-message').show();
-
-
             $('#postingan-container').html('');
-
-
             $('#load-more-postingan').css('display', '');
-
-
             isLoadingMorePostingan = false;
             hasMoreDataPostingan = true;
             $('#load-more-postingan').data('page', 1);
@@ -2834,9 +2883,76 @@
                             hasMoreDataPostingan = false;
                             resetView();
                         }
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.error('Load more failed:', textStatus, errorThrown);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while loading more posts.',
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        });
                     });
                 }
             });
+
+            $('#modal-save-button-portofolio').on('click', function() {
+                var form = $('#modal-edit-portofolio-form');
+                var formData = new FormData(form[0]);
+                formData.append('_token', "{{ csrf_token() }}");
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log('Response:', response); // For debugging
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX error:', xhr, status, error); // For debugging
+                        try {
+                            var err = JSON.parse(xhr.responseText);
+                            Swal.fire({
+                                title: 'Error!',
+                                text: err.message || error,
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            });
+                        } catch (e) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'An unexpected error occurred.',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // menghapus alert
+            window.alert = function(message) {
+                console.log('Alert called with message:', message);
+
+            };
         });
     </script>
     <script>
@@ -2849,7 +2965,7 @@
             }
         }
     </script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#konteks').summernote({
                 height: 300,
@@ -2857,7 +2973,7 @@
                 lang: 'id-ID'
             });
         });
-    </script>
+    </script> --}}
 @endpush
 @push('customStyle')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
