@@ -52,7 +52,7 @@ class AlljobsController extends Controller
                     ->get();
 
                 $lokerData = DB::table('lokers')
-                    ->select('id', 'persyaratan', 'deskripsi', 'keahlian')
+                    ->select('id','nama_loker', 'keahlian')
                     ->where('status', 'dibuka')
                     ->get();
 
@@ -94,7 +94,7 @@ class AlljobsController extends Controller
                     }
 
                     foreach ($lokerData as $loker) {
-                        $loker->tf = $processTextAndCalculateTF($loker->persyaratan . ' ' . $loker->deskripsi . ' ' . $loker->keahlian);
+                        $loker->tf = $processTextAndCalculateTF($loker->nama_loker . ' ' . $loker->keahlian);
                     }
 
                     foreach ($keahliansData as $keahlian) {
@@ -291,94 +291,98 @@ class AlljobsController extends Controller
                 $currentDate = Carbon::now();
                 $userId = Auth::id();
                 $allResults = DB::table('rekomendasilowongans as rks')
-                    ->leftJoin('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
-                    ->leftJoin('keahlians as ks', 'rks.keahlian_id', '=', 'ks.id')
-                    ->leftJoin('lokers as lk', 'rks.loker_id', '=', 'lk.id')
-                    ->leftJoin('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
-                    ->leftJoin('users as u', 'ls.user_id', '=', 'u.id')
-                    ->select(
-                        'lk.id',
-                        'lk.perusahaan_id',
-                        'lk.nama_loker',
-                        'lk.persyaratan',
-                        'lk.deskripsi as loker_deskripsi',
-                        'lk.gaji_atas',
-                        'lk.gaji_bawah',
-                        'lk.tipe_pekerjaan',
-                        'lk.tgl_tutup',
-                        'lk.kuota',
-                        'lk.lokasi',
-                        'lk.status',
-                        'lk.keahlian as keahlian_loker',
-                        'ps.nama_pemilik',
-                        'ps.nama_perusahaan',
-                        'ps.logo_perusahaan',
-                        'ps.email_perusahaan',
-                        'ps.alamat_perusahaan',
-                        'ps.deskripsi as perusahaan_deskripsi',
-                        'ls.user_id',
-                        'ks.keahlian',
-                        DB::raw('rks.score_similarity_keahlian * 100 as score_similarity_keahlian'),
-                        DB::raw('rks.score_similarity_lulusan * 100 as score_similarity_lulusan')
+                ->leftJoin('lulusans as ls', 'rks.lulusan_id', '=', 'ls.id')
+                ->leftJoin('keahlians as ks', 'rks.keahlian_id', '=', 'ks.id')
+                ->leftJoin('lokers as lk', 'rks.loker_id', '=', 'lk.id')
+                ->leftJoin('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
+                ->leftJoin('users as u', 'ls.user_id', '=', 'u.id')
+                ->select(
+                    'lk.id',
+                    'lk.perusahaan_id',
+                    'lk.nama_loker',
+                    'lk.persyaratan',
+                    'lk.deskripsi as loker_deskripsi',
+                    'lk.gaji_atas',
+                    'lk.gaji_bawah',
+                    'lk.tipe_pekerjaan',
+                    'lk.tgl_tutup',
+                    'lk.kuota',
+                    'lk.lokasi',
+                    'lk.status',
+                    'lk.keahlian as keahlian_loker',
+                    'ps.nama_pemilik',
+                    'ps.nama_perusahaan',
+                    'ps.logo_perusahaan',
+                    'ps.email_perusahaan',
+                    'ps.alamat_perusahaan',
+                    'ps.deskripsi as perusahaan_deskripsi',
+                    'ls.user_id',
+                    'ks.keahlian',
+                    DB::raw('rks.score_similarity_keahlian * 100 as score_similarity_keahlian'),
+                    DB::raw('rks.score_similarity_lulusan * 100 as score_similarity_lulusan')
+                )
+                ->when($request->input('nama_loker'), function ($query, $nama_loker) {
+                    return $query->where('lk.nama_loker', 'like', '%' . $nama_loker . '%');
+                })
+                ->when($request->input('persyaratan'), function ($query, $name) {
+                    return $query->where('lk.persyaratan', 'like', '%' . $name . '%');
+                })
+                ->when($request->input('lokasi'), function ($query, $lokasi) {
+                    return $query->where('lk.lokasi', $lokasi);
+                })
+                ->where('lk.status', 'dibuka')
+                ->where('lk.tgl_tutup', '>=', $currentDate);
 
-                    )->when($request->input('nama_loker'), function ($query, $nama_loker) {
-                        return $query->where('lk.nama_loker', 'like', '%' . $nama_loker . '%');
-                    })
-                    ->when($request->input('persyaratan'), function ($query, $name) {
-                        return $query->where('lk.persyaratan', 'like', '%' . $name . '%');
-                    })
-                    ->when($request->input('lokasi'), function ($query, $lokasi) {
-                        return $query->where('lk.lokasi', $lokasi);
-                    })
-                    ->where('lk.status', 'dibuka')
-                    ->where('lk.tgl_tutup', '>=', $currentDate);
+            if ($lulusanData[0]->ringkasan == null) {
+                $allResults = $allResults->where('rks.score_similarity_keahlian', '>', 0);
+            } elseif ($keahliansData->isEmpty()) {
+                $allResults = $allResults->where('rks.score_similarity_lulusan', '>', 0);
+            } else {
+                $allResults = $allResults->where('rks.score_similarity_lulusan', '>', 0)->where('rks.score_similarity_keahlian', '>', 0);
+            }
 
-                if ($lulusanData[0]->ringkasan == null) {
-                    // dd($allResults->get());
-                    $allResults = $allResults->where('rks.score_similarity_keahlian', '>', 0);
-                } elseif (($keahliansData->isEmpty())) {
-                    $allResults = $allResults->where('rks.score_similarity_lulusan', '>', 0);
-                } else {
-                    $allResults = $allResults->Where('rks.score_similarity_lulusan', '>', 0)->Where('rks.score_similarity_keahlian', '>', 0);
-                }
+            $allResults = $allResults->groupBy('lk.id');
 
-                $allResults = $allResults->groupBy("lk.id");
+            if ($request->has('posisi') && !empty($request->posisi)) {
+                $allResults->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
+            }
 
-                if ($request->has('posisi') && !empty($request->posisi)) {
-                    $allResults->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
-                }
+            if ($request->has('tipe')) {
+                $allResults->whereIn('lk.tipe_pekerjaan', $request->input('tipe'));
+            }
 
-                if ($request->has('tipe')) {
-                    $allResults->whereIn('lk.tipe_pekerjaan', $request->input('tipe'));
-                }
-
-                // Filter by salary range
-                if ($request->has('gaji')) {
-                    $allResults->where(function ($query) use ($request) {
-                        foreach ($request->input('gaji') as $gaji) {
-                            switch ($gaji) {
-                                case 'less-1jt':
-                                    $query->orWhere('lk.gaji_atas', '<', 1000000);
-                                    break;
-                                case '1jt-5jt':
-                                    $query->orWhereBetween('lk.gaji_atas', [1000000, 5000000]);
-                                    break;
-                                case '5jt-10jt':
-                                    $query->orWhereBetween('lk.gaji_atas', [5000001, 10000000]);
-                                    break;
-                                case 'more-10jt':
-                                    $query->orWhere('lk.gaji_atas', '>', 10000000);
-                                    break;
-                            }
+            // Filter by salary range
+            if ($request->has('gaji')) {
+                $allResults->where(function ($query) use ($request) {
+                    foreach ($request->input('gaji') as $gaji) {
+                        switch ($gaji) {
+                            case 'less-1jt':
+                                $query->orWhere('lk.gaji_atas', '<', 1000000);
+                                break;
+                            case '1jt-5jt':
+                                $query->orWhereBetween('lk.gaji_atas', [1000000, 5000000]);
+                                break;
+                            case '5jt-10jt':
+                                $query->orWhereBetween('lk.gaji_atas', [5000001, 10000000]);
+                                break;
+                            case 'more-10jt':
+                                $query->orWhere('lk.gaji_atas', '>', 10000000);
+                                break;
                         }
-                    });
-                }
+                    }
+                });
+            }
 
-                if ($lulusanData[0]->ringkasan == null && $keahliansData->isEmpty()) {
-                    $allResults = null;
-                } else {
-                    $allResults = $allResults->paginate(4);
-                }
+            // Order by score_similarity_keahlian or score_similarity_lulusan and limit to 5
+            $allResults = $allResults
+                ->orderBy(DB::raw('GREATEST(rks.score_similarity_keahlian, rks.score_similarity_lulusan)'), 'desc')
+                ->limit(5);
+
+            if ($lulusanData[0]->ringkasan == null && $keahliansData->isEmpty()) {
+                $allResults = null;
+            } else {
+                $allResults = $allResults->paginate(4);
+            }
 
                 $tableloker = DB::table('lokers as lk')
                     ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
@@ -649,43 +653,6 @@ class AlljobsController extends Controller
         }
         return $dotProduct / ($magnitude1 * $magnitude2);
     }
-
-    // public function detail_rekomendasi(LowonganPekerjaan $loker)
-    // {
-    //     $perusahaan = Perusahaan::all();
-    //     $rekomendasi = DB::table('rekomendasilowongans as rks')
-    //         ->join('lokers as lk', 'rks.loker_id', '=', 'lk.id')
-    //         ->join('perusahaan as ps', 'lk.perusahaan_id', '=', 'ps.id')
-    //         ->select(
-    //             'lk.id',
-    //             'rks.id',
-    //             'lk.nama_loker',
-    //             'lk.persyaratan',
-    //             'lk.deskripsi',
-    //             'lk.gaji_bawah',
-    //             'lk.gaji_atas',
-    //             'lk.tipe_pekerjaan',
-    //             'lk.tgl_tutup',
-    //             'lk.keahlian',
-    //             'lk.kuota',
-    //             'lk.keahlian',
-    //             'ps.nama_pemilik',
-    //             'ps.nama_perusahaan',
-    //             'ps.logo_perusahaan',
-    //             'ps.email_perusahaan',
-    //             'ps.alamat_perusahaan',
-    //             'ps.deskripsi',
-    //             'ps.no_telp',
-    //             'ps.website',
-    //             'ps.email_perusahaan',
-    //         )
-    //         ->first();
-
-    //     return view('showAllJobs', [
-    //         'perusahaan' => $perusahaan,
-    //         'rekomendasi' => $rekomendasi,
-    //     ]);
-    // }
 
 
     public function show(LowonganPekerjaan $loker)
