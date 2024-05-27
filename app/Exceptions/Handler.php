@@ -38,11 +38,13 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (NotFoundHttpException $e) {
             //
-            return response()->json(['message' => 'Object Not Found'], 404);
+            return response()->view('errors.404', [], 404);
         });
         $this->renderable(function (AuthenticationException $e) {
             //
-            return response()->json(['message' => 'Unauthenticated or Token Expired'], 429);
+            return response()->view('errors.429', [], 429);
         });
     }
+
+   
 }

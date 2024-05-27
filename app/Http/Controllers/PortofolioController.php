@@ -30,7 +30,8 @@ class PortofolioController extends Controller
         // Validasi input
         $request->validate([
             'nama_portofolio' => 'required|string|max:255',
-            'dokumen_portofolio' => 'nullable|file|mimetypes:application/pdf|max:2048',
+            'dokumen_portofolio' => 'nullable|mimes:png,jpeg,jpg|max:5000',
+            'deskripsi_portofolio' => 'required',
             'link_portofolio' => 'nullable|url|max:255',
         ]);
 
@@ -38,6 +39,7 @@ class PortofolioController extends Controller
             'user_id' => $userId,
             'nama_portofolio' => $request->input('nama_portofolio'),
             'dokumen_portofolio' => $request->input('dokumen_portofolio'),
+            'deskripsi_portofolio' => $request->input('deskripsi_portofolio'),
             'link_portofolio' => $request->input('link_portofolio'),
         ]);
 
@@ -68,7 +70,8 @@ class PortofolioController extends Controller
     {
         $rules = [
             'nama_portofolio' => 'required|string|max:255',
-            'dokumen_portofolio' => 'nullable|mimes:pdf|max:2048',
+            'dokumen_portofolio' => 'nullable|mimes:png,jpg,jpeg|max:2048',
+            'deskripsi_portofolio' => 'required',
             'link_portofolio' => 'nullable|url|max:255',
         ];
 
@@ -105,5 +108,15 @@ class PortofolioController extends Controller
         return redirect()
             ->route('profile-lulusan.index')
             ->with('success', 'success-delete');
+    }
+
+    public function show($id) {
+        $portofolio = Portofolio::findOrFail($id);
+        $data = [
+            'title' => $portofolio->nama_portofolio,
+            'image' => asset('storage/' . $portofolio->dokumen_portofolio),
+            'deskripsi' => $portofolio->deskripsi_portofolio,
+        ];
+        return response()->json($data);
     }
 }

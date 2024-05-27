@@ -13,7 +13,8 @@ class Portofolio extends Model
         'user_id',
         'link_portofolio',
         'nama_portofolio',
-        'dokumen_portofolio'
+        'dokumen_portofolio',
+        'deskripsi_portofolio'
     ];
 
     public function user()

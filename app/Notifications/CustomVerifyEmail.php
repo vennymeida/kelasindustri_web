@@ -43,9 +43,8 @@ class CustomVerifyEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Registrasi Akun JobsKelasIndustri') // Mengatur subject email
-            ->line('Terimakasih Telah Mendaftar di JobsKelasIndustri')
-            ->line('Saat ini akun Anda sedang dalam proses verifikasi oleh admin. Anda akan segera Mendapatkan notifikasi email ketika akun berhasil di verifikasi');
+            ->subject('Registrasi Akun JobsKelasIndustri') 
+            ->view('mails.emailverify');
     }
 
     /**

@@ -52,6 +52,7 @@ use App\Http\Controllers\RekomendasiRangkingController;
 use App\Http\Controllers\RekrutController;
 use App\Http\Controllers\StopWordController;
 use App\Http\Controllers\NavigationController;
+use App\Models\Portofolio;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
@@ -75,7 +76,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 //     // return view('welcome');
 // });
 
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/all-jobs', [AlljobsController::class, 'index'])->name('all-jobs.index');
 Route::get('/all-jobs/{loker}', [AlljobsController::class, 'show'])->name('all-jobs.show');
 // Route::get('/all-jobs/{loker}', [AlljobsController::class, 'detail_rekomendasi'])->name('all-jobs.detail_rekomendasi');
@@ -198,7 +199,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::put('/profile-perusahaan-update', [ProfilePerusahaanController::class, 'update'])->name('profile.perusahaan.update');
 
     Route::resource('/profile-lulusan', ProfileLulusanController::class);
-
     Route::resource('pendidikan', PendidikanController::class);
     Route::resource('pengalaman', PengalamanController::class);
     Route::resource('pelatihan', PelatihanController::class);

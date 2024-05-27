@@ -41,7 +41,6 @@
                                             @endforeach
                                         @endif
                                     </select>
-
                                 </div>
                             </div>
                             <div class="form-group col-md-1">

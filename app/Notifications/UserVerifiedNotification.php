@@ -42,10 +42,11 @@ class UserVerifiedNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Akun Anda Telah Diverifikasi')
-            ->greeting('Halo!')
-            ->line('Akun Anda telah berhasil diverifikasi. Sekarang Anda dapat masuk ke sistem.')
-            ->action('Masuk', url('/login'))  // Link ke halaman login
-            ->line('Terima kasih telah menggunakan layanan kami!');
+            // ->greeting('Halo!')
+            // ->line('Akun Anda telah berhasil diverifikasi. Sekarang Anda dapat masuk ke sistem.')
+            // ->action('Masuk', url('/login'))  // Link ke halaman login
+            // ->line('Terima kasih telah menggunakan layanan kami!');
+            ->view('mails.emailVerified');
     }
 
     /**

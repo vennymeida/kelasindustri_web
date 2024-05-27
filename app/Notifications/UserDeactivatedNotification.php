@@ -42,10 +42,11 @@ class UserDeactivatedNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Akun Anda Telah Dinonaktifkan')
-            ->greeting('Halo!')
-            ->line('Akun Anda telah dinonaktifkan oleh Admin.')
-            ->line('Jika Anda merasa ini adalah kesalahan, silakan hubungi Admin terkait.')
-            ->line('Terima kasih.');
+            // ->greeting('Halo!')
+            // ->line('Akun Anda telah dinonaktifkan oleh Admin.')
+            // ->line('Jika Anda merasa ini adalah kesalahan, silakan hubungi Admin terkait.')
+            // ->line('Terima kasih.');
+            ->view('mails.emailDeactivated');
     }
 
     /**

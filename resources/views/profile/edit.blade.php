@@ -263,6 +263,32 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-12 col-12">
+                                            <label for="angkatan_tahun">Angkatan Tahun</label>
+                                            <div class="input-group">
+                                                <input name="angkatan_tahun" type="text" id="angkatan_tahun"
+                                                    class="form-control phone-number custom-input @error('angkatan_tahun') is-invalid @enderror"
+                                                    value="{{ Auth::user()->lulusan->angkatan_tahun }}">
+                                                @error('angkatan_tahun')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 col-12">
+                                            <label for="divisi">Divisi</label>
+                                            <div class="input-group">
+                                                <input name="divisi" type="text" id="divisi"
+                                                    class="form-control phone-number custom-input @error('divisi') is-invalid @enderror"
+                                                    value="{{ Auth::user()->lulusan->divisi }}">
+                                                @error('divisi')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 col-12">
                                             <label>Tanggal Lahir</label>
                                             <div class="input-group">
                                                 <input name="tgl_lahir" type="date" id="tgl_lahir"

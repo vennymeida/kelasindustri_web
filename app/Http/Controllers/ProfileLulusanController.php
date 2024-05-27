@@ -62,10 +62,12 @@ class ProfileLulusanController extends Controller
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->paginate(2);
-        $portofolios = Portofolio::select('portofolios.*')
+        $portofolios = DB::table('portofolios')->select('portofolios.id', 'portofolios.nama_portofolio', 'portofolios.dokumen_portofolio', 'portofolios.link_portofolio')
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->paginate(2);
+
+        // dd($portofolios->id);
 
         return view('profile.index')->with([
             'lulusan' => $lulusan,
@@ -77,6 +79,8 @@ class ProfileLulusanController extends Controller
             'keahlians' => $keahlians,
         ]);
     }
+
+  
 
     public function create()
     {
@@ -123,6 +127,8 @@ class ProfileLulusanController extends Controller
             'status' => 'required',
             'jenis_kelamin' => 'nullable|in:laki-laki,perempuan, kosong',
             'alamat' => 'required',
+            'angkatan_tahun' => 'required',
+            'divisi' => 'required',
             'ringkasan' => 'nullable',
             'no_hp' => 'nullable',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -138,6 +144,8 @@ class ProfileLulusanController extends Controller
         $lulusan->alamat = $request->alamat;
         $lulusan->jenis_kelamin = $request->jenis_kelamin;
         $lulusan->no_hp = $request->no_hp;
+        $lulusan->angkatan_tahun = $request->angkatan_tahun;
+        $lulusan->divisi = $request->divisi;
         $lulusan->ringkasan = $request->ringkasan ?? null;
         $lulusan->foto = $request->foto ?? null;
         $lulusan->resume = $request->resume ?? null;
@@ -164,6 +172,8 @@ class ProfileLulusanController extends Controller
                     'resume' => 'nullable|file|mimes:pdf|max:2048',
                     'tgl_lahir' => 'nullable|date:d/m/Y',
                     'ringkasan' => 'nullable',
+                    'angkatan_tahun' => 'required|regex:/^[0-9]{4}$/',
+                    'divisi' => 'required|',
                 ],
                 [
                     'alamat.max' => 'Alamat Melebihi Batas Maksimal',
@@ -200,6 +210,8 @@ class ProfileLulusanController extends Controller
             $profile->ringkasan = $request->ringkasan;
             $profile->alamat = $request->alamat;
             $profile->no_hp = $request->no_hp;
+            $profile->angkatan_tahun = $request->angkatan_tahun;
+            $profile->divisi = $request->divisi;
             $profile->tgl_lahir = $request->tgl_lahir;
 
             // Simpan perubahan ke dalam database

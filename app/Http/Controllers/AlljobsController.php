@@ -331,25 +331,14 @@ class AlljobsController extends Controller
                     return $query->where('lk.lokasi', $lokasi);
                 })
                 ->where('lk.status', 'dibuka')
-                ->where('lk.tgl_tutup', '>=', $currentDate);
+                ->where('lk.tgl_tutup', '>=', $currentDate)
+                ->where('ls.user_id', $userId)
+                ->where(function ($query) {
+                    $query->where('rks.score_similarity_keahlian', '>', 0)
+                          ->orWhere('rks.score_similarity_lulusan', '>', 0);
+                })
+                ->groupBy('lk.id');
 
-            if ($lulusanData[0]->ringkasan == null) {
-                $allResults = $allResults->where('rks.score_similarity_keahlian', '>', 0);
-            } elseif ($keahliansData->isEmpty()) {
-                $allResults = $allResults->where('rks.score_similarity_lulusan', '>', 0);
-            } else {
-                $allResults = $allResults->where('rks.score_similarity_lulusan', '>', 0)->where('rks.score_similarity_keahlian', '>', 0);
-            }
-
-            $allResults = $allResults->groupBy('lk.id');
-
-            if ($request->has('posisi') && !empty($request->posisi)) {
-                $allResults->where('lk.nama_loker', 'like', '%' . $request->posisi . '%');
-            }
-
-            if ($request->has('tipe')) {
-                $allResults->whereIn('lk.tipe_pekerjaan', $request->input('tipe'));
-            }
 
             // Filter by salary range
             if ($request->has('gaji')) {
@@ -705,7 +694,7 @@ class AlljobsController extends Controller
 
         $lamaranStatus = $lamaran ? $lamaran->status : null;
 
-        if (Auth::check()) {
+
             return view('showAllJobs', [
                 'loker' => $loker,
                 'perusahaan' => $perusahaan,
@@ -715,8 +704,7 @@ class AlljobsController extends Controller
                 'getLamarPending' => $getLamarPending,
                 'getLamarDiterima' => $getLamarDiterima,
             ]);
-        } else {
-            return view('auth.login');
-        }
+
+
     }
 }

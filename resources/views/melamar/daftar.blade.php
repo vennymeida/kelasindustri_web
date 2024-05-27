@@ -87,17 +87,20 @@
                     </div>
                 @else
                     <!-- User Profile is Incomplete -->
+                    @role('lulusan')
                     <div class="alert alert-warning">
                         Tolong selesaikan profile anda sebelum melamar pekerjaan.
+
                         <a href="{{ route('profile-lulusan.edit') }}" class="alert-link">Click disini untuk
                             menyelesaikan
                             profile anda</a>.
                     </div>
+                    @endrole
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" id="closeModalButton"
                             data-dismiss="modal">Close</button>
                     </div>
-
+                    
                 @endif
             </div>
         </div>

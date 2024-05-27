@@ -1,3 +1,25 @@
+{{-- Modal View PDF --}}
+<div id="pdfModal" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img id="pdfViewer" style="width: 100%; height: auto;">
+                    </div>
+                    <div class="col-md-6">
+                        <h4 id="portofolioTitle"></h4>
+                        <p id="portofolioDescription"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
 <!-- Modal for Resume Preview -->
 <div class="modal fade fullscreen-modal" id="resumePreviewModal" tabindex="-1" role="dialog"
     aria-labelledby="resumePreviewModalLabel" aria-hidden="true">
@@ -501,6 +523,19 @@
                     </div>
                     <div class="row ml-4 mr-4">
                         <div class="form-group col-md-12 col-12">
+                            <label for="deskripsi_portofolio">Deskripsi</label>
+                            <input name="deskripsi_portofolio" type="text"
+                                class="form-control custom-input @error('deskripsi_portofolio') is-invalid @enderror"
+                                value="{{ old('deskripsi_portofolio') }}" placeholder="Masukkan nama portofolio" required>
+                            @error('deskripsi_portofolio')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row ml-4 mr-4">
+                        <div class="form-group col-md-12 col-12">
                             <label>Unggah Portofolio</label>
                             <input id="dokumen_portofolio" name="dokumen_portofolio" type="file"
                                 class="form-control custom-input @error('dokumen_portofolio') is-invalid @enderror">
@@ -510,7 +545,7 @@
                                 </div>
                             @enderror
                             <div class="text-warning small" style="font-size: 13px; font-weight:medium;">
-                                (Tipe berkas : pdf | Max size : 2MB)</div>
+                                (Tipe berkas : png, jpeg, jpg | Max size : 2MB)</div>
                         </div>
                     </div>
                     <!-- Link Portofolio -->
@@ -775,6 +810,24 @@
                                                 :</span>
                                             <span style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
                                         @endif
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->angkatan_tahun != '')
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">Angkatan
+                                                tahun&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<span
+                                                    style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->lulusan->angkatan_tahun }}</span></span><br><br>
+                                        @else
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">Angkatan Tahun
+                                                :</span>
+                                            <span style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
+                                        @endif
+                                        @if (Auth::user()->lulusan && Auth::user()->lulusan->divisi != '')
+                                            <span
+                                                style="color: #808080; font-size: 15px; font-weight:bold">Divisi&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<span
+                                                    style="color: #000000; line-height: 2; font-weight:500">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ Auth::user()->lulusan->divisi }}</span></span><br><br>
+                                        @else
+                                            <span style="color: #808080; font-size: 15px; font-weight:bold">Divisi
+                                                :</span>
+                                            <span style="color: #000000; line-height: 2; font-weight:500"><br></span><br>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -951,14 +1004,24 @@
                                     <div class="d-flex align-items-center mb-2">
                                         <button class="btn btn-skill keahlianPelamar1"
                                             style="font-size: 14px">{{ $keahlian->keahlian }}</button>
-                                        <form action="{{ route('keahlian.destroy', $keahlian->id) }}" method="POST">
+                                        {{-- <form action="{{ route('keahlian.destroy', $keahlian->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger ml-2"
                                                 style="font-size: 14px;">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-                                        </form>
+                                        </form> --}}
+                                        <form class="m-0"
+                                                action="{{ route('keahlian.destroy', $keahlian->id) }}"
+                                                method="POST" id="delete-keahlian{{ $keahlian->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger ml-2"
+                                                    onclick="confirmKeahlian({{ $keahlian->id }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                     </div>
                                 @endforeach
                             </div>
@@ -1233,11 +1296,14 @@
                     </div>
                 </div>
                 @if ($portofolios->count() > 0)
-                    <div id="portofolio-container" class="pendidikancardprofile">
+                    <div id="portofolio-container" class="pendidikancardprofile d-flex flex-row-reverse">
                         @foreach ($portofolios as $portofolio)
                             <hr>
                             <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
+
+                                <div class="col-md-5">
+
+                                    <div class="profile-widget-description m-3"
                                     style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
                                     <div class="flex-grow-1">
                                         <div class="profile-widget-name"
@@ -1267,19 +1333,29 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
                                     <div class="flex-grow-1 mb-2">
-                                        <div class="profile-widget-name"
-                                            style="font-size: 16px; display: flex; align-items: center;">
-                                            <a href="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
-                                                target="_blank">Lihat dokumen
-                                                Portofolio</a>
+                                        {{-- <div class="profile-widget-name" style="font-size: 16px; display: flex; align-items: center;">
+                                            <button type="button" data-pdf-url="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}">Lihat Dokumen Portofolio</button>
+                                        </div> --}}
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <div onclick="openModal(this)"
+                                                            data-url="{{ route('portofolio.show', ['portofolio' => $portofolio->id]) }}">
+                                                            <img style="max-height: 50%; max-width: 50%; cursor: pointer;"
+                                                                src="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
+                                                                alt="image portofolio">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="flex-grow-1 mb-2">
-                                        <div class="profile-widget-name"
+                                        {{-- <div class="profile-widget-name"
                                             style="font-size: 16px; display: flex; align-items: center;">
                                             @if ($portofolio->link_portofolio)
                                                 <a href="{{ $portofolio->link_portofolio }}" target="_blank">Lihat
@@ -1287,7 +1363,9 @@
                                             @else
                                                 <p>tidak ada link </p>
                                             @endif
-                                        </div>
+                                        </div> --}}
+
+
                                     </div>
                                 </div>
                             </div>
@@ -1679,7 +1757,19 @@
                                 @enderror
                             </div>
                         </div>
-
+                        <div class="row ml-4 mr-4">
+                            <div class="form-group col-md-12 col-12">
+                                <label for="deskripsi_portofolio">Deskripsi</label>
+                                <input name="deskripsi_portofolio" type="text"
+                                    class="form-control custom-input @error('deskripsi_portofolio') is-invalid @enderror"
+                                    value="{{ old('deskripsi_portofolio') }}" placeholder="Masukkan nama portofolio" required>
+                                @error('deskripsi_portofolio')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="row ml-4 mr-4">
                             <div class="form-group col-md-12 col-12">
                                 <label>Unggah Portofolio</label>
@@ -1917,6 +2007,30 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('delete-portofolio' + itemId).submit();
+                }
+            });
+        }
+    </script>
+    <script>
+        function confirmKeahlian(itemId) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Batal',
+                customClass: {
+                    confirmButton: 'btn btn-confirm',
+                    cancelButton: 'btn btn-cancel',
+                },
+                buttonsStyling: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-keahlian' + itemId).submit();
                 }
             });
         }
@@ -2974,6 +3088,45 @@
             });
         });
     </script> --}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('pdfModal');
+            const pdfViewer = document.getElementById('pdfViewer');
+            const portofolioTitle = document.getElementById('portofolioTitle');
+            // const portofolioDescription = document.getElementById('portofolioDescription');
+
+            document.addEventListener('click', function (event) {
+                if (event.target.hasAttribute('data-url')) {
+                    const url = event.target.getAttribute('data-url');
+                    openModal(url);
+                }
+            });
+
+            function openModal(url) {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        pdfViewer.src = data.image;
+                        portofolioTitle.textContent = data.title;
+                        portofolioDescription.textContent = data.deskripsi;
+                        modal.style.display = 'block';
+                    });
+            }
+
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            };
+        });
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.13.216/build/pdf.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.13.216/build/pdf.worker.js"></script>
 @endpush
 @push('customStyle')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />

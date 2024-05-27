@@ -44,6 +44,7 @@
                                 </p>
                             </ul>
                             <ul class="list-unstyled d-flex justify-content-between">
+                                @role('lulusan')
                                 @if (Auth::user()->lulusan)
                                     @if (!$hasApplied)
                                         <a id="detail-button" class="btn btn-primary px-5 py-2"
@@ -71,6 +72,7 @@
                                 <p class="font-italic mt-2 time" style="font-size: 14px;"><img class="img-fluid img-icon"
                                         src="{{ asset('assets/img/landing-page/Time.svg') }}"> Tayang {{ $updatedAgo }}
                                 </p>
+                                @endrole
                             </ul>
                         </div>
                     </div>
