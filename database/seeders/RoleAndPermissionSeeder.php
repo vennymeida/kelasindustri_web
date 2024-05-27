@@ -179,5 +179,17 @@ class RoleAndPermissionSeeder extends Seeder
         if ($user) {
             $user->assignRole('lulusan');
         }
+        $user = User::find(5);
+        if ($user) {
+            $user->assignRole('perusahaan');
+        }
+        $user = User::find(6);
+        if ($user) {
+            $user->assignRole('perusahaan');
+        }
+        $user = User::find(7);
+        if ($user) {
+            $user->assignRole('perusahaan');
+        }
     }
 }

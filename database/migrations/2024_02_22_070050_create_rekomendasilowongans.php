@@ -15,13 +15,10 @@ return new class extends Migration
     {
         Schema::create('rekomendasilowongans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lulusan_id')->nullable();
-            $table->foreign('lulusan_id')->references('id')->on('lulusans')->restrictOnDelete();
             $table->unsignedBigInteger('keahlian_id')->nullable();
             $table->foreign('keahlian_id')->references('id')->on('keahlians')->onDelete('set null');
             $table->unsignedBigInteger('loker_id');
             $table->foreign('loker_id')->references('id')->on('lokers')->restrictOnDelete();
-            $table->string('score_similarity_lulusan');
             $table->string('score_similarity_keahlian');
             $table->timestamps();
         });

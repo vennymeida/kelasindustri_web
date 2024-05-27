@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('alamat')->nullable();
             $table->string('no_hp')->nullable();
             $table->string('resume')->nullable();
-            $table->string('angkatan_tahun');
-            $table->string('divisi');
+            $table->string('angkatan_tahun')->nullable();
+            $table->string('divisi')->nullable();
             $table->text('ringkasan')->nullable();
             $table->date('tgl_lahir')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete();

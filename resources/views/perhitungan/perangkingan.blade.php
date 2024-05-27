@@ -42,11 +42,10 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>ID Lulusan</th>
                                                 <th>Keahlian Lulusan</th>
                                                 <th>ID Loker</th>
-                                                <th>Nilai Similarity Ringkasan</th>
                                                 <th>Nilai Similarity Keahlian</th>
+                                                <th>Presentase Similarity Keahlian</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,11 +58,10 @@
                                                     <tr>
                                                         <td>{{ ($perangkingans->currentPage() - 1) * $perangkingans->perPage() + $key + 1 }}
                                                         </td>
-                                                        <td>{{ $perangkingan->lulusan_id }}</td>
                                                         <td>{{ $perangkingan->keahlian }}</td>
                                                         <td>{{ $perangkingan->loker_id }}</td>
-                                                        <td>{{ $perangkingan->score_similarity_lulusan}}</td>
                                                         <td>{{ $perangkingan->score_similarity_keahlian}}</td>
+                                                        <td>{{ number_format($perangkingan->score_similarity_keahlian * 100, 2) }}%</td>
                                                     </tr>
                                                 @endforeach
                                             @endif

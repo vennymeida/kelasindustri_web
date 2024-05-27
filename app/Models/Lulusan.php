@@ -18,7 +18,9 @@ class Lulusan extends Model
         'resume',
         'tgl_lahir',
         'ringkasan',
-        'status'
+        'status',
+        'divisi',
+        'angkatan_tahun',
     ];
 
     public function user()

@@ -155,11 +155,16 @@ class LamarPerusahaanController extends Controller
         'catatan' => $request->catatan,
     ]);
 
+    $loker = LowonganPekerjaan::find($request->loker_id);
+    $perusahaan = Perusahaan::find($loker->perusahaan_id);
+
     $details = [
         'name' => $lamar->lulusan->user->name,
+        'perusahaan' => $perusahaan->nama_perusahaan,
         'date' => $request->tanggal_interview,
         'location' => $request->tempat_interview,
         'catatan' => $request->catatan,
+        'nama_loker' => $loker->nama_loker,
     ];
 
     if (!empty($request->email)) {

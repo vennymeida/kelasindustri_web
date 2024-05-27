@@ -4,11 +4,11 @@
     <title>Undangan Wawancara Kerja</title>
 </head>
 <body>
-    <img src="{{ asset('assets/img/landing-page/logo.svg') }}" alt="Logo Perusahaan" style="max-width: 200px;">
     <h1>Halo, {{ $details['name'] }}</h1>
-    <p>Anda diundang untuk wawancara pada {{ $details['date'] }}.</p>
+    <p>Anda diundang untuk mengikuti Test Pekerjaan di {{ $details['perusahaan'] }} pada tanggal {{ date('d F Y', strtotime($details['date'])) }}.</p>
     <p>Rincian:</p>
     <ul>
+        <li>Lowongan: {{ $details['nama_loker'] }}</li>
         <li>Lokasi: {{ $details['location'] }}</li>
         <li>Catatan: {{ $details['catatan'] }}</li>
     </ul>
