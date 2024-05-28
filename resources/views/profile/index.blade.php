@@ -1010,19 +1010,11 @@
                 @if (count(auth()->user()->keahlians) > 0)
                     <div class="col-md-12 mb-4">
                         <div class="flex-grow-1 mb-2">
-                            <div class="card-header-action keahlianPelamar">
+                            <div class="card-header-action keahlianPelamar d-flex flex-wrap">
                                 @foreach (auth()->user()->keahlians as $keahlian)
-                                    <div class="d-flex align-items-center mb-2">
+                                    <div class="d-flex align-items-center mb-2 mr-2">
                                         <button class="btn btn-skill keahlianPelamar1"
                                             style="font-size: 14px">{{ $keahlian->keahlian }}</button>
-                                        {{-- <form action="{{ route('keahlian.destroy', $keahlian->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger ml-2"
-                                                style="font-size: 14px;">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form> --}}
                                         <form class="m-0" action="{{ route('keahlian.destroy', $keahlian->id) }}"
                                             method="POST" id="delete-keahlian{{ $keahlian->id }}">
                                             @csrf
@@ -1061,53 +1053,57 @@
                 </div>
                 @if (count($pendidikans) > 0)
                     <div id="pendidikan-container" class="pendidikancardprofile">
-                        @foreach ($pendidikans as $item)
-                            <hr>
-                            <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
-                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                    <div class="flex-grow-1">
-                                        <div class="profile-widget-name"
-                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $item->nama_institusi }}
+                        <div class="row">
+                            @foreach ($pendidikans as $item)
+                                <div class="col-md-6">
+                                    <hr>
+                                    <div class="mr-5 ml-5">
+                                        <div class="profile-widget-description m-3"
+                                            style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                            <div class="flex-grow-1">
+                                                <div class="profile-widget-name"
+                                                    style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                    {{ $item->nama_institusi }}
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
+                                                id="fluid">
+                                                <a href="#" data-id="{{ $item->id }}"
+                                                    data-edit-url="{{ route('pendidikan.edit', ['pendidikan' => $item->id]) }}"
+                                                    class="modal-edit-trigger-pendidikan">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                        src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                                </a>
+                                                <form class="m-0"
+                                                    action="{{ route('pendidikan.destroy', ['pendidikan' => $item->id]) }}"
+                                                    method="POST" id="delete-edu{{ $item->id }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-edu"
+                                                        onclick="confirmDelete({{ $item->id }})">
+                                                        <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                            src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                            alt="Hapus">
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <ul class="list-unstyled ml-2">
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Graduation Cap (2).svg') }}">&nbsp&nbsp&nbsp&nbsp
+                                                    {{ $item->tingkatan }} - {{ $item->jurusan }}
+                                                </li>
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp
+                                                    {{ $item->tahun_mulai }} - {{ $item->tahun_selesai }}
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
-                                        id="fluid">
-                                        <a href="#" data-id="{{ $item->id }}"
-                                            data-edit-url="{{ route('pendidikan.edit', ['pendidikan' => $item->id]) }}"
-                                            class="modal-edit-trigger-pendidikan">
-                                            <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                        </a>
-                                        <form class="m-0"
-                                            action="{{ route('pendidikan.destroy', ['pendidikan' => $item->id]) }}"
-                                            method="POST" id="delete-edu{{ $item->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-edu"
-                                                onclick="confirmDelete({{ $item->id }})">
-                                                <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                    alt="Hapus">
-                                            </button>
-                                        </form>
-                                    </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <ul class="list-unstyled ml-2">
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Graduation Cap (2).svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                            {{ $item->tingkatan }} - {{ $item->jurusan }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                            {{ $item->tahun_mulai }} - {{ $item->tahun_selesai }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
                         <button id="load-more" class="btn btn-more mb-3"
@@ -1121,78 +1117,69 @@
                 @endif
             </div>
         </section>
+
         <section class="centered-section my-4">
             <div class="bg-primary-section card col-md-10 py-1 card-profile7">
-                <div class="profile-widget-description m-3"
-                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
                     <div class="flex-grow-1">
                         <div class="profile-widget-name" style="color:#6777ef;">Pengalaman Kerja</div>
                     </div>
                     <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
                         <a href="#" data-toggle="modal" data-target="#modal-create-pengalaman">
-                            <img class="img-fluid" style="width: 35px; height: 35px;"
-                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                            <img class="img-fluid" style="width: 35px; height: 35px;" src="{{ asset('assets/img/landing-page/Plus.svg') }}">
                         </a>
                     </div>
                 </div>
                 @if (count($pengalamans) > 0)
                     <div id="pengalaman-container" class="pendidikancardprofile">
-                        @foreach ($pengalamans as $pl)
-                            <hr>
-                            <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
-                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                    <div class="flex-grow-1">
-                                        <div class="profile-widget-name"
-                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $pl->nama_pengalaman }}
+                        <div class="row">
+                            @foreach ($pengalamans as $pl)
+                                <div class="col-md-6">
+                                    <hr>
+                                    <div class="mr-5 ml-5">
+                                        <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                            <div class="flex-grow-1">
+                                                <div class="profile-widget-name" style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                    {{ $pl->nama_pengalaman }}
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;" id="fluid">
+                                                <a href="#" data-id="{{ $pl->id }}" data-edit-url="{{ route('pengalaman.edit', ['pengalaman' => $pl->id]) }}" class="modal-edit-trigger-pengalaman">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                                </a>
+                                                <form class="m-0" action="{{ route('pengalaman.destroy', ['pengalaman' => $pl->id]) }}" method="POST" id="delete-pl{{ $pl->id }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-edu" onclick="confirmPl({{ $pl->id }})">
+                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="flex-grow-1 mb-2">
+                                                <div class="profile-widget-name" style="font-size: 16px; display: flex; align-items: center;">
+                                                    {{ $pl->nama_instansi }} | {{ $pl->alamat }}
+                                                </div>
+                                            </div>
+                                            <ul class="list-unstyled ml-2">
+                                                <li class="mb-2">
+                                                    <img class="img-fluid" src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
+                                                    &nbsp&nbsp&nbsp{{ $pl->tipe }}
+                                                </li>
+                                                <li class="mb-2">
+                                                    <img class="img-fluid" src="{{ asset('assets/img/landing-page/Time.svg') }}">
+                                                    &nbsp&nbsp&nbsp{{ $pl->tgl_mulai }} - {{ $pl->tgl_selesai }}
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
-                                        id="fluid">
-                                        <a href="#" data-id="{{ $pl->id }}"
-                                            data-edit-url="{{ route('pengalaman.edit', ['pengalaman' => $pl->id]) }}"
-                                            class="modal-edit-trigger-pengalaman">
-                                            <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                        </a>
-                                        <form class="m-0"
-                                            action="{{ route('pengalaman.destroy', ['pengalaman' => $pl->id]) }}"
-                                            method="POST" id="delete-pl{{ $pl->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-edu"
-                                                onclick="confirmPl({{ $pl->id }})">
-                                                <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                    alt="Hapus">
-                                            </button>
-                                        </form>
-                                    </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="flex-grow-1 mb-2">
-                                        <div class="profile-widget-name"
-                                            style="font-size: 16px; display: flex; align-items: center;">
-                                            {{ $pl->nama_instansi }} | {{ $pl->alamat }}
-                                        </div>
-                                    </div>
-                                    <ul class="list-unstyled ml-2">
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/hourglass.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tipe }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tgl_mulai }}
-                                            - {{ $pl->tgl_selesai }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
-                        <button id="load-more-pengalaman" class="btn btn-more mb-3"
-                            data-page="{{ $pengalamans->currentPage() }}">Muat Lebih Banyak . . .</button>
+                        <button id="load-more-pengalaman" class="btn btn-more mb-3" data-page="{{ $pengalamans->currentPage() }}">Muat Lebih Banyak . . .</button>
                     </div>
                 @else
                     <div class="col-md-12 text-center my-4"><br><br>
@@ -1204,84 +1191,71 @@
         </section>
         <section class="centered-section my-4">
             <div class="bg-primary-section card col-md-10 py-1 card-profile8">
-                <div class="profile-widget-description m-3"
-                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
                     <div class="flex-grow-1">
                         <div class="profile-widget-name" style="color:#6777ef;">Pelatihan / Sertifikat</div>
                     </div>
                     <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
                         <a href="#" data-toggle="modal" data-target="#modal-create-pelatihan">
-                            <img class="img-fluid" style="width: 35px; height: 35px;"
-                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                            <img class="img-fluid" style="width: 35px; height: 35px;" src="{{ asset('assets/img/landing-page/Plus.svg') }}">
                         </a>
                     </div>
                 </div>
                 @if (count($pelatihans) > 0)
                     <div id="pelatihan-container" class="pendidikancardprofile">
-                        @foreach ($pelatihans as $lat)
-                            <hr>
-                            <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
-                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                    <div class="flex-grow-1">
-                                        <div class="profile-widget-name"
-                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $lat->nama_sertifikat }}
+                        <div class="row">
+                            @foreach ($pelatihans as $lat)
+                                <div class="col-md-6">
+                                    <hr>
+                                    <div class="mr-5 ml-5">
+                                        <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                            <div class="flex-grow-1">
+                                                <div class="profile-widget-name" style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                    {{ $lat->nama_sertifikat }}
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;" id="fluid">
+                                                <a href="#" data-id="{{ $lat->id }}" data-edit-url="{{ route('pelatihan.edit', ['pelatihan' => $lat->id]) }}" class="modal-edit-trigger-pelatihan">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                                </a>
+                                                <form class="m-0" action="{{ route('pelatihan.destroy', ['pelatihan' => $lat->id]) }}" method="POST" id="delete-lat{{ $lat->id }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-edu" onclick="confirmLat({{ $lat->id }})">
+                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
-                                        id="fluid">
-                                        <a href="#" data-id="{{ $lat->id }}"
-                                            data-edit-url="{{ route('pelatihan.edit', ['pelatihan' => $lat->id]) }}"
-                                            class="modal-edit-trigger-pelatihan">
-                                            <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
-                                        </a>
-                                        <form class="m-0"
-                                            action="{{ route('pelatihan.destroy', ['pelatihan' => $lat->id]) }}"
-                                            method="POST" id="delete-lat{{ $lat->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-edu"
-                                                onclick="confirmLat({{ $lat->id }})">
-                                                <img class="img-fluid" style="width: 30px; height: 30px;"
-                                                    src="{{ asset('assets/img/landing-page/delete.svg') }}"
-                                                    alt="Hapus">
-                                            </button>
-                                        </form>
+                                        <div class="col-md-12">
+                                            <div class="flex-grow-1 mb-2">
+                                                <div class="profile-widget-name" style="font-size: 16px; display: flex; align-items: center;">
+                                                    {{ $lat->deskripsi }}
+                                                </div>
+                                            </div>
+                                            <ul class="list-unstyled ml-2">
+                                                <li class="mb-2"><img class="img-fluid" src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
+                                                    {{ $lat->penerbit }}
+                                                </li>
+                                                <li class="mb-2"><img class="img-fluid" src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                    {{ $lat->tgl_dikeluarkan }}
+                                                </li>
+                                            </ul>
+                                            @if (!empty($lat->sertifikat))
+                                                <div style="font-size: 16px;">
+                                                    <a href="{{ asset('storage/' . $lat->sertifikat) }}" target="_blank">
+                                                        <p class="">Lihat Sertifikat</p>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="flex-grow-1 mb-2">
-                                        <div class="profile-widget-name"
-                                            style="font-size: 16px; display: flex; align-items: center;">
-                                            {{ $lat->deskripsi }}
-                                        </div>
-                                    </div>
-                                    <ul class="list-unstyled ml-2">
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
-                                            {{ $lat->penerbit }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
-                                            {{ $lat->tgl_dikeluarkan }}
-                                        </li>
-                                    </ul>
-                                    @if (!empty($lat->sertifikat))
-                                        <div style="font-size: 16px;">
-                                            <a href="{{ asset('storage/' . $lat->sertifikat) }}" target="_blank">
-                                                <p class="">Lihat Sertifikat</p>
-                                            </a>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
-                        <button id="load-more-pelatihan" class="btn btn-more mb-3"
-                            data-page="{{ $pelatihans->currentPage() }}">Muat Lebih Banyak . . .</button>
+                        <button id="load-more-pelatihan" class="btn btn-more mb-3" data-page="{{ $pelatihans->currentPage() }}">Muat Lebih Banyak . . .</button>
                     </div>
                 @else
                     <div class="col-md-12 text-center my-4"><br><br>
@@ -1297,41 +1271,58 @@
                     <div style="flex-grow: 1; color: #6777ef;">Portofolio</div>
                     <div style="display: flex; justify-content: end; font-size: 2em;">
                         <a href="#" data-toggle="modal" data-target="#modal-create-portofolio">
-                            <img src="{{ asset('assets/img/landing-page/Plus.svg') }}" style="width: 35px; height: 35px;">
+                            <img src="{{ asset('assets/img/landing-page/Plus.svg') }}"
+                                style="width: 35px; height: 35px;">
                         </a>
                     </div>
                 </div>
                 @if ($portofolios->count() > 0)
                     <div id="portofolio-container" style="display: flex; flex-wrap: wrap; justify-content: center;">
                         @foreach ($portofolios as $portofolio)
-                            <div style="border: 1px solid #e0e0e0; border-radius: 8px; margin: 15px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            <div
+                                style="border: 1px solid #e0e0e0; border-radius: 8px; margin: 15px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                                 <div style="padding: 15px;">
-                                    <div style="font-weight: bold; font-size: 16px; display: flex; align-items: center; margin-bottom: 10px;">
+                                    <div
+                                        style="font-weight: bold; font-size: 16px; display: flex; align-items: center; margin-bottom: 10px;">
                                         <div style="flex-grow: 1;">
                                             <div style="font-size: 17px;">{{ $portofolio->nama_portofolio }}</div>
                                         </div>
-                                        <div style="display: flex; justify-content: end; align-items: center; font-size: 2em;">
-                                            <a href="#" data-id="{{ $portofolio->id }}" data-edit-url="{{ route('portofolio.edit', ['portofolio' => $portofolio->id]) }}" class="modal-edit-trigger-portofolio">
-                                                <img src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}" style="width: 30px; height: 30px;">
+                                        <div
+                                            style="display: flex; justify-content: end; align-items: center; font-size: 2em;">
+                                            <a href="#" data-id="{{ $portofolio->id }}"
+                                                data-edit-url="{{ route('portofolio.edit', ['portofolio' => $portofolio->id]) }}"
+                                                class="modal-edit-trigger-portofolio">
+                                                <img src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}"
+                                                    style="width: 30px; height: 30px;">
                                             </a>
-                                            <form action="{{ route('portofolio.destroy', ['portofolio' => $portofolio->id]) }}" method="POST" id="delete-portofolio{{ $portofolio->id }}" style="margin: 0;">
+                                            <form
+                                                action="{{ route('portofolio.destroy', ['portofolio' => $portofolio->id]) }}"
+                                                method="POST" id="delete-portofolio{{ $portofolio->id }}"
+                                                style="margin: 0;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;" onclick="confirmPortofolio({{ $portofolio->id }})">
-                                                    <img src="{{ asset('assets/img/landing-page/delete.svg') }}" style="width: 30px; height: 30px;" alt="Hapus">
+                                                <button type="submit"
+                                                    style="background: none; border: none; padding: 0; cursor: pointer;"
+                                                    onclick="confirmPortofolio({{ $portofolio->id }})">
+                                                    <img src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                        style="width: 30px; height: 30px;" alt="Hapus">
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
-                                    <div onclick="openModal(this)" data-url="{{ route('portofolio.show', ['portofolio' => $portofolio->id]) }}" style="cursor: pointer; text-align: center;">
-                                        <img src="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}" style="max-width: 100%; max-height: 150px;">
+                                    <div onclick="openModal(this)"
+                                        data-url="{{ route('portofolio.show', ['portofolio' => $portofolio->id]) }}"
+                                        style="cursor: pointer; text-align: center;">
+                                        <img src="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
+                                            style="max-width: 100%; max-height: 150px;">
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                     <div class="text-right mt-5 mr-4">
-                        <button id="load-more-portofolio" class="btn btn-more mb-3" data-page="{{ $portofolios->currentPage() }}">Muat Lebih Banyak . . .</button>
+                        <button id="load-more-portofolio" class="btn btn-more mb-3"
+                            data-page="{{ $portofolios->currentPage() }}">Muat Lebih Banyak . . .</button>
                     </div>
                 @else
                     <div style="text-align: center; margin: 40px;">
@@ -2148,18 +2139,18 @@
                         data: formData,
                         contentType: false,
                         processData: false,
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
-                            } else {
-                                alert('Error! ' + response.message);
-                            }
-                        },
-                        error: function() {
-                            alert('Terjadi error ketika update data!');
-                        }
+                        // success: function(response) {
+                        //     if (response.success) {
+                        //         alert(response.message);
+                        //         editModal.modal('hide');
+                        //         location.reload();
+                        //     } else {
+                        //         alert('Error! ' + response.message);
+                        //     }
+                        // },
+                        // error: function() {
+                        //     alert('Terjadi error ketika update data!');
+                        // }
                     });
                 }
             });
@@ -2750,10 +2741,6 @@
                         if (response.success) {
                             editModal.modal('hide');
                             Swal.fire({
-                                title: 'Success!',
-                                text: response.message,
-                                icon: 'success',
-                                confirmButtonText: 'Ok'
                             }).then(function() {
                                 window.location.href =
                                     "{{ route('profile-lulusan.index') }}";

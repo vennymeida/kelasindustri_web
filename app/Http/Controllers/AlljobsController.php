@@ -37,9 +37,11 @@ class AlljobsController extends Controller
 
         if (Auth::check()) {
             $userId = Auth::user()->id;
-            $lulusanId = Lulusan::where('user_id', $userId)->first();
-            if (!$lulusanId) {
-                return redirect()->route('profile-lulusan.create');
+            if (Auth::user()->hasRole('lulusan')) {
+                $lulusanId = Lulusan::where('user_id', $userId)->first();
+                if (!$lulusanId) {
+                    return redirect()->route('profile-lulusan.create');
+                }
             }
             $user = Auth::user();
             $perusahaan = Perusahaan::all();
@@ -261,14 +263,14 @@ class AlljobsController extends Controller
                     })
                     ->groupBy('lk.id');
 
-                // Get unique keahlian values for filtering
-                $uniqueKeahlian = $keahliansData->pluck('keahlian')->unique();
+                // // Get unique keahlian values for filtering
+                // $uniqueKeahlian = $keahliansData->pluck('keahlian')->unique();
 
-                // Filter to show only the closest match per unique keahlian
-                $allResults = $allResults->whereIn('ks.keahlian', $uniqueKeahlian)
-    ->select(DB::raw('lk.id, lk.perusahaan_id, lk.nama_loker, lk.persyaratan, lk.deskripsi as loker_deskripsi, lk.gaji_atas, lk.gaji_bawah, lk.tipe_pekerjaan, lk.tgl_tutup, lk.kuota, lk.lokasi, lk.status, lk.keahlian as keahlian_loker, ps.nama_pemilik, ps.nama_perusahaan, ps.logo_perusahaan, ps.email_perusahaan, ps.alamat_perusahaan, ps.deskripsi as perusahaan_deskripsi, ks.keahlian, MAX(rks.score_similarity_keahlian * 100) as max_score'))
-    ->groupBy('ks.keahlian')
-    ->havingRaw('max_score = MAX(rks.score_similarity_keahlian * 100)');
+                // // Filter to show only the closest match per unique keahlian
+                // $allResults = $allResults->whereIn('ks.keahlian', $uniqueKeahlian)
+                //     ->select(DB::raw('lk.id, lk.perusahaan_id, lk.nama_loker, lk.persyaratan, lk.deskripsi as loker_deskripsi, lk.gaji_atas, lk.gaji_bawah, lk.tipe_pekerjaan, lk.tgl_tutup, lk.kuota, lk.lokasi, lk.status, lk.keahlian as keahlian_loker, ps.nama_pemilik, ps.nama_perusahaan, ps.logo_perusahaan, ps.email_perusahaan, ps.alamat_perusahaan, ps.deskripsi as perusahaan_deskripsi, ks.keahlian, MAX(rks.score_similarity_keahlian * 100) as max_score'))
+                //     ->groupBy('ks.keahlian')
+                //     ->havingRaw('max_score = MAX(rks.score_similarity_keahlian * 100)');
 
                 // Filter by salary range
                 if ($request->has('gaji')) {
