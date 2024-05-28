@@ -127,12 +127,6 @@ class MenuItemSeeder extends Seeder
                     'menu_group_id' => 7,
                 ],
                 [
-                    'name' => 'Hasil TF - IDF Lulusan',
-                    'route' => 'rekomendasi-management/perhitungan/rekomendasi-lulusan',
-                    'permission_name' => 'rekomendasi.index',
-                    'menu_group_id' => 7,
-                ],
-                [
                     'name' => 'Hasil TF - IDF Keahlian',
                     'route' => 'rekomendasi-management/perhitungan/rekomendasi-keahlian',
                     'permission_name' => 'rekomendasi.index',
