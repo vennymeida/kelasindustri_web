@@ -43,7 +43,7 @@ class PelatihanController extends Controller
 
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-create');
+            ->with('success', 'pelatihan berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -91,6 +91,6 @@ class PelatihanController extends Controller
 
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-delete');
+            ->with('success', 'pelatihan berhasil dihapus');
     }
 }

@@ -1066,8 +1066,8 @@
                                                     {{ $item->nama_institusi }}
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;"
-                                                id="fluid">
+                                            <div class="d-flex justify-content-end align-items-center"
+                                                style="font-size: 2.00em;" id="fluid">
                                                 <a href="#" data-id="{{ $item->id }}"
                                                     data-edit-url="{{ route('pendidikan.edit', ['pendidikan' => $item->id]) }}"
                                                     class="modal-edit-trigger-pendidikan">
@@ -1120,13 +1120,15 @@
 
         <section class="centered-section my-4">
             <div class="bg-primary-section card col-md-10 py-1 card-profile7">
-                <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
                     <div class="flex-grow-1">
                         <div class="profile-widget-name" style="color:#6777ef;">Pengalaman Kerja</div>
                     </div>
                     <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
                         <a href="#" data-toggle="modal" data-target="#modal-create-pengalaman">
-                            <img class="img-fluid" style="width: 35px; height: 35px;" src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                            <img class="img-fluid" style="width: 35px; height: 35px;"
+                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
                         </a>
                     </div>
                 </div>
@@ -1137,38 +1139,52 @@
                                 <div class="col-md-6">
                                     <hr>
                                     <div class="mr-5 ml-5">
-                                        <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                        <div class="profile-widget-description m-3"
+                                            style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
                                             <div class="flex-grow-1">
-                                                <div class="profile-widget-name" style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                <div class="profile-widget-name"
+                                                    style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
                                                     {{ $pl->nama_pengalaman }}
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;" id="fluid">
-                                                <a href="#" data-id="{{ $pl->id }}" data-edit-url="{{ route('pengalaman.edit', ['pengalaman' => $pl->id]) }}" class="modal-edit-trigger-pengalaman">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                            <div class="d-flex justify-content-end align-items-center"
+                                                style="font-size: 2.00em;" id="fluid">
+                                                <a href="#" data-id="{{ $pl->id }}"
+                                                    data-edit-url="{{ route('pengalaman.edit', ['pengalaman' => $pl->id]) }}"
+                                                    class="modal-edit-trigger-pengalaman">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                        src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                                 </a>
-                                                <form class="m-0" action="{{ route('pengalaman.destroy', ['pengalaman' => $pl->id]) }}" method="POST" id="delete-pl{{ $pl->id }}">
+                                                <form class="m-0"
+                                                    action="{{ route('pengalaman.destroy', ['pengalaman' => $pl->id]) }}"
+                                                    method="POST" id="delete-pl{{ $pl->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-edu" onclick="confirmPl({{ $pl->id }})">
-                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
+                                                    <button type="submit" class="btn btn-edu"
+                                                        onclick="confirmPl({{ $pl->id }})">
+                                                        <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                            src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                            alt="Hapus">
                                                     </button>
                                                 </form>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="flex-grow-1 mb-2">
-                                                <div class="profile-widget-name" style="font-size: 16px; display: flex; align-items: center;">
+                                                <div class="profile-widget-name"
+                                                    style="font-size: 16px; display: flex; align-items: center;">
                                                     {{ $pl->nama_instansi }} | {{ $pl->alamat }}
                                                 </div>
                                             </div>
                                             <ul class="list-unstyled ml-2">
                                                 <li class="mb-2">
-                                                    <img class="img-fluid" src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
+                                                    <img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/hourglass.svg') }}">
                                                     &nbsp&nbsp&nbsp{{ $pl->tipe }}
                                                 </li>
                                                 <li class="mb-2">
-                                                    <img class="img-fluid" src="{{ asset('assets/img/landing-page/Time.svg') }}">
+                                                    <img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Time.svg') }}">
                                                     &nbsp&nbsp&nbsp{{ $pl->tgl_mulai }} - {{ $pl->tgl_selesai }}
                                                 </li>
                                             </ul>
@@ -1179,7 +1195,8 @@
                         </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
-                        <button id="load-more-pengalaman" class="btn btn-more mb-3" data-page="{{ $pengalamans->currentPage() }}">Muat Lebih Banyak . . .</button>
+                        <button id="load-more-pengalaman" class="btn btn-more mb-3"
+                            data-page="{{ $pengalamans->currentPage() }}">Muat Lebih Banyak . . .</button>
                     </div>
                 @else
                     <div class="col-md-12 text-center my-4"><br><br>
@@ -1191,13 +1208,15 @@
         </section>
         <section class="centered-section my-4">
             <div class="bg-primary-section card col-md-10 py-1 card-profile8">
-                <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
                     <div class="flex-grow-1">
                         <div class="profile-widget-name" style="color:#6777ef;">Pelatihan / Sertifikat</div>
                     </div>
                     <div class="d-flex justify-content-end" style="font-size: 2.00em;" id="fluid">
                         <a href="#" data-toggle="modal" data-target="#modal-create-pelatihan">
-                            <img class="img-fluid" style="width: 35px; height: 35px;" src="{{ asset('assets/img/landing-page/Plus.svg') }}">
+                            <img class="img-fluid" style="width: 35px; height: 35px;"
+                                src="{{ asset('assets/img/landing-page/Plus.svg') }}">
                         </a>
                     </div>
                 </div>
@@ -1208,42 +1227,57 @@
                                 <div class="col-md-6">
                                     <hr>
                                     <div class="mr-5 ml-5">
-                                        <div class="profile-widget-description m-3" style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                        <div class="profile-widget-description m-3"
+                                            style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
                                             <div class="flex-grow-1">
-                                                <div class="profile-widget-name" style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                <div class="profile-widget-name"
+                                                    style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
                                                     {{ $lat->nama_sertifikat }}
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-end align-items-center" style="font-size: 2.00em;" id="fluid">
-                                                <a href="#" data-id="{{ $lat->id }}" data-edit-url="{{ route('pelatihan.edit', ['pelatihan' => $lat->id]) }}" class="modal-edit-trigger-pelatihan">
-                                                    <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
+                                            <div class="d-flex justify-content-end align-items-center"
+                                                style="font-size: 2.00em;" id="fluid">
+                                                <a href="#" data-id="{{ $lat->id }}"
+                                                    data-edit-url="{{ route('pelatihan.edit', ['pelatihan' => $lat->id]) }}"
+                                                    class="modal-edit-trigger-pelatihan">
+                                                    <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                        src="{{ asset('assets/img/landing-page/edit-pencil.svg') }}">
                                                 </a>
-                                                <form class="m-0" action="{{ route('pelatihan.destroy', ['pelatihan' => $lat->id]) }}" method="POST" id="delete-lat{{ $lat->id }}">
+                                                <form class="m-0"
+                                                    action="{{ route('pelatihan.destroy', ['pelatihan' => $lat->id]) }}"
+                                                    method="POST" id="delete-lat{{ $lat->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-edu" onclick="confirmLat({{ $lat->id }})">
-                                                        <img class="img-fluid" style="width: 30px; height: 30px;" src="{{ asset('assets/img/landing-page/delete.svg') }}" alt="Hapus">
+                                                    <button type="submit" class="btn btn-edu"
+                                                        onclick="confirmLat({{ $lat->id }})">
+                                                        <img class="img-fluid" style="width: 30px; height: 30px;"
+                                                            src="{{ asset('assets/img/landing-page/delete.svg') }}"
+                                                            alt="Hapus">
                                                     </button>
                                                 </form>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="flex-grow-1 mb-2">
-                                                <div class="profile-widget-name" style="font-size: 16px; display: flex; align-items: center;">
+                                                <div class="profile-widget-name"
+                                                    style="font-size: 16px; display: flex; align-items: center;">
                                                     {{ $lat->deskripsi }}
                                                 </div>
                                             </div>
                                             <ul class="list-unstyled ml-2">
-                                                <li class="mb-2"><img class="img-fluid" src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
                                                     {{ $lat->penerbit }}
                                                 </li>
-                                                <li class="mb-2"><img class="img-fluid" src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
                                                     {{ $lat->tgl_dikeluarkan }}
                                                 </li>
                                             </ul>
                                             @if (!empty($lat->sertifikat))
                                                 <div style="font-size: 16px;">
-                                                    <a href="{{ asset('storage/' . $lat->sertifikat) }}" target="_blank">
+                                                    <a href="{{ asset('storage/' . $lat->sertifikat) }}"
+                                                        target="_blank">
                                                         <p class="">Lihat Sertifikat</p>
                                                     </a>
                                                 </div>
@@ -1255,7 +1289,8 @@
                         </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
-                        <button id="load-more-pelatihan" class="btn btn-more mb-3" data-page="{{ $pelatihans->currentPage() }}">Muat Lebih Banyak . . .</button>
+                        <button id="load-more-pelatihan" class="btn btn-more mb-3"
+                            data-page="{{ $pelatihans->currentPage() }}">Muat Lebih Banyak . . .</button>
                     </div>
                 @else
                     <div class="col-md-12 text-center my-4"><br><br>
@@ -1985,44 +2020,6 @@
             });
         }
     </script>
-    <script>
-        @if (session('success') === 'success-delete')
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil dihapus.',
-                confirmButtonText: 'OK'
-            });
-        @endif
-    </script>
-    <script>
-        @if (session('success') === 'success-create')
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil ditambahkan.',
-                confirmButtonText: 'OK'
-            });
-        @endif
-    </script>
-    <script>
-        @if (session('success-update') === 'success-update')
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data berhasil diperbarui.',
-                confirmButtonText: 'OK'
-            });
-        @endif
-        @if (session('error-update') === 'error-update')
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Terjadi kesalahan saat memperbarui data.',
-                confirmButtonText: 'OK'
-            });
-        @endif
-    </script>
 @endsection
 
 @push('customScript')
@@ -2067,18 +2064,19 @@
 
         $(document).ready(function() {
             var editModal = $('#modal-edit-pendidikan');
+            var isSubmitting = false;
 
             function showError(field, message) {
                 var inputField = editModal.find('[name="' + field + '"]');
                 inputField.addClass('is-invalid');
-                inputField.closest('.form-group').find('.invalid-feedback').text(message)
+                inputField.closest('.form-group').find('.invalid-feedback').text(message);
             }
 
             // Menambahkan aturan kustom untuk memvalidasi tahun mulai dan tahun selesai
             $.validator.addMethod("tahunSelesaiLebihBesar", function(value, element) {
                 var tahunMulai = parseInt($('#modal-edit-pendidikan select[name="tahun_mulai"]').val(), 10);
-                var tahunSelesai = parseInt($('#modal-edit-pendidikan select[name="tahun_selesai"]')
-                    .val(), 10);
+                var tahunSelesai = parseInt($('#modal-edit-pendidikan select[name="tahun_selesai"]').val(),
+                    10);
                 return tahunMulai <= tahunSelesai;
             }, "Tahun mulai tidak boleh melebihi tahun selesai.");
 
@@ -2098,7 +2096,7 @@
                     },
                     tahun_mulai: {
                         required: true,
-                        tahunSelesaiLebihBesar: true // Menggunakan aturan kustom
+                        tahunSelesaiLebihBesar: true
                     },
                     tahun_selesai: {
                         required: true
@@ -2128,30 +2126,6 @@
                 },
                 unhighlight: function(element, errorClass) {
                     $(element).removeClass('is-invalid').next('.invalid-feedback').hide();
-                },
-                submitHandler: function(form) {
-                    var formData = new FormData(form);
-                    formData.append('_token', "{{ csrf_token() }}");
-
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        // success: function(response) {
-                        //     if (response.success) {
-                        //         alert(response.message);
-                        //         editModal.modal('hide');
-                        //         location.reload();
-                        //     } else {
-                        //         alert('Error! ' + response.message);
-                        //     }
-                        // },
-                        // error: function() {
-                        //     alert('Terjadi error ketika update data!');
-                        // }
-                    });
                 }
             });
 
@@ -2174,8 +2148,8 @@
                         $('#modal-edit-pendidikan input[name="jurusan"]').val(data.jurusan);
                         $('#modal-edit-pendidikan select[name="tahun_mulai"]').val(data.tahun_mulai)
                             .change();
-                        $('#modal-edit-pendidikan select[name="tahun_selesai"]').val(data
-                            .tahun_selesai).change();
+                        $('#modal-edit-pendidikan select[name="tahun_selesai"]').val(data.tahun_selesai)
+                            .change();
 
                         editModal.modal('show');
                     }
@@ -2187,10 +2161,21 @@
                 openEditModal(itemId);
             });
 
-            $('#modal-save-button-pendidikan').on('click', function() {
-                var form = $('#modal-edit-pendidikan-form');
+            $('#modal-save-button-pendidikan').on('click', function(e) {
+                e.preventDefault();
+                $('#modal-edit-pendidikan-form').submit();
+            });
 
-                // Hanya melakukan submit jika formulir valid
+            $('#modal-edit-pendidikan-form').off('submit').on('submit', function(e) {
+                e.preventDefault();
+
+                if (isSubmitting) {
+                    return;
+                }
+                isSubmitting = true;
+
+                var form = $(this);
+
                 if (form.valid()) {
                     var formData = new FormData(form[0]);
                     formData.append('_token', "{{ csrf_token() }}");
@@ -2202,18 +2187,38 @@
                         contentType: false,
                         processData: false,
                         success: function(response) {
+                            isSubmitting = false;
                             if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data berhasil diperbarui.',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    editModal.modal('hide');
+                                    location.reload();
+                                });
                             } else {
-                                alert('Error! ' + response.message);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan saat memperbarui data.',
+                                    confirmButtonText: 'OK'
+                                });
                             }
                         },
                         error: function() {
-                            alert('Terjadi error ketika update data!');
+                            isSubmitting = false;
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Terjadi kesalahan saat memperbarui data.',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     });
+                } else {
+                    isSubmitting = false;
                 }
             });
         });
@@ -2221,6 +2226,7 @@
     <script>
         $(document).ready(function() {
             var editModal = $('#modal-edit-pengalaman');
+            var isSubmitting = false;
 
             function showError(field, message) {
                 var inputField = editModal.find('[name="' + field + '"]');
@@ -2291,37 +2297,12 @@
                 },
                 unhighlight: function(element, errorClass) {
                     $(element).removeClass('is-invalid').next('.invalid-feedback').hide();
-                },
-                submitHandler: function(form) {
-                    var formData = new FormData(form);
-                    formData.append('_token', "{{ csrf_token() }}");
-
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
-                            } else {
-                                alert('Error! ' + response.message);
-                            }
-                        },
-                        error: function() {
-                            alert('Terjadi error ketika update data!');
-                        }
-                    });
                 }
             });
 
             function openEditModal(plId) {
                 var editUrl = "{{ route('pengalaman.edit', ['pengalaman' => '_id']) }}".replace('_id', plId);
-                var updateUrl = "{{ route('pengalaman.update', ['pengalaman' => '_id']) }}".replace('_id',
-                    plId);
+                var updateUrl = "{{ route('pengalaman.update', ['pengalaman' => '_id']) }}".replace('_id', plId);
 
                 $('#modal-edit-pengalaman-form').attr('action', updateUrl);
 
@@ -2332,14 +2313,11 @@
                     success: function(data) {
                         $('#modal-edit-pengalaman input[name="nama_pengalaman"]').val(data
                             .nama_pengalaman);
-                        $('#modal-edit-pengalaman input[name="nama_instansi"]').val(data
-                            .nama_instansi);
+                        $('#modal-edit-pengalaman input[name="nama_instansi"]').val(data.nama_instansi);
                         $('#modal-edit-pengalaman textarea[name="alamat"]').val(data.alamat);
                         $('#modal-edit-pengalaman select[name="tipe"]').val(data.tipe).change();
-                        $('#modal-edit-pengalaman input[name="tgl_mulai"]').val(data
-                            .tgl_mulai);
-                        $('#modal-edit-pengalaman input[name="tgl_selesai"]').val(data
-                            .tgl_selesai);
+                        $('#modal-edit-pengalaman input[name="tgl_mulai"]').val(data.tgl_mulai);
+                        $('#modal-edit-pengalaman input[name="tgl_selesai"]').val(data.tgl_selesai);
 
                         editModal.modal('show');
                     }
@@ -2353,8 +2331,19 @@
 
             $('#modal-save-button-pengalaman').on('click', function() {
                 var form = $('#modal-edit-pengalaman-form');
+                form.submit();
+            });
 
-                // Hanya melakukan submit jika formulir valid
+            $('#modal-edit-pengalaman-form').off('submit').on('submit', function(e) {
+                e.preventDefault();
+
+                if (isSubmitting) {
+                    return;
+                }
+                isSubmitting = true;
+
+                var form = $(this);
+
                 if (form.valid()) {
                     var formData = new FormData(form[0]);
                     formData.append('_token', "{{ csrf_token() }}");
@@ -2366,18 +2355,38 @@
                         contentType: false,
                         processData: false,
                         success: function(response) {
+                            isSubmitting = false;
                             if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data berhasil diperbarui.',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    editModal.modal('hide');
+                                    location.reload();
+                                });
                             } else {
-                                alert('Error! ' + response.message);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan saat memperbarui data.',
+                                    confirmButtonText: 'OK'
+                                });
                             }
                         },
                         error: function() {
-                            alert('Error while updating data!');
+                            isSubmitting = false;
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Terjadi kesalahan saat memperbarui data.',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     });
+                } else {
+                    isSubmitting = false;
                 }
             });
         });
@@ -2385,6 +2394,7 @@
     <script>
         $(document).ready(function() {
             var editModal = $('#modal-edit-pelatihan');
+            var isSubmitting = false;
 
             function showError(field, message) {
                 var inputField = editModal.find('[name="' + field + '"]');
@@ -2437,30 +2447,6 @@
                 },
                 unhighlight: function(element, errorClass) {
                     $(element).removeClass('is-invalid').next('.invalid-feedback').hide();
-                },
-                submitHandler: function(form) {
-                    var formData = new FormData(form);
-                    formData.append('_token', "{{ csrf_token() }}");
-
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
-                            } else {
-                                alert('Error! ' + response.message);
-                            }
-                        },
-                        error: function() {
-                            alert('Terjadi error ketika update data!');
-                        }
-                    });
                 }
             });
 
@@ -2481,7 +2467,6 @@
                         $('#modal-edit-pelatihan input[name="penerbit"]').val(data.penerbit);
                         $('#modal-edit-pelatihan input[name="tgl_dikeluarkan"]').val(data
                             .tgl_dikeluarkan);
-                        // $('#modal-edit-pelatihan input[name="sertifikat"]').val(data.sertifikat);
 
                         editModal.modal('show');
                     }
@@ -2493,10 +2478,21 @@
                 openEditModal(latId);
             });
 
-            $('#modal-save-button-pelatihan').on('click', function() {
-                var form = $('#modal-edit-pelatihan-form');
+            $('#modal-save-button-pelatihan').on('click', function(e) {
+                e.preventDefault();
+                $('#modal-edit-pelatihan-form').submit();
+            });
 
-                // Hanya melakukan submit jika formulir valid
+            $('#modal-edit-pelatihan-form').off('submit').on('submit', function(e) {
+                e.preventDefault();
+
+                if (isSubmitting) {
+                    return;
+                }
+                isSubmitting = true;
+
+                var form = $(this);
+
                 if (form.valid()) {
                     var formData = new FormData(form[0]);
                     formData.append('_token', "{{ csrf_token() }}");
@@ -2508,18 +2504,38 @@
                         contentType: false,
                         processData: false,
                         success: function(response) {
+                            isSubmitting = false;
                             if (response.success) {
-                                alert(response.message);
-                                editModal.modal('hide');
-                                location.reload();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data berhasil diperbarui.',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    editModal.modal('hide');
+                                    location.reload();
+                                });
                             } else {
-                                alert('Error! ' + response.message);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan saat memperbarui data.',
+                                    confirmButtonText: 'OK'
+                                });
                             }
                         },
                         error: function() {
-                            alert('Error while updating data!');
+                            isSubmitting = false;
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Terjadi kesalahan saat memperbarui data.',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     });
+                } else {
+                    isSubmitting = false;
                 }
             });
         });
@@ -2740,8 +2756,7 @@
                         console.log(response); // For debugging
                         if (response.success) {
                             editModal.modal('hide');
-                            Swal.fire({
-                            }).then(function() {
+                            Swal.fire({}).then(function() {
                                 window.location.href =
                                     "{{ route('profile-lulusan.index') }}";
                             });

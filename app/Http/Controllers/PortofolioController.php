@@ -68,9 +68,10 @@ class PortofolioController extends Controller
 
     public function update(Request $request, Portofolio $portofolio)
     {
+
         $rules = [
             'nama_portofolio' => 'required|string|max:255',
-            'dokumen_portofolio' => 'nullable|mimes:png,jpg,jpeg|max:2048',
+            'dokumen_portofolio' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'deskripsi_portofolio' => 'required',
             'link_portofolio' => 'nullable|url|max:255',
         ];
@@ -78,11 +79,14 @@ class PortofolioController extends Controller
         $validatedData = $request->validate($rules);
 
         try {
-            if ($request->hasFile('dokumen_portofolio')) {
-                // Hapus dokumen lama
-                Storage::disk('public')->delete($portofolio->dokumen_portofolio);
 
-                // Simpan dokumen baru
+            if ($request->hasFile('dokumen_portofolio')) {
+
+                if ($portofolio->dokumen_portofolio && is_string($portofolio->dokumen_portofolio)) {
+                    Storage::disk('public')->delete($portofolio->dokumen_portofolio);
+                }
+
+
                 $file = $request->file('dokumen_portofolio');
                 $fileName = time() . '_' . $file->getClientOriginalName();
                 $filePath = $file->storeAs('portofolio', $fileName, 'public');
@@ -90,11 +94,21 @@ class PortofolioController extends Controller
                 $validatedData['dokumen_portofolio'] = $filePath;
             }
 
+
             $portofolio->update($validatedData);
-            return response()->json(['success' => true, 'message' => 'Portofolio berhasil diperbarui.']);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
-    }
+
+
+            return response()->json(['success' => true, 'message' => 'Portofolio berhasil diperbarui.', 'data' => $portofolio]);
+
+        } catch (\Exception $e) {
+
+            \Log::error("Error updating portfolio: {$e->getMessage()}", [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat memperbarui portofolio.'], 500);
+        }
     }
 
     public function destroy(Portofolio $portofolio)
@@ -107,7 +121,7 @@ class PortofolioController extends Controller
         $portofolio->delete();
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-delete');
+            ->with('success', 'Data Berhasil Dihapus');
     }
 
     public function show($id) {

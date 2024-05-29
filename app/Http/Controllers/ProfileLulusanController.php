@@ -80,7 +80,7 @@ class ProfileLulusanController extends Controller
         ]);
     }
 
-  
+
 
     public function create()
     {
@@ -152,7 +152,7 @@ class ProfileLulusanController extends Controller
         $lulusan->tgl_lahir = $request->tgl_lahir ?? null;
         $lulusan->save();
 
-        return redirect()->route('profile-lulusan.index')->with('success', 'Pendidikan berhasil ditambahkan');
+        return redirect()->route('profile-lulusan.index')->with('success', 'Profile berhasil ditambahkan');
     }
 
     public function update(Request $request)

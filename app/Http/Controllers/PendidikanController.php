@@ -34,7 +34,7 @@ class PendidikanController extends Controller
 
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-create');
+            ->with('success', 'Pendidikan berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -58,6 +58,6 @@ class PendidikanController extends Controller
         $pendidikan->delete();
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-delete');
+            ->with('success', 'Pendidikan berhasil dihapus');
     }
 }

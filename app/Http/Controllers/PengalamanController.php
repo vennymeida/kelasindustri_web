@@ -34,7 +34,7 @@ class PengalamanController extends Controller
 
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-create');
+            ->with('success', 'Pengalaman berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -58,6 +58,6 @@ class PengalamanController extends Controller
         $pengalaman->delete();
         return redirect()
             ->route('profile-lulusan.index')
-            ->with('success', 'success-delete');
+            ->with('success', 'Pengalaman berhasil dihapus');
     }
 }

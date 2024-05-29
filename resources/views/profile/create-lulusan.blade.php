@@ -138,7 +138,7 @@
             });
 
             $('.select2').select2({
-                placeholder: 'Pilih Status',
+                placeholder: 'Pilih Salah Satu',
             });
 
             const tglLahirInput = document.getElementById('tgl_lahir');
