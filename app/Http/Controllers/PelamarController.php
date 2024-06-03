@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class PelamarController extends Controller
 {
@@ -82,17 +83,10 @@ class PelamarController extends Controller
 
     public function show(User $lulusan)
     {
-        $lulusan->load(['lulusan']);
-
-        if ($lulusan->profile && $lulusan->profile->ringkasan) {
-            $lulusan->profile->ringkasan = Str::replace(
-                ['<ol>', '</ol>', '<li>', '</li>', '<br>', '<p>', '</p>'],
-                ['', '', '', ", ", '', '', "\n"],
-                $lulusan->profile->ringkasan
-            );
-            $lulusan->profile->ringkasan = rtrim($lulusan->profile->ringkasan, ', ');
-        }
-
+        $lulusans = User::with(['lulusan', 'pendidikan', 'pengalaman', 'pelatihan', 'postingan', 'portofolio', 'keahlians'])
+            ->where('users.id', $lulusan->id)
+            ->first();
+            // dd($lulusans);
         return view('lulusan.detail', compact('lulusan'));
     }
 }

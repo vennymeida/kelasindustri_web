@@ -27,7 +27,7 @@
                             <!-- Foto -->
                             <div class="col-md-2">
                                 <div class="text-center mb-4">
-                                    @if ($lulusan->lulusan && $lulusan->lulusan->foto)
+                                    @if ($lulusan->foto)
                                         <img src="{{ asset('storage/' . $lulusan->lulusan->foto) }}" alt="Foto"
                                             class="img-thumbnail rounded-circle" style="width: 200px; height: 200px;">
                                     @else
@@ -39,18 +39,18 @@
                             <div class="col-md-9 ml-4">
                                 <h4><strong>{{ $lulusan->name }}</strong></h4>
                                 <h6 class="mt-4"><strong>Ringkasan</strong></h6>
-                                <p>{{ optional($lulusan->lulusan)->ringkasan ?: '-' }}</p>
+                                <p>{!! optional($lulusan->lulusan)->ringkasan ?: '-' !!}</p>
 
                                 <h6 class="mt-5"><strong>Personal Info</strong></h6>
                                 <dl class="row">
                                     <dt class="col-sm-3 mt-3">Email</dt>
-                                    <dd class="col-sm-7 mt-3">{{ $lulusan->email }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ $lulusan ? $lulusan->email : '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">No. Telepon</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->lulusan)->no_hp ?: '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ $lulusan ? $lulusan->lulusan->no_hp : '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Alamat</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->lulusan)->alamat ?: '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ $lulusan ? $lulusan->lulusan->alamat : '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Tanggal Lahir</dt>
                                     <dd class="col-sm-7 mt-3">
@@ -59,51 +59,42 @@
 
                                     <dt class="col-sm-3 mt-3">Jenis Kelamin</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        {{ $lulusan->lulusan ? ($lulusan->lulusan->jenis_kelamin === 'L' ? 'Laki-Laki' : 'Perempuan') : '-' }}
+                                        {{ !empty($lulusan->lulusan->jenis_kelamin) ? ($lulusan->lulusan->jenis_kelamin === 'L' ? 'Laki-Laki' : 'Perempuan') : '-' }}
                                     </dd>
-
-                                    <dt class="col-sm-3 mt-3">Harapan Gaji</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->lulusan)->harapan_gaji ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Resume</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        @if ($lulusan->lulusan && $lulusan->lulusan->resume)
-                                            <a href="{{ asset('storage/' . $lulusan->lulusan->resume) }}" target="_blank"
-                                                class="btn btn-primary btn-sm">Lihat Resume</a>
+                                        @if ($lulusan->lulusan->resume)
+                                            <a href="{{ Storage::url($lulusan->lulusan->resume) }}" target="_blank" class="btn btn-primary btn-sm">Lihat Resume</a>
                                         @else
                                             <span class="text-muted">Tidak ada Resume</span>
                                         @endif
                                     </dd>
+
                                 </dl>
                                 <h6 class="mt-5"><strong>Pendidikan</strong></h6>
                                 <dl class="row">
                                     <dt class="col-sm-3 mt-3">Nama Institusi</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pendidikan)->institusi ?: '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pendidikan)->nama_institusi ?: '-' }}</dd>
 
-                                    <dt class="col-sm-3 mt-3">Gelar</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pendidikan)->gelar ?: '-' }}</dd>
+                                    <dt class="col-sm-3 mt-3">Tingkatan</dt>
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pendidikan)->tingkatan ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Jurusan</dt>
                                     <dd class="col-sm-7 mt-3">{{ optional($lulusan->pendidikan)->jurusan ?: '-' }}</dd>
 
-                                    <dt class="col-sm-3 mt-3">Prestasi</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pendidikan)->prestasi ?: '-' }}</dd>
-
-                                    <dt class="col-sm-3 mt-3">IPK</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pendidikan)->ipk ?: '-' }}</dd>
-
                                     <dt class="col-sm-3 mt-3">Periode</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        {{ optional($lulusan->pendidikan)->tahun_mulai && optional($lulusan->pendidikan)->tahun_berakhir ? optional($lulusan->pendidikan)->tahun_mulai . ' - ' . optional($lulusan->pendidikan)->tahun_berakhir : '-' }}
+                                        {{ optional($lulusan->pendidikan)->tahun_mulai && optional($lulusan->pendidikan)->tahun_selesai ? optional($lulusan->pendidikan)->tahun_mulai . ' - ' . optional($lulusan->pendidikan)->tahun_selesai : '-' }}
                                     </dd>
                                 </dl>
                                 <h6 class="mt-5"><strong>Keahlian</strong></h6>
                                 <dl class="row">
                                     <dt class="col-sm-3 mt-3">
-                                        @if ($lulusan->lulusanKeahlians && $lulusan->lulusanKeahlians->count() > 0)
+                                        @if ($lulusan->keahlians->count() > 0)
                                             <ul>
-                                                @foreach ($lulusan->lulusanKeahlians as $lulusanKeahlian)
-                                                    <li>{{ $lulusanKeahlian->keahlian->keahlian }}</li>
+                                                @foreach ($lulusan->keahlians as $keahlian)
+                                                    <li>{{ $keahlian->keahlian }}</li>
                                                 @endforeach
                                             </ul>
                                         @else
@@ -115,11 +106,11 @@
                                 <h6 class="mt-5"><strong>Pengalaman Kerja</strong></h6>
                                 <dl class="row">
                                     <dt class="col-sm-3 mt-3">Nama Pekerjaan</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pengalaman)->nama_pekerjaan ?: '-' }}
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pengalaman)->nama_pengalaman ?: '-' }}
                                     </dd>
 
                                     <dt class="col-sm-3 mt-3">Nama Perusahaan</dt>
-                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pengalaman)->nama_perusahaan ?: '-' }}
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan->pengalaman)->nama_instansi ?: '-' }}
                                     </dd>
 
                                     <dt class="col-sm-3 mt-3">Alamat</dt>

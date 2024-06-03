@@ -136,45 +136,45 @@ class LamarPerusahaanController extends Controller
     }
 
     public function store(Request $request, Lamar $lamar)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'subject' => 'required|string',
-        'tempat_interview' => 'required|string',
-        'tanggal_interview' => 'required|date',
-        'catatan' => 'nullable|string',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'subject' => 'required|string',
+            'tempat_interview' => 'required|string',
+            'tanggal_interview' => 'required|date',
+            'catatan' => 'nullable|string',
+        ]);
 
-    $lamarId = Lamar::where('id', $lamar->id)->first();
+        $lamarId = Lamar::where('id', $lamar->id)->first();
 
-    $lamarId->update([
-        'email' => $request->email,
-        'subject' => $request->subject,
-        'tempat_interview' => $request->tempat_interview,
-        'tanggal_interview' => $request->tanggal_interview,
-        'catatan' => $request->catatan,
-    ]);
+        $lamarId->update([
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'tempat_interview' => $request->tempat_interview,
+            'tanggal_interview' => $request->tanggal_interview,
+            'catatan' => $request->catatan,
+        ]);
 
-    $loker = LowonganPekerjaan::find($request->loker_id);
-    $perusahaan = Perusahaan::find($loker->perusahaan_id);
+        $loker = LowonganPekerjaan::where('id', $lamarId->loker_id)->first();
+        $perusahaan = Perusahaan::where('id', $loker->perusahaan_id)->first();
 
-    $details = [
-        'name' => $lamar->lulusan->user->name,
-        'perusahaan' => $perusahaan->nama_perusahaan,
-        'date' => $request->tanggal_interview,
-        'location' => $request->tempat_interview,
-        'catatan' => $request->catatan,
-        'nama_loker' => $loker->nama_loker,
-    ];
+        $details = [
+            'name' => $lamar->lulusan->user->name,
+            'perusahaan' => $perusahaan->nama_perusahaan,
+            'date' => $request->tanggal_interview,
+            'location' => $request->tempat_interview,
+            'catatan' => $request->catatan,
+            'nama_loker' => $loker->nama_loker,
+        ];
 
-    if (!empty($request->email)) {
-        Mail::to($request->email)->send(new InterviewInvitation($details));
-    } else {
-        \Log::warning('Attempted to send email without a recipient address.');
+        if (!empty($request->email)) {
+            Mail::to($request->email)->send(new InterviewInvitation($details));
+        } else {
+            \Log::warning('Attempted to send email without a recipient address.');
+        }
+
+        return redirect()->route('lamarperusahaan.index')->with('success', 'Interview berhasil ditambahkan.');
     }
-
-    return redirect()->route('lamarperusahaan.index')->with('success', 'Interview berhasil ditambahkan.');
-}
 
 
     public function update(Request $request, $id)
@@ -225,6 +225,4 @@ class LamarPerusahaanController extends Controller
             ->route('lamarperusahaan.index')
             ->with('success', 'success-status');
     }
-
-
 }

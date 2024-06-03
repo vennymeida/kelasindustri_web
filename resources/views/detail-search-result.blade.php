@@ -1,134 +1,134 @@
 @role('perusahaan')
-<!-- Modal Rekrut Karyawan oleh Perusahaan -->
-<div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header m-4">
-                <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah
-                    Jadwal Interview / Tes Lanjutan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('create.rekrut', $lulusan->id) }}" class="needs-validation"
-                    novalidate="" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="loker_id">Lowongan Pekerjaan Yang Tersedia</label>
-                            <select class="form-control select2 @error('loker_id') is-invalid @enderror" name="loker_id"
-                                id="loker_id">
-                                <option value="">Pilih Posisi Pekerjaan</option>
-                               
-                                @foreach ($lokers as $loker)
-                                    <option value="{{ $loker->id }}" @selected(old('loker_id') == $loker->id)>
-                                        {{ $loker->nama_loker }}
-                                    </option>
-                                @endforeach
-                                {{-- <p>{{$perusahaan}}</p> --}}
-                            </select>
-                            @error('loker_id')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4" style="display: none">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="email">Email</label>
-                            <input name="email" type="hidden"
-                                class="form-control custom-input @error('email') is-invalid @enderror"
-                                value="{{ $lulusan->email }}" placeholder="Email">
-                            @error('email')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4" style="display:none">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="user_id">User_id</label>
-                            <input name="user_id" type="hidden"
-                                class="form-control custom-input @error('user_id') is-invalid @enderror"
-                                value="{{ $lulusan->usernomer }}" placeholder="user_id">
-                            @error('user_id')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label for="subject">Subject</label>
-                            <input name="subject" type="text"
-                                class="form-control custom-input @error('subject') is-invalid @enderror"
-                                value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
-                            @error('subject')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-12 col-12">
-                            <label>Tempat Interview</label>
-                            <input name="tempat_interview" type="text"
-                                class="form-control custom-input @error('tempat_interview') is-invalid @enderror"
-                                value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
-                            @error('tempat_interview')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row ml-4 mr-4">
-                        <div class="form-group col-md-6 col-12">
-                            <label>Tanggal Interview</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text custom-input">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                                <input name="tanggal_interview" type="date"
-                                    class="form-control custom-input @error('tanggal_interview') is-invalid @enderror"
-                                    value="{{ old('tanggal_interview') }}">
-                                @error('tanggal_interview')
+    <!-- Modal Rekrut Karyawan oleh Perusahaan -->
+    <div class="modal fade" id="modal-rekrut-karyawan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header m-4">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color: #6777ef; font-weight: bold;">Tambah
+                        Jadwal Interview / Tes Lanjutan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('create.rekrut', $lulusan->id) }}" class="needs-validation"
+                        novalidate="" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row ml-4 mr-4">
+                            <div class="form-group col-md-12 col-12">
+                                <label for="loker_id">Lowongan Pekerjaan Yang Tersedia</label>
+                                <select class="form-control select2 @error('loker_id') is-invalid @enderror" name="loker_id"
+                                    id="loker_id">
+                                    <option value="">Pilih Posisi Pekerjaan</option>
+
+                                    @foreach ($lokers as $loker)
+                                        <option value="{{ $loker->id }}" @selected(old('loker_id') == $loker->id)>
+                                            {{ $loker->nama_loker }}
+                                        </option>
+                                    @endforeach
+                                    {{-- <p>{{$perusahaan}}</p> --}}
+                                </select>
+                                @error('loker_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group col-md-12 col-12">
-                            <label>Catatan (Opsional)</label>
-                            <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4"
-                                placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
-                            @error('catatan')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="row ml-4 mr-4" style="display: none">
+                            <div class="form-group col-md-12 col-12">
+                                <label for="email">Email</label>
+                                <input name="email" type="hidden"
+                                    class="form-control custom-input @error('email') is-invalid @enderror"
+                                    value="{{ $lulusan->email }}" placeholder="Email">
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer bg-whitesmoke m-4">
-                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
-                    style="border-radius: 15px; font-size: 14px">Tambah</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                    style="border-radius: 15px; font-size: 14px">Batal</button>
+                        <div class="row ml-4 mr-4" style="display:none">
+                            <div class="form-group col-md-12 col-12">
+                                <label for="user_id">User_id</label>
+                                <input name="user_id" type="hidden"
+                                    class="form-control custom-input @error('user_id') is-invalid @enderror"
+                                    value="{{ $lulusan->usernomer }}" placeholder="user_id">
+                                @error('user_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row ml-4 mr-4">
+                            <div class="form-group col-md-12 col-12">
+                                <label for="subject">Subject</label>
+                                <input name="subject" type="text"
+                                    class="form-control custom-input @error('subject') is-invalid @enderror"
+                                    value="{{ old('subject') }}" placeholder="Pengumuman Tahapan Interview">
+                                @error('subject')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row ml-4 mr-4">
+                            <div class="form-group col-md-12 col-12">
+                                <label>Tempat Interview</label>
+                                <input name="tempat_interview" type="text"
+                                    class="form-control custom-input @error('tempat_interview') is-invalid @enderror"
+                                    value="{{ old('tempat_interview') }}" placeholder="Masukkan Tempat Interview">
+                                @error('tempat_interview')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row ml-4 mr-4">
+                            <div class="form-group col-md-6 col-12">
+                                <label>Tanggal Interview</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text custom-input">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                    <input name="tanggal_interview" type="date"
+                                        class="form-control custom-input @error('tanggal_interview') is-invalid @enderror"
+                                        value="{{ old('tanggal_interview') }}">
+                                    @error('tanggal_interview')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 col-12">
+                                <label>Catatan (Opsional)</label>
+                                <textarea name="catatan" class="form-control custom-input @error('catatan') is-invalid @enderror" rows="4"
+                                    placeholder="Masukkan catatan">{{ old('catatan') }}</textarea>
+                                @error('catatan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer bg-whitesmoke m-4">
+                    <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
+                        style="border-radius: 15px; font-size: 14px">Tambah</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        style="border-radius: 15px; font-size: 14px">Batal</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endrole
 
 @extends('landing-page.app')
@@ -190,9 +190,7 @@
                                     @endif
                                 @endif
                                 @if (auth()->check())
-
                                     @hasrole('perusahaan')
-
                                         <div>
                                             <a href="#" class="btn btn-primary"
                                                 style="background-color:#6777EF; font-size:13px; border-radius:15px; border-color:#6777EF;"
@@ -201,7 +199,6 @@
                                             </a>
                                         </div>
                                     @else
-
                                         <div>
                                             <p></p>
                                         </div>
@@ -357,6 +354,35 @@
             </div>
         </section>
         <section class="centered-section my-4">
+            <div class="bg-primary-section card col-md-10 py-1 card-profile5">
+                <div class="profile-widget-description m-3"
+                    style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
+                    <div class="flex-grow-1">
+                        <div class="profile-widget-name" style="color:#6777ef;">Keahlian</div>
+                    </div>
+                </div>
+                @if (count($keahlians) > 0)
+                    <div class="col-md-12 mb-4">
+                        <div class="flex-grow-1 mb-2">
+                            <div class="card-header-action keahlianPelamar d-flex flex-wrap">
+                                @foreach ($keahlians as $keahlian)
+                                    <div class="d-flex align-items-center mb-2 mr-2">
+                                        <button class="btn btn-skill keahlianPelamar1"
+                                            style="font-size: 14px">{{ $keahlian->keahlian }}</button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-md-12 text-center my-4"><br><br>
+                        <img src="{{ asset('assets/img/landing-page/folder.png') }}">
+                        <p class="mt-1 text-not">Data Keahlian Masih Kosong</p>
+                    </div>
+                @endif
+            </div>
+        </section>
+        <section class="centered-section my-4">
             <div class="bg-primary-section card col-md-10 py-1 card-profile6">
                 <div class="profile-widget-description m-3"
                     style="font-weight: bold; font-size: 18px; display: flex; align-items: center;">
@@ -366,32 +392,36 @@
                 </div>
                 @if (count($pendidikan) > 0)
                     <div id="pendidikan-container" class="pendidikancardprofile">
-                        @foreach ($pendidikan as $item)
-                            <hr>
-                            <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
-                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                    <div class="flex-grow-1">
-                                        <div class="profile-widget-name"
-                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $item->nama_institusi }}
+                        <div class="row">
+                            @foreach ($pendidikan as $item)
+                                <div class="col-md-6">
+                                    <hr>
+                                    <div class="mr-5 ml-5">
+                                        <div class="profile-widget-description m-3"
+                                            style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                            <div class="flex-grow-1">
+                                                <div class="profile-widget-name"
+                                                    style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                    {{ $item->nama_institusi }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <ul class="list-unstyled ml-2">
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Graduation Cap (2).svg') }}">&nbsp&nbsp&nbsp&nbsp
+                                                    {{ $item->tingkatan }} - {{ $item->jurusan }}
+                                                </li>
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp
+                                                    {{ $item->tahun_mulai }} - {{ $item->tahun_selesai }}
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <ul class="list-unstyled ml-2">
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Graduation Cap (2).svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                            {{ $item->tingkatan }} - {{ $item->jurusan }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp
-                                            {{ $item->tahun_mulai }} - {{ $item->tahun_selesai }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
                         <button id="load-more" class="btn btn-more mb-3"
@@ -417,37 +447,41 @@
                 </div>
                 @if (count($pengalaman) > 0)
                     <div id="pengalaman-container" class="pendidikancardprofile">
-                        @foreach ($pengalaman as $pl)
-                            <hr>
-                            <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
-                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                    <div class="flex-grow-1">
-                                        <div class="profile-widget-name"
-                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $pl->nama_pengalaman }}
+                        <div class="row">
+                            @foreach ($pengalaman as $pl)
+                                <div class="col-md-6">
+                                    <hr>
+                                    <div class="mr-5 ml-5">
+                                        <div class="profile-widget-description m-3"
+                                            style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                            <div class="flex-grow-1">
+                                                <div class="profile-widget-name"
+                                                    style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                    {{ $pl->nama_pengalaman }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="flex-grow-1 mb-2">
+                                                <div class="profile-widget-name"
+                                                    style="font-size: 16px; display: flex; align-items: center;">
+                                                    {{ $pl->nama_instansi }} | {{ $pl->alamat }}
+                                                </div>
+                                            </div>
+                                            <ul class="list-unstyled ml-2">
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Hourglass.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tipe }}
+                                                </li>
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tgl_mulai }}
+                                                    - {{ $pl->tgl_selesai }}
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="flex-grow-1 mb-2">
-                                        <div class="profile-widget-name"
-                                            style="font-size: 16px; display: flex; align-items: center;">
-                                            {{ $pl->nama_instansi }} | {{ $pl->alamat }}
-                                        </div>
-                                    </div>
-                                    <ul class="list-unstyled ml-2">
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Hourglass.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tipe }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp{{ $pl->tgl_mulai }}
-                                            - {{ $pl->tgl_selesai }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
                         <button id="load-more-pengalaman" class="btn btn-more mb-3"
@@ -471,45 +505,49 @@
                 </div>
                 @if (count($pelatihan) > 0)
                     <div id="pelatihan-container" class="pendidikancardprofile">
-                        @foreach ($pelatihan as $lat)
-                            <hr>
-                            <div class="mr-5 ml-5">
-                                <div class="profile-widget-description m-3"
-                                    style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
-                                    <div class="flex-grow-1">
-                                        <div class="profile-widget-name"
-                                            style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
-                                            {{ $lat->nama_sertifikat }}
+                        <div class="row">
+                            @foreach ($pelatihan as $lat)
+                                <div class="col-md-6">
+                                    <hr>
+                                    <div class="mr-5 ml-5">
+                                        <div class="profile-widget-description m-3"
+                                            style="font-weight: bold; font-size: 16px; display: flex; align-items: center;">
+                                            <div class="flex-grow-1">
+                                                <div class="profile-widget-name"
+                                                    style="font-weight: bold; font-size: 17px; display: flex; align-items: center;">
+                                                    {{ $lat->nama_sertifikat }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="flex-grow-1 mb-2">
+                                                <div class="profile-widget-name"
+                                                    style="font-size: 16px; display: flex; align-items: center;">
+                                                    {{ $lat->deskripsi }}
+                                                </div>
+                                            </div>
+                                            <ul class="list-unstyled ml-2">
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
+                                                    {{ $lat->penerbit }}
+                                                </li>
+                                                <li class="mb-2"><img class="img-fluid"
+                                                        src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                    {{ $lat->tgl_dikeluarkan }}
+                                                </li>
+                                            </ul>
+                                            @if (!empty($lat->sertifikat))
+                                                <div style="font-size: 16px;">
+                                                    <a href="{{ asset('storage/' . $lat->sertifikat) }}" target="_blank">
+                                                        <p class="">Lihat Sertifikat</p>
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="flex-grow-1 mb-2">
-                                        <div class="profile-widget-name"
-                                            style="font-size: 16px; display: flex; align-items: center;">
-                                            {{ $lat->deskripsi }}
-                                        </div>
-                                    </div>
-                                    <ul class="list-unstyled ml-2">
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Office Building-2.svg') }}">&nbsp&nbsp&nbsp
-                                            {{ $lat->penerbit }}
-                                        </li>
-                                        <li class="mb-2"><img class="img-fluid"
-                                                src="{{ asset('assets/img/landing-page/Time.svg') }}">&nbsp&nbsp&nbsp&nbsp&nbsp
-                                            {{ $lat->tgl_dikeluarkan }}
-                                        </li>
-                                    </ul>
-                                    @if (!empty($lat->sertifikat))
-                                        <div style="font-size: 16px;">
-                                            <a href="{{ asset('storage/' . $lat->sertifikat) }}" target="_blank">
-                                                <p class="">Lihat Sertifikat</p>
-                                            </a>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     <div class="text-right mt-4 mr-4">
                         <button id="load-more-pelatihan" class="btn btn-more mb-3"
@@ -519,6 +557,45 @@
                     <div class="col-md-12 text-center my-4"><br><br>
                         <img src="{{ asset('assets/img/landing-page/folder.png') }}">
                         <p class="mt-1 text-not">Data Pelatihan/Sertifikat Masih Kosong</p>
+                    </div>
+                @endif
+            </div>
+        </section>
+        <section style="display: flex; justify-content: center; margin-top: 20px; margin-bottom: 20px;">
+            <div class="bg-primary-section card col-md-10 py-1 card-profile8">
+                <div style="font-weight: bold; font-size: 18px; display: flex; align-items: center; margin: 10px;">
+                    <div style="flex-grow: 1; color: #6777ef;">Portofolio</div>
+                </div>
+                @if ($portofolios->count() > 0)
+                    <div id="portofolio-container" style="display: flex; flex-wrap: wrap; justify-content: center;">
+                        @foreach ($portofolios as $portofolio)
+                            <div
+                                style="border: 1px solid #e0e0e0; border-radius: 8px; margin: 15px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                                <div style="padding: 15px;">
+                                    <div
+                                        style="font-weight: bold; font-size: 16px; display: flex; align-items: center; margin-bottom: 10px;">
+                                        <div style="flex-grow: 1;">
+                                            <div style="font-size: 17px;">{{ $portofolio->nama_portofolio }}</div>
+                                        </div>
+                                    </div>
+                                    <div onclick="openModal(this)"
+                                        data-url="{{ route('portofolio.show', ['portofolio' => $portofolio->id]) }}"
+                                        style="cursor: pointer; text-align: center;">
+                                        <img src="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
+                                            style="max-width: 100%; max-height: 150px;">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="text-right mt-5 mr-4">
+                        <button id="load-more-portofolio" class="btn btn-more mb-3"
+                            data-page="{{ $portofolios->currentPage() }}">Muat Lebih Banyak . . .</button>
+                    </div>
+                @else
+                    <div style="text-align: center; margin: 40px;">
+                        <img src="{{ asset('assets/img/landing-page/folder.png') }}" alt="Folder">
+                        <p style="margin-top: 10px; color: #999;">Data Portofolio Masih Kosong</p>
                     </div>
                 @endif
             </div>
@@ -639,6 +716,36 @@
                             $('#load-more-pelatihan').css('display', 'none');
                             hasMoreDataPelatihan = false;
                         }
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        let isLoadingMorePortofolio = false;
+        let hasMoreDataPortofolio = true;
+
+        $(document).ready(function() {
+            $('#load-more-portofolio').on('click', function(e) {
+                e.preventDefault();
+
+                if (!isLoadingMorePortofolio && hasMoreDataPortofolio) {
+                    isLoadingMorePortofolio = true;
+                    let nextPage = parseInt($(this).data('page')) + 1;
+
+                    $.get('{{ route('profile-lulusan.index') }}?page=' + nextPage, function(data) {
+                        let content = $(data).find('#portofolio-container').html();
+                        if (content && $.trim(content).length > 0) {
+                            $('#portofolio-container').append(content);
+                            isLoadingMorePortofolio = false;
+                            $('#load-more-portofolio').data('page', nextPage);
+                        } else {
+                            $('#load-more-portofolio').hide();
+                            hasMoreDataPortofolio = false;
+                        }
+                    }).fail(function() {
+                        isLoadingMorePortofolio = false;
+                        alert('Gagal memuat lebih banyak data. Silakan coba lagi.');
                     });
                 }
             });

@@ -70,11 +70,6 @@
                                                         Tidak Diketahui
                                                     @endif
                                                 </dd>
-
-                                                <dt class="col-sm-4 mt-2">Harapan Gaji</dt>
-                                                <dd class="col-sm-8 mt-2">{{ $lulusan->harapan_gaji }}
-                                                </dd>
-
                                                 <dt class="col-sm-4 mt-2">Resume</dt>
                                                 <dd class="col-sm-8 mt-2">
                                                     @if ($lamar && $lamar->resume)
