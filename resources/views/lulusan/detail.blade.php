@@ -44,34 +44,34 @@
                                 <h6 class="mt-5"><strong>Personal Info</strong></h6>
                                 <dl class="row">
                                     <dt class="col-sm-3 mt-3">Email</dt>
-                                    <dd class="col-sm-7 mt-3">{{ $lulusan ? $lulusan->email : '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ optional($lulusan)->email ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">No. Telepon</dt>
-                                    <dd class="col-sm-7 mt-3">{{ $lulusan ? $lulusan->lulusan->no_hp : '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ optional(optional($lulusan)->lulusan)->no_hp ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Alamat</dt>
-                                    <dd class="col-sm-7 mt-3">{{ $lulusan ? $lulusan->lulusan->alamat : '-' }}</dd>
+                                    <dd class="col-sm-7 mt-3">{{ optional(optional($lulusan)->lulusan)->alamat ?: '-' }}</dd>
 
                                     <dt class="col-sm-3 mt-3">Tanggal Lahir</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        {{ optional($lulusan->lulusan)->tgl_lahir? \Carbon\Carbon::parse($lulusan->lulusan->tgl_lahir)->locale('id')->isoFormat('D MMMM Y'): '-' }}
+                                        {{ optional(optional($lulusan)->lulusan)->tgl_lahir ? \Carbon\Carbon::parse($lulusan->lulusan->tgl_lahir)->locale('id')->isoFormat('D MMMM Y') : '-' }}
                                     </dd>
 
                                     <dt class="col-sm-3 mt-3">Jenis Kelamin</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        {{ !empty($lulusan->lulusan->jenis_kelamin) ? ($lulusan->lulusan->jenis_kelamin === 'L' ? 'Laki-Laki' : 'Perempuan') : '-' }}
+                                        {{ !empty(optional(optional($lulusan)->lulusan)->jenis_kelamin) ? ($lulusan->lulusan->jenis_kelamin === 'L' ? 'Laki-Laki' : 'Perempuan') : '-' }}
                                     </dd>
 
                                     <dt class="col-sm-3 mt-3">Resume</dt>
                                     <dd class="col-sm-7 mt-3">
-                                        @if ($lulusan->lulusan->resume)
+                                        @if (optional(optional($lulusan)->lulusan)->resume)
                                             <a href="{{ Storage::url($lulusan->lulusan->resume) }}" target="_blank" class="btn btn-primary btn-sm">Lihat Resume</a>
                                         @else
                                             <span class="text-muted">Tidak ada Resume</span>
                                         @endif
                                     </dd>
-
                                 </dl>
+
                                 <h6 class="mt-5"><strong>Pendidikan</strong></h6>
                                 <dl class="row">
                                     <dt class="col-sm-3 mt-3">Nama Institusi</dt>
