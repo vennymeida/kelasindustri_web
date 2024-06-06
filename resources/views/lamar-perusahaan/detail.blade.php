@@ -72,15 +72,16 @@
                             @enderror
                         </div>
                     </div>
-                    <button type="submit" class="d-none"></button>
+                    {{-- <button type="submit" class="d-none"></button> --}}
+                    <div class="modal-footer bg-whitesmoke m-4">
+                        <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
+                            style="border-radius: 15px; font-size: 14px">Tambah</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="border-radius: 15px; font-size: 14px">Batal</button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer bg-whitesmoke m-4">
-                <button type="button" class="btn btn-primary" onclick="$('form', this.closest('.modal')).submit();"
-                    style="border-radius: 15px; font-size: 14px">Tambah</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                    style="border-radius: 15px; font-size: 14px">Batal</button>
-            </div>
+
         </div>
     </div>
 </div>

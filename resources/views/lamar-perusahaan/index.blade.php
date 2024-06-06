@@ -266,6 +266,16 @@
             @endif
         </script>
         <script>
+            @if (session('success') === 'success-interview')
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Interview berhasil Dikirim.',
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        </script>
+        <script>
             @if (session('success') === 'success-delete')
                 Swal.fire({
                     icon: 'success',

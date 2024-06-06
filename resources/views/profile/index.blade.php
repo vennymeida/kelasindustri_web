@@ -565,7 +565,7 @@
                             <label for="link_portofolio">Link Portofolio</label>
                             <input name="link_portofolio" type="url"
                                 class="form-control custom-input @error('link_portofolio') is-invalid @enderror"
-                                value="{{ old('link_portofolio') }}" placeholder="Masukkan link portofolio" required>
+                                value="{{ old('link_portofolio') }}" placeholder="Masukkan link portofolio">
                             @error('link_portofolio')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -1311,10 +1311,49 @@
                         </a>
                     </div>
                 </div>
+                <style>
+                    .article-header {
+                        padding: 10px;
+                        background: #fff;
+                        border: 1px solid #ddd;
+                    }
+
+                    .card-ldporto {
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    .card-ldporto img {
+                        transition: transform 0.3s ease;
+                        width: 100%;
+                        height: 250px;
+                        object-fit: cover;
+                    }
+
+                    .card-ldporto:hover img {
+                        transform: scale(1.1);
+                    }
+
+                    .porto-infox {
+                        position: absolute;
+                        bottom: -100px;
+                        left: 0;
+                        width: 100%;
+                        background-color: rgb(255 255 255 / 66%);
+                        padding: 10px;
+                        color: #fff;
+                        transition: bottom 0.3s ease;
+                        text-align: center;
+                    }
+
+                    .card-ldporto:hover .porto-infox {
+                        bottom: 0;
+                    }
+                </style>
                 @if ($portofolios->count() > 0)
                     <div id="portofolio-container" style="display: flex; flex-wrap: wrap; justify-content: center;">
                         @foreach ($portofolios as $portofolio)
-                            <div
+                            {{-- <div
                                 style="border: 1px solid #e0e0e0; border-radius: 8px; margin: 15px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                                 <div style="padding: 15px;">
                                     <div
@@ -1348,8 +1387,46 @@
                                     <div onclick="openModal(this)"
                                         data-url="{{ route('portofolio.show', ['portofolio' => $portofolio->id]) }}"
                                         style="cursor: pointer; text-align: center;">
-                                        <img src="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
-                                            style="max-width: 100%; max-height: 150px;">
+                                        @if ($portofolio->dokumen_portofolio == null)
+                                            <img src="{{ asset('assets/img/landing-page/folder.png') }}"
+                                                style="max-width: 100%; max-height: 150px;">
+                                        @else
+                                            <img src="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
+                                                style="max-width: 100%; max-height: 150px;">
+                                        @endif
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="col-md-4 mb-2">
+                                <div class="article-header">
+                                    <h5 class="text-center text-dark">{{ $portofolio->nama_portofolio }}</h5>
+                                    <div class="card-ldporto mb-4">
+                                        @if ($portofolio->dokumen_portofolio == null)
+                                            <img src="{{ asset('assets/img/landing-page/folder.png') }}"
+                                                alt="img-fluid">
+                                        @else
+                                            <img src="{{ asset('storage/' . $portofolio->dokumen_portofolio) }}"
+                                                alt="img-fluid">
+                                        @endif
+                                        <div class="porto-infox"
+                                            style="display: flex;
+                                        justify-content: center;">
+                                            <div class="row">
+                                                <button data-id="{{ $portofolio->id }}"
+                                                    data-edit-url="{{ route('portofolio.edit', ['portofolio' => $portofolio->id]) }}"
+                                                    class="btn btn-warning view-disease modal-edit-trigger-portofolio mr-2">Edit</button>
+                                                <form
+                                                    action="{{ route('portofolio.destroy', ['portofolio' => $portofolio->id]) }}"
+                                                    method="POST" id="delete-portofolio{{ $portofolio->id }}"
+                                                    style="margin: 0;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="confirmPortofolio({{ $portofolio->id }})"
+                                                        class="btn btn-danger view-disease">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2562,7 +2639,7 @@
                         url: true,
                         maxlength: 255
                     },
-                    sertifikat: {
+                    deskripsi_portofolio: {
                         required: true
                     },
                 },
@@ -2576,8 +2653,8 @@
                         // url: "Masukkan URL yang valid",
                         maxlength: "Link Portofolio melebihi batas maksimal"
                     },
-                    sertifikat: {
-                        required: "Dokumen portofolio melebihi batas maksimal"
+                    deskripsi_portofolio: {
+                        required: "Deskripsi portofolio melebihi batas maksimal"
                     },
                 },
                 highlight: function(element, errorClass) {
@@ -2635,6 +2712,8 @@
                             .nama_portofolio);
                         $('#modal-edit-portofolio input[name="link_portofolio"]').val(data
                             .link_portofolio);
+                        $('#modal-edit-portofolio input[name="deskripsi_portofolio"]').val(data
+                            .deskripsi_portofolio);
 
 
                         editModal.modal('show');

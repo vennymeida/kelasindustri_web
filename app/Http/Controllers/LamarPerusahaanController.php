@@ -138,26 +138,24 @@ class LamarPerusahaanController extends Controller
     public function store(Request $request, Lamar $lamar)
     {
         $request->validate([
-            'email' => 'required|email',
             'subject' => 'required|string',
             'tempat_interview' => 'required|string',
             'tanggal_interview' => 'required|date',
             'catatan' => 'nullable|string',
         ]);
 
-        $lamarId = Lamar::where('id', $lamar->id)->first();
-
-        $lamarId->update([
-            'email' => $request->email,
+        $lamar->update([
             'subject' => $request->subject,
             'tempat_interview' => $request->tempat_interview,
             'tanggal_interview' => $request->tanggal_interview,
             'catatan' => $request->catatan,
         ]);
 
-        $loker = LowonganPekerjaan::where('id', $lamarId->loker_id)->first();
+        // Fetch related data
+        $loker = LowonganPekerjaan::where('id', $lamar->loker_id)->first();
         $perusahaan = Perusahaan::where('id', $loker->perusahaan_id)->first();
 
+        // Prepare email details
         $details = [
             'name' => $lamar->lulusan->user->name,
             'perusahaan' => $perusahaan->nama_perusahaan,
@@ -167,14 +165,16 @@ class LamarPerusahaanController extends Controller
             'nama_loker' => $loker->nama_loker,
         ];
 
+        // Send email
         if (!empty($request->email)) {
             Mail::to($request->email)->send(new InterviewInvitation($details));
         } else {
             \Log::warning('Attempted to send email without a recipient address.');
         }
 
-        return redirect()->route('lamarperusahaan.index')->with('success', 'Interview berhasil ditambahkan.');
+        return redirect()->route('lamarperusahaan.index')->with('success', 'success-interview');
     }
+
 
 
     public function update(Request $request, $id)
@@ -182,17 +182,14 @@ class LamarPerusahaanController extends Controller
         $lamar = Lamar::findOrFail($id);
 
         $status = $request->input('status');
-
         $lamar->status = $status;
         $lamar->save();
 
-        // // Data untuk penjadwalan wawancara
+        // Simpan data penjadwalan wawancara jika diperlukan
         // $subject = $request->input('subject');
         // $tempatInterview = $request->input('tempat_interview');
         // $tanggalInterview = $request->input('tgl_interview');
         // $catatan = $request->input('catatan');
-
-        // // Simpan data penjadwalan wawancara ke dalam database
         // $jadwalInterview = new Lamar();
         // $jadwalInterview->lamar_id = $id;
         // $jadwalInterview->subject = $subject;
@@ -201,19 +198,29 @@ class LamarPerusahaanController extends Controller
         // $jadwalInterview->catatan = $catatan;
         // $jadwalInterview->save();
 
-        $getPerusahaanId = LowonganPekerjaan::select(
-            'lokers.perusahaan_id',
-            'lokers.nama_loker'
-        )
+        $getPerusahaanId = LowonganPekerjaan::select('lokers.perusahaan_id', 'lokers.nama_loker')
             ->where('id', $lamar->loker_id)
             ->first();
-        // dd($getPerusahaanId);
-        $userIdFromProfile = Lulusan::select('lulusans.user_id')->where('id', $lamar->user_id)->first();
-        $getUserId = User::select('users.name', 'users.email')->where('id', $userIdFromProfile->user_id)->first();
+
+        $userIdFromProfile = Lulusan::select('lulusans.user_id')
+            ->where('id', $lamar->user_id)
+            ->first();
+
+        $getUserId = User::select('users.name', 'users.email')
+            ->where('id', $userIdFromProfile->user_id)
+            ->first();
+
         $getPerusahaan = Perusahaan::select('perusahaan.nama_perusahaan')
             ->where('id', $getPerusahaanId->perusahaan_id)
             ->first();
-        $view = view('email-pelamar', ['getPerusahaan' => $getPerusahaan, 'getPerusahaanId' => $getPerusahaanId, 'getUserId' => $getUserId, 'lamar' => $lamar])->render();
+
+        $view = view('email-pelamar', [
+            'getPerusahaan' => $getPerusahaan,
+            'getPerusahaanId' => $getPerusahaanId,
+            'getUserId' => $getUserId,
+            'lamar' => $lamar
+        ])->render();
+
         $dataOkeOke = [
             'name' => 'Jawaban Lamaran',
             'body' => $view
